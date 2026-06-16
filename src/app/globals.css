@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-body: var(--body);
+  --color-stroke: var(--stroke);
+  --font-sans: var(--font-lato, 'Lato');
+  --font-mono: var(--font-fira-code, 'Fira Code');
+}
+
+:root {
+  color-scheme: dark;
+  --canvas: #131217;
+  --surface: #19181D;
+  --body: #616161;
+  --foreground: #fff;
+  --stroke: #282830;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not(.dark) {
+    color-scheme: light;
+    --canvas: #131217;
+    --surface: #19181D;
+    --body: #616161;
+    --foreground: #fff;
+    --stroke: #282830;
+  }
+}
+
+:root.light {
+  color-scheme: light;
+  --canvas: #131217;
+  --surface: #19181D;
+  --foreground: #fff;
+  --body: #616161;
+  --success: #19ebb6;
+  --warning: #f2c94c;
+  --error: #DB4446;
+  --stroke: #282830;
+  --primary: #e0fb32;
+  --secondary: #98ed20;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background-color: var(--body);
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--body) 8%, transparent) 20%,
+    color-mix(in srgb, var(--body) 24%, transparent) 50%,
+    color-mix(in srgb, var(--body) 8%, transparent) 100%
+  );
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 2.2s ease-in-out infinite;
+  will-change: background-position;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE y Edge antiguos */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
