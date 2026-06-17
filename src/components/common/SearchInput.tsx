@@ -80,7 +80,7 @@ export const SearchInput = ({
     <form className={cn('relative w-full', className)} onSubmit={handleSubmit} role="search">
       <Search
         size="sm"
-        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stroke"
+        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-body"
       />
       <Input
         ref={inputRef}
@@ -94,7 +94,7 @@ export const SearchInput = ({
         inputSize={inputSize}
         onChange={handleChange}
         className={cn(
-          'pl-10 pr-10 [&::-webkit-search-cancel-button]:appearance-none',
+          'pl-10 pr-10 [&::-webkit-search-cancel-button]:appearance-none rounded-full',
           inputClassName,
         )}
       />
@@ -103,7 +103,7 @@ export const SearchInput = ({
           type="button"
           aria-label="Limpiar búsqueda"
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-stroke cursor-pointer transition-colors hover:text-white disabled:opacity-60"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-body cursor-pointer transition-colors hover:text-white disabled:opacity-60"
           disabled={disabled}
         >
           <X size="sm" />

@@ -6,7 +6,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
     <main className="relative w-full flex items-center justify-center overflow-auto bg-web-bg h-full">
       <div className="w-full md:max-w-md flex flex-col h-full bg-box-primary">
         <Header />
-        <div className="flex-1 safe-scroll p-6 pt-20 w-full">{children}</div>
+        <div className="flex-1 safe-scroll pt-17.5 w-full">{children}</div>
         <BottomNav />
       </div>
     </main>
