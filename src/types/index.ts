@@ -1,2 +1,2 @@
 export * from './team';
-export * from './league';
+export * from './category';
