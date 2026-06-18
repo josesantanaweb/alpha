@@ -1,23 +1,60 @@
-'use client';
-import type { ReactElement } from 'react';
+"use client";
+import type { ReactElement } from "react";
+import { PerfumeBox } from "./PerfumeBox";
+
+const PERFUMES = [
+  {
+    id: "1",
+    name: "Le Beau Le",
+    price: 29.99,
+    rating: 4.8,
+    discount: "-10%",
+    image: "/images/Le Beau Le.png",
+  },
+  {
+    id: "2",
+    name: "Uomo Born in Roma Intense",
+    price: 12.99,
+    rating: 4.8,
+    discount: null,
+    image: "/images/Uomo Born in Roma Intense.png",
+  },
+  {
+    id: "3",
+    name: "Le Male Le",
+    price: 142.99,
+    rating: 4.8,
+    discount: null,
+    image: "/images/Le Male Le.png",
+  },
+  {
+    id: "4",
+    name: "Sauvage",
+    price: 142.99,
+    rating: 4.8,
+    discount: null,
+    image: "/images/Sauvage.png",
+  },
+];
 
 export const BestSellers = (): ReactElement => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h5 className="text-white font-semibold text-lg">Mas vendidos</h5>
-        <p className="text-body text-sm cursor-pointer">Ver todos</p>
+        <h5 className="text-lg font-semibold text-white">Mas vendidos</h5>
+        <p className="text-body cursor-pointer text-sm">Ver todos</p>
       </div>
       <div className="grid grid-cols-2 gap-5">
-        <div className="relative bg-surface border border-stroke rounded-2xl w-full h-46">
-          1
-        </div>
-        <div className="relative bg-surface border border-stroke rounded-2xl w-full h-46">
-          1
-        </div>
-        <div className="relative bg-surface border border-stroke rounded-2xl w-full h-46">
-          1
-        </div>
+        {PERFUMES.map((perfume) => (
+          <PerfumeBox
+            key={perfume.id}
+            name={perfume.name}
+            price={perfume.price}
+            rating={perfume.rating}
+            discount={perfume.discount}
+            image={perfume.image}
+          />
+        ))}
       </div>
     </div>
   );
