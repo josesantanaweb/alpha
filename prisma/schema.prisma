@@ -1,8 +1,117 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
-
 generator client {
   provider = "prisma-client-js"
+}
+
+// 1. MODELO PRINCIPAL: PERFUME
+model Perfume {
+  id          String      @id @default(uuid())
+  name        String
+  designer    String
+  type        PerfumeType
+  gender      Gender
+  description String?
+  imageUrl    String?
+
+  // Precios y Descuentos
+  priceFullBottle Decimal @db.Decimal(10, 2)
+  priceDecant5ml  Decimal @db.Decimal(10, 2)
+  priceDecant10ml Decimal @db.Decimal(10, 2)
+  discountPercent Int     @default(0)
+  isTopSeller     Boolean @default(false)
+
+  // Control de Inventario Físico
+  stockFullBottles    Int @default(0)
+  remainingMlInTester Int @default(100)
+
+  // Métricas de la Comunidad (Relaciones 1 a 1)
+  longevity PerfumeLongevity?
+  sillage   PerfumeSillage?
+
+  // Relaciones
+  categoryId String
+  category   Category      @relation(fields: [categoryId], references: [id])
+  notes      PerfumeNote[]
+  reviews    Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==========================================
+// 2. NEW MODEL: LONGEVITY (Vote Counters)
+// ==========================================
+model PerfumeLongevity {
+  id        String  @id @default(uuid())
+  perfumeId String  @unique
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+
+  // Vote count fields for each option
+  scarce     Int @default(0) // e.g. 120 voted for this
+  weak       Int @default(0)
+  moderate   Int @default(0)
+  long       Int @default(0)
+  veryLong   Int @default(0)
+}
+
+// ==========================================
+// 3. NEW MODEL: SILAGE (Vote Counters)
+// ==========================================
+model PerfumeSillage {
+  id        String  @id @default(uuid())
+  perfumeId String  @unique
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+
+  // Vote count fields for each option
+  soft     Int @default(0)
+  moderate Int @default(0)
+  heavy    Int @default(0)
+  huge     Int @default(0)
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  perfumes Perfume[]
+}
+
+model PerfumeNote {
+  id        String    @id @default(uuid())
+  perfumeId String
+  perfume   Perfume   @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+  noteName  String
+  stage     NoteStage
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  perfumeId String
+  perfume   Perfume  @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+  userName  String
+  comment   String   @db.Text
+  rating    Int
+  createdAt DateTime @default(now())
+}
+
+// ==========================================
+// ENUMS (Tipos estrictos para evitar errores de tipeo)
+// ==========================================
+
+enum PerfumeType {
+  ARABIC
+  DESIGNER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  UNISEX
+}
+
+enum NoteStage {
+  TOP
+  HEART
+  BASE
 }

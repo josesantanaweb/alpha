@@ -1,2 +1,2 @@
-export * from './team';
 export * from './category';
+export * from './api';
