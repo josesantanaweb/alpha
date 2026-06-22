@@ -13,7 +13,7 @@ model Perfume {
   type        PerfumeType
   gender      Gender
   description String?
-  imageUrl    String?
+  image    String?
 
   // Precios y Descuentos
   priceFullBottle Decimal @db.Decimal(10, 2)

@@ -1,34 +1,30 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateCategorySchema, UpdateCategorySchema } from "./categories.schema";
+import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./perfumes.schema";
 import { ApiResult } from "@/types";
-import { Category } from "@prisma/client";
+import { Perfume } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Category[]>> {
+export async function getAll(): Promise<ApiResult<Perfume[]>> {
   try {
-    const categories = await db.category.findMany({
-      select: { 
-        id: true, 
-        name: true 
-      },
+    const perfumes = await db.perfume.findMany({
       orderBy: { name: "asc" },
+      include: {
+        category: true,
+      }
     });
 
-    return { 
-      success: true, 
-      status: 200, 
-      data: categories 
-    };
+    return { success: true, status: 200, data: perfumes };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener las categorías.",
+      message: error instanceof Error ? error.message : "Error al obtener los perfumes.",
     };
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Category>> {
-  const result = CreateCategorySchema.safeParse(rawData);
+export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
+  const result = CreatePerfumeSchema.safeParse(rawData);
+
   if (!result.success) {
     return { 
       success: false, 
@@ -38,24 +34,22 @@ export async function create(rawData: unknown): Promise<ApiResult<Category>> {
   }
 
   try {
-    const category = await db.category.create({
-      data: {  ...result.data },
-      select: { 
-        id: true, 
-        name: true 
+    const perfume = await db.perfume.create({
+      data: { 
+        ...result.data
       },
     });
     return { 
       success: true, 
       status: 201, 
-      data: category 
+      data: perfume 
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return { 
         success: false, 
         status: 409, 
-        message: "Ese nombre de categoría ya existe." 
+        message: "Ese perfume ya existe." 
       };
     }
 
@@ -67,8 +61,8 @@ export async function create(rawData: unknown): Promise<ApiResult<Category>> {
   }
 }
 
-export async function update(id: string, rawData: unknown) {
-  const result = UpdateCategorySchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown): Promise<ApiResult<Perfume>> {
+  const result = UpdatePerfumeSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return { 
@@ -79,18 +73,19 @@ export async function update(id: string, rawData: unknown) {
   }
 
   try {
-    const category = await db.category.update({
+    const { id: _, ...updateData } = result.data;
+    const updatedPerfume = await db.perfume.update({
       where: { id },
-      data: {  ...result.data  },
+      data: updateData,
     });
 
-    return { success: true, status: 200, data: category };
+    return { success: true, status: 200, data: updatedPerfume };
   } catch (error: unknown) {
-    if (isPrismaError(error) && error.code === "P2002") {
+    if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
-        status: 409, 
-        message: "Ese nombre de categoría ya existe." 
+        status: 404, 
+        message: "Perfume no encontrado." 
       };
     }
 
@@ -101,6 +96,7 @@ export async function update(id: string, rawData: unknown) {
     };
   }
 }
+
 export async function remove(id: string) {
   if (!id) {
     return { 
@@ -111,21 +107,17 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.category.delete({
+    await db.perfume.delete({
       where: { id },
     });
 
-    return { 
-      success: true, 
-      status: 200, 
-      message: "Categoría eliminada con éxito." 
-    };
+    return { success: true, status: 200, data: null, message: "Perfume eliminado con éxito." };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
         status: 404, 
-        message: "Categoría no encontrada." 
+        message: "Perfume no encontrado." 
       };
     }
     return {
