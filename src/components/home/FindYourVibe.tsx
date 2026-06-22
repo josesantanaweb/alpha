@@ -27,10 +27,10 @@ export const FindYourVibe = (): ReactElement => {
           Las mejores selecciones para cada momento
         </p>
       </div>
-      <div className="flex max-w-full gap-5 overflow-x-scroll">
+      <div className="flex max-w-full gap-5 overflow-x-scroll pr-10">
         {VIPES.map((vipe) => (
           <div
-            className="bg-surface relative h-81.5 w-75 shrink-0 overflow-hidden rounded-2xl"
+            className="bg-surface relative h-81.5 w-64 shrink-0 overflow-hidden rounded-2xl"
             key={vipe.id}
           >
             <Image

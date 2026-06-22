@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import type { ReactElement } from "react";
 import { PerfumeBox } from "./PerfumeBox";
 
@@ -8,7 +9,7 @@ const PERFUMES = [
     name: "Le Beau Le",
     price: 29.99,
     rating: 4.8,
-    discount: "-10%",
+    discount: 10,
     image: "/images/Le Beau Le.png",
   },
   {
@@ -38,6 +39,20 @@ const PERFUMES = [
 ];
 
 export const BestSellers = (): ReactElement => {
+  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
+
+  const toggleLike = (id: string): void => {
+    setLikedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
@@ -53,6 +68,8 @@ export const BestSellers = (): ReactElement => {
             rating={perfume.rating}
             discount={perfume.discount}
             image={perfume.image}
+            liked={likedIds.has(perfume.id)}
+            onLikeToggle={() => toggleLike(perfume.id)}
           />
         ))}
       </div>
