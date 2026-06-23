@@ -27,13 +27,13 @@ model Perfume {
   remainingMlInTester Int @default(100)
 
   // Métricas de la Comunidad (Relaciones 1 a 1)
-  longevity PerfumeLongevity?
+  longevity Longevity?
   sillage   PerfumeSillage?
 
   // Relaciones
   categoryId String
   category   Category      @relation(fields: [categoryId], references: [id])
-  notes      PerfumeNote[]
+  notes      Note[]
   reviews    Review[]
 
   createdAt DateTime @default(now())
@@ -43,7 +43,7 @@ model Perfume {
 // ==========================================
 // 2. NEW MODEL: LONGEVITY (Vote Counters)
 // ==========================================
-model PerfumeLongevity {
+model Longevity {
   id        String  @id @default(uuid())
   perfumeId String  @unique
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
@@ -77,7 +77,7 @@ model Category {
   perfumes Perfume[]
 }
 
-model PerfumeNote {
+model Note {
   id        String    @id @default(uuid())
   perfumeId String
   perfume   Perfume   @relation(fields: [perfumeId], references: [id], onDelete: Cascade)

@@ -1,25 +1,23 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreatePerfumeNoteSchema, UpdatePerfumeNoteSchema } from "./perfume-notes.schema";
+import { CreateLongevitySchema, UpdateLongevitySchema } from "./longevities.schema";
 import { ApiResult } from "@/types";
-import { PerfumeNote } from "@prisma/client";
+import { Longevity } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<PerfumeNote[]>> {
+export async function getAll(): Promise<ApiResult<Longevity[]>> {
   try {
-    const perfumeNotes = await db.perfumeNote.findMany({
-      orderBy: { name: "asc" },
-    });
+    const longevities = await db.longevity.findMany();
 
-    return { success: true, status: 200, data: perfumeNotes };
+    return { success: true, status: 200, data: longevities };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener los perfumes.",
+      message: error instanceof Error ? error.message : "Error al obtener las longevidad.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<PerfumeNote>> {
+export async function getOne(id: string): Promise<ApiResult<Longevity>> {
   if (!id) {
     return {
       success: false,
@@ -29,19 +27,19 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeNote>> {
   }
 
   try {
-    const perfumeNote = await db.perfumeNote.findUnique({
+    const longevity = await db.longevity.findUnique({
       where: { id },
     });
 
-    if (!perfumeNote) {
+    if (!longevity) {
       return {
         success: false,
         status: 404,
-        message: "Nota de Perfume no encontrada.",
+        message: "Longevidad no encontrada.",
       };
     }
 
-    return { success: true, status: 200, data: perfumeNote };
+    return { success: true, status: 200, data: longevity };
   } catch (error: unknown) {
     return {
       success: false,
@@ -51,8 +49,8 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeNote>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<PerfumeNote>> {
-  const result = CreatePerfumeNoteSchema.safeParse(rawData);
+export async function create(rawData: unknown): Promise<ApiResult<Longevity>> {
+  const result = CreateLongevitySchema.safeParse(rawData);
 
   if (!result.success) {
     return { 
@@ -63,7 +61,7 @@ export async function create(rawData: unknown): Promise<ApiResult<PerfumeNote>> 
   }
 
   try {
-    const perfume = await db.perfumeNote.create({
+    const longevity = await db.longevity.create({
       data: { 
         ...result.data
       },
@@ -71,14 +69,14 @@ export async function create(rawData: unknown): Promise<ApiResult<PerfumeNote>> 
     return { 
       success: true, 
       status: 201, 
-      data: perfume 
+      data: longevity 
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return { 
         success: false, 
         status: 409, 
-        message: "Esa nota de perfume ya existe." 
+        message: "Esa longevidad ya existe." 
       };
     }
 
@@ -90,8 +88,8 @@ export async function create(rawData: unknown): Promise<ApiResult<PerfumeNote>> 
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<PerfumeNote>> {
-  const result = UpdatePerfumeNoteSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown): Promise<ApiResult<Longevity>> {
+  const result = UpdateLongevitySchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return { 
@@ -103,7 +101,7 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
 
   try {
     const { id: _, ...updateData } = result.data;
-    const updatedPerfume = await db.perfumeNote.update({
+    const updatedPerfume = await db.longevity.update({
       where: { id },
       data: updateData,
     });
@@ -114,7 +112,7 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
       return { 
         success: false, 
         status: 404, 
-        message: "Nota de Perfume no encontrada." 
+        message: "Longevidad no encontrada." 
       };
     }
 
@@ -136,17 +134,17 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.perfumeNote.delete({
+    await db.longevity.delete({
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Nota de Perfume eliminado con éxito." };
+    return { success: true, status: 200, data: null, message: "Longevidad eliminado con éxito." };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
         status: 404, 
-        message: "Nota de Perfume no encontrada." 
+        message: "Longevidad no encontrada." 
       };
     }
     return {

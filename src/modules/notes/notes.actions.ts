@@ -1,32 +1,23 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateCategorySchema, UpdateCategorySchema } from "./categories.schema";
+import { CreateNoteSchema, UpdateNoteSchema } from "./notes.schema";
 import { ApiResult } from "@/types";
-import { Category } from "@prisma/client";
+import { Note } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Category[]>> {
+export async function getAll(): Promise<ApiResult<Note[]>> {
   try {
-    const categories = await db.category.findMany({
-      select: { 
-        id: true, 
-        name: true 
-      },
-    });
+    const notes = await db.note.findMany();
 
-    return { 
-      success: true, 
-      status: 200, 
-      data: categories 
-    };
+    return { success: true, status: 200, data: notes };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener las categorías.",
+      message: error instanceof Error ? error.message : "Error al obtener las notas.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Category>> {
+export async function getOne(id: string): Promise<ApiResult<Note>> {
   if (!id) {
     return {
       success: false,
@@ -36,19 +27,19 @@ export async function getOne(id: string): Promise<ApiResult<Category>> {
   }
 
   try {
-    const category = await db.category.findUnique({
+    const note = await db.note.findUnique({
       where: { id },
     });
 
-    if (!category) {
+    if (!note) {
       return {
         success: false,
         status: 404,
-        message: "Categoria no encontrada.",
+        message: "Nota de Perfume no encontrada.",
       };
     }
 
-    return { success: true, status: 200, data: category };
+    return { success: true, status: 200, data: note };
   } catch (error: unknown) {
     return {
       success: false,
@@ -58,8 +49,9 @@ export async function getOne(id: string): Promise<ApiResult<Category>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Category>> {
-  const result = CreateCategorySchema.safeParse(rawData);
+export async function create(rawData: unknown): Promise<ApiResult<Note>> {
+  const result = CreateNoteSchema.safeParse(rawData);
+
   if (!result.success) {
     return { 
       success: false, 
@@ -69,24 +61,22 @@ export async function create(rawData: unknown): Promise<ApiResult<Category>> {
   }
 
   try {
-    const category = await db.category.create({
-      data: {  ...result.data },
-      select: { 
-        id: true, 
-        name: true 
+    const note = await db.note.create({
+      data: { 
+        ...result.data
       },
     });
     return { 
       success: true, 
       status: 201, 
-      data: category 
+      data: note 
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return { 
         success: false, 
         status: 409, 
-        message: "Ese nombre de categoría ya existe." 
+        message: "Esa nota de perfume ya existe." 
       };
     }
 
@@ -98,8 +88,8 @@ export async function create(rawData: unknown): Promise<ApiResult<Category>> {
   }
 }
 
-export async function update(id: string, rawData: unknown) {
-  const result = UpdateCategorySchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown): Promise<ApiResult<Note>> {
+  const result = UpdateNoteSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return { 
@@ -110,18 +100,19 @@ export async function update(id: string, rawData: unknown) {
   }
 
   try {
-    const category = await db.category.update({
+    const { id: _, ...updateData } = result.data;
+    const updatedPerfume = await db.note.update({
       where: { id },
-      data: {  ...result.data  },
+      data: updateData,
     });
 
-    return { success: true, status: 200, data: category };
+    return { success: true, status: 200, data: updatedPerfume };
   } catch (error: unknown) {
-    if (isPrismaError(error) && error.code === "P2002") {
+    if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
-        status: 409, 
-        message: "Ese nombre de categoría ya existe." 
+        status: 404, 
+        message: "Nota de perfume no encontrada." 
       };
     }
 
@@ -132,6 +123,7 @@ export async function update(id: string, rawData: unknown) {
     };
   }
 }
+
 export async function remove(id: string) {
   if (!id) {
     return { 
@@ -142,21 +134,17 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.category.delete({
+    await db.note.delete({
       where: { id },
     });
 
-    return { 
-      success: true, 
-      status: 200, 
-      message: "Categoría eliminada con éxito." 
-    };
+    return { success: true, status: 200, data: null, message: "Nota de perfume eliminado con éxito." };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
         status: 404, 
-        message: "Categoría no encontrada." 
+        message: "Nota de perfume no encontrada." 
       };
     }
     return {
