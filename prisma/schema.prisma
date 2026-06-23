@@ -81,7 +81,7 @@ model PerfumeNote {
   id        String    @id @default(uuid())
   perfumeId String
   perfume   Perfume   @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
-  noteName  String
+  name  String
   stage     NoteStage
 }
 

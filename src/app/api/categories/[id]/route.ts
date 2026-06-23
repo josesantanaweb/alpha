@@ -1,9 +1,21 @@
 import { NextResponse } from "next/server";
-import { update, remove } from "@/modules/categories/categories.actions";
+import { update, remove, getOne } from "@/modules/categories/categories.actions";
 
 type RouteParams = {
   params: Promise<{ id: string }>; 
 };
+
+export async function GET(request: Request, { params }: RouteParams) {
+  const { id } = await params;
+
+  const result = await getOne(id);
+
+  if (!result.success) {
+    return NextResponse.json({ message: result.message }, { status: result.status });
+  }
+
+  return NextResponse.json(result.data, { status: result.status });
+}
 
 export async function PUT(request: Request, { params }: RouteParams) {
   try {

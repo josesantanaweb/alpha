@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getOne, update, remove } from "@/modules/perfumes/perfumes.actions";
+import { getOne, update, remove } from "@/modules/perfume-notes/perfume-notes.actions";
 
 type RouteParams = {
   params: Promise<{ id: string }>; 

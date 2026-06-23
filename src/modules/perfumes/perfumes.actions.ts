@@ -22,6 +22,41 @@ export async function getAll(): Promise<ApiResult<Perfume[]>> {
   }
 }
 
+export async function getOne(id: string): Promise<ApiResult<Perfume>> {
+  if (!id) {
+    return {
+      success: false,
+      status: 400,
+      message: "El ID es requerido.",
+    };
+  }
+
+  try {
+    const perfume = await db.perfume.findUnique({
+      where: { id },
+      include: {
+        category: true,
+      },
+    });
+
+    if (!perfume) {
+      return {
+        success: false,
+        status: 404,
+        message: "Perfume no encontrado.",
+      };
+    }
+
+    return { success: true, status: 200, data: perfume };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
 export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
   const result = CreatePerfumeSchema.safeParse(rawData);
 
