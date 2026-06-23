@@ -5,7 +5,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// 1. MODELO PRINCIPAL: PERFUME
+// ==========================================
+// 1. MAIN MODEL: PERFUME
+// ==========================================
 model Perfume {
   id          String      @id @default(uuid())
   name        String
@@ -28,7 +30,7 @@ model Perfume {
 
   // Métricas de la Comunidad (Relaciones 1 a 1)
   longevity Longevity?
-  sillage   PerfumeSillage?
+  sillage   Sillage?
 
   // Relaciones
   categoryId String
@@ -59,7 +61,7 @@ model Longevity {
 // ==========================================
 // 3. NEW MODEL: SILAGE (Vote Counters)
 // ==========================================
-model PerfumeSillage {
+model Sillage {
   id        String  @id @default(uuid())
   perfumeId String  @unique
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
