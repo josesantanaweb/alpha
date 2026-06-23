@@ -5,9 +5,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// ==========================================
-// 1. MAIN MODEL: PERFUME
-// ==========================================
 model Perfume {
   id          String      @id @default(uuid())
   name        String
@@ -15,22 +12,16 @@ model Perfume {
   type        PerfumeType
   gender      Gender
   description String?
-  image    String?
-
-  // Precios y Descuentos
-  priceFullBottle Decimal @db.Decimal(10, 2)
-  priceDecant5ml  Decimal @db.Decimal(10, 2)
-  priceDecant10ml Decimal @db.Decimal(10, 2)
-  discountPercent Int     @default(0)
-  isTopSeller     Boolean @default(false)
-
-  // Control de Inventario Físico
-  stockFullBottles    Int @default(0)
-  remainingMlInTester Int @default(100)
+  image       String?
+  price       Decimal @db.Decimal(10, 2)
+  discount    Int     @default(0)
+  stock       Int     @default(0)
+  remainingMl Int @default(100)
 
   // Métricas de la Comunidad (Relaciones 1 a 1)
   longevity Longevity?
   sillage   Sillage?
+  decants   Decant[]
 
   // Relaciones
   categoryId String
@@ -42,9 +33,18 @@ model Perfume {
   updatedAt DateTime @updatedAt
 }
 
-// ==========================================
-// 2. NEW MODEL: LONGEVITY (Vote Counters)
-// ==========================================
+model Decant {
+  id        String   @id @default(uuid())
+  ml    Int
+  price     Decimal  @db.Decimal(10, 2)
+  stock     Int      @default(0)
+  perfumeId String
+  perfume   Perfume  @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+
+  @@unique([perfumeId, ml])
+}
+
+
 model Longevity {
   id        String  @id @default(uuid())
   perfumeId String  @unique
@@ -58,9 +58,6 @@ model Longevity {
   veryLong   Int @default(0)
 }
 
-// ==========================================
-// 3. NEW MODEL: SILAGE (Vote Counters)
-// ==========================================
 model Sillage {
   id        String  @id @default(uuid())
   perfumeId String  @unique

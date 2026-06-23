@@ -8,13 +8,10 @@ export const CreatePerfumeSchema = z.object({
   gender: z.nativeEnum(Gender),
   description: z.string().optional().nullable(),
   image: z.string().url("URL inválida").optional().nullable(),
-  priceFullBottle: z.number().min(0, "El precio debe ser mayor o igual a 0"),
-  priceDecant5ml: z.number().min(0, "El precio debe ser mayor o igual a 0"),
-  priceDecant10ml: z.number().min(0, "El precio debe ser mayor o igual a 0"),
-  discountPercent: z.number().min(0, "El descuento debe ser mayor o igual a 0").max(100, "El descuento debe ser menor o igual a 100").default(0),
-  isTopSeller: z.boolean().default(false),
-  stockFullBottles: z.number().min(0, "El stock debe ser mayor o igual a 0"),
-  remainingMlInTester: z.number().min(0, "El stock debe ser mayor o igual a 0").max(100, "El stock debe ser menor o igual a 100"),
+  price: z.number().min(0, "El precio debe ser mayor o igual a 0"),
+  discount: z.number().min(0, "El descuento debe ser mayor o igual a 0").max(100, "El descuento debe ser menor o igual a 100").default(0),
+  stock: z.number().min(0, "El stock debe ser mayor o igual a 0"),
+  remainingMl: z.number().min(0, "El stock debe ser mayor o igual a 0").max(100, "El stock debe ser menor o igual a 100"),
   categoryId: z.string().uuid("ID inválido")
 });
 
