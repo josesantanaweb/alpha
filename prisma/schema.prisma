@@ -1,6 +1,7 @@
 datasource db {
   provider = "postgresql"
 }
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,19 +14,23 @@ model Perfume {
   gender      Gender
   description String?
   image       String?
-  price       Decimal @db.Decimal(10, 2)
-  discount    Int     @default(0)
-  stock       Int     @default(0)
-  remainingMl Int @default(100)
+  price       Decimal     @db.Decimal(10, 2)
+  discount    Int         @default(0)
+  stock       Int         @default(0)
+  remainingMl Int         @default(100)
+  rating      Decimal     @default(0.0) @db.Decimal(3, 2)
+  reviewCount Int         @default(0)
 
   // Métricas de la Comunidad (Relaciones 1 a 1)
   longevity Longevity?
   sillage   Sillage?
   decants   Decant[]
+  season    Season?
+  feeling   Feeling?
 
   // Relaciones
   categoryId String
-  category   Category      @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
   notes      Note[]
   reviews    Review[]
 
@@ -34,16 +39,41 @@ model Perfume {
 }
 
 model Decant {
-  id        String   @id @default(uuid())
-  ml    Int
-  price     Decimal  @db.Decimal(10, 2)
-  stock     Int      @default(0)
+  id        String  @id @default(uuid())
+  ml        Int
+  price     Decimal @db.Decimal(10, 2)
+  stock     Int     @default(0)
   perfumeId String
-  perfume   Perfume  @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
   @@unique([perfumeId, ml])
 }
 
+model Feeling {
+  id        String  @id @default(uuid())
+  perfumeId String  @unique
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+
+  love        Int @default(0) // Me encanta
+  like        Int @default(0) // Me gusta
+  indifferent Int @default(0) // Me es indiferente
+  dislike     Int @default(0) // No me gusta
+  hate        Int @default(0) // Lo odio
+}
+
+model Season {
+  id        String  @id @default(uuid())
+  perfumeId String  @unique
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+
+  winter Int @default(0) // Invierno
+  spring Int @default(0) // Primavera
+  summer Int @default(0) // Verano
+  autumn Int @default(0) // Otoño
+
+  day   Int @default(0) // Día
+  night Int @default(0) // Noche
+}
 
 model Longevity {
   id        String  @id @default(uuid())
@@ -51,11 +81,11 @@ model Longevity {
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
   // Vote count fields for each option
-  scarce     Int @default(0) // e.g. 120 voted for this
-  weak       Int @default(0)
-  moderate   Int @default(0)
-  long       Int @default(0)
-  veryLong   Int @default(0)
+  scarce   Int @default(0) // e.g. 120 voted for this
+  weak     Int @default(0)
+  moderate Int @default(0)
+  long     Int @default(0)
+  veryLong Int @default(0)
 }
 
 model Sillage {
@@ -80,7 +110,7 @@ model Note {
   id        String    @id @default(uuid())
   perfumeId String
   perfume   Perfume   @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
-  name  String
+  name      String
   stage     NoteStage
 }
 
