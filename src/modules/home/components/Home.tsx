@@ -2,7 +2,7 @@
 import type { ReactElement } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
-import type { Category } from "@/types";
+import { Category } from "@prisma/client";
 // import { useDebounce } from "@/hooks";
 import { SearchInput, BestSellers } from "@/components/common";
 import { CategoriesFilter } from "./CategoriesFilter";
