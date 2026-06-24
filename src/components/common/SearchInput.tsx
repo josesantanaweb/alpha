@@ -94,7 +94,7 @@ export const SearchInput = ({
         inputSize={inputSize}
         onChange={handleChange}
         className={cn(
-          'pl-10 pr-10 [&::-webkit-search-cancel-button]:appearance-none rounded-full',
+          'pl-10 pr-10 [&::-webkit-search-cancel-button]:appearance-none rounded-md',
           inputClassName,
         )}
       />

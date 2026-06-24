@@ -42,7 +42,7 @@ export const Home = (): ReactElement => {
           value={searchValue}
           onValueChange={setSearchValue}
         />
-        <button className="rounded-full cursor-pointer border bg-surface border-stroke w-12 h-12 text-white flex items-center shrink-0 justify-center">
+        <button className="rounded-md cursor-pointer border bg-surface border-stroke w-12 h-12 text-white flex items-center shrink-0 justify-center">
           <SlidersHorizontal size={20} />
         </button>
       </div>
