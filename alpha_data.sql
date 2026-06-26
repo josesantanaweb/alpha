@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict c1N3027aG3JfHRjSDa01KdfOgFt3SKP3RTVT0whtvORQid5c6tZcGsLUPxlLci3
+\restrict ts7agyxJfbI5CogSWd02wK9nr4zrZd2Eb5I0goMXJb7ajNUR1RJ4dusI2MT64En
 
 -- Dumped from database version 16.13 (Debian 16.13-1.pgdg13+1)
 -- Dumped by pg_dump version 16.13
@@ -23,7 +23,9 @@ SET row_security = off;
 --
 
 COPY public."Category" (id, name) FROM stdin;
-dbe9ade6-7b42-4f24-8c7a-6338ec985a52	Día
+dbe9ade6-7b42-4f24-8c7a-6338ec985a52	Diseñador
+dbe9ade6-7b42-4f24-8c7a-6338ec985a53	Árabes
+7a11c68c-68e4-4e55-8e9b-412fedea8f52	Decants
 \.
 
 
@@ -40,8 +42,8 @@ COPY public."Perfume" (id, name, designer, type, gender, description, "categoryI
 -- Data for Name: Decant; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Decant" (id, ml, price, stock, "perfumeId") FROM stdin;
-07555ca3-b2e5-4c00-ae45-7b0d530332f2	100	100.00	1	2051b074-8d8b-4e02-81c8-46d497aec31b
+COPY public."Decant" (id, ml, price, stock, "perfumeId", image) FROM stdin;
+07555ca3-b2e5-4c00-ae45-7b0d530332f2	100	100.00	1	2051b074-8d8b-4e02-81c8-46d497aec31b	\N
 \.
 
 
@@ -98,6 +100,27 @@ COPY public."Sillage" (id, "perfumeId", soft, moderate, heavy, huge) FROM stdin;
 
 
 --
+-- Data for Name: Tag; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Tag" (id, name, image) FROM stdin;
+36a35c8b-cfd7-427e-93aa-e2ced503ff4f	Oficina	https://placehold.co/400x600
+edbfc996-f22f-46fe-8d85-1682549df2ff	Día	https://placehold.co/400x600
+388e8fb5-2d22-4c3d-b4b1-29168677c8c7	Invierno	https://placehold.co/400x600
+5d98a6b6-c416-4c5d-9c30-e852f5b6467e	Verano	https://placehold.co/400x600
+305fdc18-6ea9-4dcc-8db4-4972611f9138	Noche	https://placehold.co/400x600
+\.
+
+
+--
+-- Data for Name: _Tags; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."_Tags" ("A", "B") FROM stdin;
+\.
+
+
+--
 -- Data for Name: _prisma_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -112,6 +135,8 @@ b84ebe22-e23c-4743-9609-00f2322871e1	074e8ce3837bad3f8cd766600961d953aa673675b1d
 f14df4d4-2eb5-45d0-8a6e-989cc37800eb	6d9da3a20d0ae4ef76fdf3b57828d5874dd5631f6317f99741dba269aba277b7	2026-06-23 20:15:09.180561+00	20260623201509	\N	\N	2026-06-23 20:15:09.136709+00	1
 a1ced715-ab97-4f7c-979b-d7ff4971664d	391e20309ad1a8096402e8d995fb78d371c80308f94dda63f9b6a87060849481	2026-06-24 15:36:47.811768+00	20260624153647	\N	\N	2026-06-24 15:36:47.750372+00	1
 dab9175f-289a-4d97-99ae-7bab1e92195d	e5a15d4fd8814397cf4c6b4218e0daa9a89c87352cc275b94269fcea9e6ebd4a	2026-06-24 18:54:41.077899+00	20260624185441	\N	\N	2026-06-24 18:54:41.06061+00	1
+bf7a2010-65a4-4c9a-b8c6-769ca3a430f3	42b563fb702d6301a4448c752657846d0d77a983e17550e69c4b25c79f459f2f	2026-06-26 18:47:17.749709+00	20260626184717_add_tags_relation	\N	\N	2026-06-26 18:47:17.67798+00	1
+afdbe510-7cc5-4ab2-b0f2-a7fb27b63837	247577f5e7b00a3d81ae3ed72d6c3a31c104846aa65ca44a74cbc74a84f90c23	2026-06-26 19:22:33.280463+00	20260626192233	\N	\N	2026-06-26 19:22:33.231896+00	1
 \.
 
 
@@ -119,5 +144,5 @@ dab9175f-289a-4d97-99ae-7bab1e92195d	e5a15d4fd8814397cf4c6b4218e0daa9a89c87352cc
 -- PostgreSQL database dump complete
 --
 
-\unrestrict c1N3027aG3JfHRjSDa01KdfOgFt3SKP3RTVT0whtvORQid5c6tZcGsLUPxlLci3
+\unrestrict ts7agyxJfbI5CogSWd02wK9nr4zrZd2Eb5I0goMXJb7ajNUR1RJ4dusI2MT64En
 
