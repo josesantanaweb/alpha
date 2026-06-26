@@ -32,6 +32,7 @@ model Perfume {
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
   notes      Note[]
+  tags       Tag[]    @relation("Tags")
   reviews    Review[]
 
   createdAt DateTime @default(now())
@@ -104,6 +105,12 @@ model Category {
   id       String    @id @default(uuid())
   name     String    @unique
   perfumes Perfume[]
+}
+
+model Tag {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  perfumes Perfume[] @relation("Tags")
 }
 
 model Note {

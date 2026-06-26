@@ -2,40 +2,22 @@
 import type { ReactElement } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
-import { Category } from "@prisma/client";
-// import { useDebounce } from "@/hooks";
-import { SearchInput, BestSellers } from "@/components/common";
+import type { Category } from "@prisma/client";
+import { useCategories } from "@/hooks";
+import { SearchInput, BestSellers, Designers } from "@/components/common";
 import { CategoriesFilter } from "./CategoriesFilter";
 import { SliderHome } from "./SliderHome";
 import { FindYourVibe } from "./FindYourVibe";
 
-const CATEGORIES = [
-  {
-    id: "1",
-    name: "Para el gimnasio",
-  },
-  {
-    id: "2",
-    name: "Dia",
-  },
-  {
-    id: "3",
-    name: "Noche",
-  },
-  {
-    id: "4",
-    name: "Sexual",
-  },
-];
-
 export const Home = (): ReactElement => {
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [searchValue, setSearchValue] = useState("");
+  const { data: categories = [], isLoading } = useCategories();
 
   // const debouncedSearchValue = useDebounce(searchValue.trim(), 300);
 
   return (
-    <div className="w-full flex flex-col gap-6 p-5 pb-50">
+    <div className="w-full flex flex-col gap-6 p-5 pb-50 relative">
       <div className="flex items-center justify-between w-full gap-3">
         <SearchInput
           placeholder="Buscar perfumes..."
@@ -48,13 +30,14 @@ export const Home = (): ReactElement => {
       </div>
       <SliderHome />
       <CategoriesFilter
-        categories={CATEGORIES}
+        categories={categories}
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
-        loading={false}
+        loading={isLoading}
       />
       <BestSellers />
       <FindYourVibe />
+      <Designers />
     </div>
   );
 };
