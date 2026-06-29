@@ -1,27 +1,23 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateDecantSchema, UpdateDecantSchema } from "./decants.schema";
+import { CreateNoteSchema, UpdateNoteSchema } from "./schema";
 import { ApiResult } from "@/types";
-import { Decant } from "@prisma/client";
+import { Note } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Decant[]>> {
+export async function getAll(): Promise<ApiResult<Note[]>> {
   try {
-    const decants = await db.decant.findMany({
-      include: {
-        perfume: true
-      }
-    });
+    const notes = await db.note.findMany();
 
-    return { success: true, status: 200, data: decants };
+    return { success: true, status: 200, data: notes };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener los decants.",
+      message: error instanceof Error ? error.message : "Error al obtener las notas.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Decant>> {
+export async function getOne(id: string): Promise<ApiResult<Note>> {
   if (!id) {
     return {
       success: false,
@@ -31,22 +27,19 @@ export async function getOne(id: string): Promise<ApiResult<Decant>> {
   }
 
   try {
-    const decant = await db.decant.findUnique({
+    const note = await db.note.findUnique({
       where: { id },
-      include: {
-        perfume: true
-      }
     });
 
-    if (!decant) {
+    if (!note) {
       return {
         success: false,
         status: 404,
-        message: "Decant no encontrado.",
+        message: "Nota de Perfume no encontrada.",
       };
     }
 
-    return { success: true, status: 200, data: decant };
+    return { success: true, status: 200, data: note };
   } catch (error: unknown) {
     return {
       success: false,
@@ -56,8 +49,8 @@ export async function getOne(id: string): Promise<ApiResult<Decant>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Decant>> {
-  const result = CreateDecantSchema.safeParse(rawData);
+export async function create(rawData: unknown): Promise<ApiResult<Note>> {
+  const result = CreateNoteSchema.safeParse(rawData);
 
   if (!result.success) {
     return { 
@@ -68,7 +61,7 @@ export async function create(rawData: unknown): Promise<ApiResult<Decant>> {
   }
 
   try {
-    const decant = await db.decant.create({
+    const note = await db.note.create({
       data: { 
         ...result.data
       },
@@ -76,14 +69,14 @@ export async function create(rawData: unknown): Promise<ApiResult<Decant>> {
     return { 
       success: true, 
       status: 201, 
-      data: decant 
+      data: note 
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return { 
         success: false, 
         status: 409, 
-        message: "Ese decant ya existe." 
+        message: "Esa nota de perfume ya existe." 
       };
     }
 
@@ -95,8 +88,8 @@ export async function create(rawData: unknown): Promise<ApiResult<Decant>> {
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<Decant>> {
-  const result = UpdateDecantSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown): Promise<ApiResult<Note>> {
+  const result = UpdateNoteSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return { 
@@ -108,7 +101,7 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<De
 
   try {
     const { id: _, ...updateData } = result.data;
-    const updatedPerfume = await db.decant.update({
+    const updatedPerfume = await db.note.update({
       where: { id },
       data: updateData,
     });
@@ -119,7 +112,7 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<De
       return { 
         success: false, 
         status: 404, 
-        message: "Decant no encontrado." 
+        message: "Nota de perfume no encontrada." 
       };
     }
 
@@ -141,17 +134,17 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.decant.delete({
+    await db.note.delete({
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Decant eliminado con éxito." };
+    return { success: true, status: 200, data: null, message: "Nota de perfume eliminado con éxito." };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
         status: 404, 
-        message: "Decant no encontrada." 
+        message: "Nota de perfume no encontrada." 
       };
     }
     return {

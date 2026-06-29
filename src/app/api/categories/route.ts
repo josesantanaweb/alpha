@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { create, getAll } from "@/modules/categories/categories.actions";
+import { create, getAll } from "@/modules/categories";
 
 export async function GET() {
   const result = await getAll();

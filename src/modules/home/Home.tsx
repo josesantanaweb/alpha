@@ -4,10 +4,12 @@ import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import type { Category } from "@prisma/client";
 import { useCategories } from "@/hooks";
-import { SearchInput, BestSellers, Designers } from "@/components/common";
+import { SearchInput } from "@/components/common";
 import { CategoriesFilter } from "./CategoriesFilter";
 import { SliderHome } from "./SliderHome";
 import { FindYourVibe } from "./FindYourVibe";
+import { BestSellers } from "./BestSellers";
+import { Designers } from "./Designers";
 
 export const Home = (): ReactElement => {
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);

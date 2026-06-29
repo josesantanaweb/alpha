@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getOne, update, remove } from "@/modules/seasons/seasons.actions";
+import { getOne, update, remove } from "@/modules/seasons";
 
 type RouteParams = {
   params: Promise<{ id: string }>;

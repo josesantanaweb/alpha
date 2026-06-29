@@ -1,5 +1,5 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./perfumes.schema";
+import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
 import { ApiResult } from "@/types";
 import { Perfume } from "@prisma/client";
 

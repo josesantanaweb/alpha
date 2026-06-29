@@ -1,23 +1,23 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateLongevitySchema, UpdateLongevitySchema } from "./longevities.schema";
+import { CreateSillageSchema, UpdateSillageSchema } from "./schema";
 import { ApiResult } from "@/types";
-import { Longevity } from "@prisma/client";
+import { Sillage } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Longevity[]>> {
+export async function getAll(): Promise<ApiResult<Sillage[]>> {
   try {
-    const longevities = await db.longevity.findMany();
+    const sillages = await db.sillage.findMany();
 
-    return { success: true, status: 200, data: longevities };
+    return { success: true, status: 200, data: sillages };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener las longevidad.",
+      message: error instanceof Error ? error.message : "Error al obtener las estelas.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Longevity>> {
+export async function getOne(id: string): Promise<ApiResult<Sillage>> {
   if (!id) {
     return {
       success: false,
@@ -27,19 +27,19 @@ export async function getOne(id: string): Promise<ApiResult<Longevity>> {
   }
 
   try {
-    const longevity = await db.longevity.findUnique({
+    const sillage = await db.sillage.findUnique({
       where: { id },
     });
 
-    if (!longevity) {
+    if (!sillage) {
       return {
         success: false,
         status: 404,
-        message: "Longevidad no encontrada.",
+        message: "Estela no encontrada.",
       };
     }
 
-    return { success: true, status: 200, data: longevity };
+    return { success: true, status: 200, data: sillage };
   } catch (error: unknown) {
     return {
       success: false,
@@ -49,8 +49,8 @@ export async function getOne(id: string): Promise<ApiResult<Longevity>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Longevity>> {
-  const result = CreateLongevitySchema.safeParse(rawData);
+export async function create(rawData: unknown): Promise<ApiResult<Sillage>> {
+  const result = CreateSillageSchema.safeParse(rawData);
 
   if (!result.success) {
     return { 
@@ -61,7 +61,7 @@ export async function create(rawData: unknown): Promise<ApiResult<Longevity>> {
   }
 
   try {
-    const longevity = await db.longevity.create({
+    const sillage = await db.sillage.create({
       data: { 
         ...result.data
       },
@@ -69,14 +69,14 @@ export async function create(rawData: unknown): Promise<ApiResult<Longevity>> {
     return { 
       success: true, 
       status: 201, 
-      data: longevity 
+      data: sillage 
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return { 
         success: false, 
         status: 409, 
-        message: "Esa longevidad ya existe." 
+        message: "Esa estela ya existe." 
       };
     }
 
@@ -88,8 +88,8 @@ export async function create(rawData: unknown): Promise<ApiResult<Longevity>> {
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<Longevity>> {
-  const result = UpdateLongevitySchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown): Promise<ApiResult<Sillage>> {
+  const result = UpdateSillageSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return { 
@@ -101,7 +101,7 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Lo
 
   try {
     const { id: _, ...updateData } = result.data;
-    const updatedPerfume = await db.longevity.update({
+    const updatedPerfume = await db.sillage.update({
       where: { id },
       data: updateData,
     });
@@ -112,7 +112,7 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Lo
       return { 
         success: false, 
         status: 404, 
-        message: "Longevidad no encontrada." 
+        message: "Estela no encontrada." 
       };
     }
 
@@ -134,17 +134,17 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.longevity.delete({
+    await db.sillage.delete({
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Longevidad eliminado con éxito." };
+    return { success: true, status: 200, data: null, message: "Estela eliminada con éxito." };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return { 
         success: false, 
         status: 404, 
-        message: "Longevidad no encontrada." 
+        message: "Estela no encontrada." 
       };
     }
     return {

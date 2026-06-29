@@ -1,23 +1,27 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateFeelingSchema, UpdateFeelingSchema } from "./feelings.schema";
+import { CreateTagSchema, UpdateTagSchema } from "./schema";
 import { ApiResult } from "@/types";
-import { Feeling } from "@prisma/client";
+import { Tag } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Feeling[]>> {
+export async function getAll(): Promise<ApiResult<Tag[]>> {
   try {
-    const feelings = await db.feeling.findMany();
+    const tags = await db.tag.findMany();
 
-    return { success: true, status: 200, data: feelings };
+    return {
+      success: true,
+      status: 200,
+      data: tags
+    };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener la emocion .",
+      message: error instanceof Error ? error.message : "Error al obtener las etiquetas.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Feeling>> {
+export async function getOne(id: string): Promise<ApiResult<Tag>> {
   if (!id) {
     return {
       success: false,
@@ -27,19 +31,19 @@ export async function getOne(id: string): Promise<ApiResult<Feeling>> {
   }
 
   try {
-    const feeling = await db.feeling.findUnique({
+    const tag = await db.tag.findUnique({
       where: { id },
     });
 
-    if (!feeling) {
+    if (!tag) {
       return {
         success: false,
         status: 404,
-        message: "Emocion no encontrada.",
+        message: "Etiqueta no encontrada.",
       };
     }
 
-    return { success: true, status: 200, data: feeling };
+    return { success: true, status: 200, data: tag };
   } catch (error: unknown) {
     return {
       success: false,
@@ -49,9 +53,8 @@ export async function getOne(id: string): Promise<ApiResult<Feeling>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Feeling>> {
-  const result = CreateFeelingSchema.safeParse(rawData);
-
+export async function create(rawData: unknown): Promise<ApiResult<Tag>> {
+  const result = CreateTagSchema.safeParse(rawData);
   if (!result.success) {
     return {
       success: false,
@@ -61,22 +64,20 @@ export async function create(rawData: unknown): Promise<ApiResult<Feeling>> {
   }
 
   try {
-    const feeling = await db.feeling.create({
-      data: {
-        ...result.data
-      },
+    const tag = await db.tag.create({
+      data: {  ...result.data },
     });
     return {
       success: true,
       status: 201,
-      data: feeling
+      data: tag
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Esa emocion ya existe."
+        message: "Ese nombre de etiqueta ya existe."
       };
     }
 
@@ -88,8 +89,8 @@ export async function create(rawData: unknown): Promise<ApiResult<Feeling>> {
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<Feeling>> {
-  const result = UpdateFeelingSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown) {
+  const result = UpdateTagSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return {
@@ -100,19 +101,18 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Fe
   }
 
   try {
-    const { id: _, ...updateData } = result.data;
-    const updatedPerfume = await db.feeling.update({
+    const tag = await db.tag.update({
       where: { id },
-      data: updateData,
+      data: {  ...result.data  },
     });
 
-    return { success: true, status: 200, data: updatedPerfume };
+    return { success: true, status: 200, data: tag };
   } catch (error: unknown) {
-    if (isPrismaError(error) && error.code === "P2025") {
+    if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
-        status: 404,
-        message: "Emocion no encontrada."
+        status: 409,
+        message: "Ese nombre de la etiqueta ya existe."
       };
     }
 
@@ -123,7 +123,6 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Fe
     };
   }
 }
-
 export async function remove(id: string) {
   if (!id) {
     return {
@@ -134,17 +133,21 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.feeling.delete({
+    await db.tag.delete({
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Emocion eliminada con éxito." };
+    return {
+      success: true,
+      status: 200,
+      message: "Etiqueta eliminada con éxito."
+    };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Emocion no encontrada."
+        message: "Etiqueta no encontrada."
       };
     }
     return {

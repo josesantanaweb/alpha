@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { create, getAll } from "@/modules/sillages/sillages.actions";
+import { create, getAll } from "@/modules/sillages";
 
 export async function GET() {
   const result = await getAll();

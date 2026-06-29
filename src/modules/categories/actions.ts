@@ -1,23 +1,27 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateSeasonSchema, UpdateSeasonSchema } from "./seasons.schema";
+import { CreateCategorySchema, UpdateCategorySchema } from "./schema";
 import { ApiResult } from "@/types";
-import { Season } from "@prisma/client";
+import { Category } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Season[]>> {
+export async function getAll(): Promise<ApiResult<Category[]>> {
   try {
-    const seasons = await db.season.findMany();
+    const categories = await db.category.findMany();
 
-    return { success: true, status: 200, data: seasons };
+    return {
+      success: true,
+      status: 200,
+      data: categories
+    };
   } catch (error: unknown) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener las Estaciones.",
+      message: error instanceof Error ? error.message : "Error al obtener las categorías.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Season>> {
+export async function getOne(id: string): Promise<ApiResult<Category>> {
   if (!id) {
     return {
       success: false,
@@ -27,19 +31,19 @@ export async function getOne(id: string): Promise<ApiResult<Season>> {
   }
 
   try {
-    const season = await db.season.findUnique({
+    const category = await db.category.findUnique({
       where: { id },
     });
 
-    if (!season) {
+    if (!category) {
       return {
         success: false,
         status: 404,
-        message: "Estacion no encontrada.",
+        message: "Categoria no encontrada.",
       };
     }
 
-    return { success: true, status: 200, data: season };
+    return { success: true, status: 200, data: category };
   } catch (error: unknown) {
     return {
       success: false,
@@ -49,9 +53,8 @@ export async function getOne(id: string): Promise<ApiResult<Season>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Season>> {
-  const result = CreateSeasonSchema.safeParse(rawData);
-
+export async function create(rawData: unknown): Promise<ApiResult<Category>> {
+  const result = CreateCategorySchema.safeParse(rawData);
   if (!result.success) {
     return {
       success: false,
@@ -61,22 +64,20 @@ export async function create(rawData: unknown): Promise<ApiResult<Season>> {
   }
 
   try {
-    const season = await db.season.create({
-      data: {
-        ...result.data
-      },
+    const category = await db.category.create({
+      data: {  ...result.data },
     });
     return {
       success: true,
       status: 201,
-      data: season
+      data: category
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Esa estacion ya existe."
+        message: "Ese nombre de categoría ya existe."
       };
     }
 
@@ -88,8 +89,8 @@ export async function create(rawData: unknown): Promise<ApiResult<Season>> {
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<Season>> {
-  const result = UpdateSeasonSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(id: string, rawData: unknown) {
+  const result = UpdateCategorySchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return {
@@ -100,19 +101,18 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Se
   }
 
   try {
-    const { id: _, ...updateData } = result.data;
-    const updatedPerfume = await db.season.update({
+    const category = await db.category.update({
       where: { id },
-      data: updateData,
+      data: {  ...result.data  },
     });
 
-    return { success: true, status: 200, data: updatedPerfume };
+    return { success: true, status: 200, data: category };
   } catch (error: unknown) {
-    if (isPrismaError(error) && error.code === "P2025") {
+    if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
-        status: 404,
-        message: "Estacion no encontrada."
+        status: 409,
+        message: "Ese nombre de categoría ya existe."
       };
     }
 
@@ -123,7 +123,6 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Se
     };
   }
 }
-
 export async function remove(id: string) {
   if (!id) {
     return {
@@ -134,17 +133,21 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.season.delete({
+    await db.category.delete({
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Estacion eliminada con éxito." };
+    return {
+      success: true,
+      status: 200,
+      message: "Categoría eliminada con éxito."
+    };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Estacion no encontrada."
+        message: "Categoría no encontrada."
       };
     }
     return {

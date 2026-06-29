@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { create, getAll } from "@/modules/longevities/longevities.actions";
+import { create, getAll } from "@/modules/longevities";
 
 export async function GET() {
   const result = await getAll();

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { create, getAll } from "@/modules/notes/notes.actions";
+import { create, getAll } from "@/modules/notes";
 
 export async function GET() {
   const result = await getAll();
