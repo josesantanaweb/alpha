@@ -7,7 +7,7 @@ import { useCategories, useBanners } from "@/hooks";
 import { SearchInput } from "@/components/common";
 import { CategoriesFilter } from "./CategoriesFilter";
 import { SliderHome } from "./slider-home";
-import { FindYourVibe } from "./FindYourVibe";
+import { FindYourVibe } from "./find-your-vibe";
 import { BestSellers } from "./BestSellers";
 import { Designers } from "./Designers";
 
