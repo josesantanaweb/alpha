@@ -58,7 +58,7 @@ const INITIAL_BANNERS: SeedBanner[] = [
   {
     title: "Scandal pour home",
     text: "Edicion Limitada",
-    image: "/images/banner1.png",
+    image: "https://i.ibb.co/WpGv4b0h/banner1.pn",
     link: "/explorer",
     order: 0,
     isActive: true,
@@ -66,7 +66,7 @@ const INITIAL_BANNERS: SeedBanner[] = [
   {
     title: "Ton Ford",
     text: "Ombre leather",
-    image: "/images/banner2.JPG",
+    image: "https://i.ibb.co/W42L0tKN/banner2.jpg",
     link: "/explorer",
     order: 1,
     isActive: true,

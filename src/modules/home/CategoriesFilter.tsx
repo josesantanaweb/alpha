@@ -2,7 +2,7 @@
 import type { ReactElement } from 'react';
 import { CategoryButton } from '@/components/common';
 import type { Category } from '@prisma/client';
-import { CategoriesFilterSkeleton } from './CategoriesFilterSkeleton';
+import { CategoriesFilterSkeleton } from './skeletons/CategoriesFilterSkeleton';
 
 interface CategoriesFilterProps {
   categories: Category[];

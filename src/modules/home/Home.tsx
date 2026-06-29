@@ -6,7 +6,7 @@ import type { Category } from "@prisma/client";
 import { useCategories, useBanners } from "@/hooks";
 import { SearchInput } from "@/components/common";
 import { CategoriesFilter } from "./CategoriesFilter";
-import { SliderHome } from "./SliderHome";
+import { SliderHome } from "./slider-home";
 import { FindYourVibe } from "./FindYourVibe";
 import { BestSellers } from "./BestSellers";
 import { Designers } from "./Designers";
