@@ -3,7 +3,7 @@ import type { ReactElement } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import type { Category } from "@prisma/client";
-import { useCategories } from "@/hooks";
+import { useCategories, useBanners } from "@/hooks";
 import { SearchInput } from "@/components/common";
 import { CategoriesFilter } from "./CategoriesFilter";
 import { SliderHome } from "./SliderHome";
@@ -15,6 +15,7 @@ export const Home = (): ReactElement => {
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [searchValue, setSearchValue] = useState("");
   const { data: categories = [], isLoading } = useCategories();
+  const { data: banners = [], isLoading: bannersLoading } = useBanners();
 
   // const debouncedSearchValue = useDebounce(searchValue.trim(), 300);
 
@@ -30,7 +31,7 @@ export const Home = (): ReactElement => {
           <SlidersHorizontal size={20} />
         </button>
       </div>
-      <SliderHome />
+      <SliderHome banners={banners} loading={bannersLoading} />
       <CategoriesFilter
         categories={categories}
         activeCategory={activeCategory}

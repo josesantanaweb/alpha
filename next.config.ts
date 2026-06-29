@@ -6,8 +6,10 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'static.flashscore.com',
-        port: '',
-        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ibb.co',
       },
     ],
   },

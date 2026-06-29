@@ -17,6 +17,14 @@ interface SeedPerfume {
   categoryName: string;
 }
 
+interface SeedBanner {
+  title: string;
+  text: string;
+  image: string;
+  link: string;
+  order: number;
+  isActive: boolean;
+}
 
 const INITIAL_CATEGORIES = [
   { name: "Citas y Seducción" },
@@ -46,10 +54,30 @@ const INITIAL_PERFUMES: SeedPerfume[] = [
   },
 ];
 
+const INITIAL_BANNERS: SeedBanner[] = [
+  {
+    title: "Scandal pour home",
+    text: "Edicion Limitada",
+    image: "/images/banner1.png",
+    link: "/explorer",
+    order: 0,
+    isActive: true,
+  },
+  {
+    title: "Ton Ford",
+    text: "Ombre leather",
+    image: "/images/banner2.JPG",
+    link: "/explorer",
+    order: 1,
+    isActive: true,
+  },
+];
+
 async function main() {
   console.log("🌱 Iniciando el seeding..");
 
   await prisma.perfume.deleteMany();
+  await prisma.banner.deleteMany();
   await prisma.category.deleteMany();
 
   for (const category of INITIAL_CATEGORIES) {
@@ -81,6 +109,12 @@ async function main() {
         gender: perfume.gender,
         categoryId: category.id,
       },
+    });
+  }
+
+  for (const banner of INITIAL_BANNERS) {
+    await prisma.banner.create({
+      data: banner,
     });
   }
 

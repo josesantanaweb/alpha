@@ -2,21 +2,10 @@
 import type { ReactElement } from "react";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ASSETS } from "@/constants";
-
-const SLIDERS = [
-  {
-    images: ASSETS.IMAGES.BANNERS[0],
-    title: "Scandal pour home",
-    text: "Edicion Limitada",
-  },
-  {
-    images: ASSETS.IMAGES.BANNERS[1],
-    title: "Ton Ford",
-    text: "Ombre leather",
-  },
-];
+import type { Banner } from "@prisma/client";
+import { SliderHomeSkeleton } from "./SliderHomeSkeleton";
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -33,9 +22,20 @@ const slideVariants = {
   }),
 };
 
-export const SliderHome = (): ReactElement => {
+interface SliderHomeProps {
+  banners: Banner[];
+  loading: boolean;
+}
+
+export const SliderHome = ({
+  banners,
+  loading,
+}: SliderHomeProps): ReactElement => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
+
+  if (loading) return <SliderHomeSkeleton />;
+  if (!banners.length) return <div />;
 
   const goTo = (index: number) => {
     setDirection(index > current ? 1 : -1);
@@ -57,8 +57,8 @@ export const SliderHome = (): ReactElement => {
             className="absolute inset-0"
           >
             <Image
-              src={SLIDERS[current].images}
-              alt="Banner"
+              src={banners[current].image}
+              alt={banners[current].title}
               width={300}
               height={300}
               className="h-full w-full object-cover"
@@ -73,7 +73,7 @@ export const SliderHome = (): ReactElement => {
                     transition={{ duration: 0.3, delay: 0.15 }}
                     className="text-sm text-white uppercase"
                   >
-                    {SLIDERS[current].text}
+                    {banners[current].text}
                   </motion.h4>
                   <motion.h3
                     key={`title-${current}`}
@@ -82,25 +82,27 @@ export const SliderHome = (): ReactElement => {
                     transition={{ duration: 0.3, delay: 0.2 }}
                     className="text-2xl font-semibold text-white uppercase"
                   >
-                    {SLIDERS[current].title}
+                    {banners[current].title}
                   </motion.h3>
                 </div>
-                <motion.button
-                  key={`btn-${current}`}
-                  initial={{ y: 10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.25 }}
-                  className="text-surface h-10 w-28 cursor-pointer rounded-md bg-white font-semibold"
-                >
-                  Explorar
-                </motion.button>
+                <Link href={banners[current].link}>
+                  <motion.button
+                    key={`btn-${current}`}
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.25 }}
+                    className="text-surface h-10 w-28 cursor-pointer rounded-md bg-white font-semibold"
+                  >
+                    Explorar
+                  </motion.button>
+                </Link>
               </div>
             </div>
           </motion.div>
         </AnimatePresence>
       </div>
       <div className="flex items-center gap-1">
-        {SLIDERS.map((_, index) => (
+        {banners.map((_, index) => (
           <motion.span
             key={index}
             onClick={() => goTo(index)}
