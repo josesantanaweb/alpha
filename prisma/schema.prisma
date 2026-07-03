@@ -9,7 +9,6 @@ generator client {
 model Perfume {
   id          String      @id @default(uuid())
   name        String      @unique
-  designer    String
   type        PerfumeType
   gender      Gender
   description String?
@@ -29,6 +28,8 @@ model Perfume {
   feeling   Feeling?
 
   // Relaciones
+  designerId String
+  designer   Designer @relation(fields: [designerId], references: [id])
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id])
   notes      Note[]
@@ -49,6 +50,20 @@ model Decant {
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
   @@unique([perfumeId, ml])
+}
+
+model Designer {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  image       String?
+  description String?   @db.Text
+  showInHome  Boolean   @default(false)
+
+  perfumes    Perfume[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Feeling {
