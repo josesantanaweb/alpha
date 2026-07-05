@@ -1,24 +1,45 @@
-'use client';
-import type { ReactElement } from 'react';
-import { cn } from '@/lib';
+"use client";
+import type { ReactElement, ReactNode } from "react";
+import * as Icons from "lucide-react";
+import { LayoutDashboard, type LucideIcon } from "lucide-react";
 
 interface CategoryButtonProps {
-  label: string;
-  active?: boolean;
+  text: string;
   onClick?: () => void;
+  icon?: ReactNode | LucideIcon | string;
 }
 
-export const CategoryButton = ({ label, active = false, onClick }: CategoryButtonProps): ReactElement => {
+export const CategoryButton = ({
+  text,
+  onClick,
+  icon,
+}: CategoryButtonProps): ReactElement => {
+  const renderIcon = () => {
+    if (typeof icon === "string") {
+      const Icon = (Icons as unknown as Record<string, LucideIcon>)[icon];
+      return Icon ? <Icon size={20} /> : <LayoutDashboard size={20} />;
+    }
+
+    if (typeof icon === "function") {
+      const Icon = icon as LucideIcon;
+      return <Icon size={20} />;
+    }
+
+    if (icon !== undefined) {
+      return icon;
+    }
+
+    return <LayoutDashboard size={20} />;
+  };
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        'flex shrink-0 h-9 px-4 rounded-full cursor-pointer font-medium items-center justify-center border border-stroke uppercase text-sm transition-colors',
-        active ? 'bg-white border-white text-surface' : 'bg-surface text-white',
-      )}
-    >
-      {label}
+    <button type="button" onClick={onClick} className="group cursor-pointer shrink-0">
+      <div className="border-stroke flex h-12 w-12 items-center justify-center rounded-full border text-sm font-medium text-white transition-colors duration-200 group-hover:border-white group-hover:bg-white group-hover:text-black">
+        {renderIcon()}
+      </div>
+      <span className="mt-1 block text-sm font-semibold text-white transition-colors duration-200 group-hover:text-white">
+        {text}
+      </span>
     </button>
   );
 };

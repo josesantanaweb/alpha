@@ -40,9 +40,9 @@ const INITIAL_DESIGNERS: SeedDesigner[] = [
 ];
 
 const INITIAL_CATEGORIES = [
-  { name: "Diseñador" },
-  { name: "Arabe" },
-  { name: "Decant" },
+  { name: "Diseñador", icon: "Gem" },
+  { name: "Arabe", icon: "Sunrise" },
+  { name: "Decant", icon: "Pipette" },
 ];
 
 const INITIAL_PERFUMES: SeedPerfume[] = [
@@ -59,7 +59,7 @@ const INITIAL_PERFUMES: SeedPerfume[] = [
     remainingMl: 0,
     rating: 0,
     reviewCount: 0,
-    categoryName: "Citas y Seducción",
+    categoryName: "Diseñador",
   },
 ];
 

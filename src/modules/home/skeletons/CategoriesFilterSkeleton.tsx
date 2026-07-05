@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 
 
 const CategoryFilterSkeleton = (): ReactElement => (
-  <span className="flex shrink-0 h-8 w-24 px-4 rounded-full skeleton-shimmer" />
+  <span className="flex shrink-0 h-12 w-12 px-4 rounded-full skeleton-shimmer" />
 );
 
 export const CategoriesFilterSkeleton = (): ReactElement => (
