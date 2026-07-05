@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import type { ReactElement } from "react";
-import { PerfumeBox } from "@/components/shared";
+import { PerfumeBox } from "@/components/common";
 
 const PERFUMES = [
   {

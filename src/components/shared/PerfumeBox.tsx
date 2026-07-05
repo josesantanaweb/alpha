@@ -1,7 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import Image from "next/image";
-import { Rating, LikeButton, Discount, AddToCartButton } from "@/components/common";
+import { Rating, LikeButton, Discount, AddToCartButton } from "@/components/shared";
 
 interface PerfumeBoxProps {
   name: string;

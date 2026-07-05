@@ -4,11 +4,11 @@ import { SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import type { Category } from "@prisma/client";
 import { useCategories, useBanners } from "@/hooks";
-import { SearchInput } from "@/components/common";
+// import { useDebounce } from "@/hooks";
+import { SearchInput, BestSellers } from "@/components/shared";
 import { CategoriesFilter } from "./CategoriesFilter";
 import { SliderHome } from "./slider-home";
 import { FindYourVibe } from "./find-your-vibe";
-import { BestSellers } from "./BestSellers";
 import { Designers } from "./Designers";
 
 export const Home = (): ReactElement => {
