@@ -1,13 +1,34 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateNoteSchema, UpdateNoteSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Note } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Note[]>> {
-  try {
-    const notes = await db.note.findMany();
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Note>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
 
-    return { success: true, status: 200, data: notes };
+  try {
+    const [notes, total] = await Promise.all([
+      db.note.findMany({
+        take: limit,
+        skip: offset,
+      }),
+      db.note.count(),
+    ]);
+
+    const nextOffset = offset + limit;
+
+    return {
+      success: true,
+      status: 200,
+      data: {
+        data: notes,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
+    };
   } catch (error: unknown) {
     return {
       success: false,

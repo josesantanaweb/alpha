@@ -1,13 +1,34 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateSillageSchema, UpdateSillageSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Sillage } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Sillage[]>> {
-  try {
-    const sillages = await db.sillage.findMany();
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Sillage>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
 
-    return { success: true, status: 200, data: sillages };
+  try {
+    const [sillages, total] = await Promise.all([
+      db.sillage.findMany({
+        take: limit,
+        skip: offset,
+      }),
+      db.sillage.count(),
+    ]);
+
+    const nextOffset = offset + limit;
+
+    return {
+      success: true,
+      status: 200,
+      data: {
+        data: sillages,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
+    };
   } catch (error: unknown) {
     return {
       success: false,

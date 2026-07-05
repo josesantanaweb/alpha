@@ -1,16 +1,33 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateDesignerSchema, UpdateDesignerSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Designer } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Designer[]>> {
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Designer>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
+
   try {
-    const designers = await db.designer.findMany();
+    const [designers, total] = await Promise.all([
+      db.designer.findMany({
+        take: limit,
+        skip: offset,
+      }),
+      db.designer.count(),
+    ]);
+
+    const nextOffset = offset + limit;
 
     return {
       success: true,
       status: 200,
-      data: designers
+      data: {
+        data: designers,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
     };
   } catch (error: unknown) {
     return {

@@ -1,17 +1,37 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateDecantSchema, UpdateDecantSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Decant } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Decant[]>> {
-  try {
-    const decants = await db.decant.findMany({
-      include: {
-        perfume: true
-      }
-    });
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Decant>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
 
-    return { success: true, status: 200, data: decants };
+  try {
+    const [decants, total] = await Promise.all([
+      db.decant.findMany({
+        include: {
+          perfume: true
+        },
+        take: limit,
+        skip: offset,
+      }),
+      db.decant.count(),
+    ]);
+
+    const nextOffset = offset + limit;
+
+    return {
+      success: true,
+      status: 200,
+      data: {
+        data: decants,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
+    };
   } catch (error: unknown) {
     return {
       success: false,

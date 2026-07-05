@@ -1,19 +1,67 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
-import { ApiResult } from "@/types";
-import { Perfume } from "@prisma/client";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
+import { Perfume, Prisma } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Perfume[]>> {
+export interface GetPerfumesParams extends PaginationParams {
+  search?: string;
+  categoryId?: string;
+  designerId?: string;
+  tagId?: string;
+}
+
+export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<PaginatedResult<Perfume>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
+
   try {
-    const perfumes = await db.perfume.findMany({
-      orderBy: { name: "asc" },
-      include: {
-        category: true,
-        designer: true,
-      }
-    });
+    // Objeto dinámico: agregar filtros futuros (acordes, notas, género, temporada)
+    // aquí sin tocar el resto de la lógica de paginado.
+    const whereConditions: Prisma.PerfumeWhereInput = {};
 
-    return { success: true, status: 200, data: perfumes };
+    if (params.search) {
+      whereConditions.name = { contains: params.search, mode: "insensitive" };
+    }
+
+    if (params.categoryId) {
+      whereConditions.categoryId = params.categoryId;
+    }
+
+    if (params.designerId) {
+      whereConditions.designerId = params.designerId;
+    }
+
+    if (params.tagId) {
+      whereConditions.tags = { some: { id: params.tagId } };
+    }
+
+    const [perfumes, total] = await Promise.all([
+      db.perfume.findMany({
+        where: whereConditions,
+        orderBy: { name: "asc" },
+        include: {
+          category: true,
+          designer: true,
+        },
+        take: limit,
+        skip: offset,
+      }),
+      db.perfume.count({ where: whereConditions }),
+    ]);
+
+    const nextOffset = offset + limit;
+
+    return {
+      success: true,
+      status: 200,
+      data: {
+        data: perfumes,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
+    };
   } catch (error: unknown) {
     return {
       success: false,

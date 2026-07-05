@@ -1,16 +1,33 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateTagSchema, UpdateTagSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Tag } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Tag[]>> {
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Tag>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
+
   try {
-    const tags = await db.tag.findMany();
+    const [tags, total] = await Promise.all([
+      db.tag.findMany({
+        take: limit,
+        skip: offset,
+      }),
+      db.tag.count(),
+    ]);
+
+    const nextOffset = offset + limit;
 
     return {
       success: true,
       status: 200,
-      data: tags
+      data: {
+        data: tags,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
     };
   } catch (error: unknown) {
     return {

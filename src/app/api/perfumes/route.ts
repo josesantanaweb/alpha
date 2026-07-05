@@ -1,8 +1,19 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { create, getAll } from "@/modules/perfumes";
+import { parsePaginationParams } from "@/lib/pagination";
 
-export async function GET() {
-  const result = await getAll();
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const getParam = (key: string) => searchParams.get(key)?.trim() || undefined;
+
+  const result = await getAll({
+    ...parsePaginationParams(searchParams),
+    search: getParam("search"),
+    categoryId: getParam("categoryId"),
+    designerId: getParam("designerId"),
+    tagId: getParam("tagId"),
+  });
+
   if (!result.success) {
     return NextResponse.json({ message: result.message }, { status: result.status });
   }

@@ -1,8 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { create, getAll } from "@/modules/sillages";
+import { parsePaginationParams } from "@/lib/pagination";
 
-export async function GET() {
-  const result = await getAll();
+export async function GET(request: NextRequest) {
+  const result = await getAll(parsePaginationParams(request.nextUrl.searchParams));
   if (!result.success) {
     return NextResponse.json({ message: result.message }, { status: result.status });
   }

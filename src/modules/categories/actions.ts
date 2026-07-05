@@ -1,16 +1,33 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateCategorySchema, UpdateCategorySchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Category } from "@prisma/client";
 
-export async function getAll(): Promise<ApiResult<Category[]>> {
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Category>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
+
   try {
-    const categories = await db.category.findMany();
+    const [categories, total] = await Promise.all([
+      db.category.findMany({
+        take: limit,
+        skip: offset,
+      }),
+      db.category.count(),
+    ]);
+
+    const nextOffset = offset + limit;
 
     return {
       success: true,
       status: 200,
-      data: categories
+      data: {
+        data: categories,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
     };
   } catch (error: unknown) {
     return {

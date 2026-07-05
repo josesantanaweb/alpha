@@ -1,6 +1,6 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateBannerSchema, UpdateBannerSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Banner } from "@prisma/client";
 
 export async function getActive(): Promise<ApiResult<Banner[]>> {
@@ -20,14 +20,31 @@ export async function getActive(): Promise<ApiResult<Banner[]>> {
   }
 }
 
-export async function getAll(): Promise<ApiResult<Banner[]>> {
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Banner>>> {
+  const limit = params.limit ?? 10;
+  const offset = params.offset ?? 0;
+
   try {
-    const banners = await db.banner.findMany();
+    const [banners, total] = await Promise.all([
+      db.banner.findMany({
+        take: limit,
+        skip: offset,
+      }),
+      db.banner.count(),
+    ]);
+
+    const nextOffset = offset + limit;
 
     return {
       success: true,
       status: 200,
-      data: banners
+      data: {
+        data: banners,
+        total,
+        limit,
+        offset,
+        nextPage: nextOffset < total ? nextOffset : null,
+      },
     };
   } catch (error: unknown) {
     return {
