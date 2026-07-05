@@ -36,7 +36,7 @@ API routes (`src/app/api/<name>/route.ts`) are thin HTTP wrappers calling module
 - `src/app/api/` — REST API routes
 - `src/app/page.tsx` — thin page shells delegating to modules
 - `src/components/ui/` — primitives (Button, Input, Logo)
-- `src/components/common/` — composed domain components (PerfumeBox, CategoryButton, etc.)
+- `src/components/shared/` — composed domain components (PerfumeBox, CategoryButton, BestSellers, etc.)
 - `src/components/layout/` — AppLayout, Header, BottomNav
 - `src/components/providers/` — React context providers (QueryClient)
 - `src/hooks/` — React Query wrappers

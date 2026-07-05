@@ -3,7 +3,7 @@ import { PerfumeType, Gender } from "@prisma/client";
 
 export const CreatePerfumeSchema = z.object({
   name: z.string().min(3, "El nombre debe tener al menos 3 caracteres").max(50),
-  designer: z.string().min(3, "El diseñador debe tener al menos 3 caracteres").max(50),
+  designerId: z.string().uuid("ID inválido"),
   type: z.nativeEnum(PerfumeType),
   gender: z.nativeEnum(Gender),
   description: z.string().optional().nullable(),

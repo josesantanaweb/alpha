@@ -1,10 +1,19 @@
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaPg(process.env.DATABASE_URL ?? ""),
+});
+
+interface SeedDesigner {
+  name: string;
+  slug: string;
+}
 
 interface SeedPerfume {
   name: string;
-  designer: string;
+  designerName: string;
   description: string;
   price: number;
   image: string;
@@ -26,20 +35,20 @@ interface SeedBanner {
   isActive: boolean;
 }
 
+const INITIAL_DESIGNERS: SeedDesigner[] = [
+  { name: "Giorgio Armani", slug: "giorgio-armani" },
+];
+
 const INITIAL_CATEGORIES = [
-  { name: "Citas y Seducción" },
-  { name: "Modo Fiesta" },
-  { name: "Elegancia y Oficina" },
-  { name: "Uso Diario y Gimnasio" },
-  { name: "Joyas Árabes" },
-  { name: "Dulces y Gourmand" },
-  { name: "Frescos y Cítricos" },
+  { name: "Diseñador" },
+  { name: "Arabe" },
+  { name: "Decant" },
 ];
 
 const INITIAL_PERFUMES: SeedPerfume[] = [
   {
     name: "Acqua di Gio",
-    designer: "Giorgio Armani",
+    designerName: "Giorgio Armani",
     description:
       "Acqua di Gio (Parfum) by Giorgio Armani is a fragrance for men and was introduced in 2023",
     price: 109.0,
@@ -58,7 +67,7 @@ const INITIAL_BANNERS: SeedBanner[] = [
   {
     title: "Scandal pour home",
     text: "Edicion Limitada",
-    image: "https://i.ibb.co/WpGv4b0h/banner1.pn",
+    image: "https://i.ibb.co/WpGv4b0h/banner1.png",
     link: "/explorer",
     order: 0,
     isActive: true,
@@ -79,21 +88,35 @@ async function main() {
   await prisma.perfume.deleteMany();
   await prisma.banner.deleteMany();
   await prisma.category.deleteMany();
+  await prisma.designer.deleteMany();
+
+  for (const designer of INITIAL_DESIGNERS) {
+    await prisma.designer.upsert({
+      where: { name: designer.name },
+      update: {},
+      create: {
+        name: designer.name,
+        slug: designer.slug,
+      },
+    });
+  }
 
   for (const category of INITIAL_CATEGORIES) {
     await prisma.category.upsert({
       where: { name: category.name },
       update: {},
       create: {
-        name: category.name,
+        name: category.name
       },
     });
-
   }
 
   for (const perfume of INITIAL_PERFUMES) {
     const category = await prisma.category.findUniqueOrThrow({
       where: { name: perfume.categoryName },
+    });
+    const designer = await prisma.designer.findUniqueOrThrow({
+      where: { name: perfume.designerName },
     });
 
     await prisma.perfume.upsert({
@@ -101,7 +124,7 @@ async function main() {
       update: {},
       create: {
         name: perfume.name,
-        designer: perfume.designer,
+        designerId: designer.id,
         description: perfume.description,
         price: perfume.price,
         image: perfume.image,

@@ -120,6 +120,7 @@ model Sillage {
 model Category {
   id       String    @id @default(uuid())
   name     String    @unique
+  icon     String?
   perfumes Perfume[]
 }
 

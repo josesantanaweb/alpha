@@ -9,6 +9,7 @@ export async function getAll(): Promise<ApiResult<Perfume[]>> {
       orderBy: { name: "asc" },
       include: {
         category: true,
+        designer: true,
       }
     });
 
@@ -36,6 +37,7 @@ export async function getOne(id: string): Promise<ApiResult<Perfume>> {
       where: { id },
       include: {
         category: true,
+        designer: true,
       },
     });
 
