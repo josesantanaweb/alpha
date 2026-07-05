@@ -3,7 +3,7 @@ import { getCategories } from "@/lib/api/categories";
 import type { Category } from "@prisma/client";
 
 export const useCategories = () => {
-  return useQuery<Pick<Category, "id" | "name">[]>({
+  return useQuery<Category[]>({
     queryKey: ["categories"],
     queryFn: getCategories,
   });

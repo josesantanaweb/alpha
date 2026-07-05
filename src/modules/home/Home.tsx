@@ -7,7 +7,7 @@ import { useCategories, useBanners } from "@/hooks";
 import { SearchInput, BestSellers } from "@/components/shared";
 import { CategoriesFilter } from "./CategoriesFilter";
 import { SliderHome } from "./slider-home";
-import { FindYourVibe } from "./find-your-vibe";
+// import { FindYourVibe } from "./find-your-vibe";
 
 export const Home = (): ReactElement => {
   const [searchValue, setSearchValue] = useState("");
@@ -34,7 +34,7 @@ export const Home = (): ReactElement => {
         loading={isLoading}
       />
       <BestSellers />
-      <FindYourVibe />
+      {/* <FindYourVibe /> */}
     </div>
   );
 };

@@ -7,5 +7,6 @@ export async function getCategories(): Promise<Pick<Category, "id" | "name">[]> 
     throw new Error("Error al obtener las categorías.");
   }
 
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
