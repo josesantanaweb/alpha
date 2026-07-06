@@ -1,0 +1,132 @@
+[
+  {
+    "name": "Acqua di Gio",
+    "designerName": "Giorgio Armani",
+    "description": "Acqua di Gio (Parfum) by Giorgio Armani is a fragrance for men and was introduced in 2023",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "Eros",
+    "designerName": "Versace",
+    "description": "Eros (Eau de Toilette) by Versace is a fragrance for men and was introduced in 2012",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "Sauvage",
+    "designerName": "Christian Dior",
+    "description": "Sauvage (Eau de Parfum) by Christian Dior is a fragrance for men and was introduced in 2018",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "Aventus",
+    "designerName": "Creed",
+    "description": "Aventus de Creed es una fragancia de la familia olfativa Chipre Frutal para Hombres. Aventus se lanzó en 2010. Aventus fue creada por Jean-Christophe Hérault y Erwin Creed. Las Notas de Salida son bergamota, grosellas negras, manzana, limón (lima ácida) y pimienta rosa; las Notas de Corazón son piña, pachulí y jazmín de Marruecos; las Notas de Fondo son abedul, almizcle, musgo de roble, cedro y ambroxan.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "Tobacco Vanille",
+    "designerName": "Tom Ford",
+    "description": "Tobacco Vanille (Eau de Parfum) by Tom Ford is a fragrance for women and men and was introduced in 2007",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "Mandarin Sky",
+    "designerName": "Armaf",
+    "description": "Odyssey Mandarin Sky de Armaf es una fragancia de la familia olfativa para Hombres. Odyssey Mandarin Sky se lanzó en 2023. Las Notas de Salida son mandarina, naranja, azafrán y salvia; las Notas de Corazón son caramelo, haba tonka y cempasúchil (tagete, clavelón); las Notas de Fondo son ambroxan, cedro y vetiver.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "ARABIC",
+    "gender": "MALE",
+    "categoryName": "Arabe"
+  },
+  {
+    "name": "Homme White Edition",
+    "designerName": "Armaf",
+    "description": "Odyssey Homme White Edition de Armaf es una fragancia de la familia olfativa Oriental Fougère para Hombres. Las Notas de Salida son cardamomo, pimienta rosa y menta; las Notas de Corazón son Notas acuáticas, salvia y piña; las Notas de Fondo son Amberwood, vainilla y cedro.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "ARABIC",
+    "gender": "MALE",
+    "categoryName": "Arabe"
+  },
+  {
+    "name": "Asad Bourbon",
+    "designerName": "Lattafa",
+    "description": "Asad Bourbon de Lattafa Perfumes es una fragancia de la familia olfativa Oriental Especiada para Hombres. Esta fragrancia es nueva. Asad Bourbon se lanzó en 2025. Las Notas de Salida son lavanda, ciruela Mirabel y pimienta rosa; las Notas de Corazón son cacao, nuez moscada y Davana; las Notas de Fondo son vainilla Bourbon, ámbar y vetiver.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "ARABIC",
+    "gender": "MALE",
+    "categoryName": "Arabe"
+  },
+  {
+    "name": "Khamrah",
+    "designerName": "Lattafa",
+    "description": "Khamrah de Lattafa Perfumes es una fragancia de la familia olfativa Oriental Especiada para Hombres y Mujeres. Khamrah se lanzó en 2022. Las Notas de Salida son canela, nuez moscada y bergamota; las Notas de Corazón son dátiles, praliné, nardos y Mahonial; las Notas de Fondo son vainilla, haba tonka, Amberwood, mirra, benjuí y Akigalawood.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "ARABIC",
+    "gender": "UNISEX",
+    "categoryName": "Arabe"
+  },
+  {
+    "name": "Wolf",
+    "designerName": "Rayhaan",
+    "description": "Wolf de Rayhaan es una fragancia de la familia olfativa Oriental Amaderada para Hombres. Esta fragrancia es nueva. Wolf se lanzó en 2026. La Nota de Salida es cardamomo; la Nota de Corazón es tófe; la Nota de Fondo es Amberwood.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "ARABIC",
+    "gender": "MALE",
+    "categoryName": "Arabe"
+  },
+  {
+    "name": "Bad Boy Cobalt Absolute",
+    "designerName": "Carolina Herrera",
+    "description": "Bad Boy Cobalt Absolute de Carolina Herrera es una fragancia de la familia olfativa Oriental Amaderada para Hombres. Esta fragrancia es nueva. Bad Boy Cobalt Absolute se lanzó en 2025. Las Notas de Salida son lavanda azul, salvia azul y elemí; las Notas de Corazón son trufa, madera de oud y geranio; las Notas de Fondo son vainilla, roble y vetiver.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "Good Girl",
+    "designerName": "Carolina Herrera",
+    "description": "Good Girl de Carolina Herrera es una fragancia de la familia olfativa Oriental Floral para Mujeres. Good Girl se lanzó en 2016. Good Girl fue creada por Louise Turner y Quentin Bisch. Las Notas de Salida son almendra, café, bergamota y limón (lima ácida); las Notas de Corazón son nardos, jazmín sambac (sampaguita), flor de azahar del naranjo, rosa de Bulgaria (rosa Damascena de Bulgaria) y raíz de lirio; las Notas de Fondo son haba tonka, cacao, vainilla, praliné, sándalo, almizcle, ámbar, madera de cachemira, pachulí, canela y cedro.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "FEMALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "212 Sexy",
+    "designerName": "Carolina Herrera",
+    "description": "212 Sexy de Carolina Herrera es una fragancia de la familia olfativa Oriental Floral para Mujeres. 212 Sexy se lanzó en 2004. La Nariz detrás de esta fragrancia es Rosendo Mateu. Las Notas de Salida son pimienta rosa, mandarina y bergamota; las Notas de Corazón son algodón de azúcar, gardenia, flores, pelargonio y rosa; las Notas de Fondo son vainilla, almizcle, sándalo, caramelo, violeta y pachulí.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
+    "type": "DESIGNER",
+    "gender": "FEMALE",
+    "categoryName": "Diseñador"
+  }
+]

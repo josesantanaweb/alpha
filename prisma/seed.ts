@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import perfumesData from "./data/perfumes.json";
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg(process.env.DATABASE_URL ?? ""),
@@ -26,6 +27,17 @@ interface SeedPerfume {
   categoryName: string;
 }
 
+interface SeedPerfumeInput {
+  name: string;
+  designerName: string;
+  description: string;
+  price: number;
+  image: string;
+  type: "ARABIC" | "DESIGNER";
+  gender: "MALE" | "FEMALE" | "UNISEX";
+  categoryName: string;
+}
+
 interface SeedBanner {
   title: string;
   text: string;
@@ -43,25 +55,22 @@ const INITIAL_CATEGORIES = [
   { name: "Diseñador", icon: "Gem" },
   { name: "Arabe", icon: "Sunrise" },
   { name: "Decant", icon: "Pipette" },
+  { name: "Nicho", icon: "FlaskRound" },
 ];
 
-const INITIAL_PERFUMES: SeedPerfume[] = [
-  {
-    name: "Acqua di Gio",
-    designerName: "Giorgio Armani",
-    description:
-      "Acqua di Gio (Parfum) by Giorgio Armani is a fragrance for men and was introduced in 2023",
-    price: 109.0,
-    image: "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
-    type: "DESIGNER",
-    gender: "MALE",
-    stock: 0,
-    remainingMl: 0,
-    rating: 0,
-    reviewCount: 0,
-    categoryName: "Diseñador",
-  },
-];
+const INITIAL_PERFUME_STATS = {
+  stock: 1,
+  remainingMl: 100,
+  rating: 0,
+  reviewCount: 0,
+} as const;
+
+const INITIAL_PERFUMES: SeedPerfume[] = (perfumesData as SeedPerfumeInput[]).map(
+  (perfume) => ({
+    ...perfume,
+    ...INITIAL_PERFUME_STATS,
+  }),
+);
 
 const INITIAL_BANNERS: SeedBanner[] = [
   {
@@ -82,6 +91,15 @@ const INITIAL_BANNERS: SeedBanner[] = [
   },
 ];
 
+function createSlug(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 async function main() {
   console.log("🌱 Iniciando el seeding..");
 
@@ -90,23 +108,46 @@ async function main() {
   await prisma.category.deleteMany();
   await prisma.designer.deleteMany();
 
-  for (const designer of INITIAL_DESIGNERS) {
+  const designerNames = Array.from(
+    new Set([
+      ...INITIAL_DESIGNERS.map((designer) => designer.name),
+      ...INITIAL_PERFUMES.map((perfume) => perfume.designerName),
+    ]),
+  );
+
+  for (const designerName of designerNames) {
+    const existingDesigner = INITIAL_DESIGNERS.find(
+      (designer) => designer.name === designerName,
+    );
+
     await prisma.designer.upsert({
-      where: { name: designer.name },
+      where: { name: designerName },
       update: {},
       create: {
-        name: designer.name,
-        slug: designer.slug,
+        name: designerName,
+        slug: existingDesigner?.slug ?? createSlug(designerName),
       },
     });
   }
 
-  for (const category of INITIAL_CATEGORIES) {
+  const categoryNames = Array.from(
+    new Set([
+      ...INITIAL_CATEGORIES.map((category) => category.name),
+      ...INITIAL_PERFUMES.map((perfume) => perfume.categoryName),
+    ]),
+  );
+
+  for (const categoryName of categoryNames) {
+    const initialCategory = INITIAL_CATEGORIES.find(
+      (category) => category.name === categoryName,
+    );
+
     await prisma.category.upsert({
-      where: { name: category.name },
+      where: { name: categoryName },
       update: {},
       create: {
-        name: category.name
+        name: categoryName,
+        icon: initialCategory?.icon,
       },
     });
   }
