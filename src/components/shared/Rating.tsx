@@ -7,16 +7,17 @@ interface RatingProps {
 }
 
 export const Rating = ({ rating }: RatingProps): ReactElement => {
+  const normalizedRating = Number.isFinite(rating) ? rating : 0;
+  const formattedRating = normalizedRating.toFixed(1);
+
   return (
-    <div className="flex items-center gap-1">
-      {Array.from({ length: 5 }, (_, i) => (
-        <Star
-          key={i}
-          size={14}
-          fill={i < Math.floor(rating) ? "currentColor" : "none"}
-          className={i < Math.floor(rating) ? "text-yellow-500" : "text-body"}
-        />
-      ))}
+    <div className="text-foreground flex items-center gap-1 text-sm font-medium">
+      <Star
+        size={14}
+        fill="currentColor"
+        className="text-yellow-500"
+      />
+      <span>{formattedRating}</span>
     </div>
   );
 };

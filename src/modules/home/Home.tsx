@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCategories, useBanners } from "@/hooks";
 // import { useDebounce } from "@/hooks";
 import { SearchInput, BestSellers } from "@/components/shared";
-import { CategoriesFilter } from "./CategoriesFilter";
+import { CategoriesFilter } from "./categories-filter";
 import { SliderHome } from "./slider-home";
 // import { FindYourVibe } from "./find-your-vibe";
 

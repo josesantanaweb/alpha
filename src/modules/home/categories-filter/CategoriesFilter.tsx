@@ -2,7 +2,7 @@
 import type { ReactElement } from 'react';
 import { CategoryButton } from '@/components/shared';
 import type { Category } from '@prisma/client';
-import { CategoriesFilterSkeleton } from './skeletons/CategoriesFilterSkeleton';
+import { CategoriesFilterSkeleton } from './CategoriesFilterSkeleton';
 
 type CategoryFilterItem = Pick<Category, 'id' | 'name'> & {
   icon?: string | null;
