@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export const Logo = () => {
   return (
-    <div className="w-8">
+    <div className="w-20">
       <Image
         src={ASSETS.IMAGES.LOGO}
         alt="Logo"

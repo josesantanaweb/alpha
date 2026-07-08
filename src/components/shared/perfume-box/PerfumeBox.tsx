@@ -44,6 +44,7 @@ export const PerfumeBox = ({
               src={image}
               alt="perfume"
               fill
+              sizes="(max-width: 640px) 112px, 114px"
               className="w-full object-contain"
             />
           </div>
