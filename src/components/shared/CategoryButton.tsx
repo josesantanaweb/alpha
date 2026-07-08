@@ -33,7 +33,7 @@ export const CategoryButton = ({
   };
 
   return (
-    <button type="button" onClick={onClick} className="group cursor-pointer shrink-0">
+    <button type="button" onClick={onClick} className="group cursor-pointer shrink-0 flex flex-col items-center justify-center">
       <div className="border-stroke flex h-12 w-12 items-center justify-center rounded-full border text-sm font-medium text-white transition-colors duration-200 group-hover:border-white group-hover:bg-white group-hover:text-black">
         {renderIcon()}
       </div>

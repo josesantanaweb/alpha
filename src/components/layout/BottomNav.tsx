@@ -63,8 +63,8 @@ export const BottomNav = () => {
   }, [activeIndex]);
 
   return (
-    <nav className="fixed bottom-5 left-0 right-0 z-50 mx-auto h-15 w-sm rounded-full bg-linear-to-r from-[#444451] via-[#4c4c4c] to-[#444451] p-px shadow-lg md:max-w-md">
-      <div ref={navRef} className="relative flex h-full items-center justify-between rounded-full bg-surface px-1">
+    <nav className="fixed bottom-5 left-0 right-0 z-50 mx-auto h-15 w-sm rounded-full bg-[linear-gradient(90deg,#444451_0%,#4c4c4c_50%,#444451_100%)] p-px shadow-lg md:max-w-md">
+      <div ref={navRef} className="relative flex h-full items-center justify-between overflow-hidden rounded-full bg-surface/95 px-1 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
         <motion.div
           layout
           className="absolute top-1 bottom-1 rounded-full bg-stroke"
