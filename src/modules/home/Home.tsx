@@ -12,7 +12,7 @@ import {
   TrustBadges,
 } from "@/components/shared";
 import { SliderHome } from "./slider-home";
-// import { FindYourVibe } from "./find-your-vibe";
+import { FindYourVibe } from "./find-your-vibe";
 
 export const Home = (): ReactElement => {
   const [searchValue, setSearchValue] = useState("");
@@ -37,7 +37,7 @@ export const Home = (): ReactElement => {
       <GenderCards />
       <TrustBadges />
       <BestSellers />
-      {/* <FindYourVibe /> */}
+      <FindYourVibe />
     </div>
   );
 };

@@ -7,5 +7,6 @@ export async function getTags(): Promise<Tag[]> {
     throw new Error("Error al obtener los tags.");
   }
 
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }

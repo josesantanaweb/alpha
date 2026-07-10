@@ -16,7 +16,7 @@ No test scripts, no CI/CD.
 
 ## Architecture
 
-**Alpha / Mingo** — perfume e-commerce store, Next.js App Router.
+**Aura** — perfume e-commerce store, Next.js App Router.
 
 ### Module pattern (`src/modules/<name>/`)
 Each feature has three files:
