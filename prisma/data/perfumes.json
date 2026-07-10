@@ -120,16 +120,6 @@
     "categoryName": "Diseñador"
   },
   {
-    "name": "212 Sexy",
-    "designerName": "Carolina Herrera",
-    "description": "212 Sexy de Carolina Herrera es una fragancia de la familia olfativa Oriental Floral para Mujeres. 212 Sexy se lanzó en 2004. La Nariz detrás de esta fragrancia es Rosendo Mateu. Las Notas de Salida son pimienta rosa, mandarina y bergamota; las Notas de Corazón son algodón de azúcar, gardenia, flores, pelargonio y rosa; las Notas de Fondo son vainilla, almizcle, sándalo, caramelo, violeta y pachulí.",
-    "price": 109.0,
-    "image": "https://i.ibb.co/vxNYQynF/212-Sexy.png",
-    "type": "DESIGNER",
-    "gender": "FEMALE",
-    "categoryName": "Diseñador"
-  },
-  {
     "name": "Emporio Armani Stronger With You Intensely",
     "designerName": "Giorgio Armani",
     "description": "Emporio Armani Stronger With You Intensely de Giorgio Armani es una fragancia de la familia olfativa Oriental Fougère para Hombres. Emporio Armani Stronger With You Intensely se lanzó en 2019. Las Notas de Salida son pimienta rosa, enebro y violeta; las Notas de Corazón son tófe, canela, lavanda y salvia; las Notas de Fondo son vainilla, ámbar, haba tonka y gamuza.",
@@ -147,6 +137,16 @@
     "image": "https://i.ibb.co/LzJx55TW/uomo-born-in-roma-intense.png",
     "type": "DESIGNER",
     "gender": "MALE",
+    "categoryName": "Diseñador"
+  },
+  {
+    "name": "212 Sexy",
+    "designerName": "Carolina Herrera",
+    "description": "212 Sexy de Carolina Herrera es una fragancia de la familia olfativa Oriental Floral para Mujeres. 212 Sexy se lanzó en 2004. La Nariz detrás de esta fragrancia es Rosendo Mateu. Las Notas de Salida son pimienta rosa, mandarina y bergamota; las Notas de Corazón son algodón de azúcar, gardenia, flores, pelargonio y rosa; las Notas de Fondo son vainilla, almizcle, sándalo, caramelo, violeta y pachulí.",
+    "price": 109.0,
+    "image": "https://i.ibb.co/vxNYQynF/212-Sexy.png",
+    "type": "DESIGNER",
+    "gender": "FEMALE",
     "categoryName": "Diseñador"
   },
   {
