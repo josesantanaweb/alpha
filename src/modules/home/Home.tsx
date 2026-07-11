@@ -1,6 +1,6 @@
 "use client";
 import type { ReactElement } from "react";
-import { SlidersHorizontal } from "lucide-react";
+
 import { useState } from "react";
 import { useBanners } from "@/hooks";
 // import { useDebounce } from "@/hooks";
@@ -10,6 +10,7 @@ import {
   DesignerMarquee,
   GenderCards,
   TrustBadges,
+  FilterButton,
 } from "@/components/shared";
 import { usePerfumes } from "@/hooks";
 import { SliderHome } from "./slider-home";
@@ -45,9 +46,7 @@ export const Home = (): ReactElement => {
           value={searchValue}
           onValueChange={setSearchValue}
         />
-        <button className="bg-surface border-stroke flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-md border text-white">
-          <SlidersHorizontal size={20} />
-        </button>
+        <FilterButton />
       </div>
       <SliderHome banners={banners} loading={bannersLoading} />
       <DesignerMarquee />

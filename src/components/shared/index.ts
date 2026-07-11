@@ -1,3 +1,4 @@
+export * from './FilterButton'
 export * from './CategoryButton'
 export * from './Tabs'
 export * from './SearchInput'
