@@ -22,7 +22,7 @@ export const NewPerfumes = ({
         <h5 className="text-lg font-semibold text-white">Novedades</h5>
         <p className="text-body cursor-pointer text-sm">Ver todos</p>
       </div>
-      <div className="flex max-w-full gap-5 overflow-x-scroll pr-10">
+      <div className="flex max-w-full gap-5 overflow-x-scroll pr-2.5">
         {perfumes.slice(0, 6).map((perfume) => (
           <PerfumeBox
             key={perfume.id}

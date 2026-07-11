@@ -38,13 +38,13 @@ export const BestSellers = ({
         <p className="text-body cursor-pointer text-sm">Ver todos</p>
       </div>
       {isLoading ? (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-6">
           {Array.from({ length: 6 }).map((_, index) => (
             <PerfumeBoxSkeleton key={index} />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-6">
           {perfumes.slice(0, 6).map((perfume) => (
             <PerfumeBox
               key={perfume.id}

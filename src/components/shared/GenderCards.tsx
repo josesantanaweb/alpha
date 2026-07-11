@@ -32,7 +32,7 @@ export const GenderCards = (): ReactElement => {
                 width={400}
                 className="w-full h-full object-contain"
               />
-              <div className="absolute top-0 left-0 w-full h-full bg-black/70 z-10" />
+              <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10" />
             </motion.div>
           </div>
           <div className="w-full h-full flex flex-col items-center justify-center absolute top-0 right-0 z-20 pointer-events-none">
