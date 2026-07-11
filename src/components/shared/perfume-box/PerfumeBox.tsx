@@ -53,12 +53,12 @@ export const PerfumeBox = ({
             <p className="text-body text-sm italic">{designer.name}</p>
           </div>
           <div className="flex w-full items-center justify-between">
-            <h4 className="max-w-27.5 truncate text-sm font-semibold text-white">
+            <h4 className="max-w-27.5 truncate text-base font-semibold text-white">
               {name}
             </h4>
             <Rating rating={Number(rating)} />
           </div>
-          <p className="text-base font-bold text-white">${Number(price)}</p>
+          <p className="text-lg font-bold text-white">${Number(price)}</p>
         </div>
       </div>
     </div>

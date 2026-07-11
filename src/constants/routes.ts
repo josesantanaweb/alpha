@@ -3,4 +3,5 @@ export const ROUTES = {
   EXPLORER: {
     LIST: '/explorer',
   },
+  FAVORITES: '/favorites',
 };

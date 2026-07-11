@@ -3,7 +3,7 @@ import type { ReactElement } from "react";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useBanners } from "@/hooks";
+import { useBanners, usePerfumes, useFavorites } from "@/hooks";
 import {
   SearchInput,
   BestSellers,
@@ -12,7 +12,6 @@ import {
   TrustBadges,
   FilterButton,
 } from "@/components/shared";
-import { usePerfumes } from "@/hooks";
 import { ROUTES } from "@/constants";
 import { SliderHome } from "./slider-home";
 import { FindYourVibe } from "./find-your-vibe";
@@ -21,29 +20,16 @@ import { AuraPlus } from "./AuraPlus";
 
 export const Home = (): ReactElement => {
   const [searchValue, setSearchValue] = useState("");
+  const router = useRouter();
   const { data: banners = [], isLoading: bannersLoading } = useBanners();
   const { data: perfumes = [], isLoading } = usePerfumes({ limit: 50 });
-  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
-
-  const router = useRouter();
+  const { ids: likedIds, toggle: toggleLike } = useFavorites();
 
   const handleSearch = (value: string) => {
     const query = value.trim();
     if (query) {
       router.push(`${ROUTES.EXPLORER.LIST}?search=${encodeURIComponent(query)}`);
     }
-  };
-
-  const toggleLike = (id: string): void => {
-    setLikedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
   };
 
   return (
@@ -66,7 +52,7 @@ export const Home = (): ReactElement => {
       <AuraPlus />
       <NewPerfumes
         perfumes={perfumes}
-        likedIds={likedIds}
+        likedIds={new Set(likedIds)}
         onLikeToggle={toggleLike}
         isLoading={isLoading}
       />

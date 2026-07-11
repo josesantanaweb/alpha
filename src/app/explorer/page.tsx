@@ -10,8 +10,11 @@ export default async function ExplorerPage({
 }: PageProps): Promise<ReactElement> {
   const params = await searchParams;
 
+  const paramKey = params.search ?? params.tag ?? params.gender ?? "";
+
   return (
     <Explorer
+      key={paramKey}
       search={params.search}
       tag={params.tag}
       gender={params.gender}

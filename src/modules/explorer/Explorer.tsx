@@ -2,12 +2,12 @@
 import type { ReactElement } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePerfumes } from "@/hooks";
+import { usePerfumes, useFavorites } from "@/hooks";
 import {
   SearchInput,
   FilterButton,
+  PerfumeGrid,
 } from "@/components/shared";
-import { PerfumeGrid } from "./PerfumeGrid";
 
 interface ExplorerProps {
   search?: string;
@@ -26,12 +26,34 @@ export const Explorer = ({
 }: ExplorerProps): ReactElement => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState(search ?? "");
+  const { ids: likedIds, toggle: toggleLike } = useFavorites();
 
   const handleSearch = (value: string) => {
     const query = value.trim();
+    const params = new URLSearchParams();
+
     if (query) {
-      router.push(`/explorer?search=${encodeURIComponent(query)}`);
+      params.set("search", query);
     }
+
+    if (tag) {
+      params.set("tag", tag);
+    }
+
+    if (gender) {
+      params.set("gender", gender);
+    }
+
+    if (categoryId) {
+      params.set("categoryId", categoryId);
+    }
+
+    if (designerId) {
+      params.set("designerId", designerId);
+    }
+
+    const queryString = params.toString();
+    router.push(queryString ? `/explorer?${queryString}` : "/explorer");
   };
 
   const { data: perfumes = [], isLoading } = usePerfumes({
@@ -58,7 +80,12 @@ export const Explorer = ({
         <h5 className="text-lg font-semibold text-white">{search ? "Resultados" : "Explorar"}</h5>
         <p className="text-body cursor-pointer text-sm">{perfumes.length} perfumes</p>
       </div>
-      <PerfumeGrid perfumes={perfumes} isLoading={isLoading} />
+      <PerfumeGrid
+        perfumes={perfumes}
+        isLoading={isLoading}
+        likedIds={new Set(likedIds)}
+        onLikeToggle={toggleLike}
+      />
     </div>
   );
 };
