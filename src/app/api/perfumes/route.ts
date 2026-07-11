@@ -12,6 +12,8 @@ export async function GET(request: NextRequest) {
     categoryId: getParam("categoryId"),
     designerId: getParam("designerId"),
     tagId: getParam("tagId"),
+    tag: getParam("tag"),
+    gender: getParam("gender"),
   });
 
   if (!result.success) {

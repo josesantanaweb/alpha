@@ -12,6 +12,8 @@ export interface GetPerfumesParams extends PaginationParams {
   categoryId?: string;
   designerId?: string;
   tagId?: string;
+  tag?: string;
+  gender?: string;
 }
 
 export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<PaginatedResult<PerfumeWithRelations>>> {
@@ -37,6 +39,14 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
 
     if (params.tagId) {
       whereConditions.tags = { some: { id: params.tagId } };
+    }
+
+    if (params.tag) {
+      whereConditions.tags = { some: { name: { equals: params.tag, mode: "insensitive" } } };
+    }
+
+    if (params.gender) {
+      whereConditions.gender = params.gender as Prisma.EnumGenderFilter["equals"];
     }
 
     const [perfumes, total] = await Promise.all([

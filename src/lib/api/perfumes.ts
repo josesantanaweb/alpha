@@ -5,6 +5,8 @@ export interface GetPerfumesParams {
   categoryId?: string;
   designerId?: string;
   tagId?: string;
+  tag?: string;
+  gender?: string;
   limit?: number;
   offset?: number;
 }
@@ -20,6 +22,8 @@ export async function getPerfumes(
   if (params.categoryId) searchParams.set("categoryId", params.categoryId);
   if (params.designerId) searchParams.set("designerId", params.designerId);
   if (params.tagId) searchParams.set("tagId", params.tagId);
+  if (params.tag) searchParams.set("tag", params.tag);
+  if (params.gender) searchParams.set("gender", params.gender);
 
   const response = await fetch(`/api/perfumes?${searchParams.toString()}`);
 

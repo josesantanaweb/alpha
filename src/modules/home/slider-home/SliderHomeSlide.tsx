@@ -18,7 +18,7 @@ export const SliderHomeSlide = ({
   const router = useRouter();
 
   return (
-    <Link href={banner.link} className="block h-full w-full">
+    <Link href={banner.slug} className="block h-full w-full">
       <Image
         src={banner.image}
         alt={banner.title}

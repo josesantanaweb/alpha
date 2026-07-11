@@ -25,6 +25,7 @@ interface SeedPerfume {
   type: "ARABIC" | "DESIGNER";
   gender: "MALE" | "FEMALE" | "UNISEX";
   categoryName: string;
+  discount: number;
 }
 
 interface SeedPerfumeInput {
@@ -36,13 +37,14 @@ interface SeedPerfumeInput {
   type: "ARABIC" | "DESIGNER";
   gender: "MALE" | "FEMALE" | "UNISEX";
   categoryName: string;
+  discount: number;
 }
 
 interface SeedBanner {
   title: string;
   text: string;
   image: string;
-  link: string;
+  slug: string;
   order: number;
   isActive: boolean;
 }
@@ -109,7 +111,7 @@ const INITIAL_BANNERS: SeedBanner[] = [
     title: "Scandal pour home",
     text: "Edicion Limitada",
     image: "https://i.ibb.co/WpGv4b0h/banner1.png",
-    link: "/explorer",
+    slug: "/explorer",
     order: 0,
     isActive: true,
   },
@@ -117,7 +119,7 @@ const INITIAL_BANNERS: SeedBanner[] = [
     title: "Ton Ford",
     text: "Ombre leather",
     image: "https://i.ibb.co/W42L0tKN/banner2.jpg",
-    link: "/explorer",
+    slug: "/explorer",
     order: 1,
     isActive: true,
   },
@@ -201,9 +203,14 @@ async function main() {
         description: perfume.description,
         price: perfume.price,
         image: perfume.image,
+        stock: perfume.stock,
+        remainingMl: perfume.remainingMl,
+        rating: perfume.rating,
+        reviewCount: perfume.reviewCount,
         type: perfume.type,
         gender: perfume.gender,
         categoryId: category.id,
+        discount: perfume.discount
       },
     });
   }

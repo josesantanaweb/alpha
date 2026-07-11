@@ -6,7 +6,7 @@ export const CreateBannerSchema = z.object({
     .min(3, "El titulo debe tener al menos 3 caracteres")
     .max(50),
   text: z.string().min(3, "El text debe tener al menos 3 caracteres").max(50),
-  link: z.string().min(1, "El enlace es requerido").default("/"),
+  slug: z.string().min(1, "El slug es requerido").default("/"),
   order: z.number().min(0, "El order debe ser mayor o igual a 0"),
   isActive: z.coerce.boolean().default(true),
   image: z

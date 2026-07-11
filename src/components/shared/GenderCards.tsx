@@ -37,7 +37,7 @@ export const GenderCards = (): ReactElement => {
           </div>
           <div className="w-full h-full flex flex-col items-center justify-center absolute top-0 right-0 z-20 pointer-events-none">
             <h6 className="text-sm text-white">Perfume para</h6>
-            <h5 className="text-xl font-bold text-white">{gender.label}</h5>
+            <h5 className="text-lg font-bold text-white">{gender.label}</h5>
           </div>
         </Link>
       ))}

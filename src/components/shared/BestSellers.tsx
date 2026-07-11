@@ -37,13 +37,16 @@ export const BestSellers = ({
         <h5 className="text-lg font-semibold text-white">Mas vendidos</h5>
         <p className="text-body cursor-pointer text-sm">Ver todos</p>
       </div>
-      {isLoading ? (
+
+      {isLoading && (
         <div className="grid grid-cols-2 gap-6">
           {Array.from({ length: 6 }).map((_, index) => (
             <PerfumeBoxSkeleton key={index} />
           ))}
         </div>
-      ) : (
+      )}
+
+      {!isLoading && perfumes.length > 0 && (
         <div className="grid grid-cols-2 gap-6">
           {perfumes.slice(0, 6).map((perfume) => (
             <PerfumeBox

@@ -140,16 +140,6 @@
     "categoryName": "Diseñador"
   },
   {
-    "name": "212 Sexy",
-    "designerName": "Carolina Herrera",
-    "description": "212 Sexy de Carolina Herrera es una fragancia de la familia olfativa Oriental Floral para Mujeres. 212 Sexy se lanzó en 2004. La Nariz detrás de esta fragrancia es Rosendo Mateu. Las Notas de Salida son pimienta rosa, mandarina y bergamota; las Notas de Corazón son algodón de azúcar, gardenia, flores, pelargonio y rosa; las Notas de Fondo son vainilla, almizcle, sándalo, caramelo, violeta y pachulí.",
-    "price": 109.0,
-    "image": "https://i.ibb.co/vxNYQynF/212-Sexy.png",
-    "type": "DESIGNER",
-    "gender": "FEMALE",
-    "categoryName": "Diseñador"
-  },
-  {
     "name": "9pm",
     "designerName": "Afnan",
     "description": "9pm de Afnan es una fragancia de la familia olfativa Oriental Vainilla para Hombres. 9pm se lanzó en 2020. Las Notas de Salida son manzana, canela, lavanda silvestre y bergamota; las Notas de Corazón son flor de azahar del naranjo y lirio de los valles (muguete); las Notas de Fondo son vainilla, haba tonka, ámbar y pachulí.",
@@ -157,6 +147,7 @@
     "image": "https://i.ibb.co/hFK9vN9C/9pm.png",
     "type": "DESIGNER",
     "gender": "MALE",
+    "discount": 10,
     "categoryName": "Diseñador"
   },
   {
