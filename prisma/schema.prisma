@@ -53,17 +53,17 @@ model Decant {
 }
 
 model Designer {
-  id          String    @id @default(uuid())
-  name        String    @unique
-  slug        String    @unique
+  id          String  @id @default(uuid())
+  name        String  @unique
+  slug        String  @unique
   image       String?
-  description String?   @db.Text
-  showInHome  Boolean   @default(false)
+  description String? @db.Text
+  showInHome  Boolean @default(false)
 
-  perfumes    Perfume[]
+  perfumes Perfume[]
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Feeling {
@@ -127,9 +127,6 @@ model Category {
 model Tag {
   id          String    @id @default(uuid())
   name        String    @unique
-  image       String?
-  description String?
-  showInHome  Boolean   @default(false)
   perfumes    Perfume[] @relation("Tags")
 }
 
@@ -159,6 +156,19 @@ model Banner {
   link     String  @default("/")
   order    Int     @default(0)
   isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Vibe {
+  id          String  @id @default(uuid())
+  name        String
+  image       String?
+  description String?
+  slug        String
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

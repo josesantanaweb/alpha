@@ -47,6 +47,14 @@ interface SeedBanner {
   isActive: boolean;
 }
 
+interface SeedVibe {
+  name: string;
+  image: string;
+  description: string;
+  slug: string;
+  order: number;
+}
+
 const INITIAL_DESIGNERS: SeedDesigner[] = [
   { name: "Giorgio Armani", slug: "giorgio-armani" },
 ];
@@ -61,7 +69,7 @@ const INITIAL_CATEGORIES = [
 const INITIAL_PERFUME_STATS = {
   stock: 1,
   remainingMl: 100,
-  rating: 0,
+  rating: 4.5,
   reviewCount: 0,
 } as const;
 
@@ -71,6 +79,30 @@ const INITIAL_PERFUMES: SeedPerfume[] = (perfumesData as SeedPerfumeInput[]).map
     ...INITIAL_PERFUME_STATS,
   }),
 );
+
+const INITIAL_VIBES: SeedVibe[] = [
+  {
+    name: "Para la Noche",
+    image: "https://i.ibb.co/WpcGktL2/noche.png",
+    description: "Fragancias misteriosas e intensas",
+    slug: "noche",
+    order: 0,
+  },
+  {
+    name: "Para Seducir",
+    image: "https://i.ibb.co/gZG5srhZ/sexy.png",
+    description: "Seducción a corta distancia",
+    slug: "sexy",
+    order: 1,
+  },
+  {
+    name: "Para Oficina",
+    image: "https://i.ibb.co/nN0LTP9P/oficina.png",
+    description: "Fragancias frescas y ligeras",
+    slug: "oficina",
+    order: 2,
+  },
+];
 
 const INITIAL_BANNERS: SeedBanner[] = [
   {
@@ -179,6 +211,14 @@ async function main() {
   for (const banner of INITIAL_BANNERS) {
     await prisma.banner.create({
       data: banner,
+    });
+  }
+
+  await prisma.vibe.deleteMany();
+
+  for (const vibe of INITIAL_VIBES) {
+    await prisma.vibe.create({
+      data: vibe,
     });
   }
 

@@ -7,6 +7,7 @@ import {
   LikeButton,
   Discount,
 } from "@/components/shared";
+import { cn } from "@/lib/cn";
 
 type PerfumeBoxPerfume = Prisma.PerfumeGetPayload<{
   include: { designer: true };
@@ -16,17 +17,19 @@ interface PerfumeBoxProps {
   perfume: PerfumeBoxPerfume;
   liked: boolean;
   onLikeToggle: () => void;
+  className?: string;
 }
 
 export const PerfumeBox = ({
   perfume,
   liked,
   onLikeToggle,
+  className,
 }: PerfumeBoxProps): ReactElement => {
   const { name, price, rating, designer, discount, image } = perfume;
 
   return (
-    <div className="flex flex-col gap-3 shrink-0 min-w-45">
+    <div className={cn("flex flex-col gap-3 shrink-0", className)}>
       <div className="bg-surface border-stroke relative flex w-full h-45 items-center justify-center rounded-2xl border p-3">
         <div className="absolute top-0 left-0 flex w-full items-center justify-between p-3">
           <Discount discount={discount} />

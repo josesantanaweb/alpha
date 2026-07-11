@@ -39,7 +39,7 @@ export const Home = (): ReactElement => {
   // const debouncedSearchValue = useDebounce(searchValue.trim(), 300);
 
   return (
-    <div className="relative flex w-full flex-col gap-6 p-5 pb-50">
+    <div className="relative flex w-full flex-col gap-6 p-5 pb-25">
       <div className="flex w-full items-center justify-between gap-3">
         <SearchInput
           placeholder="Buscar perfumes..."

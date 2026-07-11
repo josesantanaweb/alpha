@@ -2,9 +2,6 @@ import { z } from "zod";
 
 export const CreateTagSchema = z.object({
   name: z.string().min(3, "El nombre debe tener al menos 3 caracteres").max(50),
-  image: z.string().url("URL inválida").optional().nullable(),
-  description: z.string().optional().nullable(),
-  showInHome: z.coerce.boolean().default(false),
 });
 
 export const UpdateTagSchema = CreateTagSchema.partial().extend({

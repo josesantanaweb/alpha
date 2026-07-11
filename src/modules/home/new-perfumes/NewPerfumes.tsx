@@ -25,6 +25,7 @@ export const NewPerfumes = ({
       <div className="flex max-w-full gap-5 overflow-x-scroll pr-2.5">
         {perfumes.slice(0, 6).map((perfume) => (
           <PerfumeBox
+            className="min-w-45"
             key={perfume.id}
             perfume={perfume}
             liked={likedIds.has(perfume.id)}
