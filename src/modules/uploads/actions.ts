@@ -12,7 +12,7 @@ function generateKey(
 ): string {
   const ext = file.name.split(".").pop() ?? "jpg";
   const id = randomUUID();
-  const parts = [id];
+  const parts: string[] = [id];
   if (prefix) parts.unshift(prefix);
   return `${parts.join("/")}.${ext}`;
 }

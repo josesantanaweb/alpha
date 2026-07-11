@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export interface GetPerfumesParams {
   search?: string;
   categoryId?: string;
@@ -7,18 +9,9 @@ export interface GetPerfumesParams {
   offset?: number;
 }
 
-export interface PerfumeListItem {
-  id: string;
-  name: string;
-  price: number;
-  rating: number;
-  discount: number;
-  image: string | null;
-}
-
 export async function getPerfumes(
   params: GetPerfumesParams = {},
-): Promise<PerfumeListItem[]> {
+): Promise<Prisma.PerfumeGetPayload<{ include: { designer: true; category: true } }>[]> {
   const searchParams = new URLSearchParams();
 
   if (params.limit) searchParams.set("limit", String(params.limit));
@@ -35,15 +28,5 @@ export async function getPerfumes(
   }
 
   const json = await response.json();
-
-  return json.data.map(
-    (p: { id: string; name: string; price: string; rating: string; discount: number; image: string | null }) => ({
-      id: p.id,
-      name: p.name,
-      price: Number(p.price),
-      rating: Number(p.rating),
-      discount: p.discount,
-      image: p.image,
-    }),
-  );
+  return json.data;
 }

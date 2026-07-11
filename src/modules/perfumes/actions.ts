@@ -3,6 +3,10 @@ import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
 import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Perfume, Prisma } from "@prisma/client";
 
+export type PerfumeWithRelations = Prisma.PerfumeGetPayload<{
+  include: { category: true; designer: true };
+}>;
+
 export interface GetPerfumesParams extends PaginationParams {
   search?: string;
   categoryId?: string;
@@ -10,7 +14,7 @@ export interface GetPerfumesParams extends PaginationParams {
   tagId?: string;
 }
 
-export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<PaginatedResult<Perfume>>> {
+export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<PaginatedResult<PerfumeWithRelations>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
 
@@ -71,7 +75,7 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Perfume>> {
+export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations>> {
   if (!id) {
     return {
       success: false,

@@ -1,13 +1,21 @@
 "use client";
 import type { ReactElement } from "react";
-import { useTags } from "@/hooks";
 import { FindYourVibeItem } from "./FindYourVibeItem";
-import { FindYourVibeSkeleton } from "./FindYourVibeSkeleton";
+
+const ITEMS = [
+  {
+    name: "Para la Noche",
+    image: "https://i.ibb.co/WpcGktL2/noche.png",
+    description: "Fragancias misteriosas",
+  },
+  {
+    name: "Para Seducir",
+    image: "https://i.ibb.co/gZG5srhZ/sexy.png",
+    description: "Seducción a corta distancia",
+  },
+];
 
 export const FindYourVibe = (): ReactElement => {
-  const { data: tags = [], isLoading } = useTags();
-  const homeTags = tags.filter((tag) => tag.showInHome);
-
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col items-start">
@@ -17,15 +25,11 @@ export const FindYourVibe = (): ReactElement => {
         </p>
       </div>
 
-      {isLoading && <FindYourVibeSkeleton />}
-
-      {!isLoading && homeTags.length && (
-        <div className="flex max-w-full gap-5 overflow-x-scroll pr-10">
-          {homeTags.map((tag) => (
-            <FindYourVibeItem key={tag.id} {...tag} />
-          ))}
-        </div>
-      )}
+      <div className="flex max-w-full gap-5 overflow-x-scroll pr-10">
+        {ITEMS.map((item) => (
+          <FindYourVibeItem key={item.name} {...item} />
+        ))}
+      </div>
     </div>
   );
 };

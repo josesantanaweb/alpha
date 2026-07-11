@@ -1,11 +1,22 @@
 "use client";
 import { useState } from "react";
 import type { ReactElement } from "react";
+import { Prisma } from "@prisma/client";
 import { PerfumeBox, PerfumeBoxSkeleton } from "@/components/shared";
-import { usePerfumes } from "@/hooks";
 
-export const BestSellers = (): ReactElement => {
-  const { data: perfumes = [], isLoading } = usePerfumes({ limit: 50 });
+type BestSellerPerfume = Prisma.PerfumeGetPayload<{
+  include: { designer: true };
+}>;
+
+interface BestSellersProps {
+  perfumes: BestSellerPerfume[];
+  isLoading: boolean;
+}
+
+export const BestSellers = ({
+  perfumes,
+  isLoading,
+}: BestSellersProps): ReactElement => {
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
 
   const toggleLike = (id: string): void => {
@@ -34,14 +45,10 @@ export const BestSellers = (): ReactElement => {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-5">
-          {perfumes.map((perfume) => (
+          {perfumes.slice(0, 6).map((perfume) => (
             <PerfumeBox
               key={perfume.id}
-              name={perfume.name}
-              price={perfume.price}
-              rating={perfume.rating}
-              discount={perfume.discount}
-              image={perfume.image ?? "/images/placeholder.png"}
+              perfume={perfume}
               liked={likedIds.has(perfume.id)}
               onLikeToggle={() => toggleLike(perfume.id)}
             />

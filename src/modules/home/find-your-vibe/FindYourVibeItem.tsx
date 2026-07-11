@@ -1,13 +1,18 @@
 "use client";
 import type { ReactElement } from "react";
 import Image from "next/image";
-import type { Tag } from "@prisma/client";
+
+interface FindYourVibeItemProps {
+  description?: string | null;
+  name: string;
+  image?: string | null;
+}
 
 export const FindYourVibeItem = ({
   name,
   description,
   image,
-}: Tag): ReactElement => (
+}: FindYourVibeItemProps): ReactElement => (
   <div className="bg-surface relative h-81.5 w-64 shrink-0 overflow-hidden rounded-2xl">
     {image && (
       <Image

@@ -1,0 +1,1 @@
+export { NewPerfumes } from "./NewPerfumes";
