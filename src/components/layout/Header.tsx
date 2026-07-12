@@ -9,11 +9,8 @@ export const Header = () => {
         <button className="cursor-pointer text-white">
           <Menu size={24} />
         </button>
-        <div className="ml-10">
-          <Logo />
-        </div>
+        <Logo />
         <div className="flex items-center gap-3">
-          <Heart size={24} />
           <button className="relative cursor-pointer text-white">
             <Handbag size={24} />
             <span className="text-canvas absolute -top-1 -right-1 h-4 w-4 rounded-full bg-white text-[10px] font-semibold">

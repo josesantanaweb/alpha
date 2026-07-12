@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Lato } from "next/font/google";
 import { AppLayout } from "@/components/layout";
-import { QueryProvider } from "@/components/providers";
+import { QueryProvider, AppProvider } from "@/components/providers";
 import "./globals.css";
 
 const lato = Lato({
@@ -25,7 +25,9 @@ export default function RootLayout({
     <html lang="en" className={`${lato.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>
-          <AppLayout>{children}</AppLayout>
+          <AppProvider>
+            <AppLayout>{children}</AppLayout>
+          </AppProvider>
         </QueryProvider>
       </body>
     </html>

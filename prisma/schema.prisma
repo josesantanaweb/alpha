@@ -181,6 +181,8 @@ model Vibe {
 enum PerfumeType {
   ARABIC
   DESIGNER
+  DECANT
+  NICHE
 }
 
 enum Gender {

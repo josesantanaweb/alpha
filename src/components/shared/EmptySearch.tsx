@@ -1,11 +1,19 @@
 "use client";
+import { useEffect } from "react";
 import Image from "next/image";
 import type { ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui";
+import { useApp } from "@/components/providers";
 
 export const EmptySearch = (): ReactElement => {
   const router = useRouter();
+  const { setHideBottomNav } = useApp();
+
+  useEffect(() => {
+    setHideBottomNav(true);
+    return () => setHideBottomNav(false);
+  }, [setHideBottomNav]);
 
   return (
     <div className="relative flex h-[calc(100vh-320px)] flex-col items-center justify-center gap-3">
