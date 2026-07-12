@@ -77,7 +77,7 @@ export const Explorer = ({
         <FilterButton />
       </div>
       <div className="flex items-center justify-between">
-        <h5 className="text-lg font-semibold text-white">{search ? "Resultados" : "Explorar"}</h5>
+        <h5 className="text-lg font-semibold text-white">{search ? `Resultados para "${search}"` : "Explorar"}</h5>
         <p className="text-body cursor-pointer text-sm">{perfumes.length} perfumes</p>
       </div>
       <PerfumeGrid

@@ -1,3 +1,4 @@
+export * from './EmptySearch'
 export * from './FilterButton'
 export * from './CategoryButton'
 export * from './Tabs'
