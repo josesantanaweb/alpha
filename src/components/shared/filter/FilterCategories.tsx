@@ -17,9 +17,11 @@ export const FilterCategories = (): ReactElement => {
                 className="bg-body/20 h-8 w-20 animate-pulse rounded-full"
               />
             ))
-          : data?.map((c) => (
-              <Badge key={c.id} label={c.name} />
-            ))}
+          : data
+              ?.filter((c) => c.name !== "Nicho")
+              .map((c) => (
+                <Badge key={c.id} label={c.name} />
+              ))}
       </div>
     </div>
   );

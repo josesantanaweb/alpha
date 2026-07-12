@@ -2,7 +2,7 @@
 import type { ReactElement } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useFavorites } from "@/hooks";
-import { PerfumeGrid } from "@/components/shared";
+import { PerfumeGrid, EmptyState } from "@/components/shared";
 import type { PerfumeWithRelations } from "@/modules/perfumes";
 
 export const Favorites = (): ReactElement => {
@@ -30,9 +30,11 @@ export const Favorites = (): ReactElement => {
       </div>
 
       {ids.length === 0 && (
-        <p className="text-body mt-10 text-center text-sm">
-          Aún no tienes favoritos.
-        </p>
+        <EmptyState
+          title="No tienes favoritos"
+          subtitle="Los perfumes que marques como favoritos aparecerán aquí."
+          showClear={false}
+        />
       )}
 
       {ids.length > 0 && (

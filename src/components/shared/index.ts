@@ -1,4 +1,4 @@
-export * from './EmptySearch'
+export * from './EmptyState'
 export * from './CategoryButton'
 export * from './Tabs'
 export * from './SearchInput'

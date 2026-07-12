@@ -6,7 +6,17 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui";
 import { useApp } from "@/components/providers";
 
-export const EmptySearch = (): ReactElement => {
+interface EmptyStateProps {
+  title?: string;
+  subtitle?: string;
+  showClear?: boolean;
+}
+
+export const EmptyState = ({
+  title = "Sin resultados para tu busqueda",
+  subtitle = "Intenta ajustar tus filtros o buscar un término más general...",
+  showClear = true,
+}: EmptyStateProps): ReactElement => {
   const router = useRouter();
   const { setHideBottomNav } = useApp();
 
@@ -30,16 +40,14 @@ export const EmptySearch = (): ReactElement => {
           </div>
         </div>
         <div className="flex flex-col items-center justify-center gap-1">
-          <h4 className="text-xl font-semibold">
-            Sin resultados para tu busqueda
-          </h4>
-          <p className="text-body text-center text-base">
-            Intenta ajustar tus filtros o buscar un término más general...
-          </p>
+          <h4 className="text-xl font-semibold">{title}</h4>
+          <p className="text-body text-center text-base">{subtitle}</p>
         </div>
       </div>
       <div className="absolute bottom-0 flex w-full flex-col items-center gap-3">
-        <Button onClick={() => router.push("/explorer")}>Limpiar</Button>
+        {showClear && (
+          <Button onClick={() => router.push("/explorer")}>Limpiar</Button>
+        )}
         <Button variant="outline" onClick={() => router.push("/")}>
           Ir al inicio
         </Button>

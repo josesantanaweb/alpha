@@ -1,7 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import { Prisma } from "@prisma/client";
-import { PerfumeBox, PerfumeBoxSkeleton, EmptySearch } from "@/components/shared";
+import { PerfumeBox, PerfumeBoxSkeleton, EmptyState } from "@/components/shared";
 
 type GridPerfume = Prisma.PerfumeGetPayload<{
   include: { designer: true; category: true };
@@ -30,7 +30,7 @@ export const PerfumeGrid = ({
         </div>
       )}
 
-      {!isLoading && perfumes.length === 0 && <EmptySearch />}
+      {!isLoading && perfumes.length === 0 && <EmptyState />}
 
       {!isLoading && perfumes.length > 0 && (
         <div className="grid grid-cols-2 gap-5">
