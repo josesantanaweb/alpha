@@ -32,7 +32,7 @@ export const PerfumeBox = ({
     <div className={cn("flex flex-col gap-3 shrink-0", className)}>
       <div className="bg-surface border-stroke relative flex h-45 w-full items-center justify-center overflow-hidden rounded-2xl border p-3">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/40 blur-[30px]" />
+          <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[30px]" />
         </div>
         <div className="absolute top-0 left-0 flex w-full items-center justify-between p-3">
           <Discount discount={discount} />
