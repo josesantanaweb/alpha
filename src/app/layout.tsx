@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Lato } from "next/font/google";
-import { AppLayout } from "@/components/layout";
 import { QueryProvider, AppProvider } from "@/components/providers";
 import "./globals.css";
 
@@ -16,17 +15,13 @@ export const metadata: Metadata = {
   description: "Aura store",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${lato.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>
           <AppProvider>
-            <AppLayout>{children}</AppLayout>
+            {children}
           </AppProvider>
         </QueryProvider>
       </body>

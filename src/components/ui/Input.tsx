@@ -21,11 +21,18 @@ const inputVariants = cva(
 export interface InputProps
   extends
     React.InputHTMLAttributes<HTMLInputElement>,
-    Omit<VariantProps<typeof inputVariants>, 'size'> {}
+    Omit<VariantProps<typeof inputVariants>, 'size'> {
+  label?: string;
+}
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, inputSize, ...props }, ref) => {
-    return <input ref={ref} className={cn(inputVariants({ inputSize, className }))} {...props} />;
+  ({ className, inputSize, label, ...props }, ref) => {
+    return (
+      <div className="flex flex-col gap-1.5 w-full">
+        {label && <span className="text-white text-sm uppercase font-bold">{label}</span>}
+        <input ref={ref} className={cn(inputVariants({ inputSize, className }))} {...props} />
+      </div>
+    );
   },
 );
 

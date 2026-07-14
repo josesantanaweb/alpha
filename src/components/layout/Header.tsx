@@ -1,5 +1,5 @@
 "use client";
-import { Menu, Handbag, Heart } from "lucide-react";
+import { Menu, Handbag } from "lucide-react";
 import { Logo } from "@/components/ui";
 
 export const Header = () => {
