@@ -16,7 +16,7 @@ export const GenderCards = (): ReactElement => {
       {GENDERS.map((gender) => (
         <Link
           key={gender.alt}
-          href={`${ROUTES.EXPLORER.LIST}?gender=${gender.param}`}
+          href={`${ROUTES.EXPLORER}?gender=${gender.param}`}
           className="bg-surface h-46.5 w-46.5 rounded-2xl overflow-hidden relative cursor-pointer group block"
         >
           <div className="relative h-full w-full overflow-hidden rounded-2xl">

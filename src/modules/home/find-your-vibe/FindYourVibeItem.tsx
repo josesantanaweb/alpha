@@ -19,7 +19,7 @@ export const FindYourVibeItem = ({
   slug,
 }: FindYourVibeItemProps): ReactElement => (
   <Link
-    href={`${ROUTES.EXPLORER.LIST}?tag=${slug}`}
+    href={`${ROUTES.EXPLORER}?tag=${slug}`}
     className="bg-surface relative block h-81.5 w-64 shrink-0 overflow-hidden rounded-2xl"
   >
     {image && (

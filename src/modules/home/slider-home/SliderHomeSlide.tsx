@@ -48,7 +48,7 @@ export const SliderHomeSlide = ({
           </div>
           <Button asChild size="md" fullWidth={false} onClick={(e) => {
               e.stopPropagation();
-              router.push(ROUTES.EXPLORER.LIST);
+              router.push(ROUTES.EXPLORER);
             }}>
             <motion.button
               initial={{ y: 10, opacity: 0 }}

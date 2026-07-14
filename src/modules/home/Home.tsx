@@ -28,7 +28,7 @@ export const Home = (): ReactElement => {
   const handleSearch = (value: string) => {
     const query = value.trim();
     if (query) {
-      router.push(`${ROUTES.EXPLORER.LIST}?search=${encodeURIComponent(query)}`);
+      router.push(`${ROUTES.EXPLORER}?search=${encodeURIComponent(query)}`);
     }
   };
 
