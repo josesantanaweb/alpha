@@ -9,13 +9,13 @@ export const Register = (): ReactElement => {
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[url('/images/auth-bg.png')] bg-cover bg-center bg-no-repeat p-5">
       <div className="absolute inset-0 bg-canvas/60" />
       <div className="relative z-10 flex w-full flex-col items-center justify-center gap-10">
-        <Logo className="w-30" />
+        <Logo />
 
         <div className="flex w-full flex-col items-start">
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className="text-xl font-bold text-white">
             Registra tu cuenta..
           </h3>
-          <p className="text-body text-lg">
+          <p className="text-body text-base">
             Estamos encantados de tenerte con nosotros.
           </p>
         </div>
