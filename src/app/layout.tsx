@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Lato } from "next/font/google";
-import { QueryProvider, AppProvider } from "@/components/providers";
+import { QueryProvider, AuthInitializer } from "@/components/providers";
 import "./globals.css";
 
 const lato = Lato({
@@ -20,10 +20,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en" className={`${lato.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>
-          <AppProvider>
+            <AuthInitializer />
             {children}
-          </AppProvider>
-        </QueryProvider>
+          </QueryProvider>
       </body>
     </html>
   );

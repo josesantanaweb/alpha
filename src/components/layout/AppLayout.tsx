@@ -1,6 +1,6 @@
 'use client';
 import { BottomNav, Header } from '@/components/layout';
-import { useApp } from '@/components/providers';
+import { useApp } from '@/stores/app';
 
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const { hideBottomNav: hide } = useApp();

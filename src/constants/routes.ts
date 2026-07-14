@@ -1,7 +1,9 @@
 export const ROUTES = {
-  HOME: '/',
-  EXPLORER: {
-    LIST: '/explorer',
-  },
-  FAVORITES: '/favorites',
+  HOME: "/",
+  EXPLORER: "/explorer",
+  FAVORITES: "/favorites",
+  ACCOUNT: "/account",
+  CART: "/cart",
+  LOGIN: "/login",
+  REGISTER: "/register",
 };

@@ -1,2 +1,4 @@
 export { QueryProvider } from './QueryProvider';
-export { AppProvider, useApp } from './AppProvider';
+export { AuthInitializer } from './AuthInitializer';
+export { useAuth } from '@/stores/auth';
+export { useApp } from '@/stores/app';

@@ -3,17 +3,18 @@ import type { ReactElement } from "react";
 import { Logo, Input, Button } from "@/components/ui";
 import Link from "next/link";
 import Image from "next/image";
+import { ROUTES } from "@/constants";
 
 export const Register = (): ReactElement => {
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center bg-[url('/images/auth-bg.png')] bg-cover bg-center bg-no-repeat p-5">
       <div className="absolute inset-0 bg-canvas/60" />
-      <div className="relative z-10 flex w-full flex-col items-center justify-center gap-10">
+      <div className="relative z-10 flex w-full flex-col items-center justify-center gap-6">
         <Logo />
 
         <div className="flex w-full flex-col items-start">
           <h3 className="text-xl font-bold text-white">
-            Registra tu cuenta..
+            Registra tu cuenta.
           </h3>
           <p className="text-body text-base">
             Estamos encantados de tenerte con nosotros.
@@ -47,7 +48,7 @@ export const Register = (): ReactElement => {
             </Button>
             <div className="flex items-center justify-center gap-2.5">
               <p className="text-base text-white">¿Ya tienes cuenta?</p>
-              <Link href="/register" className="text-base font-bold text-white">
+              <Link href={ROUTES.LOGIN} className="text-base font-bold text-white">
                 Inicia sesión
               </Link>
             </div>

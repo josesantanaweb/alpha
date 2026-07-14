@@ -4,7 +4,7 @@ import Image from "next/image";
 import type { ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui";
-import { useApp } from "@/components/providers";
+import { useApp } from "@/stores/app";
 
 interface EmptyStateProps {
   title?: string;
