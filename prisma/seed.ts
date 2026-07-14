@@ -24,7 +24,6 @@ interface SeedPerfume {
   reviewCount: number;
   type: "ARABIC" | "DESIGNER";
   gender: "MALE" | "FEMALE" | "UNISEX";
-  categoryName: string;
   discount: number;
 }
 
@@ -36,7 +35,6 @@ interface SeedPerfumeInput {
   image: string;
   type: "ARABIC" | "DESIGNER";
   gender: "MALE" | "FEMALE" | "UNISEX";
-  categoryName: string;
   discount: number;
 }
 
@@ -61,11 +59,15 @@ const INITIAL_DESIGNERS: SeedDesigner[] = [
   { name: "Giorgio Armani", slug: "giorgio-armani" },
 ];
 
-const INITIAL_CATEGORIES = [
-  { name: "Diseñador", icon: "Gem" },
-  { name: "Arabe", icon: "Sunrise" },
-  { name: "Decant", icon: "Pipette" },
-  { name: "Nicho", icon: "FlaskRound" },
+const INITIAL_ACCORDS = [
+  { name: "Amaderado", icon: "TreePine" },
+  { name: "Floral", icon: "Flower2" },
+  { name: "Cítrico", icon: "Citrus" },
+  { name: "Oriental", icon: "Moon" },
+  { name: "Acuático", icon: "Waves" },
+  { name: "Fougère", icon: "Leaf" },
+  { name: "Aromático", icon: "Wind" },
+  { name: "Dulce", icon: "Candy" },
 ];
 
 const INITIAL_PERFUME_STATS = {
@@ -139,7 +141,7 @@ async function main() {
 
   await prisma.perfume.deleteMany();
   await prisma.banner.deleteMany();
-  await prisma.category.deleteMany();
+  await prisma.accord.deleteMany();
   await prisma.designer.deleteMany();
 
   const designerNames = Array.from(
@@ -164,32 +166,15 @@ async function main() {
     });
   }
 
-  const categoryNames = Array.from(
-    new Set([
-      ...INITIAL_CATEGORIES.map((category) => category.name),
-      ...INITIAL_PERFUMES.map((perfume) => perfume.categoryName),
-    ]),
-  );
-
-  for (const categoryName of categoryNames) {
-    const initialCategory = INITIAL_CATEGORIES.find(
-      (category) => category.name === categoryName,
-    );
-
-    await prisma.category.upsert({
-      where: { name: categoryName },
+  for (const accord of INITIAL_ACCORDS) {
+    await prisma.accord.upsert({
+      where: { name: accord.name },
       update: {},
-      create: {
-        name: categoryName,
-        icon: initialCategory?.icon,
-      },
+      create: accord,
     });
   }
 
   for (const perfume of INITIAL_PERFUMES) {
-    const category = await prisma.category.findUniqueOrThrow({
-      where: { name: perfume.categoryName },
-    });
     const designer = await prisma.designer.findUniqueOrThrow({
       where: { name: perfume.designerName },
     });
@@ -209,7 +194,6 @@ async function main() {
         reviewCount: perfume.reviewCount,
         type: perfume.type,
         gender: perfume.gender,
-        categoryId: category.id,
         discount: perfume.discount
       },
     });

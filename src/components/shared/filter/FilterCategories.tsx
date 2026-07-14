@@ -1,10 +1,10 @@
 "use client";
 import type { ReactElement } from "react";
 import { Badge } from "@/components/ui";
-import { useCategories } from "@/hooks";
+import { useAccords } from "@/hooks";
 
 export const FilterCategories = (): ReactElement => {
-  const { data, isLoading } = useCategories();
+  const { data, isLoading } = useAccords();
 
   return (
     <div className="flex flex-col gap-1">

@@ -1,19 +1,19 @@
 import { db, isPrismaError } from "@/lib/db";
-import { CreateCategorySchema, UpdateCategorySchema } from "./schema";
+import { CreateAccordSchema, UpdateAccordSchema } from "./schema";
 import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
-import { Category } from "@prisma/client";
+import { Accord } from "@prisma/client";
 
-export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Category>>> {
+export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Accord>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
 
   try {
-    const [categories, total] = await Promise.all([
-      db.category.findMany({
+    const [accords, total] = await Promise.all([
+      db.accord.findMany({
         take: limit,
         skip: offset,
       }),
-      db.category.count(),
+      db.accord.count(),
     ]);
 
     const nextOffset = offset + limit;
@@ -22,7 +22,7 @@ export async function getAll(params: PaginationParams = {}): Promise<ApiResult<P
       success: true,
       status: 200,
       data: {
-        data: categories,
+        data: accords,
         total,
         limit,
         offset,
@@ -33,12 +33,12 @@ export async function getAll(params: PaginationParams = {}): Promise<ApiResult<P
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener las categorías.",
+      message: error instanceof Error ? error.message : "Error al obtener los acordes.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<Category>> {
+export async function getOne(id: string): Promise<ApiResult<Accord>> {
   if (!id) {
     return {
       success: false,
@@ -48,19 +48,19 @@ export async function getOne(id: string): Promise<ApiResult<Category>> {
   }
 
   try {
-    const category = await db.category.findUnique({
+    const accord = await db.accord.findUnique({
       where: { id },
     });
 
-    if (!category) {
+    if (!accord) {
       return {
         success: false,
         status: 404,
-        message: "Categoria no encontrada.",
+        message: "Acorde no encontrado.",
       };
     }
 
-    return { success: true, status: 200, data: category };
+    return { success: true, status: 200, data: accord };
   } catch (error: unknown) {
     return {
       success: false,
@@ -70,8 +70,8 @@ export async function getOne(id: string): Promise<ApiResult<Category>> {
   }
 }
 
-export async function create(rawData: unknown): Promise<ApiResult<Category>> {
-  const result = CreateCategorySchema.safeParse(rawData);
+export async function create(rawData: unknown): Promise<ApiResult<Accord>> {
+  const result = CreateAccordSchema.safeParse(rawData);
   if (!result.success) {
     return {
       success: false,
@@ -81,20 +81,20 @@ export async function create(rawData: unknown): Promise<ApiResult<Category>> {
   }
 
   try {
-    const category = await db.category.create({
+    const accord = await db.accord.create({
       data: {  ...result.data },
     });
     return {
       success: true,
       status: 201,
-      data: category
+      data: accord
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Ese nombre de categoría ya existe."
+        message: "Ese nombre de acorde ya existe."
       };
     }
 
@@ -107,7 +107,7 @@ export async function create(rawData: unknown): Promise<ApiResult<Category>> {
 }
 
 export async function update(id: string, rawData: unknown) {
-  const result = UpdateCategorySchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+  const result = UpdateAccordSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
     return {
@@ -118,18 +118,18 @@ export async function update(id: string, rawData: unknown) {
   }
 
   try {
-    const category = await db.category.update({
+    const accord = await db.accord.update({
       where: { id },
       data: {  ...result.data  },
     });
 
-    return { success: true, status: 200, data: category };
+    return { success: true, status: 200, data: accord };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Ese nombre de categoría ya existe."
+        message: "Ese nombre de acorde ya existe."
       };
     }
 
@@ -150,21 +150,21 @@ export async function remove(id: string) {
   }
 
   try {
-    await db.category.delete({
+    await db.accord.delete({
       where: { id },
     });
 
     return {
       success: true,
       status: 200,
-      message: "Categoría eliminada con éxito."
+      message: "Acorde eliminado con éxito."
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Categoría no encontrada."
+        message: "Acorde no encontrado."
       };
     }
     return {

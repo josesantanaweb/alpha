@@ -55,7 +55,54 @@ Los beneficios asociados a la suscripción se definirán en una etapa posterior.
 
 ---
 
-## 3. Productos
+## 3. Carrito de Compras
+
+### Propósito
+Cada usuario autenticado tiene un carrito donde acumula productos antes de comprar.
+
+### Reglas
+- Un usuario puede tener **un solo carrito** activo (relación 1:1).
+- El carrito se crea automáticamente cuando el usuario agrega el primer producto.
+- Cada item del carrito referencia un **Perfume** (obligatorio) y opcionalmente un **Decant** (si eligió un tamaño específico).
+- Si se elimina el usuario, se elimina su carrito en cascada.
+
+### Estado
+- El carrito no tiene estado (siempre está "activo").
+- Al crear una orden, el carrito se vacía (no se elimina, se limpian los items).
+
+### Pendiente
+- [ ] Agregar endpoint `POST /api/cart/add`
+- [ ] Agregar endpoint `DELETE /api/cart/remove/:itemId`
+- [ ] Agregar endpoint `GET /api/cart`
+- [ ] Sincronizar carrito localStorage ↔ servidor para usuarios no autenticados
+
+---
+
+## 4. Órdenes
+
+### Propósito
+Registrar las compras realizadas por los usuarios.
+
+### Flujo
+1. El usuario revisa su carrito y procede al checkout.
+2. Se calculan subtotal, descuento, envío y total.
+3. Se crea la orden con estado `PENDING`.
+4. El usuario completa el pago → estado `CONFIRMED`.
+5. El administrador prepara el envío → estado `SHIPPED`.
+6. El usuario recibe → estado `DELIVERED`.
+7. El usuario o admin pueden cancelar → estado `CANCELLED`.
+
+### Reglas
+- Cada item de la orden guarda el **precio en el momento de la compra** (no el precio actual del perfume).
+- Una orden puede tener items de tipo **Perfume** (fraseo completo) o **Decant** (fracción).
+- El `shippingAddress` se captura durante el checkout.
+- El campo `notes` permite al usuario agregar instrucciones especiales.
+
+### Pendiente
+- [ ] Definir cálculo de envío (¿gratis para suscriptores?)
+- [ ] Integrar proveedor de pagos
+- [ ] Crear módulo `orders` con actions y API routes
+- [ ] Panel de administración para cambiar estados
 
 ### Tipos de perfume
 - `ARABIC` — Perfumes árabes/aceites

@@ -12,7 +12,7 @@ export async function getByIds(
   try {
     const perfumes = await db.perfume.findMany({
       where: { id: { in: ids } },
-      include: { category: true, designer: true },
+      include: { accords: true, designer: true },
     });
 
     const ordered = ids

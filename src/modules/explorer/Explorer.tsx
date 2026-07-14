@@ -13,16 +13,16 @@ interface ExplorerProps {
   search?: string;
   tag?: string;
   gender?: string;
-  categoryId?: string;
-  designerId?: string;
+  accord?: string;
+  designer?: string;
 }
 
 export const Explorer = ({
   search,
   tag,
   gender,
-  categoryId,
-  designerId,
+  accord,
+  designer,
 }: ExplorerProps): ReactElement => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState(search ?? "");
@@ -44,12 +44,12 @@ export const Explorer = ({
       params.set("gender", gender);
     }
 
-    if (categoryId) {
-      params.set("categoryId", categoryId);
+    if (accord) {
+      params.set("accord", accord);
     }
 
-    if (designerId) {
-      params.set("designerId", designerId);
+    if (designer) {
+      params.set("designer", designer);
     }
 
     const queryString = params.toString();
@@ -60,8 +60,8 @@ export const Explorer = ({
     search,
     tag,
     gender,
-    categoryId,
-    designerId,
+    accord,
+    designer,
     limit: 50,
   });
 

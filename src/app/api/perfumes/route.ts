@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
   const result = await getAll({
     ...parsePaginationParams(searchParams),
     search: getParam("search"),
-    categoryId: getParam("categoryId"),
-    designerId: getParam("designerId"),
+    accord: getParam("accord"),
+    designer: getParam("designer"),
     tagId: getParam("tagId"),
     tag: getParam("tag"),
     gender: getParam("gender"),

@@ -4,13 +4,13 @@ import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
 import { Perfume, Prisma } from "@prisma/client";
 
 export type PerfumeWithRelations = Prisma.PerfumeGetPayload<{
-  include: { category: true; designer: true };
+  include: { accords: true; designer: true };
 }>;
 
 export interface GetPerfumesParams extends PaginationParams {
   search?: string;
-  categoryId?: string;
-  designerId?: string;
+  accord?: string;
+  designer?: string;
   tagId?: string;
   tag?: string;
   gender?: string;
@@ -29,12 +29,12 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
       whereConditions.name = { contains: params.search, mode: "insensitive" };
     }
 
-    if (params.categoryId) {
-      whereConditions.categoryId = params.categoryId;
+    if (params.accord) {
+      whereConditions.accords = { some: { name: { equals: params.accord, mode: "insensitive" } } };
     }
 
-    if (params.designerId) {
-      whereConditions.designerId = params.designerId;
+    if (params.designer) {
+      whereConditions.designer = { name: { equals: params.designer, mode: "insensitive" } };
     }
 
     if (params.tagId) {
@@ -54,7 +54,7 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
         where: whereConditions,
         orderBy: { name: "asc" },
         include: {
-          category: true,
+          accords: true,
           designer: true,
         },
         take: limit,
@@ -98,7 +98,7 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
     const perfume = await db.perfume.findUnique({
       where: { id },
       include: {
-        category: true,
+        accords: true,
         designer: true,
       },
     });
@@ -133,9 +133,13 @@ export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
   }
 
   try {
+    const { accordIds, ...perfumeData } = result.data;
     const perfume = await db.perfume.create({
-      data: { 
-        ...result.data
+      data: {
+        ...perfumeData,
+        accords: accordIds?.length
+          ? { connect: accordIds.map((id) => ({ id })) }
+          : undefined,
       },
     });
     return { 

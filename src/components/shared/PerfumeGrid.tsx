@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { PerfumeBox, PerfumeBoxSkeleton, EmptyState } from "@/components/shared";
 
 type GridPerfume = Prisma.PerfumeGetPayload<{
-  include: { designer: true; category: true };
+  include: { designer: true; accords: true };
 }>;
 
 interface PerfumeGridProps {

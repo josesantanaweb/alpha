@@ -1,10 +1,10 @@
 'use client';
 import type { ReactElement } from 'react';
 import { CategoryButton } from '@/components/shared';
-import type { Category } from '@prisma/client';
+import type { Accord } from '@prisma/client';
 import { CategoriesFilterSkeleton } from './CategoriesFilterSkeleton';
 
-type CategoryFilterItem = Pick<Category, 'id' | 'name'> & {
+type CategoryFilterItem = Pick<Accord, 'id' | 'name'> & {
   icon?: string | null;
 };
 

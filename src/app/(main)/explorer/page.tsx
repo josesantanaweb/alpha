@@ -18,8 +18,8 @@ export default async function ExplorerPage({
       search={params.search}
       tag={params.tag}
       gender={params.gender}
-      categoryId={params.categoryId}
-      designerId={params.designerId}
+      accord={params.accord}
+      designer={params.designer}
     />
   );
 }
