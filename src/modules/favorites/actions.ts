@@ -31,3 +31,79 @@ export async function getByIds(
     };
   }
 }
+
+export async function getUserFavorites(
+  userId: string,
+): Promise<ApiResult<PerfumeWithRelations[]>> {
+  try {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      include: { favorites: { include: { accords: true, designer: true } } },
+    });
+
+    if (!user) {
+      return { success: false, status: 404, message: "Usuario no encontrado" };
+    }
+
+    return {
+      success: true,
+      status: 200,
+      data: user.favorites,
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener favoritos del usuario.",
+    };
+  }
+}
+
+export async function create(
+  userId: string,
+  perfumeId: string,
+): Promise<ApiResult<null>> {
+  try {
+    await db.user.update({
+      where: { id: userId },
+      data: { favorites: { connect: { id: perfumeId } } },
+    });
+
+    return { success: true, status: 200, data: null };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al agregar favorito.",
+    };
+  }
+}
+
+export async function remove(
+  userId: string,
+  perfumeId: string,
+): Promise<ApiResult<null>> {
+  try {
+    await db.user.update({
+      where: { id: userId },
+      data: { favorites: { disconnect: { id: perfumeId } } },
+    });
+
+    return { success: true, status: 200, data: null };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al eliminar favorito.",
+    };
+  }
+}

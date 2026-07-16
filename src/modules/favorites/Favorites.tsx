@@ -1,32 +1,39 @@
 "use client";
 import type { ReactElement } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useFavorites } from "@/hooks";
 import { PerfumeGrid, EmptyState } from "@/components/shared";
-import type { PerfumeWithRelations } from "@/modules/perfumes";
 
 export const Favorites = (): ReactElement => {
-  const { ids, toggle } = useFavorites();
+  const { perfumes, ids, toggle, ready } = useFavorites();
 
-  const { data: perfumes = [], isLoading } = useQuery<PerfumeWithRelations[]>({
-    queryKey: ["favorites", ids],
-    queryFn: async () => {
-      if (!ids.length) return [];
-      const res = await fetch("/api/perfumes/favoritos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids }),
-      });
-      return res.json();
-    },
-    enabled: ids.length > 0,
-  });
+  if (!ready) {
+    return (
+      <div className="flex flex-col gap-6 p-5 pb-25">
+        <div className="flex items-start flex-col gap-1">
+          <h5 className="text-lg font-semibold text-white">Favoritos</h5>
+          <p className="text-body text-sm">
+            Tu coleccion especial de perfumes exclusivos
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-surface animate-pulse h-45 w-full rounded-2xl"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 p-5 pb-25">
       <div className="flex items-start flex-col gap-1">
         <h5 className="text-lg font-semibold text-white">Favoritos</h5>
-        <p className="text-body text-sm">Tu coleccion especial de perfumes exclusivos</p>
+        <p className="text-body text-sm">
+          Tu coleccion especial de perfumes exclusivos
+        </p>
       </div>
 
       {ids.length === 0 && (
@@ -40,7 +47,7 @@ export const Favorites = (): ReactElement => {
       {ids.length > 0 && (
         <PerfumeGrid
           perfumes={perfumes}
-          isLoading={isLoading}
+          isLoading={false}
           likedIds={new Set(ids)}
           onLikeToggle={toggle}
         />

@@ -1,2 +1,2 @@
-export { getByIds } from "./actions";
+export * from "./actions";
 export { Favorites } from "./Favorites";

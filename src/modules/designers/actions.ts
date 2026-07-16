@@ -118,6 +118,7 @@ export async function update(id: string, rawData: unknown) {
   }
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id: _, ...updateData } = result.data;
     const designer = await db.designer.update({
       where: { id },

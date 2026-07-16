@@ -175,7 +175,7 @@ Login/Register
 ### Enums
 
 ```prisma
-enum PerfumeType { ARABIC, DESIGNER, DECANT, NICHE }
+enum PerfumeType { ARABIC, DESIGNER, NICHE }
 enum Gender      { MALE, FEMALE, UNISEX }
 enum NoteStage   { TOP, HEART, BASE }
 ```

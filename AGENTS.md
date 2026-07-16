@@ -62,3 +62,10 @@ API routes (`src/app/api/<name>/route.ts`) are thin HTTP wrappers calling module
 - All Prisma calls happen through module actions — never call `db` directly from components
 - API routes return `ApiResult<T>` shape: `{ success, status, data, message?, errors? }`
 - New features follow the `modules/<name>/` → `api/<name>/` → hooks → components pattern
+
+## Favorites
+- Favorites are stored in the DB via the `User` ↔ `Perfume` many-to-many relation (`@relation("FavoritePerfumes")`)
+- `src/modules/favorites/actions.ts` — `create(userId, perfumeId)`, `remove(userId, perfumeId)`, `getUserFavorites(userId)` (returns `PerfumeWithRelations[]`), `getByIds(ids)`
+- `src/app/api/favorites/route.ts` — `GET` (returns array of perfume objects with designer & accords), `POST` (add), `DELETE` (remove). All require Bearer token auth.
+- `src/hooks/useFavorites.ts` — React Query hook that fetches favorites from the API when logged in. Uses optimistic updates via `useMutation`. If user is not authenticated, `toggle`/`add`/`remove` redirect to `/login`.
+- `useFavorites()` returns `{ ids: string[], perfumes: PerfumeWithRelations[], ready: boolean, add, remove, toggle, isFavorite }`

@@ -13,11 +13,11 @@ model User {
   name         String?
   avatar       String?
   googleId     String?   @unique // null si usó email/password
-  isSubscribed Boolean   @default(false)
   favorites    Perfume[] @relation("FavoritePerfumes")
   cart         Cart?
   orders       Order[]
-  createdAt    DateTime  @default(now())
+  reviews     Review[]
+  createdAt   DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 }
 
@@ -43,15 +43,15 @@ model Perfume {
   feeling   Feeling?
 
   // Relaciones
-  designerId  String
-  designer    Designer    @relation(fields: [designerId], references: [id])
-  accords     Accord[]    @relation("PerfumeAccords")
-  notes       Note[]
-  tags        Tag[]       @relation("Tags")
-  reviews     Review[]
-  favoritedBy User[]      @relation("FavoritePerfumes")
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
+  designerId String
+  designer   Designer    @relation(fields: [designerId], references: [id])
+  accords    Accord[]    @relation("PerfumeAccords")
+  notes      Note[]
+  tags       Tag[]       @relation("Tags")
+  reviews    Review[]
+  users      User[]      @relation("FavoritePerfumes")
+  cartItems  CartItem[]
+  orderItems OrderItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -158,12 +158,15 @@ model Note {
 
 model Review {
   id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   perfumeId String
   perfume   Perfume  @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
-  userName  String
   comment   String   @db.Text
   rating    Int
   createdAt DateTime @default(now())
+
+  @@unique([userId, perfumeId])
 }
 
 model Banner {
@@ -245,7 +248,6 @@ model OrderItem {
 enum PerfumeType {
   ARABIC
   DESIGNER
-  DECANT
   NICHE
 }
 
