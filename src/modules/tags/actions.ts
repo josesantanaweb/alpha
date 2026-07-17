@@ -1,6 +1,6 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateTagSchema, UpdateTagSchema } from "./schema";
-import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Tag } from "@prisma/client";
 
 export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Tag>>> {

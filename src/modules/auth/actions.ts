@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { signToken, verifyToken, getTokenFromHeaders } from "@/lib/auth";
 import { RegisterSchema, LoginSchema } from "./schema";
-import { ApiResult } from "@/types";
+import { ApiResult } from "@/modules/shared/types";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { NextRequest } from "next/server";

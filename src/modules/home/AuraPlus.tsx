@@ -1,7 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import { CreditCard, Gift, LogIn, ShieldBan } from "lucide-react";
-import { Button } from "@/components/ui";
+import { Button } from "@/modules/shared/components/ui";
 
 const ITEMS = [
   {

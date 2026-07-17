@@ -1,6 +1,6 @@
 'use client';
 import type { ReactElement } from 'react';
-import { CategoryButton } from '@/components/shared';
+import { CategoryButton } from '@/modules/shared/components/CategoryButton';
 import type { Accord } from '@prisma/client';
 import { CategoriesFilterSkeleton } from './CategoriesFilterSkeleton';
 

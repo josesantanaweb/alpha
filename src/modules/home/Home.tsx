@@ -3,15 +3,15 @@ import type { ReactElement } from "react";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useBanners, usePerfumes, useFavorites } from "@/hooks";
-import {
-  SearchInput,
-  BestSellers,
-  DesignerMarquee,
-  GenderCards,
-  TrustBadges,
-  FilterButton,
-} from "@/components/shared";
+import { useBanners } from "@/modules/banners/hooks/use-banners";
+import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
+import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
+import { SearchInput } from "@/modules/shared/components/SearchInput";
+import { BestSellers } from "@/modules/perfumes/components/BestSellers";
+import { DesignerMarquee } from "@/modules/perfumes/components/DesignerMarquee";
+import { GenderCards } from "@/modules/perfumes/components/GenderCards";
+import { TrustBadges } from "@/modules/perfumes/components/TrustBadges";
+import { FilterButton } from "@/modules/perfumes/components/filter";
 import { ROUTES } from "@/constants";
 import { SliderHome } from "./slider-home";
 import { FindYourVibe } from "./find-your-vibe";

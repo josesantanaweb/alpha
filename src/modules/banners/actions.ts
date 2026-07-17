@@ -1,6 +1,6 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreateBannerSchema, UpdateBannerSchema } from "./schema";
-import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
+import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Banner } from "@prisma/client";
 
 export async function getActive(): Promise<ApiResult<Banner[]>> {

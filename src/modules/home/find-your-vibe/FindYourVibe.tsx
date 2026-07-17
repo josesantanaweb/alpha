@@ -1,6 +1,6 @@
 "use client";
 import type { ReactElement } from "react";
-import { useVibes } from "@/hooks";
+import { useVibes } from "@/modules/vibes/hooks/use-vibes";
 import { FindYourVibeItem } from "./FindYourVibeItem";
 
 export const FindYourVibe = (): ReactElement => {

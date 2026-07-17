@@ -1,5 +1,5 @@
 import { Account } from "@/modules/account";
-import { AuthGuard } from "@/components/shared/AuthGuard";
+import { AuthGuard } from "@/modules/shared/components/AuthGuard";
 
 export default function AccountPage() {
   return (

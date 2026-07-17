@@ -1,20 +1,8 @@
 import { db, isPrismaError } from "@/lib/db";
 import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
-import { ApiResult, PaginationParams, PaginatedResult } from "@/types";
+import { ApiResult, PaginatedResult } from "@/modules/shared/types";
 import { Perfume, Prisma } from "@prisma/client";
-
-export type PerfumeWithRelations = Prisma.PerfumeGetPayload<{
-  include: { accords: true; designer: true };
-}>;
-
-export interface GetPerfumesParams extends PaginationParams {
-  search?: string;
-  accord?: string;
-  designer?: string;
-  tagId?: string;
-  tag?: string;
-  gender?: string;
-}
+import type { PerfumeWithRelations, GetPerfumesParams } from "./types";
 
 export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<PaginatedResult<PerfumeWithRelations>>> {
   const limit = params.limit ?? 10;

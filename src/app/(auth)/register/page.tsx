@@ -1,5 +1,5 @@
-import { Register } from "@/modules/auth/register";
-import { GuestGuard } from "@/components/shared/GuestGuard";
+import { Register } from "@/modules/auth/components/register-form";
+import { GuestGuard } from "@/modules/shared/components/GuestGuard";
 
 export default function RegisterPage() {
   return (

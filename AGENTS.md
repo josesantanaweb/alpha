@@ -19,31 +19,37 @@ No test scripts, no CI/CD.
 **Aura** — perfume e-commerce store, Next.js App Router.
 
 ### Module pattern (`src/modules/<name>/`)
-Each feature has three files:
+Each feature follows vertical-slice architecture:
+- `components/` — domain-specific React components
+- `hooks/` — React Query wrappers exclusive to this module
+- `store.ts` — Zustand store (optional, for modules that need local state)
 - `actions.ts` — server-side business logic returning `ApiResult<T>` (discriminated union)
 - `schema.ts` — Zod validation schemas
+- `types.ts` — TypeScript types specific to this domain
 - `index.ts` — barrel re-export
 
-API routes (`src/app/api/<name>/route.ts`) are thin HTTP wrappers calling module actions.
+Shared infrastructure lives in `src/modules/shared/`:
+- `shared/components/ui/` — primitives (Button, Input, Logo, Badge)
+- `shared/components/layout/` — AppLayout, Header, BottomNav
+- `shared/components/` — generic reusable components (CategoryButton, LikeButton, Rating, etc.)
+- `shared/hooks/` — technical hooks (useDebounce)
+- `shared/stores/` — global UI state (useUIStore)
+- `shared/types/` — global TypeScript types (ApiResult, PaginationParams)
+- `shared/utils/` — cn() utility (clsx + tailwind-merge)
 
 ### Data flow
 - Server: modules → direct Prisma calls (via `@/lib/db`)
-- Client: React Query hooks (`src/hooks/`) → fetch wrappers (`src/lib/api/`) → API routes → modules
+- Client: React Query hooks (per-module `hooks/`) → fetch wrappers (`src/lib/api/`) → API routes → modules
 - `@/lib/db.ts` exports a Prisma singleton using `@prisma/adapter-pg`
 
 ### Key directories
-- `src/modules/` — business logic (one folder per feature)
+- `src/modules/` — business logic (one folder per feature, vertical slices)
+- `src/modules/shared/` — generic infrastructure (UI, utils, types, stores)
+- `src/modules/perfumes/` — perfume domain (components, hooks, actions, schema, types)
+- `src/modules/auth/` — auth domain (components, hooks, store, actions, schema)
 - `src/app/api/` — REST API routes
 - `src/app/page.tsx` — thin page shells delegating to modules
-- `src/components/ui/` — primitives (Button, Input, Logo)
-- `src/components/shared/` — composed domain components (PerfumeBox, CategoryButton, BestSellers, etc.)
-- `src/components/layout/` — AppLayout, Header, BottomNav
-- `src/components/providers/` — React context providers (QueryClient)
-- `src/hooks/` — React Query wrappers
 - `src/lib/api/` — client-side fetch helpers
-- `src/lib/cn.ts` — `cn()` utility (clsx + tailwind-merge)
-- `src/types/api.ts` — `ApiResult<T>` generic type
-- `src/constants/` — assets, config, routes
 
 ### Path alias
 `@/*` → `./src/*`
@@ -67,5 +73,5 @@ API routes (`src/app/api/<name>/route.ts`) are thin HTTP wrappers calling module
 - Favorites are stored in the DB via the `User` ↔ `Perfume` many-to-many relation (`@relation("FavoritePerfumes")`)
 - `src/modules/favorites/actions.ts` — `create(userId, perfumeId)`, `remove(userId, perfumeId)`, `getUserFavorites(userId)` (returns `PerfumeWithRelations[]`), `getByIds(ids)`
 - `src/app/api/favorites/route.ts` — `GET` (returns array of perfume objects with designer & accords), `POST` (add), `DELETE` (remove). All require Bearer token auth.
-- `src/hooks/useFavorites.ts` — React Query hook that fetches favorites from the API when logged in. Uses optimistic updates via `useMutation`. If user is not authenticated, `toggle`/`add`/`remove` redirect to `/login`.
+- `src/modules/favorites/hooks/use-favorites.ts` — React Query hook that fetches favorites from the API when logged in. Uses optimistic updates via `useMutation`. If user is not authenticated, `toggle`/`add`/`remove` redirect to `/login`.
 - `useFavorites()` returns `{ ids: string[], perfumes: PerfumeWithRelations[], ready: boolean, add, remove, toggle, isFavorite }`

@@ -1,7 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import { Prisma } from "@prisma/client";
-import { PerfumeBox, PerfumeBoxSkeleton } from "@/components/shared";
+import { PerfumeBox, PerfumeBoxSkeleton } from "@/modules/perfumes/components/perfume-box";
 
 type NewPerfume = Prisma.PerfumeGetPayload<{ include: { designer: true } }>;
 

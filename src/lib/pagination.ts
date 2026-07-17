@@ -1,4 +1,4 @@
-import { PaginationParams } from "@/types";
+import { PaginationParams } from "@/modules/shared/types";
 
 function parsePositiveInt(value: string | null, fallback: number): number {
   const parsed = parseInt(value ?? "", 10);

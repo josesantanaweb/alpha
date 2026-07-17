@@ -1,7 +1,7 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { s3 } from "@/lib/s3";
 import { ALLOWED_MIME_TYPES, MAX_FILE_SIZE, MAX_FILES } from "./schema";
-import type { ApiResult } from "@/types";
+import type { ApiResult } from "@/modules/shared/types";
 import { randomUUID } from "node:crypto";
 
 type UploadResult = { url: string; key: string };

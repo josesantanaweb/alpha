@@ -1,5 +1,5 @@
 "use client";
-import { useAuth, type User } from "@/stores/auth";
+import { useAuth, type User } from "@/modules/auth/store";
 
 export async function initialize() {
   const { token, clearSession } = useAuth.getState();

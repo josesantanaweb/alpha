@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import type { ApiResult } from "@/types";
+import type { ApiResult } from "@/modules/shared/types";
 import type { Vibe } from "@prisma/client";
 
 export async function getActive(): Promise<ApiResult<Vibe[]>> {
