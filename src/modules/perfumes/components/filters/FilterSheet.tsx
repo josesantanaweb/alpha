@@ -7,6 +7,7 @@ import { Button } from "@/modules/shared/components/ui";
 import { FilterGender } from "./FilterGender";
 import { FilterType } from "./FilterType";
 import { FilterDesigner } from "./FilterDesigner";
+import { FilterPrice } from "./FilterPrice";
 import { FilterSizes } from "./FilterSizes";
 
 interface FilterSheetProps {
@@ -40,12 +41,22 @@ const FilterSheetContent = ({
   const [designer, setDesigner] = useState<string | null>(
     searchParams.get("designer"),
   );
+  const [priceMin, setPriceMin] = useState<string>(
+    searchParams.get("priceMin") ?? "",
+  );
+  const [priceMax, setPriceMax] = useState<string>(
+    searchParams.get("priceMax") ?? "",
+  );
+
+  const hasActiveFilters = !!(gender || type || designer || priceMin || priceMax);
 
   const handleApply = () => {
     const params = new URLSearchParams();
     if (gender) params.set("gender", gender);
     if (type) params.set("type", type);
     if (designer) params.set("designer", designer);
+    if (priceMin) params.set("priceMin", priceMin);
+    if (priceMax) params.set("priceMax", priceMax);
     const qs = params.toString();
     router.push(qs ? `/explorer?${qs}` : "/explorer");
     onClose();
@@ -55,6 +66,8 @@ const FilterSheetContent = ({
     setGender(null);
     setType(null);
     setDesigner(null);
+    setPriceMin("");
+    setPriceMax("");
     router.push("/explorer");
     onClose();
   };
@@ -86,13 +99,19 @@ const FilterSheetContent = ({
                 <FilterGender value={gender} onChange={setGender} />
                 <FilterType value={type} onChange={setType} />
                 <FilterDesigner value={designer} onChange={setDesigner} />
+                <FilterPrice
+                  min={priceMin}
+                  max={priceMax}
+                  onMinChange={setPriceMin}
+                  onMaxChange={setPriceMax}
+                />
                 <FilterSizes />
               </div>
               <div className="flex items-center gap-3">
                 <Button variant="outline" onClick={handleClear}>
                   Limpiar
                 </Button>
-                <Button onClick={handleApply}>Aplicar</Button>
+                <Button onClick={handleApply} disabled={!hasActiveFilters}>Aplicar</Button>
               </div>
             </div>
           </motion.div>

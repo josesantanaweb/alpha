@@ -41,6 +41,16 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
       whereConditions.type = params.type as Prisma.EnumPerfumeTypeFilter["equals"];
     }
 
+    if (params.priceMin || params.priceMax) {
+      whereConditions.price = {};
+      if (params.priceMin) {
+        whereConditions.price.gte = Number(params.priceMin);
+      }
+      if (params.priceMax) {
+        whereConditions.price.lte = Number(params.priceMax);
+      }
+    }
+
     const [perfumes, total] = await Promise.all([
       db.perfume.findMany({
         where: whereConditions,

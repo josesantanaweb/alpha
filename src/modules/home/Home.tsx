@@ -11,7 +11,7 @@ import { BestSellers } from "@/modules/perfumes/components/BestSellers";
 import { DesignerMarquee } from "@/modules/perfumes/components/DesignerMarquee";
 import { GenderCards } from "@/modules/perfumes/components/GenderCards";
 import { TrustBadges } from "@/modules/perfumes/components/TrustBadges";
-import { FilterButton } from "@/modules/perfumes/components/filter";
+import { FilterButton } from "@/modules/perfumes/components/filters";
 import { ROUTES } from "@/constants";
 import { SliderHome } from "./slider-home";
 import { FindYourVibe } from "./find-your-vibe";

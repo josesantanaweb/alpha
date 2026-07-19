@@ -15,6 +15,8 @@ export async function GET(request: NextRequest) {
     tag: getParam("tag"),
     gender: getParam("gender"),
     type: getParam("type"),
+    priceMin: getParam("priceMin"),
+    priceMax: getParam("priceMax"),
   });
 
   if (!result.success) {

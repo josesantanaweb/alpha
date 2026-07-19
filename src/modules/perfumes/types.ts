@@ -13,4 +13,6 @@ export interface GetPerfumesParams extends PaginationParams {
   tag?: string;
   gender?: string;
   type?: string;
+  priceMin?: string;
+  priceMax?: string;
 }

@@ -1,0 +1,1337 @@
+{
+  "info": {
+    "_postman_id": "e74a3826-db4f-40c1-8575-ad8d154f005c",
+    "name": "Aura API",
+    "description": "API Collection for Aura — Perfume E-commerce",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56206041"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"josesantana.web@gmail.com\",\n    \"password\": \"aura12345\",\n    \"name\": \"Jose Santana\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/auth/register",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"josesantana.web@gmail.com\",\n    \"password\": \"aura12345\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/auth/login",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/auth/me",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["auth", "me"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Designers",
+      "item": [
+        {
+          "name": "List Designers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/designers",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["designers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Designer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/designers/{{DESIGNER_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["designers", "{{DESIGNER_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Designer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Dior\",\n    \"slug\": \"dior\",\n    \"image\": \"/images/dior.svg\",\n    \"description\": \"Luxury French fashion house\",\n    \"showInHome\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/designers",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["designers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Designer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"showInHome\": true,\n    \"description\": \"Updated description\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/designers/{{DESIGNER_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["designers", "{{DESIGNER_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Designer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/designers/{{DESIGNER_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["designers", "{{DESIGNER_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Perfumes",
+      "item": [
+        {
+          "name": "List Perfumes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes?search=&gender=&type=&designer=&limit=10&offset=0",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Perfume",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes/{{PERFUME_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes", "{{PERFUME_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Perfume",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Sauvage\",\n    \"designerId\": \"{{DESIGNER_ID}}\",\n    \"type\": \"DESIGNER\",\n    \"gender\": \"MALE\",\n    \"description\": \"Fresh aromatic fougère\",\n    \"price\": 109.00,\n    \"image\": \"https://i.ibb.co/Vpgb8pPF/sauvage.png\",\n    \"stock\": 10,\n    \"remainingMl\": 100,\n    \"discount\": 0,\n    \"accordIds\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Perfume",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"price\": 89.00,\n    \"discount\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes/{{PERFUME_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes", "{{PERFUME_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Perfume",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes/{{PERFUME_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes", "{{PERFUME_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Accords",
+      "item": [
+        {
+          "name": "List Accords",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/accords",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["accords"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Accord",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/accords/{{ACCORD_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["accords", "{{ACCORD_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Accord",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Amaderado\",\n    \"icon\": \"TreePine\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/accords",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["accords"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Accord",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Amaderado Premium\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/accords/{{ACCORD_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["accords", "{{ACCORD_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Accord",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/accords/{{ACCORD_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["accords", "{{ACCORD_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Decants",
+      "item": [
+        {
+          "name": "List Decants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/decants",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["decants"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Decant",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/decants/{{DECANT_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["decants", "{{DECANT_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Decant",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ml\": 5,\n    \"price\": 15.00,\n    \"perfumeId\": \"{{PERFUME_ID}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/decants",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["decants"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Decant",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"price\": 12.00\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/decants/{{DECANT_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["decants", "{{DECANT_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Decant",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/decants/{{DECANT_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["decants", "{{DECANT_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "item": [
+        {
+          "name": "List Tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/tags",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["tags"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Tag",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/tags/{{TAG_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["tags", "{{TAG_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Tag",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Sexy\",\n    \"image\": \"https://i.ibb.co/gZG5srhZ/sexy.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/tags",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["tags"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Tag",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"showInHome\": true,\n    \"description\": \"Updated description\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/tags/{{TAG_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["tags", "{{TAG_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tag",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/tags/{{TAG_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["tags", "{{TAG_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notes",
+      "item": [
+        {
+          "name": "List Notes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/notes",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["notes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Note",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/notes/{{NOTE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["notes", "{{NOTE_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Note",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Bergamota\",\n    \"stage\": \"TOP\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/notes",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["notes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Note",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Bergamota de Calabria\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/notes/{{NOTE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["notes", "{{NOTE_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Note",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/notes/{{NOTE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["notes", "{{NOTE_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "List Favorites",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/favorites",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["favorites"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Favorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"perfumeId\": \"{{PERFUME_ID}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/favorites",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["favorites"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Favorite",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"perfumeId\": \"{{PERFUME_ID}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/favorites",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["favorites"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Banners",
+      "item": [
+        {
+          "name": "List Banners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/banners",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["banners"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Banner",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/banners/{{BANNER_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["banners", "{{BANNER_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Banner",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Tom Ford\",\n    \"text\": \"Ombre Leather\",\n    \"image\": \"https://i.ibb.co/W42L0tKN/banner2.jpg\",\n    \"slug\": \"/explorer\",\n    \"order\": 1,\n    \"isActive\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/banners",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["banners"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Banner",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"image\": \"https://placehold.co/400x600\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/banners/{{BANNER_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["banners", "{{BANNER_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Banner",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/banners/{{BANNER_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["banners", "{{BANNER_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Vibes",
+      "item": [
+        {
+          "name": "List Vibes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/vibes",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["vibes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Vibe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/vibes/{{VIBE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["vibes", "{{VIBE_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Vibe",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Para la Noche\",\n    \"image\": \"https://i.ibb.co/WpcGktL2/noche.png\",\n    \"description\": \"Fragancias misteriosas e intensas\",\n    \"slug\": \"noche\",\n    \"order\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/vibes",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["vibes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Vibe",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Para la Noche Premium\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/vibes/{{VIBE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["vibes", "{{VIBE_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Vibe",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/vibes/{{VIBE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["vibes", "{{VIBE_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Feelings",
+      "item": [
+        {
+          "name": "List Feelings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/feelings",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["feelings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Feeling",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/feelings/{{FEELING_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["feelings", "{{FEELING_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Feeling",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"love\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/feelings",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["feelings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Feeling",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"like\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/feelings/{{FEELING_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["feelings", "{{FEELING_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Feeling",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/feelings/{{FEELING_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["feelings", "{{FEELING_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Longevities",
+      "item": [
+        {
+          "name": "List Longevities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/longevities",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["longevities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Longevity",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/longevities/{{LONGEVITY_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["longevities", "{{LONGEVITY_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Longevity",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"long\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/longevities",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["longevities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Longevity",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"veryLong\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/longevities/{{LONGEVITY_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["longevities", "{{LONGEVITY_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Longevity",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/longevities/{{LONGEVITY_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["longevities", "{{LONGEVITY_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Seasons",
+      "item": [
+        {
+          "name": "List Seasons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/seasons",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["seasons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Season",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/seasons/{{SEASON_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["seasons", "{{SEASON_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Season",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"winter\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/seasons",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["seasons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Season",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"summer\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/seasons/{{SEASON_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["seasons", "{{SEASON_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Season",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/seasons/{{SEASON_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["seasons", "{{SEASON_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sillages",
+      "item": [
+        {
+          "name": "List Sillages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/sillages",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["sillages"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sillage",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/sillages/{{SILLAGE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["sillages", "{{SILLAGE_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Sillage",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"moderate\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/sillages",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["sillages"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Sillage",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"vote\": \"heavy\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/sillages/{{SILLAGE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["sillages", "{{SILLAGE_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Sillage",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/sillages/{{SILLAGE_ID}}",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["sillages", "{{SILLAGE_ID}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "Upload Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/uploads",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["uploads"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "URL_BACKEND",
+      "value": ""
+    },
+    {
+      "key": "BEARER_TOKEN",
+      "value": ""
+    },
+    {
+      "key": "PERFUME_ID",
+      "value": ""
+    },
+    {
+      "key": "DESIGNER_ID",
+      "value": ""
+    },
+    {
+      "key": "ACCORD_ID",
+      "value": ""
+    },
+    {
+      "key": "DECANT_ID",
+      "value": ""
+    },
+    {
+      "key": "TAG_ID",
+      "value": ""
+    },
+    {
+      "key": "NOTE_ID",
+      "value": ""
+    },
+    {
+      "key": "BANNER_ID",
+      "value": ""
+    },
+    {
+      "key": "VIBE_ID",
+      "value": ""
+    },
+    {
+      "key": "FEELING_ID",
+      "value": ""
+    },
+    {
+      "key": "LONGEVITY_ID",
+      "value": ""
+    },
+    {
+      "key": "SEASON_ID",
+      "value": ""
+    },
+    {
+      "key": "SILLAGE_ID",
+      "value": ""
+    }
+  ]
+}

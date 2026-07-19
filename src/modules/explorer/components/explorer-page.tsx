@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
 import { SearchInput } from "@/modules/shared/components/SearchInput";
-import { FilterButton } from "@/modules/perfumes/components/filter";
+import { FilterButton } from "@/modules/perfumes/components/filters";
 import { PerfumeGrid } from "@/modules/perfumes/components/PerfumeGrid";
 
 interface ExplorerProps {

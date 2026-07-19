@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import { useDesigners } from "@/modules/designers/hooks/use-designers";
 
 export const DesignerMarquee = (): ReactElement | null => {
-  const { data, isLoading } = useDesigners();
+  const { data: designer, isLoading } = useDesigners();
 
-  if (isLoading || !data?.length) return null;
+  if (isLoading || !designer?.length) return null;
 
   return (
     <div className="relative overflow-hidden">
@@ -24,19 +24,15 @@ export const DesignerMarquee = (): ReactElement | null => {
           },
         }}
       >
-        {[...data, ...data].map((designer, index) => (
+        {[...designer, ...designer].map((designer, index) => (
           <div key={`${designer.id}-${index}`} className="w-12 shrink-0">
-            {designer.image ? (
-              <Image
-                src={designer.image}
-                alt={designer.name}
-                width={300}
-                height={300}
-                className="h-full w-full"
-              />
-            ) : (
-              <p className="text-body text-center text-xs">{designer.name}</p>
-            )}
+            <Image
+              src={designer.image || "/images/versace.svg"}
+              alt={designer.name}
+              width={300}
+              height={300}
+              className="h-full w-full"
+            />
           </div>
         ))}
       </motion.div>

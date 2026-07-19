@@ -5,4 +5,4 @@ export * from "./GenderCards";
 export * from "./DesignerMarquee";
 export * from "./TrustBadges";
 export * from "./EmptyState";
-export * from "./filter";
+export * from "./filters";
