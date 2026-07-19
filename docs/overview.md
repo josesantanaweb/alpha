@@ -71,6 +71,7 @@ src/
 │   │   ├── auth.ts         # Login, logout, initialize
 │   │   ├── banners.ts
 │   │   ├── categories.ts
+│   │   ├── designers.ts
 │   │   ├── perfumes.ts
 │   │   ├── tags.ts
 │   │   └── vibes.ts
@@ -240,8 +241,13 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 - `Rating` — Estrellas de rating
 - `LikeButton` — Botón de favorito con animación
 - `Discount` — Badge de descuento
+- `PerfumeBadge` — Badge contextual en la card del perfume
+- `PerfumePrice` — Precio del perfume (con descuento: original tachado + precio final)
 - `AddToCartButton` — Botón añadir al carrito
 - `Tabs` — Pestañas navegables
+- `FilterGender` — Filtro por género en el explorador
+- `FilterCategories` — Filtro por tipo de perfume (Árabe/Diseñador/Nicho)
+- `FilterDesigner` — Filtro por diseñador
 
 ---
 
@@ -252,6 +258,8 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 | `/` | Home | Landing page con slider, diseñadores, géneros, badges, best sellers |
 | `/explorer` | Explorer | Listado/grid de perfumes con filtros |
 | `/explorer?gender=MALE` | Explorer (filtrado) | Perfumes filtrados por género |
+| `/explorer?type=ARABIC` | Explorer (filtrado) | Perfumes filtrados por tipo (ARABIC/DESIGNER/NICHE) |
+| `/explorer?designer=Dior` | Explorer (filtrado) | Perfumes filtrados por nombre del diseñador |
 | `/favorites` | Favorites | Perfumes guardados como favoritos |
 | `/login` | Login | Inicio de sesión (sin Header/BottomNav) |
 | `/register` | Register | Registro de usuario (sin Header/BottomNav) |
@@ -265,8 +273,9 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 |---|---|
 | `useBanners()` | GET /api/banners |
 | `useCategories()` | GET /api/categories |
+| `useDesigners()` | GET /api/designers |
 | `useFavorites()` | Zustand store (local) |
-| `usePerfumes(params)` | GET /api/perfumes?search=&gender=... |
+| `usePerfumes(params)` | GET /api/perfumes?search=&gender=&type=&designer=... |
 | `useTags()` | GET /api/tags |
 | `useVibes()` | GET /api/vibes |
 | `useDebounce(value, delay)` | Utilidad |

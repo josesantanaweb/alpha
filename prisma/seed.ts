@@ -10,6 +10,7 @@ const prisma = new PrismaClient({
 interface SeedDesigner {
   name: string;
   slug: string;
+  image?: string | null;
 }
 
 interface SeedPerfume {
@@ -56,7 +57,12 @@ interface SeedVibe {
 }
 
 const INITIAL_DESIGNERS: SeedDesigner[] = [
-  { name: "Giorgio Armani", slug: "giorgio-armani" },
+  { name: "Versace", slug: "versace", image: "/images/versace.svg" },
+  { name: "Dior", slug: "dior", image: "/images/dior.svg" },
+  { name: "Xerjoff", slug: "xerjoff", image: "/images/xerjoff.svg" },
+  { name: "Tom Ford", slug: "tom-ford", image: "/images/tom-ford.svg" },
+  { name: "Gucci", slug: "gucci", image: "/images/gucci.svg" },
+  { name: "Louis Vuitton", slug: "louis-vuitton", image: "/images/louis-vuitton.svg" },
 ];
 
 const INITIAL_ACCORDS = [
@@ -77,12 +83,12 @@ const INITIAL_PERFUME_STATS = {
   reviewCount: 0,
 } as const;
 
-const INITIAL_PERFUMES: SeedPerfume[] = (perfumesData as SeedPerfumeInput[]).map(
-  (perfume) => ({
-    ...perfume,
-    ...INITIAL_PERFUME_STATS,
-  }),
-);
+const INITIAL_PERFUMES: SeedPerfume[] = (
+  perfumesData as SeedPerfumeInput[]
+).map((perfume) => ({
+  ...perfume,
+  ...INITIAL_PERFUME_STATS,
+}));
 
 const INITIAL_VIBES: SeedVibe[] = [
   {
@@ -144,24 +150,14 @@ async function main() {
   await prisma.accord.deleteMany();
   await prisma.designer.deleteMany();
 
-  const designerNames = Array.from(
-    new Set([
-      ...INITIAL_DESIGNERS.map((designer) => designer.name),
-      ...INITIAL_PERFUMES.map((perfume) => perfume.designerName),
-    ]),
-  );
-
-  for (const designerName of designerNames) {
-    const existingDesigner = INITIAL_DESIGNERS.find(
-      (designer) => designer.name === designerName,
-    );
-
+  for (const designer of INITIAL_DESIGNERS) {
     await prisma.designer.upsert({
-      where: { name: designerName },
+      where: { name: designer.name },
       update: {},
       create: {
-        name: designerName,
-        slug: existingDesigner?.slug ?? createSlug(designerName),
+        name: designer.name,
+        slug: designer.slug,
+        image: designer.image ?? null,
       },
     });
   }
@@ -194,7 +190,7 @@ async function main() {
         reviewCount: perfume.reviewCount,
         type: perfume.type,
         gender: perfume.gender,
-        discount: perfume.discount
+        discount: perfume.discount,
       },
     });
   }
@@ -213,9 +209,7 @@ async function main() {
     });
   }
 
-  console.log(
-    `✅ Seeding se ha ejecutado con éxito.`
-  );
+  console.log(`✅ Seeding se ha ejecutado con éxito.`);
 }
 
 main()

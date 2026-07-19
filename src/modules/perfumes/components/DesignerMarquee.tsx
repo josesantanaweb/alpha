@@ -2,16 +2,13 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useDesigners } from "@/modules/designers/hooks/use-designers";
 
-const DESIGNERS = [
-  "versace",
-  "dior",
-  "xerjoff",
-  "gucci",
-  "louis-vuitton",
-];
+export const DesignerMarquee = (): ReactElement | null => {
+  const { data, isLoading } = useDesigners();
 
-export const DesignerMarquee = (): ReactElement => {
+  if (isLoading || !data?.length) return null;
+
   return (
     <div className="relative overflow-hidden">
       <motion.div
@@ -27,15 +24,19 @@ export const DesignerMarquee = (): ReactElement => {
           },
         }}
       >
-        {[...DESIGNERS, ...DESIGNERS].map((designer, index) => (
-          <div key={`${designer}-${index}`} className="w-12 shrink-0">
-            <Image
-              src={`/images/${designer}.svg`}
-              alt={designer}
-              width={300}
-              height={300}
-              className="h-full w-full"
-            />
+        {[...data, ...data].map((designer, index) => (
+          <div key={`${designer.id}-${index}`} className="w-12 shrink-0">
+            {designer.image ? (
+              <Image
+                src={designer.image}
+                alt={designer.name}
+                width={300}
+                height={300}
+                className="h-full w-full"
+              />
+            ) : (
+              <p className="text-body text-center text-xs">{designer.name}</p>
+            )}
           </div>
         ))}
       </motion.div>

@@ -19,7 +19,7 @@ export const FilterGender = ({
 }: FilterGenderProps): ReactElement => {
   return (
     <div className="flex flex-col gap-1">
-      <h4 className="text-lg font-semibold text-white">Genero</h4>
+      <h4 className="text-base font-semibold text-white">Genero</h4>
       <div className="flex items-center gap-2">
         {GENDERS.map((g) => (
           <Badge

@@ -1,5 +1,5 @@
 export { FilterButton } from "./FilterButton";
 export { FilterSheet } from "./FilterSheet";
 export { FilterGender } from "./FilterGender";
-export { FilterCategories } from "./FilterCategories";
+export { FilterType } from "./FilterType";
 export { FilterSizes } from "./FilterSizes";

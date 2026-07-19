@@ -8,18 +8,18 @@ const TYPES = [
   { label: "Nicho", value: "NICHE" },
 ];
 
-interface FilterCategoriesProps {
+interface FilterTypeProps {
   value: string | null;
   onChange: (v: string | null) => void;
 }
 
-export const FilterCategories = ({
+export const FilterType = ({
   value,
   onChange,
-}: FilterCategoriesProps): ReactElement => {
+}: FilterTypeProps): ReactElement => {
   return (
     <div className="flex flex-col gap-1">
-      <h4 className="text-lg font-semibold text-white">Tipo</h4>
+      <h4 className="text-base font-semibold text-white">Tipo</h4>
       <div className="flex items-center gap-2">
         {TYPES.map((t) => (
           <Badge

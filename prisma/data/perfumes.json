@@ -1,7 +1,7 @@
 [
   {
     "name": "Acqua di Giò Eau de Parfum Intense",
-    "designerName": "Giorgio Armani",
+    "designerName": "Versace",
     "description": "Acqua di Giò Eau de Parfum Intense de Giorgio Armani es una fragancia de la familia olfativa Aromática Acuática para Hombres. Esta fragrancia es nueva. Acqua di Giò Eau de Parfum Intense se lanzó en 2026. Las Notas de Salida son manzana verde y bergamota de Calabria; las Notas de Corazón son Notas marinas y esclarea; las Notas de Fondo son notas amaderadas y ámbar.",
     "price": 109.0,
     "image": "https://i.ibb.co/qLrc9K9N/acqua-di-gi-eau-de-parfum-intense.png",
@@ -9,7 +9,7 @@
     "gender": "MALE"},
   {
     "name": "Eros",
-    "designerName": "Versace",
+    "designerName": "Dior",
     "description": "Eros de Versace es una fragancia de la familia olfativa Aromática Fougère para Hombres. Eros se lanzó en 2012. La Nariz detrás de esta fragrancia es Aurélien Guichard. Las Notas de Salida son menta, manzana verde y limón (lima ácida); las Notas de Corazón son haba tonka, ambroxan y geranio; las Notas de Fondo son vainilla de Madagascar, cedro de Virginia, cedro del Atlas, vetiver y musgo de roble.",
     "price": 109.0,
     "image": "https://i.ibb.co/7NXVHmcL/eros.png",
@@ -17,7 +17,7 @@
     "gender": "MALE"},
   {
     "name": "Sauvage",
-    "designerName": "Christian Dior",
+    "designerName": "Xerjoff",
     "description": "Sauvage de Dior es una fragancia de la familia olfativa Aromática Fougère para Hombres. Sauvage se lanzó en 2015. La Nariz detrás de esta fragrancia es François Demachy. Las Notas de Salida son bergamota de Calabria y pimienta; las Notas de Corazón son pimienta de Sichuan, lavanda, pimienta rosa, vetiver, pachulí, geranio y elemí; las Notas de Fondo son ambroxan, cedro y ládano.",
     "price": 109.0,
     "image": "https://i.ibb.co/Vpgb8pPF/sauvage.png",
@@ -25,7 +25,7 @@
     "gender": "MALE"},
   {
     "name": "Aventus",
-    "designerName": "Creed",
+    "designerName": "Xerjoff",
     "description": "Aventus de Creed es una fragancia de la familia olfativa Chipre Frutal para Hombres. Aventus se lanzó en 2010. Aventus fue creada por Jean-Christophe Hérault y Erwin Creed. Las Notas de Salida son bergamota, grosellas negras, manzana, limón (lima ácida) y pimienta rosa; las Notas de Corazón son piña, pachulí y jazmín de Marruecos; las Notas de Fondo son abedul, almizcle, musgo de roble, cedro y ambroxan.",
     "price": 109.0,
     "image": "https://i.ibb.co/yBFvP0jT/aventus.png",
@@ -41,7 +41,7 @@
     "gender": "MALE"},
   {
     "name": "Mandarin Sky",
-    "designerName": "Armaf",
+    "designerName": "Gucci",
     "description": "Odyssey Mandarin Sky de Armaf es una fragancia de la familia olfativa para Hombres. Odyssey Mandarin Sky se lanzó en 2023. Las Notas de Salida son mandarina, naranja, azafrán y salvia; las Notas de Corazón son caramelo, haba tonka y cempasúchil (tagete, clavelón); las Notas de Fondo son ambroxan, cedro y vetiver.",
     "price": 109.0,
     "image": "https://i.ibb.co/5hcHZ251/odyssey-mandarin-sky.png",
@@ -49,7 +49,7 @@
     "gender": "MALE"},
   {
     "name": "Homme White Edition",
-    "designerName": "Armaf",
+    "designerName": "Gucci",
     "description": "Odyssey Homme White Edition de Armaf es una fragancia de la familia olfativa Oriental Fougère para Hombres. Las Notas de Salida son cardamomo, pimienta rosa y menta; las Notas de Corazón son Notas acuáticas, salvia y piña; las Notas de Fondo son Amberwood, vainilla y cedro.",
     "price": 109.0,
     "image": "https://i.ibb.co/V0w8Jwz1/odyssey-homme-white-edition.png",
@@ -57,7 +57,7 @@
     "gender": "MALE"},
   {
     "name": "Asad Bourbon",
-    "designerName": "Lattafa",
+    "designerName": "Louis Vuitton",
     "description": "Asad Bourbon de Lattafa Perfumes es una fragancia de la familia olfativa Oriental Especiada para Hombres. Esta fragrancia es nueva. Asad Bourbon se lanzó en 2025. Las Notas de Salida son lavanda, ciruela Mirabel y pimienta rosa; las Notas de Corazón son cacao, nuez moscada y Davana; las Notas de Fondo son vainilla Bourbon, ámbar y vetiver.",
     "price": 109.0,
     "image": "https://i.ibb.co/1J2Wt3PG/asad-bourbon.png",
@@ -65,7 +65,7 @@
     "gender": "MALE"},
   {
     "name": "Khamrah",
-    "designerName": "Lattafa",
+    "designerName": "Louis Vuitton",
     "description": "Khamrah de Lattafa Perfumes es una fragancia de la familia olfativa Oriental Especiada para Hombres y Mujeres. Khamrah se lanzó en 2022. Las Notas de Salida son canela, nuez moscada y bergamota; las Notas de Corazón son dátiles, praliné, nardos y Mahonial; las Notas de Fondo son vainilla, haba tonka, Amberwood, mirra, benjuí y Akigalawood.",
     "price": 109.0,
     "image": "https://i.ibb.co/mFb0R8Z4/khamrah.png",
@@ -73,7 +73,7 @@
     "gender": "UNISEX"},
   {
     "name": "Wolf",
-    "designerName": "Rayhaan",
+    "designerName": "Louis Vuitton",
     "description": "Wolf de Rayhaan es una fragancia de la familia olfativa Oriental Amaderada para Hombres. Esta fragrancia es nueva. Wolf se lanzó en 2026. La Nota de Salida es cardamomo; la Nota de Corazón es tófe; la Nota de Fondo es Amberwood.",
     "price": 109.0,
     "image": "https://i.ibb.co/GfTZN1xP/wolf.png",
@@ -81,7 +81,7 @@
     "gender": "MALE"},
   {
     "name": "Bad Boy Cobalt Absolute",
-    "designerName": "Carolina Herrera",
+    "designerName": "Versace",
     "description": "Bad Boy Cobalt Absolute de Carolina Herrera es una fragancia de la familia olfativa Oriental Amaderada para Hombres. Esta fragrancia es nueva. Bad Boy Cobalt Absolute se lanzó en 2025. Las Notas de Salida son lavanda azul, salvia azul y elemí; las Notas de Corazón son trufa, madera de oud y geranio; las Notas de Fondo son vainilla, roble y vetiver.",
     "price": 109.0,
     "image": "https://i.ibb.co/LXV97DV0/mp-7368-bottle-2.png",
@@ -89,7 +89,7 @@
     "gender": "MALE"},
   {
     "name": "Good Girl",
-    "designerName": "Carolina Herrera",
+    "designerName": "Versace",
     "description": "Good Girl de Carolina Herrera es una fragancia de la familia olfativa Oriental Floral para Mujeres. Good Girl se lanzó en 2016. Good Girl fue creada por Louise Turner y Quentin Bisch. Las Notas de Salida son almendra, café, bergamota y limón (lima ácida); las Notas de Corazón son nardos, jazmín sambac (sampaguita), flor de azahar del naranjo, rosa de Bulgaria (rosa Damascena de Bulgaria) y raíz de lirio; las Notas de Fondo son haba tonka, cacao, vainilla, praliné, sándalo, almizcle, ámbar, madera de cachemira, pachulí, canela y cedro.",
     "price": 109.0,
     "image": "https://i.ibb.co/QvYNjYZj/good-girl.png",
@@ -97,7 +97,7 @@
     "gender": "FEMALE"},
   {
     "name": "Emporio Armani Stronger With You Intensely",
-    "designerName": "Giorgio Armani",
+    "designerName": "Versace",
     "description": "Emporio Armani Stronger With You Intensely de Giorgio Armani es una fragancia de la familia olfativa Oriental Fougère para Hombres. Emporio Armani Stronger With You Intensely se lanzó en 2019. Las Notas de Salida son pimienta rosa, enebro y violeta; las Notas de Corazón son tófe, canela, lavanda y salvia; las Notas de Fondo son vainilla, ámbar, haba tonka y gamuza.",
     "price": 109.0,
     "image": "https://i.ibb.co/5XHMGGnk/emporio-armani-wtronger-with-you-intensely.png",
@@ -105,7 +105,7 @@
     "gender": "MALE"},
   {
     "name": "Uomo Born In Roma Intense",
-    "designerName": "Valentino",
+    "designerName": "Versace",
     "description": "Valentino Uomo Born In Roma Intense de Valentino es una fragancia de la familia olfativa Oriental Vainilla para Hombres. Valentino Uomo Born In Roma Intense se lanzó en 2023. Valentino Uomo Born In Roma Intense fue creada por Antoine Maisondieu y Guillaume Flavigny. La Nota de Salida es vainilla; la Nota de Corazón es lavanda; la Nota de Fondo es vetiver.",
     "price": 109.0,
     "image": "https://i.ibb.co/LzJx55TW/uomo-born-in-roma-intense.png",
@@ -113,7 +113,7 @@
     "gender": "MALE"},
   {
     "name": "9pm",
-    "designerName": "Afnan",
+    "designerName": "Versace",
     "description": "9pm de Afnan es una fragancia de la familia olfativa Oriental Vainilla para Hombres. 9pm se lanzó en 2020. Las Notas de Salida son manzana, canela, lavanda silvestre y bergamota; las Notas de Corazón son flor de azahar del naranjo y lirio de los valles (muguete); las Notas de Fondo son vainilla, haba tonka, ámbar y pachulí.",
     "price": 109.0,
     "image": "https://i.ibb.co/hFK9vN9C/9pm.png",
@@ -123,7 +123,7 @@
   },
   {
     "name": "Le Beau Le Parfum",
-    "designerName": "Jean Paul Gaultier ",
+    "designerName": "Versace",
     "description": "Le Beau Le Parfum de Jean Paul Gaultier es una fragancia de la familia olfativa Oriental Amaderada para Hombres. Le Beau Le Parfum se lanzó en 2022. La Nariz detrás de esta fragrancia es Quentin Bisch. Las Notas de Salida son piña, iris, jengibre y ciprés; las Notas de Corazón son coco y notas amaderadas; las Notas de Fondo son haba tonka, sándalo, ámbar y ámbar gris.",
     "price": 109.0,
     "image": "https://i.ibb.co/VWHc2c7x/le-male-le-parfum.png",
@@ -131,7 +131,7 @@
     "gender": "MALE"},
   {
     "name": "Le Male Elixir",
-    "designerName": "Jean Paul Gaultier ",
+    "designerName": "Versace",
     "description": "Le Male Elixir de Jean Paul Gaultier es una fragancia de la familia olfativa Oriental Fougère para Hombres. Le Male Elixir se lanzó en 2023. La Nariz detrás de esta fragrancia es Quentin Bisch. Las Notas de Salida son lavanda y menta; las Notas de Corazón son vainilla y benjuí; las Notas de Fondo son miel, haba tonka y tabaco.",
     "price": 109.0,
     "image": "https://i.ibb.co/B9cMXnt/le-male-elixir.png",

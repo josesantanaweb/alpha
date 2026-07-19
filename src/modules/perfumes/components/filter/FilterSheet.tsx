@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/modules/shared/components/ui";
 import { FilterGender } from "./FilterGender";
-import { FilterCategories } from "./FilterCategories";
+import { FilterType } from "./FilterType";
+import { FilterDesigner } from "./FilterDesigner";
 import { FilterSizes } from "./FilterSizes";
 
 interface FilterSheetProps {
@@ -36,11 +37,15 @@ const FilterSheetContent = ({
   const [type, setType] = useState<string | null>(
     searchParams.get("type"),
   );
+  const [designer, setDesigner] = useState<string | null>(
+    searchParams.get("designer"),
+  );
 
   const handleApply = () => {
     const params = new URLSearchParams();
     if (gender) params.set("gender", gender);
     if (type) params.set("type", type);
+    if (designer) params.set("designer", designer);
     const qs = params.toString();
     router.push(qs ? `/explorer?${qs}` : "/explorer");
     onClose();
@@ -49,6 +54,7 @@ const FilterSheetContent = ({
   const handleClear = () => {
     setGender(null);
     setType(null);
+    setDesigner(null);
     router.push("/explorer");
     onClose();
   };
@@ -78,7 +84,8 @@ const FilterSheetContent = ({
               </h4>
               <div className="flex w-full flex-col justify-start gap-6">
                 <FilterGender value={gender} onChange={setGender} />
-                <FilterCategories value={type} onChange={setType} />
+                <FilterType value={type} onChange={setType} />
+                <FilterDesigner value={designer} onChange={setDesigner} />
                 <FilterSizes />
               </div>
               <div className="flex items-center gap-3">

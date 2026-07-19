@@ -11,7 +11,7 @@ const SIZES = [
 export const FilterSizes = (): ReactElement => {
   return (
     <div className="flex flex-col gap-1">
-      <h4 className="text-lg font-semibold text-white">Tamaño</h4>
+      <h4 className="text-base font-semibold text-white">Tamaño</h4>
       <div className="flex items-center gap-2">
         {SIZES.map((s) => (
           <Badge key={s.value} label={s.label} />
