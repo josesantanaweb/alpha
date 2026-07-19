@@ -42,6 +42,7 @@ export const BestSellers = ({
               perfume={perfume}
               liked={likedIds.includes(perfume.id)}
               onLikeToggle={() => toggleLike(perfume.id)}
+              perfumeBadge="Tendencia"
             />
           ))}
         </div>

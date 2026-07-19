@@ -33,10 +33,14 @@ const FilterSheetContent = ({
   const [gender, setGender] = useState<string | null>(
     searchParams.get("gender"),
   );
+  const [type, setType] = useState<string | null>(
+    searchParams.get("type"),
+  );
 
   const handleApply = () => {
     const params = new URLSearchParams();
     if (gender) params.set("gender", gender);
+    if (type) params.set("type", type);
     const qs = params.toString();
     router.push(qs ? `/explorer?${qs}` : "/explorer");
     onClose();
@@ -44,6 +48,7 @@ const FilterSheetContent = ({
 
   const handleClear = () => {
     setGender(null);
+    setType(null);
     router.push("/explorer");
     onClose();
   };
@@ -73,7 +78,7 @@ const FilterSheetContent = ({
               </h4>
               <div className="flex w-full flex-col justify-start gap-6">
                 <FilterGender value={gender} onChange={setGender} />
-                <FilterCategories />
+                <FilterCategories value={type} onChange={setType} />
                 <FilterSizes />
               </div>
               <div className="flex items-center gap-3">

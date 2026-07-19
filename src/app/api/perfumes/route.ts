@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
     tagId: getParam("tagId"),
     tag: getParam("tag"),
     gender: getParam("gender"),
+    type: getParam("type"),
   });
 
   if (!result.success) {

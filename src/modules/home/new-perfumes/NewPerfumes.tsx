@@ -40,6 +40,7 @@ export const NewPerfumes = ({
               className="min-w-45"
               key={perfume.id}
               perfume={perfume}
+              perfumeBadge="Nuevo"
               liked={likedIds.has(perfume.id)}
               onLikeToggle={() => onLikeToggle(perfume.id)}
             />

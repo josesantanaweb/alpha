@@ -1,7 +1,6 @@
 export * from "./CategoryButton";
 export * from "./LikeButton";
 export * from "./Rating";
-export * from "./Discount";
 export * from "./ProgressBar";
 export * from "./Tabs";
 export * from "./AddToCartButton";

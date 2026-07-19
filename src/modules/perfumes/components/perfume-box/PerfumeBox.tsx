@@ -2,12 +2,13 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
 import { Prisma } from "@prisma/client";
+import { cn } from "@/modules/shared/utils/cn";
 import {
   Rating,
   LikeButton,
-  Discount,
 } from "@/modules/shared/components";
-import { cn } from "@/modules/shared/utils/cn";
+import { PerfumeBadge } from "./PerfumeBadge";
+import { PerfumePrice } from "./PerfumePrice";
 
 type PerfumeBoxPerfume = Prisma.PerfumeGetPayload<{
   include: { designer: true };
@@ -15,6 +16,7 @@ type PerfumeBoxPerfume = Prisma.PerfumeGetPayload<{
 
 interface PerfumeBoxProps {
   perfume: PerfumeBoxPerfume;
+  perfumeBadge?: string;
   liked: boolean;
   onLikeToggle: () => void;
   className?: string;
@@ -25,6 +27,7 @@ export const PerfumeBox = ({
   liked,
   onLikeToggle,
   className,
+  perfumeBadge,
 }: PerfumeBoxProps): ReactElement => {
   const { name, price, rating, designer, discount, image } = perfume;
 
@@ -35,7 +38,7 @@ export const PerfumeBox = ({
           <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[30px]" />
         </div>
         <div className="absolute top-0 left-0 flex w-full items-center justify-between p-3">
-          <Discount discount={discount} />
+          <PerfumeBadge label={perfumeBadge} />
           <LikeButton liked={liked} onToggle={onLikeToggle} />
         </div>
         <div className="flex w-full justify-center">
@@ -61,7 +64,7 @@ export const PerfumeBox = ({
             </h4>
             <Rating rating={Number(rating)} />
           </div>
-          <p className="text-lg font-bold text-white">${Number(price)}</p>
+          <PerfumePrice price={Number(price)} discount={discount} />
         </div>
       </div>
     </div>
