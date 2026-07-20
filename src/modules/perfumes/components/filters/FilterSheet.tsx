@@ -95,7 +95,8 @@ const FilterSheetContent = ({
               <h4 className="text-center text-xl font-semibold text-white">
                 Filtros
               </h4>
-              <div className="flex w-full flex-col justify-start gap-6">
+
+              <div className="flex w-full flex-col justify-start gap-6 max-h-120 overflow-y-scroll">
                 <FilterGender value={gender} onChange={setGender} />
                 <FilterType value={type} onChange={setType} />
                 <FilterDesigner value={designer} onChange={setDesigner} />
@@ -107,6 +108,7 @@ const FilterSheetContent = ({
                 />
                 <FilterSizes />
               </div>
+
               <div className="flex items-center gap-3">
                 <Button variant="outline" onClick={handleClear}>
                   Limpiar

@@ -24,6 +24,7 @@ model User {
 model Perfume {
   id          String      @id @default(uuid())
   name        String      @unique
+  slug        String      @unique
   type        PerfumeType
   gender      Gender
   description String?

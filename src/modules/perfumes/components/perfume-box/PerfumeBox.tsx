@@ -1,12 +1,10 @@
 "use client";
 import type { ReactElement } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { cn } from "@/modules/shared/utils/cn";
-import {
-  Rating,
-  LikeButton,
-} from "@/modules/shared/components";
+import { Rating, LikeButton } from "@/modules/shared/components";
 import { PerfumeBadge } from "./PerfumeBadge";
 import { PerfumePrice } from "./PerfumePrice";
 
@@ -29,17 +27,22 @@ export const PerfumeBox = ({
   className,
   perfumeBadge,
 }: PerfumeBoxProps): ReactElement => {
-  const { name, price, rating, designer, discount, image } = perfume;
+  const { name, price, rating, designer, discount, image, slug } = perfume;
 
   return (
-    <div className={cn("flex flex-col gap-3 shrink-0", className)}>
+    <Link
+      href={`/perfume/${slug}`}
+      className={cn("flex shrink-0 flex-col gap-3", className)}
+    >
       <div className="bg-surface border-stroke relative flex h-45 w-full items-center justify-center overflow-hidden rounded-2xl border p-3">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[30px]" />
+          <div className="absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[30px]" />
         </div>
         <div className="absolute top-0 left-0 flex w-full items-center justify-between p-3">
-          <PerfumeBadge label={perfumeBadge} />
-          <LikeButton liked={liked} onToggle={onLikeToggle} />
+          {perfumeBadge ? <PerfumeBadge label={perfumeBadge} /> : <span />}
+          <span onClick={(e) => e.stopPropagation()} role="presentation">
+            <LikeButton liked={liked} onToggle={onLikeToggle} />
+          </span>
         </div>
         <div className="flex w-full justify-center">
           <div className="relative h-30 w-28.5 overflow-hidden">
@@ -67,6 +70,6 @@ export const PerfumeBox = ({
           <PerfumePrice price={Number(price)} discount={discount} />
         </div>
       </div>
-    </div>
+    </Link>
   );
 };

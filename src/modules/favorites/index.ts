@@ -1,2 +1,2 @@
 export * from "./actions";
-export { Favorites } from "./components/favorites-page";
+export { Favorites } from "./components/Favorites";

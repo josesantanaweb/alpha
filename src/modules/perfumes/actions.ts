@@ -9,8 +9,6 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
   const offset = params.offset ?? 0;
 
   try {
-    // Objeto dinámico: agregar filtros futuros (acordes, notas, género, temporada)
-    // aquí sin tocar el resto de la lógica de paginado.
     const whereConditions: Prisma.PerfumeWhereInput = {};
 
     if (params.search) {
@@ -123,14 +121,50 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
   }
 }
 
+export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRelations>> {
+  if (!slug) {
+    return {
+      success: false,
+      status: 400,
+      message: "El slug es requerido.",
+    };
+  }
+
+  try {
+    const perfume = await db.perfume.findUnique({
+      where: { slug },
+      include: {
+        accords: true,
+        designer: true,
+      },
+    });
+
+    if (!perfume) {
+      return {
+        success: false,
+        status: 404,
+        message: "Perfume no encontrado.",
+      };
+    }
+
+    return { success: true, status: 200, data: perfume };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
 export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
   const result = CreatePerfumeSchema.safeParse(rawData);
 
   if (!result.success) {
-    return { 
-      success: false, 
-      status: 400, 
-      errors: result.error.flatten().fieldErrors 
+    return {
+      success: false,
+      status: 400,
+      errors: result.error.flatten().fieldErrors
     };
   }
 
@@ -144,17 +178,17 @@ export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
           : undefined,
       },
     });
-    return { 
-      success: true, 
-      status: 201, 
-      data: perfume 
+    return {
+      success: true,
+      status: 201,
+      data: perfume
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
-      return { 
-        success: false, 
-        status: 409, 
-        message: "Ese perfume ya existe." 
+      return {
+        success: false,
+        status: 409,
+        message: "Ese perfume ya existe."
       };
     }
 
@@ -170,10 +204,10 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
   const result = UpdatePerfumeSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
 
   if (!result.success) {
-    return { 
-      success: false, 
-      status: 400, 
-      errors: result.error.flatten().fieldErrors 
+    return {
+      success: false,
+      status: 400,
+      errors: result.error.flatten().fieldErrors
     };
   }
 
@@ -187,10 +221,10 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
     return { success: true, status: 200, data: updatedPerfume };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
-      return { 
-        success: false, 
-        status: 404, 
-        message: "Perfume no encontrado." 
+      return {
+        success: false,
+        status: 404,
+        message: "Perfume no encontrado."
       };
     }
 
@@ -204,10 +238,10 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
 
 export async function remove(id: string) {
   if (!id) {
-    return { 
-      success: false, 
-      status: 400, 
-      message: "El ID es requerido." 
+    return {
+      success: false,
+      status: 400,
+      message: "El ID es requerido."
     };
   }
 
@@ -219,10 +253,10 @@ export async function remove(id: string) {
     return { success: true, status: 200, data: null, message: "Perfume eliminado con éxito." };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
-      return { 
-        success: false, 
-        status: 404, 
-        message: "Perfume no encontrado." 
+      return {
+        success: false,
+        status: 404,
+        message: "Perfume no encontrado."
       };
     }
     return {

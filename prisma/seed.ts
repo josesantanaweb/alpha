@@ -19,6 +19,7 @@ interface SeedPerfume {
   description: string;
   price: number;
   image: string;
+  slug: string;
   stock: number;
   remainingMl: number;
   rating: number;
@@ -30,6 +31,7 @@ interface SeedPerfume {
 
 interface SeedPerfumeInput {
   name: string;
+  slug: string;
   designerName: string;
   description: string;
   price: number;
@@ -133,15 +135,6 @@ const INITIAL_BANNERS: SeedBanner[] = [
   },
 ];
 
-function createSlug(value: string) {
-  return value
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
 async function main() {
   console.log("🌱 Iniciando el seeding..");
 
@@ -180,6 +173,7 @@ async function main() {
       update: {},
       create: {
         name: perfume.name,
+        slug: perfume.slug,
         designerId: designer.id,
         description: perfume.description,
         price: perfume.price,

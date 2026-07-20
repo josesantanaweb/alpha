@@ -1,8 +1,14 @@
 import { z } from "zod";
 import { PerfumeType, Gender } from "@prisma/client";
 
-export const CreatePerfumeSchema = z.object({
+export const CreatePerfumeSchemaBase = z.object({
   name: z.string().min(3, "El nombre debe tener al menos 3 caracteres").max(50),
+  slug: z
+    .string()
+    .min(3)
+    .max(60)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug inválido")
+    .optional(),
   designerId: z.string().uuid("ID inválido"),
   type: z.nativeEnum(PerfumeType),
   gender: z.nativeEnum(Gender),
@@ -15,7 +21,21 @@ export const CreatePerfumeSchema = z.object({
   accordIds: z.array(z.string().uuid()).optional().default([]),
 });
 
-export const UpdatePerfumeSchema = CreatePerfumeSchema.partial().extend({
+function createSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export const CreatePerfumeSchema = CreatePerfumeSchemaBase.transform((data) => ({
+  ...data,
+  slug: data.slug || createSlug(data.name),
+}));
+
+export const UpdatePerfumeSchema = CreatePerfumeSchemaBase.partial().extend({
   id: z.string().uuid("ID inválido"),
 });
 

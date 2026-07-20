@@ -1,4 +1,4 @@
-import { Login } from "@/modules/auth/components/login-form";
+import { Login } from "@/modules/auth/components/LoginForm";
 import { GuestGuard } from "@/modules/shared/components/GuestGuard";
 
 export default function LoginPage() {
