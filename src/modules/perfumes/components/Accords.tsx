@@ -1,6 +1,6 @@
 "use client";
 import { useState, type ReactElement } from "react";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, Search } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/modules/shared/components/ui";
 
@@ -31,7 +31,7 @@ export const Accords = (): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-stroke flex flex-col gap-3 border-b py-3">
+    <div className="border-stroke flex flex-col gap-6 border-b py-3">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex cursor-pointer items-center justify-between"
@@ -49,8 +49,8 @@ export const Accords = (): ReactElement => {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="flex flex-col items-center gap-5 w-full">
-              <div className="flex flex-col items-center gap-2.5 w-full">
+            <div className="flex w-full flex-col items-center gap-5">
+              <div className="flex w-full flex-col items-center gap-2.5">
                 {ACCORDS.map((accord) => (
                   <AccordBar
                     key={accord.name}
@@ -59,7 +59,10 @@ export const Accords = (): ReactElement => {
                   />
                 ))}
               </div>
-              <Button variant="outline">Buscar por acordes similares</Button>
+              <Button variant="outline">
+                <Search size={16} />
+                Buscar por acordes similares
+              </Button>
             </div>
           </motion.div>
         )}

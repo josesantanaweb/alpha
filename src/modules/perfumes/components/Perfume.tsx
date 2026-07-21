@@ -8,6 +8,7 @@ import { Accords } from "./Accords";
 import { AboutPerfume } from "./AboutPerfume";
 import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
+import { Experience } from "./Experience";
 import { SizeSelector } from "./SizeSelector";
 import { getGenderLabel } from "@/modules/shared/utils/gender";
 import { formatPrice } from "@/modules/shared/utils/format-price";
@@ -51,7 +52,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         </h4>
       </div>
 
-      <SizeSelector image={perfume.image} name={perfume.name} />
+      <SizeSelector />
 
       <div>
         {perfume.description && (
@@ -61,6 +62,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         <Accords />
 
         <Notes />
+        <Experience />
       </div>
     </div>
   );

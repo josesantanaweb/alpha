@@ -1,32 +1,35 @@
 import Image from "next/image";
 import type { ReactElement } from "react";
 
-interface SizeSelectorProps {
-  image: string | null;
-  name: string;
-}
+const SIZES = [
+  {
+    name: "5ml",
+    image: "/images/5ml.png",
+  },
+  {
+    name: "10ml",
+    image: "/images/10ml.png",
+  },
+];
 
-const sizes = [1, 2, 3];
-
-export const SizeSelector = ({
-  image,
-  name,
-}: SizeSelectorProps): ReactElement => (
+export const SizeSelector = (): ReactElement => (
   <div className="flex flex-col gap-3">
     <h3 className="text-lg font-bold text-white">Escoge la medida</h3>
     <div className="flex items-center gap-3">
-      {sizes.map((size) => (
+      {SIZES.map((size) => (
         <div
-          key={size}
+          key={size.name}
           className="bg-surface border-stroke flex h-22 w-22 cursor-pointer items-center justify-center rounded-lg border"
         >
-          <Image
-            src={image || "/images/versache.png"}
-            alt={name}
-            width={200}
-            height={200}
-            className="w-8 object-cover"
-          />
+          <div className="w-5">
+            <Image
+              src={size.image || "/images/versache.png"}
+              alt={size.name}
+              width={200}
+              height={200}
+              className="w-full h-full object-none"
+            />
+          </div>
         </div>
       ))}
     </div>
