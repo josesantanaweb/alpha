@@ -36,13 +36,13 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         </div>
       </div>
 
-      <div className="relative mb-10 flex w-full items-center justify-center">
+      <div className="relative mb-6 flex w-full items-center justify-center">
         <div className="absolute top-1/2 left-1/2 h-45 w-45 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/40 blur-[30px]" />
         <PerfumeImage src={perfume.image} alt={perfume.name} />
       </div>
       <div className="flex flex-col gap-1">
         <h1 className="text-xl font-bold text-white">{perfume.name}</h1>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <p className="text-body text-sm italic">{perfume.designer.name}</p>
           <p className="text-sm text-white">{getGenderLabel(perfume.gender)}</p>
           <Rating rating={Number(perfume.rating)} />

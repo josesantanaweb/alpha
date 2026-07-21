@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { voteSeason } from "@/modules/perfumes/actions";
-import { ApiResult } from "@/modules/shared/types";
 
 export async function POST(
   req: NextRequest,
