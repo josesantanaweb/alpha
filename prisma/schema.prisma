@@ -46,7 +46,7 @@ model Perfume {
   // Relaciones
   designerId String
   designer   Designer    @relation(fields: [designerId], references: [id])
-  accords    Accord[]    @relation("PerfumeAccords")
+  accords    PerfumeAccord[]
   notes      Note[]
   tags       Tag[]       @relation("Tags")
   reviews    Review[]
@@ -136,10 +136,20 @@ model Sillage {
 }
 
 model Accord {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  icon     String?
-  perfumes Perfume[] @relation("PerfumeAccords")
+  id       String          @id @default(uuid())
+  name     String          @unique
+  perfumes PerfumeAccord[]
+}
+
+model PerfumeAccord {
+  perfumeId  String
+  accordId   String
+  percentage Int
+
+  perfume Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+  accord  Accord  @relation(fields: [accordId], references: [id], onDelete: Cascade)
+
+  @@id([perfumeId, accordId])
 }
 
 model Tag {

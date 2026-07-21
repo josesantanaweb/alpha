@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/modules/shared/components/ui";
 import { CollapsibleSection } from "@/modules/shared/components";
+import { Accord } from "@prisma/client";
 
 interface AccordBarProps {
   name: string;
@@ -18,24 +19,29 @@ const AccordBar = ({ name, percentage }: AccordBarProps): ReactElement => (
   </div>
 );
 
-const ACCORDS = [
-  { name: "Amaderado", percentage: 80 },
-  { name: "Cítrico", percentage: 60 },
-  { name: "Dulce", percentage: 45 },
-  { name: "Ambarado", percentage: 30 },
-  { name: "Fresco", percentage: 20 },
-];
+export interface PerfumeAccordData {
+  percentage: number;
+  accord: Accord;
+}
 
-export const Accords = (): ReactElement => {
+interface AccordsProps {
+  accords: PerfumeAccordData[];
+}
+
+export const Accords = ({ accords }: AccordsProps): ReactElement => {
+  if (!accords || accords.length === 0) return <></>;
+
+  const sortedAccords = [...accords].sort((a, b) => b.percentage - a.percentage);
+
   return (
     <CollapsibleSection title="Acordes principales" defaultOpen={false}>
       <div className="flex w-full flex-col items-center gap-5">
         <div className="flex w-full flex-col items-center gap-2.5">
-          {ACCORDS.map((accord) => (
+          {sortedAccords.map((a) => (
             <AccordBar
-              key={accord.name}
-              name={accord.name}
-              percentage={accord.percentage}
+              key={a.accord.name}
+              name={a.accord.name}
+              percentage={a.percentage}
             />
           ))}
         </div>

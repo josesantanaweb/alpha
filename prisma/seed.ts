@@ -68,14 +68,14 @@ const INITIAL_DESIGNERS: SeedDesigner[] = [
 ];
 
 const INITIAL_ACCORDS = [
-  { name: "Amaderado", icon: "TreePine" },
-  { name: "Floral", icon: "Flower2" },
-  { name: "Cítrico", icon: "Citrus" },
-  { name: "Oriental", icon: "Moon" },
-  { name: "Acuático", icon: "Waves" },
-  { name: "Fougère", icon: "Leaf" },
-  { name: "Aromático", icon: "Wind" },
-  { name: "Dulce", icon: "Candy" },
+  { name: "Amaderado" },
+  { name: "Floral" },
+  { name: "Cítrico" },
+  { name: "Oriental" },
+  { name: "Acuático" },
+  { name: "Fougère" },
+  { name: "Aromático" },
+  { name: "Dulce" },
 ];
 
 const INITIAL_PERFUME_STATS = {
@@ -138,6 +138,7 @@ const INITIAL_BANNERS: SeedBanner[] = [
 async function main() {
   console.log("🌱 Iniciando el seeding..");
 
+  await prisma.perfumeAccord.deleteMany();
   await prisma.perfume.deleteMany();
   await prisma.banner.deleteMany();
   await prisma.accord.deleteMany();
@@ -155,12 +156,14 @@ async function main() {
     });
   }
 
+  const createdAccords = [];
   for (const accord of INITIAL_ACCORDS) {
-    await prisma.accord.upsert({
+    const created = await prisma.accord.upsert({
       where: { name: accord.name },
       update: {},
       create: accord,
     });
+    createdAccords.push(created);
   }
 
   for (const perfume of INITIAL_PERFUMES) {
@@ -168,7 +171,7 @@ async function main() {
       where: { name: perfume.designerName },
     });
 
-    await prisma.perfume.upsert({
+    const createdPerfume = await prisma.perfume.upsert({
       where: { name: perfume.name },
       update: {},
       create: {
@@ -187,6 +190,20 @@ async function main() {
         discount: perfume.discount,
       },
     });
+
+    const shuffledAccords = [...createdAccords].sort(() => 0.5 - Math.random());
+    const selectedAccords = shuffledAccords.slice(0, Math.floor(Math.random() * 3) + 3);
+
+    for (let i = 0; i < selectedAccords.length; i++) {
+      const percentage = Math.floor(Math.random() * 80) + 10;
+      await prisma.perfumeAccord.create({
+        data: {
+          perfumeId: createdPerfume.id,
+          accordId: selectedAccords[i].id,
+          percentage,
+        }
+      });
+    }
   }
 
   for (const banner of INITIAL_BANNERS) {

@@ -16,7 +16,7 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
     }
 
     if (params.accord) {
-      whereConditions.accords = { some: { name: { equals: params.accord, mode: "insensitive" } } };
+      whereConditions.accords = { some: { accord: { name: { equals: params.accord, mode: "insensitive" } } } };
     }
 
     if (params.designer) {
@@ -54,7 +54,7 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
         where: whereConditions,
         orderBy: { name: "asc" },
         include: {
-          accords: true,
+          accords: { include: { accord: true } },
           designer: true,
         },
         take: limit,
@@ -98,7 +98,7 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
     const perfume = await db.perfume.findUnique({
       where: { id },
       include: {
-        accords: true,
+        accords: { include: { accord: true } },
         designer: true,
       },
     });
@@ -134,7 +134,7 @@ export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRela
     const perfume = await db.perfume.findUnique({
       where: { slug },
       include: {
-        accords: true,
+        accords: { include: { accord: true } },
         designer: true,
       },
     });
@@ -174,7 +174,7 @@ export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
       data: {
         ...perfumeData,
         accords: accordIds?.length
-          ? { connect: accordIds.map((id) => ({ id })) }
+          ? { create: accordIds.map((id) => ({ accordId: id, percentage: 50 })) }
           : undefined,
       },
     });
@@ -212,10 +212,18 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
   }
 
   try {
-    const { id: _, ...updateData } = result.data;
+    const { id: _, accordIds, ...updateData } = result.data;
     const updatedPerfume = await db.perfume.update({
       where: { id },
-      data: updateData,
+      data: {
+        ...updateData,
+        ...(accordIds && {
+          accords: {
+            deleteMany: {},
+            create: accordIds.map((accordId) => ({ accordId, percentage: 50 })),
+          },
+        }),
+      },
     });
 
     return { success: true, status: 200, data: updatedPerfume };
