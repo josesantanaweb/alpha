@@ -56,6 +56,8 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
         include: {
           accords: { include: { accord: true } },
           designer: true,
+          season: true,
+          timeOfDay: true,
         },
         take: limit,
         skip: offset,
@@ -100,6 +102,8 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
       include: {
         accords: { include: { accord: true } },
         designer: true,
+        season: true,
+        timeOfDay: true,
       },
     });
 
@@ -136,6 +140,8 @@ export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRela
       include: {
         accords: { include: { accord: true } },
         designer: true,
+        season: true,
+        timeOfDay: true,
       },
     });
 
@@ -267,6 +273,60 @@ export async function remove(id: string) {
         message: "Perfume no encontrado."
       };
     }
+    return {
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
+export async function voteSeason(perfumeId: string, field: "winter" | "summer"): Promise<ApiResult<boolean>> {
+  if (!perfumeId || !field) {
+    return { success: false, status: 400, message: "Parámetros inválidos." };
+  }
+
+  try {
+    await db.season.upsert({
+      where: { perfumeId },
+      update: {
+        [field]: { increment: 1 }
+      },
+      create: {
+        perfumeId,
+        [field]: 1
+      }
+    });
+
+    return { success: true, status: 200, data: true };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
+export async function voteTimeOfDay(perfumeId: string, field: "day" | "night"): Promise<ApiResult<boolean>> {
+  if (!perfumeId || !field) {
+    return { success: false, status: 400, message: "Parámetros inválidos." };
+  }
+
+  try {
+    await db.timeOfDay.upsert({
+      where: { perfumeId },
+      update: {
+        [field]: { increment: 1 }
+      },
+      create: {
+        perfumeId,
+        [field]: 1
+      }
+    });
+
+    return { success: true, status: 200, data: true };
+  } catch (error: unknown) {
     return {
       success: false,
       status: 500,

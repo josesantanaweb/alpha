@@ -204,6 +204,22 @@ async function main() {
         }
       });
     }
+
+    await prisma.season.create({
+      data: {
+        perfumeId: createdPerfume.id,
+        winter: Math.floor(Math.random() * 500),
+        summer: Math.floor(Math.random() * 500),
+      }
+    });
+
+    await prisma.timeOfDay.create({
+      data: {
+        perfumeId: createdPerfume.id,
+        day: Math.floor(Math.random() * 500),
+        night: Math.floor(Math.random() * 500),
+      }
+    });
   }
 
   for (const banner of INITIAL_BANNERS) {

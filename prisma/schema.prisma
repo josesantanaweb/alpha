@@ -7,18 +7,18 @@ generator client {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
-  password     String? // null si usó Google
-  name         String?
-  avatar       String?
-  googleId     String?   @unique // null si usó email/password
-  favorites    Perfume[] @relation("FavoritePerfumes")
-  cart         Cart?
-  orders       Order[]
-  reviews     Review[]
-  createdAt   DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String? // null si usó Google
+  name      String?
+  avatar    String?
+  googleId  String?   @unique // null si usó email/password
+  favorites Perfume[] @relation("FavoritePerfumes")
+  cart      Cart?
+  orders    Order[]
+  reviews   Review[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Perfume {
@@ -41,16 +41,17 @@ model Perfume {
   sillage   Sillage?
   decants   Decant[]
   season    Season?
+  timeOfDay TimeOfDay?
   feeling   Feeling?
 
   // Relaciones
   designerId String
-  designer   Designer    @relation(fields: [designerId], references: [id])
+  designer   Designer        @relation(fields: [designerId], references: [id])
   accords    PerfumeAccord[]
   notes      Note[]
-  tags       Tag[]       @relation("Tags")
+  tags       Tag[]           @relation("Tags")
   reviews    Review[]
-  users      User[]      @relation("FavoritePerfumes")
+  users      User[]          @relation("FavoritePerfumes")
   cartItems  CartItem[]
   orderItems OrderItem[]
 
@@ -104,9 +105,13 @@ model Season {
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
   winter Int @default(0) // Invierno
-  spring Int @default(0) // Primavera
   summer Int @default(0) // Verano
-  autumn Int @default(0) // Otoño
+}
+
+model TimeOfDay {
+  id        String  @id @default(uuid())
+  perfumeId String  @unique
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
   day   Int @default(0) // Día
   night Int @default(0) // Noche
