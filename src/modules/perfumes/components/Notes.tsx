@@ -1,8 +1,7 @@
-"use client";
-import { useState, type ReactElement } from "react";
+import type { ReactElement } from "react";
 import Image from "next/image";
-import { Plus, Minus, Info } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { Info } from "lucide-react";
+import { CollapsibleSection } from "@/modules/shared/components";
 
 interface Note {
   name: string;
@@ -30,63 +29,41 @@ const NOTES: NoteCategory[] = [
 ];
 
 export const Notes = (): ReactElement => {
-  const [isOpen, setIsOpen] = useState(true);
-
   return (
-    <div className="border-stroke flex flex-col gap-6 border-b py-3">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex cursor-pointer items-center justify-between"
-      >
-        <h3 className="text-lg font-bold text-white">Notas destacadas</h3>
-        {isOpen ? <Minus size={18} /> : <Plus size={18} />}
-      </button>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="flex flex-col gap-5">
-              {NOTES.map((category) => (
-                <div key={category.title} className="flex flex-col gap-3">
-                  <div className="flex items-center gap-1">
-                    <h6 className="text-xs font-semibold uppercase">
-                      {category.title}
-                    </h6>
-                    <button className="text-white">
-                      <Info size={14} />
-                    </button>
+    <CollapsibleSection title="Notas destacadas" defaultOpen={true}>
+      <div className="flex flex-col gap-5">
+        {NOTES.map((category) => (
+          <div key={category.title} className="flex flex-col gap-3">
+            <div className="flex items-center gap-1">
+              <h6 className="text-xs font-semibold uppercase">
+                {category.title}
+              </h6>
+              <button className="text-white">
+                <Info size={14} />
+              </button>
+            </div>
+            <div className="flex w-full flex-wrap gap-3">
+              {category.notes.map((note) => (
+                <div
+                  key={note.name}
+                  className="bg-surface border-stroke flex h-22 w-22 cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border"
+                >
+                  <div className="h-10 w-10">
+                    <Image
+                      src={note.image}
+                      alt={note.name}
+                      width={200}
+                      height={200}
+                      className="h-full w-full object-scale-down"
+                    />
                   </div>
-                  <div className="flex w-full flex-wrap gap-3">
-                    {category.notes.map((note) => (
-                      <div
-                        key={note.name}
-                        className="bg-surface border-stroke flex h-22 w-22 cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border"
-                      >
-                        <div className="h-10 w-10">
-                          <Image
-                            src={note.image}
-                            alt={note.name}
-                            width={200}
-                            height={200}
-                            className="h-full w-full object-scale-down"
-                          />
-                        </div>
-                        <p className="text-xs text-white">{note.name}</p>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-xs text-white font-semibold">{note.name}</p>
                 </div>
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          </div>
+        ))}
+      </div>
+    </CollapsibleSection>
   );
 };

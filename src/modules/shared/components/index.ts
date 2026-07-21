@@ -8,3 +8,4 @@ export * from "./SearchInput";
 export * from "./AuthGuard";
 export * from "./GuestGuard";
 export * from "./QueryProvider";
+export * from "./CollapsibleSection";
