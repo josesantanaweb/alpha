@@ -1,12 +1,13 @@
 import type { ReactElement } from "react";
 import type {
+  Feeling as FeelingType,
   Longevity as LongevityType,
   Season as SeasonType,
   TimeOfDay as TimeOfDayType,
 } from "@prisma/client";
 import { Longevity } from "./votes/Longevity";
 import { Projection } from "./votes/Projection";
-import { Ranking } from "./votes/Ranking";
+import { Feeling } from "./votes/Feeling";
 import { Season } from "./votes/Season";
 import { TimeOfDay } from "./votes/TimeOfDay";
 import { CollapsibleSection } from "@/modules/shared/components";
@@ -16,6 +17,7 @@ interface ExperienceProps {
   season?: SeasonType | null;
   timeOfDay?: TimeOfDayType | null;
   longevity?: LongevityType | null;
+  feeling?: FeelingType | null;
 }
 
 export const Experience = ({
@@ -23,6 +25,7 @@ export const Experience = ({
   season,
   timeOfDay,
   longevity,
+  feeling,
 }: ExperienceProps): ReactElement => {
   return (
     <CollapsibleSection title="Experiencia olfativa" defaultOpen={true}>
@@ -31,7 +34,7 @@ export const Experience = ({
         <TimeOfDay perfumeId={perfumeId} timeOfDay={timeOfDay} />
         <Longevity perfumeId={perfumeId} longevity={longevity} />
         <Projection />
-        <Ranking />
+        <Feeling perfumeId={perfumeId} feeling={feeling} />
       </div>
     </CollapsibleSection>
   );

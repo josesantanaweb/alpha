@@ -67,6 +67,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           season={perfume.season}
           timeOfDay={perfume.timeOfDay}
           longevity={perfume.longevity}
+          feeling={perfume.feeling}
         />
       </div>
     </div>

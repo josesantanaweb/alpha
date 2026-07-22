@@ -3,7 +3,6 @@ import { z } from "zod";
 export const CreateFeelingSchema = z.object({
   love: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   like: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
-  indifferent: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   dislike: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   hate: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   perfumeId: z.string().uuid("ID inválido")

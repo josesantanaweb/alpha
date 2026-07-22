@@ -92,11 +92,10 @@ model Feeling {
   perfumeId String  @unique
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
-  love        Int @default(0) // Me encanta
-  like        Int @default(0) // Me gusta
-  indifferent Int @default(0) // Me es indiferente
-  dislike     Int @default(0) // No me gusta
-  hate        Int @default(0) // Lo odio
+  love    Int @default(0) // Me encanta
+  like    Int @default(0) // Me gusta
+  dislike Int @default(0) // No me gusta
+  hate    Int @default(0) // Lo odio
 }
 
 model Season {

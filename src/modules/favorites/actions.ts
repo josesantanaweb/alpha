@@ -3,7 +3,7 @@ import type { ApiResult } from "@/modules/shared/types";
 import type { PerfumeWithRelations } from "@/modules/perfumes";
 
 export async function getByIds(
-  ids: string[],
+  ids: string[]
 ): Promise<ApiResult<PerfumeWithRelations[]>> {
   if (!ids.length) {
     return { success: true, status: 200, data: [] };
@@ -39,7 +39,7 @@ export async function getByIds(
 }
 
 export async function getUserFavorites(
-  userId: string,
+  userId: string
 ): Promise<ApiResult<PerfumeWithRelations[]>> {
   try {
     const user = await db.user.findUnique({
@@ -52,6 +52,7 @@ export async function getUserFavorites(
             season: true,
             timeOfDay: true,
             longevity: true,
+            feeling: true,
           },
         },
       },
@@ -80,7 +81,7 @@ export async function getUserFavorites(
 
 export async function create(
   userId: string,
-  perfumeId: string,
+  perfumeId: string
 ): Promise<ApiResult<null>> {
   try {
     await db.user.update({
@@ -94,16 +95,14 @@ export async function create(
       success: false,
       status: 500,
       message:
-        error instanceof Error
-          ? error.message
-          : "Error al agregar favorito.",
+        error instanceof Error ? error.message : "Error al agregar favorito.",
     };
   }
 }
 
 export async function remove(
   userId: string,
-  perfumeId: string,
+  perfumeId: string
 ): Promise<ApiResult<null>> {
   try {
     await db.user.update({
@@ -117,9 +116,7 @@ export async function remove(
       success: false,
       status: 500,
       message:
-        error instanceof Error
-          ? error.message
-          : "Error al eliminar favorito.",
+        error instanceof Error ? error.message : "Error al eliminar favorito.",
     };
   }
 }
