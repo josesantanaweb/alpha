@@ -124,7 +124,6 @@ model Longevity {
   perfumeId String  @unique
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
-  scarce   Int @default(0) // e.g. 120 voted for this
   weak     Int @default(0)
   moderate Int @default(0)
   long     Int @default(0)

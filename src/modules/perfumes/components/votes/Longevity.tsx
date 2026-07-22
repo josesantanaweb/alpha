@@ -14,7 +14,6 @@ export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElemen
   const { mutate: voteLongevity } = useLongevityVote();
 
   const [longevityCounts, setLongevityCounts] = useState({
-    scarce: longevity?.scarce || 0,
     weak: longevity?.weak || 0,
     moderate: longevity?.moderate || 0,
     long: longevity?.long || 0,
@@ -22,7 +21,6 @@ export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElemen
   });
 
   const totalLongevityVotes =
-    longevityCounts.scarce +
     longevityCounts.weak +
     longevityCounts.moderate +
     longevityCounts.long +
@@ -34,7 +32,7 @@ export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElemen
   };
 
   const handleLongevityVote = (
-    field: "scarce" | "weak" | "moderate" | "long" | "veryLong",
+    field: "weak" | "moderate" | "long" | "veryLong",
     label: string,
   ) => {
     if (activeLongevity === label) {
@@ -53,13 +51,6 @@ export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElemen
   };
 
   const longevityOptions = [
-    {
-      label: "Muy debil",
-      field: "scarce",
-      image: "/images/scarce.svg",
-      value: calculatePercentage(longevityCounts.scarce, totalLongevityVotes),
-      count: longevityCounts.scarce,
-    },
     {
       label: "Debil",
       field: "weak",
@@ -82,7 +73,7 @@ export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElemen
       count: longevityCounts.long,
     },
     {
-      label: "Eterna",
+      label: "Muy duradera",
       field: "veryLong",
       image: "/images/very-long.svg",
       value: calculatePercentage(longevityCounts.veryLong, totalLongevityVotes),

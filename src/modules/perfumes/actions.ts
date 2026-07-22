@@ -338,7 +338,7 @@ export async function voteTimeOfDay(perfumeId: string, field: "day" | "night"): 
 
 export async function voteLongevity(
   perfumeId: string,
-  field: "scarce" | "weak" | "moderate" | "long" | "veryLong",
+  field: "weak" | "moderate" | "long" | "veryLong",
 ): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };

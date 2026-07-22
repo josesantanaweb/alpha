@@ -3,7 +3,7 @@ import type { ApiResult } from "@/modules/shared/types";
 
 interface VoteLongevityParams {
   perfumeId: string;
-  field: "scarce" | "weak" | "moderate" | "long" | "veryLong";
+  field: "weak" | "moderate" | "long" | "veryLong";
 }
 
 export const useLongevityVote = () => {

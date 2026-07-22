@@ -8,7 +8,7 @@ export async function POST(
   try {
     const { id } = await params;
     const body = await req.json();
-    const field = body.field as "scarce" | "weak" | "moderate" | "long" | "veryLong";
+    const field = body.field as "weak" | "moderate" | "long" | "veryLong";
 
     const result = await voteLongevity(id, field);
     return NextResponse.json(result, { status: result.status });

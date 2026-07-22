@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const CreateLongevitySchema = z.object({
-  scarce: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   weak: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   moderate: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   long: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
