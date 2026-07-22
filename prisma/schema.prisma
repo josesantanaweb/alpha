@@ -43,6 +43,7 @@ model Perfume {
   season    Season?
   timeOfDay TimeOfDay?
   feeling   Feeling?
+  projection Projection?
 
   // Relaciones
   designerId String
@@ -130,6 +131,17 @@ model Longevity {
 }
 
 model Sillage {
+  id        String  @id @default(uuid())
+  perfumeId String  @unique
+  perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+
+  soft     Int @default(0)
+  moderate Int @default(0)
+  heavy    Int @default(0)
+  huge     Int @default(0)
+}
+
+model Projection {
   id        String  @id @default(uuid())
   perfumeId String  @unique
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)

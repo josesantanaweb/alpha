@@ -1,24 +1,24 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
-import type { Sillage as SillageType } from "@prisma/client";
+import type { Projection as ProjectionType } from "@prisma/client";
 import { StatBar } from "./StatBar";
-import { useSillageVote } from "../../hooks/use-sillage-vote";
+import { useProjectionVote } from "../../hooks/use-projection-vote";
 
 interface ProjectionProps {
   perfumeId: string;
-  sillage?: SillageType | null;
+  projection?: ProjectionType | null;
 }
 
-export const Projection = ({ perfumeId, sillage }: ProjectionProps): ReactElement => {
+export const Projection = ({ perfumeId, projection }: ProjectionProps): ReactElement => {
   const [activeProjection, setActiveProjection] = useState<string | null>(null);
-  const { mutate: voteSillage } = useSillageVote();
+  const { mutate: voteProjection } = useProjectionVote();
 
   const [projectionCounts, setProjectionCounts] = useState({
-    soft: sillage?.soft || 0,
-    moderate: sillage?.moderate || 0,
-    heavy: sillage?.heavy || 0,
-    huge: sillage?.huge || 0,
+    soft: projection?.soft || 0,
+    moderate: projection?.moderate || 0,
+    heavy: projection?.heavy || 0,
+    huge: projection?.huge || 0,
   });
 
   const totalProjection =
@@ -48,7 +48,7 @@ export const Projection = ({ perfumeId, sillage }: ProjectionProps): ReactElemen
       [field]: prev[field] + 1,
     }));
 
-    voteSillage({ perfumeId, field });
+    voteProjection({ perfumeId, field });
   };
 
   const projections = [

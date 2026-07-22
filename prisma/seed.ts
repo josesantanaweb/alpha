@@ -252,6 +252,16 @@ async function main() {
         huge: Math.floor(Math.random() * 100),
       }
     });
+
+    await prisma.projection.create({
+      data: {
+        perfumeId: createdPerfume.id,
+        soft: Math.floor(Math.random() * 200),
+        moderate: Math.floor(Math.random() * 400),
+        heavy: Math.floor(Math.random() * 300),
+        huge: Math.floor(Math.random() * 100),
+      }
+    });
   }
 
   for (const banner of INITIAL_BANNERS) {

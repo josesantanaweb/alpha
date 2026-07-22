@@ -4,7 +4,9 @@ import { ApiResult, PaginatedResult } from "@/modules/shared/types";
 import { Perfume, Prisma } from "@prisma/client";
 import type { PerfumeWithRelations, GetPerfumesParams } from "./types";
 
-export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<PaginatedResult<PerfumeWithRelations>>> {
+export async function getAll(
+  params: GetPerfumesParams = {}
+): Promise<ApiResult<PaginatedResult<PerfumeWithRelations>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
 
@@ -16,23 +18,33 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
     }
 
     if (params.accord) {
-      whereConditions.accords = { some: { accord: { name: { equals: params.accord, mode: "insensitive" } } } };
+      whereConditions.accords = {
+        some: {
+          accord: { name: { equals: params.accord, mode: "insensitive" } },
+        },
+      };
     }
 
     if (params.designer) {
-      whereConditions.designer = { name: { equals: params.designer, mode: "insensitive" } };
+      whereConditions.designer = {
+        name: { equals: params.designer, mode: "insensitive" },
+      };
     }
 
     if (params.tag) {
-      whereConditions.tags = { some: { name: { equals: params.tag, mode: "insensitive" } } };
+      whereConditions.tags = {
+        some: { name: { equals: params.tag, mode: "insensitive" } },
+      };
     }
 
     if (params.gender) {
-      whereConditions.gender = params.gender as Prisma.EnumGenderFilter["equals"];
+      whereConditions.gender =
+        params.gender as Prisma.EnumGenderFilter["equals"];
     }
 
     if (params.type) {
-      whereConditions.type = params.type as Prisma.EnumPerfumeTypeFilter["equals"];
+      whereConditions.type =
+        params.type as Prisma.EnumPerfumeTypeFilter["equals"];
     }
 
     if (params.priceMin || params.priceMax) {
@@ -49,7 +61,7 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
       db.perfume.findMany({
         where: whereConditions,
         orderBy: { name: "asc" },
-include: {
+        include: {
           accords: { include: { accord: true } },
           designer: true,
           season: true,
@@ -57,6 +69,7 @@ include: {
           longevity: true,
           feeling: true,
           sillage: true,
+          projection: true,
         },
         take: limit,
         skip: offset,
@@ -81,12 +94,17 @@ include: {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener los perfumes.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener los perfumes.",
     };
   }
 }
 
-export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations>> {
+export async function getOne(
+  id: string
+): Promise<ApiResult<PerfumeWithRelations>> {
   if (!id) {
     return {
       success: false,
@@ -106,6 +124,7 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
         longevity: true,
         feeling: true,
         sillage: true,
+        projection: true,
       },
     });
 
@@ -122,12 +141,15 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
-export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRelations>> {
+export async function getBySlug(
+  slug: string
+): Promise<ApiResult<PerfumeWithRelations>> {
   if (!slug) {
     return {
       success: false,
@@ -147,6 +169,7 @@ export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRela
         longevity: true,
         feeling: true,
         sillage: true,
+        projection: true,
       },
     });
 
@@ -163,7 +186,8 @@ export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRela
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -175,7 +199,7 @@ export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
     return {
       success: false,
       status: 400,
-      errors: result.error.flatten().fieldErrors
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
@@ -185,40 +209,49 @@ export async function create(rawData: unknown): Promise<ApiResult<Perfume>> {
       data: {
         ...perfumeData,
         accords: accordIds?.length
-          ? { create: accordIds.map((id) => ({ accordId: id, percentage: 50 })) }
+          ? {
+              create: accordIds.map((id) => ({ accordId: id, percentage: 50 })),
+            }
           : undefined,
       },
     });
     return {
       success: true,
       status: 201,
-      data: perfume
+      data: perfume,
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Ese perfume ya existe."
+        message: "Ese perfume ya existe.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<Perfume>> {
-  const result = UpdatePerfumeSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(
+  id: string,
+  rawData: unknown
+): Promise<ApiResult<Perfume>> {
+  const result = UpdatePerfumeSchema.safeParse({
+    id,
+    ...(rawData as Record<string, unknown>),
+  });
 
   if (!result.success) {
     return {
       success: false,
       status: 400,
-      errors: result.error.flatten().fieldErrors
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
@@ -245,14 +278,15 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
       return {
         success: false,
         status: 404,
-        message: "Perfume no encontrado."
+        message: "Perfume no encontrado.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -262,7 +296,7 @@ export async function remove(id: string) {
     return {
       success: false,
       status: 400,
-      message: "El ID es requerido."
+      message: "El ID es requerido.",
     };
   }
 
@@ -271,24 +305,33 @@ export async function remove(id: string) {
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Perfume eliminado con éxito." };
+    return {
+      success: true,
+      status: 200,
+      data: null,
+      message: "Perfume eliminado con éxito.",
+    };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Perfume no encontrado."
+        message: "Perfume no encontrado.",
       };
     }
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
-export async function voteSeason(perfumeId: string, field: "winter" | "spring" | "summer" | "autumn"): Promise<ApiResult<boolean>> {
+export async function voteSeason(
+  perfumeId: string,
+  field: "winter" | "spring" | "summer" | "autumn"
+): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
   }
@@ -297,12 +340,12 @@ export async function voteSeason(perfumeId: string, field: "winter" | "spring" |
     await db.season.upsert({
       where: { perfumeId },
       update: {
-        [field]: { increment: 1 }
+        [field]: { increment: 1 },
       },
       create: {
         perfumeId,
-        [field]: 1
-      }
+        [field]: 1,
+      },
     });
 
     return { success: true, status: 200, data: true };
@@ -310,12 +353,16 @@ export async function voteSeason(perfumeId: string, field: "winter" | "spring" |
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
-export async function voteTimeOfDay(perfumeId: string, field: "day" | "night"): Promise<ApiResult<boolean>> {
+export async function voteTimeOfDay(
+  perfumeId: string,
+  field: "day" | "night"
+): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
   }
@@ -324,12 +371,12 @@ export async function voteTimeOfDay(perfumeId: string, field: "day" | "night"): 
     await db.timeOfDay.upsert({
       where: { perfumeId },
       update: {
-        [field]: { increment: 1 }
+        [field]: { increment: 1 },
       },
       create: {
         perfumeId,
-        [field]: 1
-      }
+        [field]: 1,
+      },
     });
 
     return { success: true, status: 200, data: true };
@@ -337,14 +384,15 @@ export async function voteTimeOfDay(perfumeId: string, field: "day" | "night"): 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
 export async function voteLongevity(
   perfumeId: string,
-  field: "weak" | "moderate" | "long" | "veryLong",
+  field: "weak" | "moderate" | "long" | "veryLong"
 ): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
@@ -367,14 +415,15 @@ export async function voteLongevity(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
 export async function voteFeeling(
   perfumeId: string,
-  field: "hate" | "dislike" | "like" | "love",
+  field: "hate" | "dislike" | "like" | "love"
 ): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
@@ -397,14 +446,15 @@ export async function voteFeeling(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
 export async function voteSillage(
   perfumeId: string,
-  field: "soft" | "moderate" | "heavy" | "huge",
+  field: "soft" | "moderate" | "heavy" | "huge"
 ): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
@@ -427,7 +477,39 @@ export async function voteSillage(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
+export async function voteProjection(
+  perfumeId: string,
+  field: "soft" | "moderate" | "heavy" | "huge"
+): Promise<ApiResult<boolean>> {
+  if (!perfumeId || !field) {
+    return { success: false, status: 400, message: "Parámetros inválidos." };
+  }
+
+  try {
+    await db.projection.upsert({
+      where: { perfumeId },
+      update: {
+        [field]: { increment: 1 },
+      },
+      create: {
+        perfumeId,
+        [field]: 1,
+      },
+    });
+
+    return { success: true, status: 200, data: true };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }

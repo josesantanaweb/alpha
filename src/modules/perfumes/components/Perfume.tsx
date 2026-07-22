@@ -9,9 +9,11 @@ import { AboutPerfume } from "./AboutPerfume";
 import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
 import { Experience } from "./Experience";
+import { Similar } from "./Similar";
 import { SizeSelector } from "./SizeSelector";
 import { getGenderLabel } from "@/modules/shared/utils/gender";
 import { formatPrice } from "@/modules/shared/utils/format-price";
+import { usePerfumes } from "../hooks/use-perfume-query";
 
 interface PerfumeProps {
   perfume: PerfumeWithRelations;
@@ -19,6 +21,7 @@ interface PerfumeProps {
 
 export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
   const { setHideHeader } = useApp();
+  const { data: perfumes = [], isLoading } = usePerfumes({ limit: 50 });
 
   useEffect(() => {
     setHideHeader(true);
@@ -69,7 +72,9 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           longevity={perfume.longevity}
           feeling={perfume.feeling}
           sillage={perfume.sillage}
+          projection={perfume.projection}
         />
+        <Similar perfumes={perfumes} isLoading={isLoading} />
       </div>
     </div>
   );
