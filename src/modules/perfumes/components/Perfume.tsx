@@ -74,8 +74,8 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           sillage={perfume.sillage}
           projection={perfume.projection}
         />
-        <Similar perfumes={perfumes} isLoading={isLoading} />
       </div>
+      <Similar perfumes={perfumes} isLoading={isLoading} />
     </div>
   );
 };
