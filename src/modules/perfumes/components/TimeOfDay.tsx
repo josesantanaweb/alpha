@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
-import type { TimeOfDay } from "@prisma/client";
+import type { TimeOfDay as TimeOfDayType } from "@prisma/client";
 import { StatBar } from "./StatBar";
 import { useTimeVote } from "../hooks/use-time-vote";
 
 interface TimeOfDayProps {
   perfumeId: string;
-  timeOfDay?: TimeOfDay | null;
+  timeOfDay?: TimeOfDayType | null;
 }
 
 export const TimeOfDay = ({ perfumeId, timeOfDay }: TimeOfDayProps): ReactElement => {

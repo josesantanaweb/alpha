@@ -12,7 +12,13 @@ export async function getByIds(
   try {
     const perfumes = await db.perfume.findMany({
       where: { id: { in: ids } },
-      include: { accords: true, designer: true },
+      include: {
+        accords: { include: { accord: true } },
+        designer: true,
+        season: true,
+        timeOfDay: true,
+        longevity: true,
+      },
     });
 
     const ordered = ids
@@ -38,7 +44,17 @@ export async function getUserFavorites(
   try {
     const user = await db.user.findUnique({
       where: { id: userId },
-      include: { favorites: { include: { accords: true, designer: true } } },
+      include: {
+        favorites: {
+          include: {
+            accords: { include: { accord: true } },
+            designer: true,
+            season: true,
+            timeOfDay: true,
+            longevity: true,
+          },
+        },
+      },
     });
 
     if (!user) {

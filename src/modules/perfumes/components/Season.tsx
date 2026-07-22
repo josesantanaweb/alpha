@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
-import type { Season } from "@prisma/client";
+import type { Season as SeasonType } from "@prisma/client";
 import { StatBar } from "./StatBar";
 import { useSeasonVote } from "../hooks/use-season-vote";
 
 interface SeasonProps {
   perfumeId: string;
-  season?: Season | null;
+  season?: SeasonType | null;
 }
 
 export const Season = ({ perfumeId, season }: SeasonProps): ReactElement => {
