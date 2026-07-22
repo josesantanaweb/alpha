@@ -62,7 +62,12 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         <Accords accords={perfume.accords} />
 
         <Notes />
-        <Experience perfumeId={perfume.id} season={perfume.season} timeOfDay={perfume.timeOfDay} />
+        <Experience
+          perfumeId={perfume.id}
+          season={perfume.season}
+          timeOfDay={perfume.timeOfDay}
+          longevity={perfume.longevity}
+        />
       </div>
     </div>
   );

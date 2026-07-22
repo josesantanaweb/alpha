@@ -1,17 +1,94 @@
 "use client";
 import { useState, type ReactElement } from "react";
-import { StatBar, type StatBarProps } from "./StatBar";
+import type { Longevity as LongevityType } from "@prisma/client";
+import { StatBar } from "./StatBar";
+import { useLongevityVote } from "../hooks/use-longevity-vote";
 
-const LONGEVITIES: StatBarProps[] = [
-  { label: "Muy debil", image: "/images/scarce.svg", value: 5, count: 12 },
-  { label: "Debil", image: "/images/weak.svg", value: 15, count: 45 },
-  { label: "Moderado", image: "/images/moderate.svg", value: 65, count: 210 },
-  { label: "Duradera", image: "/images/long.svg", value: 85, count: 430 },
-  { label: "Eterna", image: "/images/very-long.svg", value: 30, count: 95 },
-];
+interface LongevityProps {
+  perfumeId: string;
+  longevity?: LongevityType | null;
+}
 
-export const Longevity = (): ReactElement => {
-  const [activeItem, setActiveItem] = useState<string | null>(null);
+export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElement => {
+  const [activeLongevity, setActiveLongevity] = useState<string | null>(null);
+  const { mutate: voteLongevity } = useLongevityVote();
+
+  const [longevityCounts, setLongevityCounts] = useState({
+    scarce: longevity?.scarce || 0,
+    weak: longevity?.weak || 0,
+    moderate: longevity?.moderate || 0,
+    long: longevity?.long || 0,
+    veryLong: longevity?.veryLong || 0,
+  });
+
+  const totalLongevityVotes =
+    longevityCounts.scarce +
+    longevityCounts.weak +
+    longevityCounts.moderate +
+    longevityCounts.long +
+    longevityCounts.veryLong;
+
+  const calculatePercentage = (count: number, total: number) => {
+    if (total === 0) return 0;
+    return Math.round((count / total) * 100);
+  };
+
+  const handleLongevityVote = (
+    field: "scarce" | "weak" | "moderate" | "long" | "veryLong",
+    label: string,
+  ) => {
+    if (activeLongevity === label) {
+      setActiveLongevity(null);
+      return;
+    }
+
+    setActiveLongevity(label);
+
+    setLongevityCounts((prev) => ({
+      ...prev,
+      [field]: prev[field] + 1,
+    }));
+
+    voteLongevity({ perfumeId, field });
+  };
+
+  const longevityOptions = [
+    {
+      label: "Muy debil",
+      field: "scarce",
+      image: "/images/scarce.svg",
+      value: calculatePercentage(longevityCounts.scarce, totalLongevityVotes),
+      count: longevityCounts.scarce,
+    },
+    {
+      label: "Debil",
+      field: "weak",
+      image: "/images/weak.svg",
+      value: calculatePercentage(longevityCounts.weak, totalLongevityVotes),
+      count: longevityCounts.weak,
+    },
+    {
+      label: "Moderado",
+      field: "moderate",
+      image: "/images/moderate.svg",
+      value: calculatePercentage(longevityCounts.moderate, totalLongevityVotes),
+      count: longevityCounts.moderate,
+    },
+    {
+      label: "Duradera",
+      field: "long",
+      image: "/images/long.svg",
+      value: calculatePercentage(longevityCounts.long, totalLongevityVotes),
+      count: longevityCounts.long,
+    },
+    {
+      label: "Eterna",
+      field: "veryLong",
+      image: "/images/very-long.svg",
+      value: calculatePercentage(longevityCounts.veryLong, totalLongevityVotes),
+      count: longevityCounts.veryLong,
+    },
+  ] as const;
 
   return (
     <div className="flex flex-col gap-3">
@@ -19,12 +96,15 @@ export const Longevity = (): ReactElement => {
         <h6 className="text-xs font-semibold uppercase">Longevidad</h6>
       </div>
       <div className="flex w-full gap-3">
-        {LONGEVITIES.map((longevity) => (
-          <StatBar 
-            key={longevity.label} 
-            {...longevity} 
-            isActive={activeItem === longevity.label}
-            onClick={() => setActiveItem(activeItem === longevity.label ? null : longevity.label)}
+        {longevityOptions.map((longevityOption) => (
+          <StatBar
+            key={longevityOption.label}
+            label={longevityOption.label}
+            image={longevityOption.image}
+            value={longevityOption.value}
+            count={longevityOption.count}
+            isActive={activeLongevity === longevityOption.label}
+            onClick={() => handleLongevityVote(longevityOption.field, longevityOption.label)}
           />
         ))}
       </div>

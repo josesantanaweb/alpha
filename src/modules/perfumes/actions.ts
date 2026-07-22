@@ -58,6 +58,7 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
           designer: true,
           season: true,
           timeOfDay: true,
+          longevity: true,
         },
         take: limit,
         skip: offset,
@@ -104,6 +105,7 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
         designer: true,
         season: true,
         timeOfDay: true,
+        longevity: true,
       },
     });
 
@@ -142,6 +144,7 @@ export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRela
         designer: true,
         season: true,
         timeOfDay: true,
+        longevity: true,
       },
     });
 
@@ -218,7 +221,9 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<Pe
   }
 
   try {
-    const { id: _, accordIds, ...updateData } = result.data;
+    const { id, accordIds, ...updateData } = result.data;
+    void id;
+
     const updatedPerfume = await db.perfume.update({
       where: { id },
       data: {
@@ -323,6 +328,36 @@ export async function voteTimeOfDay(perfumeId: string, field: "day" | "night"): 
         perfumeId,
         [field]: 1
       }
+    });
+
+    return { success: true, status: 200, data: true };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
+export async function voteLongevity(
+  perfumeId: string,
+  field: "scarce" | "weak" | "moderate" | "long" | "veryLong",
+): Promise<ApiResult<boolean>> {
+  if (!perfumeId || !field) {
+    return { success: false, status: 400, message: "Parámetros inválidos." };
+  }
+
+  try {
+    await db.longevity.upsert({
+      where: { perfumeId },
+      update: {
+        [field]: { increment: 1 },
+      },
+      create: {
+        perfumeId,
+        [field]: 1,
+      },
     });
 
     return { success: true, status: 200, data: true };

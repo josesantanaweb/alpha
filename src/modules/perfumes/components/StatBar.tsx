@@ -12,16 +12,8 @@ export interface StatBarProps {
 }
 
 export const StatBar = ({ label, image, value, count, isActive, onClick }: StatBarProps): ReactElement => {
-  let displayCount = count;
-  if (isActive) {
-    if (typeof count === "number") {
-      displayCount = count + 1;
-    } else if (!isNaN(Number(count))) {
-      displayCount = Number(count) + 1;
-    }
-  }
-
-  const displayValue = isActive ? Math.min(100, value + 2) : value;
+  const displayCount = count;
+  const displayValue = value;
 
   return (
     <motion.div
@@ -44,7 +36,7 @@ export const StatBar = ({ label, image, value, count, isActive, onClick }: StatB
       <p className={`text-xs font-semibold transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`}>{label}</p>
       <div className="bg-surface border-stroke relative h-2.5 w-17.5 overflow-hidden rounded-xs">
         <span
-          className={`block h-full transition-colors transition-all duration-500 ease-out ${isActive ? "bg-white" : "bg-stroke"}`}
+          className={`block h-full transition-all duration-500 ease-out ${isActive ? "bg-white" : "bg-stroke"}`}
           style={{ width: `${displayValue}%` }}
         />
       </div>
