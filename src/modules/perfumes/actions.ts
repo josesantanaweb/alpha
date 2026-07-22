@@ -49,14 +49,14 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
       db.perfume.findMany({
         where: whereConditions,
         orderBy: { name: "asc" },
-        include: {
+include: {
           accords: { include: { accord: true } },
           designer: true,
           season: true,
-timeOfDay: true,
-        longevity: true,
-        feeling: true,
+          timeOfDay: true,
+          longevity: true,
           feeling: true,
+          sillage: true,
         },
         take: limit,
         skip: offset,
@@ -105,6 +105,7 @@ export async function getOne(id: string): Promise<ApiResult<PerfumeWithRelations
         timeOfDay: true,
         longevity: true,
         feeling: true,
+        sillage: true,
       },
     });
 
@@ -144,6 +145,8 @@ export async function getBySlug(slug: string): Promise<ApiResult<PerfumeWithRela
         season: true,
         timeOfDay: true,
         longevity: true,
+        feeling: true,
+        sillage: true,
       },
     });
 
@@ -379,6 +382,36 @@ export async function voteFeeling(
 
   try {
     await db.feeling.upsert({
+      where: { perfumeId },
+      update: {
+        [field]: { increment: 1 },
+      },
+      create: {
+        perfumeId,
+        [field]: 1,
+      },
+    });
+
+    return { success: true, status: 200, data: true };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message: error instanceof Error ? error.message : "Error interno del servidor.",
+    };
+  }
+}
+
+export async function voteSillage(
+  perfumeId: string,
+  field: "soft" | "moderate" | "heavy" | "huge",
+): Promise<ApiResult<boolean>> {
+  if (!perfumeId || !field) {
+    return { success: false, status: 400, message: "Parámetros inválidos." };
+  }
+
+  try {
+    await db.sillage.upsert({
       where: { perfumeId },
       update: {
         [field]: { increment: 1 },

@@ -18,6 +18,8 @@ export async function getByIds(
         season: true,
         timeOfDay: true,
         longevity: true,
+        feeling: true,
+        sillage: true,
       },
     });
 
@@ -53,6 +55,7 @@ export async function getUserFavorites(
             timeOfDay: true,
             longevity: true,
             feeling: true,
+            sillage: true,
           },
         },
       },

@@ -222,6 +222,36 @@ async function main() {
         night: Math.floor(Math.random() * 500),
       }
     });
+
+    await prisma.longevity.create({
+      data: {
+        perfumeId: createdPerfume.id,
+        weak: Math.floor(Math.random() * 200),
+        moderate: Math.floor(Math.random() * 400),
+        long: Math.floor(Math.random() * 400),
+        veryLong: Math.floor(Math.random() * 200),
+      }
+    });
+
+    await prisma.feeling.create({
+      data: {
+        perfumeId: createdPerfume.id,
+        hate: Math.floor(Math.random() * 50),
+        dislike: Math.floor(Math.random() * 100),
+        like: Math.floor(Math.random() * 400),
+        love: Math.floor(Math.random() * 500),
+      }
+    });
+
+    await prisma.sillage.create({
+      data: {
+        perfumeId: createdPerfume.id,
+        soft: Math.floor(Math.random() * 200),
+        moderate: Math.floor(Math.random() * 400),
+        heavy: Math.floor(Math.random() * 300),
+        huge: Math.floor(Math.random() * 100),
+      }
+    });
   }
 
   for (const banner of INITIAL_BANNERS) {

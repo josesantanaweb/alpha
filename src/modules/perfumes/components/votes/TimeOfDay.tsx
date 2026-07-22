@@ -46,14 +46,14 @@ export const TimeOfDay = ({ perfumeId, timeOfDay }: TimeOfDayProps): ReactElemen
     {
       label: "Dia",
       field: "day",
-      image: "/images/day.svg",
+      image: "/images/time-of-day/day.svg",
       value: calculatePercentage(timeCounts.day, totalTimes),
       count: timeCounts.day,
     },
     {
       label: "Noche",
       field: "night",
-      image: "/images/night.svg",
+      image: "/images/time-of-day/night.svg",
       value: calculatePercentage(timeCounts.night, totalTimes),
       count: timeCounts.night,
     },
