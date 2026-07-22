@@ -5,8 +5,6 @@ export const CreateSeasonSchema = z.object({
   spring: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   summer: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   autumn: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
-  day: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
-  night: z.number().min(0, "La cantidad de votos debe ser mayor o igual a 0"),
   perfumeId: z.string().uuid("ID inválido")
 });
 

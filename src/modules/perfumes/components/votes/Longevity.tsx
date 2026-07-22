@@ -2,7 +2,7 @@
 import { useState, type ReactElement } from "react";
 import type { Longevity as LongevityType } from "@prisma/client";
 import { StatBar } from "./StatBar";
-import { useLongevityVote } from "../hooks/use-longevity-vote";
+import { useLongevityVote } from "../../hooks/use-longevity-vote";
 
 interface LongevityProps {
   perfumeId: string;

@@ -19,9 +19,9 @@ export const Projection = (): ReactElement => {
       </div>
       <div className="flex w-full flex-wrap gap-3">
         {PROJECTIONS.map((projection) => (
-          <StatBar 
-            key={projection.label} 
-            {...projection} 
+          <StatBar
+            key={projection.label}
+            {...projection}
             isActive={activeItem === projection.label}
             onClick={() => setActiveItem(activeItem === projection.label ? null : projection.label)}
           />

@@ -105,7 +105,9 @@ model Season {
   perfume   Perfume @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
 
   winter Int @default(0) // Invierno
+  spring Int @default(0) // Primavera
   summer Int @default(0) // Verano
+  autumn Int @default(0) // Otoño
 }
 
 model TimeOfDay {

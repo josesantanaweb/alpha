@@ -176,7 +176,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{URL_BACKEND}}/perfumes?search=&gender=&type=&designer=&limit=10&offset=0",
+              "raw": "{{URL_BACKEND}}/perfumes?search=&gender=&type=&designer=&accord=&tag=&limit=10&offset=0",
               "host": ["{{URL_BACKEND}}"],
               "path": ["perfumes"]
             }
@@ -467,7 +467,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Sexy\",\n    \"image\": \"https://i.ibb.co/gZG5srhZ/sexy.png\"\n}",
+              "raw": "{\n    \"name\": \"Sexy\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -489,7 +489,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"showInHome\": true,\n    \"description\": \"Updated description\"\n}",
+              "raw": "{\n    \"name\": \"Sexy Premium\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

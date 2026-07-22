@@ -3,7 +3,7 @@
 import { useState, type ReactElement } from "react";
 import type { Season as SeasonType } from "@prisma/client";
 import { StatBar } from "./StatBar";
-import { useSeasonVote } from "../hooks/use-season-vote";
+import { useSeasonVote } from "../../hooks/use-season-vote";
 
 interface SeasonProps {
   perfumeId: string;
@@ -16,17 +16,26 @@ export const Season = ({ perfumeId, season }: SeasonProps): ReactElement => {
 
   const [seasonCounts, setSeasonCounts] = useState({
     winter: season?.winter || 0,
+    spring: season?.spring || 0,
     summer: season?.summer || 0,
+    autumn: season?.autumn || 0,
   });
 
-  const totalSeasons = seasonCounts.winter + seasonCounts.summer;
+  const totalSeasons =
+    seasonCounts.winter +
+    seasonCounts.spring +
+    seasonCounts.summer +
+    seasonCounts.autumn;
 
   const calculatePercentage = (count: number, total: number) => {
     if (total === 0) return 0;
     return Math.round((count / total) * 100);
   };
 
-  const handleSeasonVote = (field: "winter" | "summer", label: string) => {
+  const handleSeasonVote = (
+    field: "winter" | "spring" | "summer" | "autumn",
+    label: string,
+  ) => {
     if (activeSeason === label) {
       setActiveSeason(null);
       return;
@@ -51,11 +60,25 @@ export const Season = ({ perfumeId, season }: SeasonProps): ReactElement => {
       count: seasonCounts.winter,
     },
     {
+      label: "Primavera",
+      field: "spring",
+      image: "/images/spring.svg",
+      value: calculatePercentage(seasonCounts.spring, totalSeasons),
+      count: seasonCounts.spring,
+    },
+    {
       label: "Verano",
       field: "summer",
       image: "/images/summer.svg",
       value: calculatePercentage(seasonCounts.summer, totalSeasons),
       count: seasonCounts.summer,
+    },
+    {
+      label: "Otoño",
+      field: "autumn",
+      image: "/images/autumn.svg",
+      value: calculatePercentage(seasonCounts.autumn, totalSeasons),
+      count: seasonCounts.autumn,
     },
   ] as const;
 

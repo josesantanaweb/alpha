@@ -25,9 +25,9 @@ export const Ranking = (): ReactElement => {
       </div>
       <div className="flex w-full flex-wrap gap-3">
         {RANKINGS.map((ranking) => (
-          <StatBar 
-            key={ranking.label} 
-            {...ranking} 
+          <StatBar
+            key={ranking.label}
+            {...ranking}
             isActive={activeItem === ranking.label}
             onClick={() => setActiveItem(activeItem === ranking.label ? null : ranking.label)}
           />

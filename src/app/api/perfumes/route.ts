@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     search: getParam("search"),
     accord: getParam("accord"),
     designer: getParam("designer"),
-    tagId: getParam("tagId"),
     tag: getParam("tag"),
     gender: getParam("gender"),
     type: getParam("type"),

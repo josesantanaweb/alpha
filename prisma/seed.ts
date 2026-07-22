@@ -209,7 +209,9 @@ async function main() {
       data: {
         perfumeId: createdPerfume.id,
         winter: Math.floor(Math.random() * 500),
+        spring: Math.floor(Math.random() * 500),
         summer: Math.floor(Math.random() * 500),
+        autumn: Math.floor(Math.random() * 500),
       }
     });
 

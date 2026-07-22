@@ -4,7 +4,6 @@ export interface GetPerfumesParams {
   search?: string;
   accord?: string;
   designer?: string;
-  tagId?: string;
   tag?: string;
   gender?: string;
   type?: string;
@@ -24,7 +23,6 @@ export async function getPerfumes(
   if (params.search) searchParams.set("search", params.search);
   if (params.accord) searchParams.set("accord", params.accord);
   if (params.designer) searchParams.set("designer", params.designer);
-  if (params.tagId) searchParams.set("tagId", params.tagId);
   if (params.tag) searchParams.set("tag", params.tag);
   if (params.gender) searchParams.set("gender", params.gender);
   if (params.type) searchParams.set("type", params.type);

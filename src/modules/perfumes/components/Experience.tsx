@@ -4,11 +4,11 @@ import type {
   Season as SeasonType,
   TimeOfDay as TimeOfDayType,
 } from "@prisma/client";
-import { Longevity } from "./Longevity";
-import { Projection } from "./Projection";
-import { Ranking } from "./Ranking";
-import { Season } from "./Season";
-import { TimeOfDay } from "./TimeOfDay";
+import { Longevity } from "./votes/Longevity";
+import { Projection } from "./votes/Projection";
+import { Ranking } from "./votes/Ranking";
+import { Season } from "./votes/Season";
+import { TimeOfDay } from "./votes/TimeOfDay";
 import { CollapsibleSection } from "@/modules/shared/components";
 
 interface ExperienceProps {

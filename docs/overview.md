@@ -38,11 +38,13 @@
 src/
 ├── app/                    # App Router (Next.js)
 │   ├── api/                # API Routes (REST)
+│   │   ├── accords/
 │   │   ├── auth/           # Auth (login, register, me, google)
 │   │   ├── banners/
 │   │   ├── categories/
 │   │   ├── decants/
 │   │   ├── designers/
+│   │   ├── favorites/
 │   │   ├── feelings/
 │   │   ├── longevities/
 │   │   ├── notes/
@@ -57,15 +59,10 @@ src/
 │   │   ├── account/        # Perfil del usuario
 │   │   ├── explorer/       # Página de exploración
 │   │   ├── favorites/      # Página de favoritos
+│   │   ├── perfume/        # Página de detalle del perfume (slug)
 │   │   └── page.tsx        # Home page
 │   └── layout.tsx          # Layout raíz (solo providers)
-├── components/
-│   ├── layout/             # AppLayout, Header, BottomNav
-│   ├── providers/          # QueryProvider, AuthInitializer
-│   ├── shared/             # Componentes de dominio reutilizables
-│   └── ui/                 # Primitivas (Button, Input, Logo...)
 ├── constants/              # Assets, config, rutas
-├── hooks/                  # React Query hooks
 ├── lib/
 │   ├── api/                # Fetch helpers (cliente)
 │   │   ├── auth.ts         # Login, logout, initialize
@@ -81,8 +78,8 @@ src/
 │   ├── pagination.ts       # Paginación reutilizable
 │   └── s3.ts               # Cliente S3
 ├── modules/                # Lógica de negocio (feature-based)
-│   ├── account/            # Perfil de usuario
-│   ├── auth/               # Auth (login, register, schemas)
+│   ├── account/
+│   ├── auth/
 │   ├── banners/
 │   ├── categories/
 │   ├── decants/
@@ -91,29 +88,53 @@ src/
 │   ├── favorites/
 │   ├── feelings/
 │   ├── home/
+│   │   ├── slider-home/
+│   │   ├── find-your-vibe/
+│   │   ├── new-perfumes/
+│   │   └── categories-filter/
 │   ├── longevities/
 │   ├── notes/
 │   ├── perfumes/
+│   │   ├── components/
+│   │   │   └── filters/   # FilterGender, FilterType, FilterDesigner, etc.
+│   │   ├── hooks/
+│   │   ├── actions.ts
+│   │   ├── schema.ts
+│   │   ├── types.ts
+│   │   └── index.ts
 │   ├── seasons/
+│   ├── shared/             # Infraestructura compartida
+│   │   ├── components/
+│   │   │   ├── layout/    # AppLayout, Header, BottomNav
+│   │   │   ├── ui/        # Button, Input, Logo, Badge, Slider
+│   │   │   ├── AuthGuard.tsx
+│   │   │   ├── GuestGuard.tsx
+│   │   │   ├── QueryProvider.tsx
+│   │   │   └── ...        # CategoryButton, LikeButton, Rating, etc.
+│   │   ├── hooks/         # useDebounce
+│   │   ├── stores/        # useUIStore
+│   │   ├── types/         # ApiResult, PaginationParams
+│   │   └── utils/         # cn, formatPrice, gender
 │   ├── sillages/
 │   ├── tags/
 │   ├── uploads/
 │   └── vibes/
-├── stores/                 # Zustand stores
-│   ├── auth.ts             # Sesión de usuario (token persistido)
-│   └── app.ts              # Estado global de UI (hideBottomNav)
-└── types/                  # Tipos globales (ApiResult)
+└── modules/auth/store.ts  # Zustand store (user, token, isLoading)
 ```
 
 ### Patrón de Módulo
 
-Cada feature en `src/modules/<name>/` sigue la misma estructura de 3 archivos:
+Cada feature en `src/modules/<name>/` sigue una estructura vertical-slice:
 
 ```
 modules/<name>/
-├── actions.ts   # Server-side business logic → ApiResult<T>
-├── schema.ts    # Zod validation schemas
-└── index.ts     # Barrel re-export
+├── components/   # Domain-specific React components
+├── hooks/        # React Query hooks
+├── actions.ts    # Server-side business logic → ApiResult<T>
+├── schema.ts     # Zod validation schemas
+├── types.ts      # Domain-level TypeScript types
+├── store.ts      # Zustand store (optional)
+└── index.ts      # Barrel re-export
 ```
 
 ### Flujo de Datos
@@ -135,14 +156,14 @@ Login/Register
     → POST /api/auth/login
       → modules/auth/actions.ts
         → bcrypt → Prisma → JWT
-  → stores/auth.ts (persist token via Zustand middleware)
-  → AuthInitializer (on mount: GET /api/auth/me → rehydrate user)
+  → modules/auth/store.ts (persist token via Zustand middleware)
+  → QueryProvider/AuthInitializer (on mount: GET /api/auth/me → rehydrate user)
 ```
 
 - **Todas** las llamadas a Prisma pasan por `modules/*/actions.ts` — nunca se llama a `db` directamente desde componentes.
 - Las API routes son wrappers HTTP delgados que llaman a las acciones del módulo.
 - La respuesta siempre sigue la forma `ApiResult<T>` (ver abajo).
-- El estado global se maneja con **Zustand** (`stores/`), no con React Context.
+- El estado global se maneja con **Zustand** (`modules/*/store.ts`), no con React Context.
 - Las acciones de negocio (login, logout) viven en `lib/api/*.ts`, no en el store.
 
 ---
@@ -204,14 +225,15 @@ type ApiResult<T> =
 | GET    | /api/auth/me | Obtener perfil del usuario autenticado (Bearer token) |
 | GET    | /api/auth/google | Redirect a Google OAuth |
 | GET    | /api/auth/google/callback | Callback de Google OAuth → { user, token } |
-| GET    | /api/banners | Listar banners activos |
+| GET/POST | /api/accords | CRUD acordes olfativos |
+| GET/POST | /api/banners | Listar banners activos |
 | GET/POST | /api/categories | CRUD categorías |
 | GET/POST | /api/decants | CRUD decants |
 | GET/POST | /api/designers | CRUD diseñadores |
 | GET/POST | /api/feelings | CRUD sentimientos |
 | GET/POST | /api/longevities | CRUD longevidad |
 | GET/POST | /api/notes | CRUD notas |
-| GET/POST | /api/perfumes | CRUD perfumes (con filtros: search, gender, type...) |
+| GET/POST | /api/perfumes | CRUD perfumes (con filtros: search, gender, type, designer, accord, tag, priceMin, priceMax) |
 | GET/POST | /api/seasons | CRUD temporadas |
 | GET/POST | /api/sillages | CRUD estelas |
 | GET/POST | /api/tags | CRUD tags |
@@ -245,9 +267,16 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 - `PerfumePrice` — Precio del perfume (con descuento: original tachado + precio final)
 - `AddToCartButton` — Botón añadir al carrito
 - `Tabs` — Pestañas navegables
+- `CollapsibleSection` — Sección expandible/colapsable
+
+### Filters (dominio perfumes, en `modules/perfumes/components/filters/`)
 - `FilterGender` — Filtro por género en el explorador
-- `FilterCategories` — Filtro por tipo de perfume (Árabe/Diseñador/Nicho)
+- `FilterType` — Filtro por tipo de perfume (Árabe/Diseñador/Nicho)
 - `FilterDesigner` — Filtro por diseñador
+- `FilterPrice` — Filtro por rango de precio
+- `FilterSizes` — Filtro por tamaño de decant
+- `FilterSheet` — Contenedor con todos los filtros
+- `FilterButton` — Botón para abrir/cerrar el sheet de filtros
 
 ---
 
@@ -260,6 +289,8 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 | `/explorer?gender=MALE` | Explorer (filtrado) | Perfumes filtrados por género |
 | `/explorer?type=ARABIC` | Explorer (filtrado) | Perfumes filtrados por tipo (ARABIC/DESIGNER/NICHE) |
 | `/explorer?designer=Dior` | Explorer (filtrado) | Perfumes filtrados por nombre del diseñador |
+| `/explorer?tag=sexy` | Explorer (filtrado) | Perfumes filtrados por tag (nombre) |
+| `/explorer?accord=Amaderado` | Explorer (filtrado) | Perfumes filtrados por acorde olfativo |
 | `/favorites` | Favorites | Perfumes guardados como favoritos |
 | `/login` | Login | Inicio de sesión (sin Header/BottomNav) |
 | `/register` | Register | Registro de usuario (sin Header/BottomNav) |
@@ -274,7 +305,7 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 | `useBanners()` | GET /api/banners |
 | `useCategories()` | GET /api/categories |
 | `useDesigners()` | GET /api/designers |
-| `useFavorites()` | Zustand store (local) |
+| `useFavorites()` | GET /api/favorites (React Query + optimistic updates) |
 | `usePerfumes(params)` | GET /api/perfumes?search=&gender=&type=&designer=... |
 | `useTags()` | GET /api/tags |
 | `useVibes()` | GET /api/vibes |
@@ -285,9 +316,9 @@ Cada endpoint tiene rutas `/[id]` para GET (singular), PUT y DELETE.
 ## Zustand Stores
 
 | Store | Archivo | Estado | Persistencia |
-|---|---|---|---|
-| `useAuth` | `stores/auth.ts` | `user`, `token`, `isLoading` | `token` en localStorage (clave `aura_auth`) |
-| `useApp` | `stores/app.ts` | `hideBottomNav` | No |
+|---|---|---|---|---|
+| `useAuth` | `modules/auth/store.ts` | `user`, `token`, `isLoading` | `token` en localStorage (clave `aura_auth`) |
+| `useUIStore` | `modules/shared/stores/use-ui-store.ts` | `hideBottomNav` | No |
 
 Las stores solo contienen estado y setters simples (`setSession`, `clearSession`). La lógica de negocio (llamadas HTTP) vive en `lib/api/*.ts`.
 
@@ -298,7 +329,7 @@ Las stores solo contienen estado y setters simples (`setSession`, `clearSession`
 ### Flujo
 1. El usuario inicia sesión en `/login` → `lib/api/auth.ts:login()` → `POST /api/auth/login`
 2. El servidor valida credenciales con bcrypt y devuelve `{ user, token }` (JWT con expiración de 1 minuto)
-3. `login()` guarda el token en el store de Zustand, que lo persiste automáticamente en localStorage
+3. `login()` guarda el token en el store de Zustand (`modules/auth/store.ts`), que lo persiste automáticamente en localStorage
 4. En cada carga de página, `AuthInitializer` monta → `lib/api/auth.ts:initialize()` → `GET /api/auth/me` con el token persistido
 5. Si el token expiró (401), se limpia la sesión y se redirige al home
 

@@ -8,7 +8,7 @@ export async function POST(
   try {
     const { id } = await params;
     const body = await req.json();
-    const field = body.field as "winter" | "summer";
+    const field = body.field as "winter" | "spring" | "summer" | "autumn";
 
     const result = await voteSeason(id, field);
     return NextResponse.json(result, { status: result.status });

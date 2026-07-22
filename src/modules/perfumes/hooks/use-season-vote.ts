@@ -3,7 +3,7 @@ import type { ApiResult } from "@/modules/shared/types";
 
 interface VoteSeasonParams {
   perfumeId: string;
-  field: "winter" | "summer" | "day" | "night";
+  field: "winter" | "spring" | "summer" | "autumn";
 }
 
 export const useSeasonVote = () => {

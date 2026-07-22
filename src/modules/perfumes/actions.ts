@@ -23,10 +23,6 @@ export async function getAll(params: GetPerfumesParams = {}): Promise<ApiResult<
       whereConditions.designer = { name: { equals: params.designer, mode: "insensitive" } };
     }
 
-    if (params.tagId) {
-      whereConditions.tags = { some: { id: params.tagId } };
-    }
-
     if (params.tag) {
       whereConditions.tags = { some: { name: { equals: params.tag, mode: "insensitive" } } };
     }
@@ -286,7 +282,7 @@ export async function remove(id: string) {
   }
 }
 
-export async function voteSeason(perfumeId: string, field: "winter" | "summer"): Promise<ApiResult<boolean>> {
+export async function voteSeason(perfumeId: string, field: "winter" | "spring" | "summer" | "autumn"): Promise<ApiResult<boolean>> {
   if (!perfumeId || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
   }

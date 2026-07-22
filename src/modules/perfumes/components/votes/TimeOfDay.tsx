@@ -3,7 +3,7 @@
 import { useState, type ReactElement } from "react";
 import type { TimeOfDay as TimeOfDayType } from "@prisma/client";
 import { StatBar } from "./StatBar";
-import { useTimeVote } from "../hooks/use-time-vote";
+import { useTimeVote } from "../../hooks/use-time-vote";
 
 interface TimeOfDayProps {
   perfumeId: string;
