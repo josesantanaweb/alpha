@@ -6,7 +6,13 @@ const prismaClientSingleton = () => {
     throw new Error("DATABASE_URL is not defined in environment");
   }
 
-  return new PrismaClient({ adapter: new PrismaPg(process.env.DATABASE_URL) });
+  return new PrismaClient({
+    adapter: new PrismaPg({
+      connectionString: process.env.DATABASE_URL,
+      max: 5,
+      idleTimeoutMillis: 10000,
+    }),
+  });
 };
 
 declare const globalThis: {
