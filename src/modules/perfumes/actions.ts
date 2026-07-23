@@ -70,6 +70,7 @@ export async function getAll(
           feeling: true,
           sillage: true,
           projection: true,
+          notes: true,
         },
         take: limit,
         skip: offset,
@@ -125,6 +126,7 @@ export async function getOne(
         feeling: true,
         sillage: true,
         projection: true,
+          notes: true,
       },
     });
 
@@ -170,6 +172,7 @@ export async function getBySlug(
         feeling: true,
         sillage: true,
         projection: true,
+          notes: true,
       },
     });
 

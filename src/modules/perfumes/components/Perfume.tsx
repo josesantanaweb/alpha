@@ -2,7 +2,8 @@
 import { useEffect, type ReactElement } from "react";
 import type { PerfumeWithRelations } from "../types";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
-import { ArrowLeft, Share } from "lucide-react";
+import { Share } from "lucide-react";
+import { BackButton } from "@/modules/shared/components";
 import { Rating } from "@/modules/shared/components/Rating";
 import { Accords } from "./Accords";
 import { AboutPerfume } from "./AboutPerfume";
@@ -31,9 +32,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
   return (
     <div className="mb-40 flex w-full flex-col gap-4 p-5">
       <div className="flex w-full justify-between">
-        <div className="cursor-pointer text-white">
-          <ArrowLeft size={24} />
-        </div>
+        <BackButton />
         <div className="cursor-pointer text-white">
           <Share size={24} />
         </div>
@@ -55,7 +54,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         </h4>
       </div>
 
-      <SizeSelector />
+      <SizeSelector perfume={perfume}/>
 
       <div>
         {perfume.description && (
@@ -64,7 +63,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
 
         <Accords accords={perfume.accords} />
 
-        <Notes />
+        <Notes notes={perfume.notes} />
         <Experience
           perfumeId={perfume.id}
           season={perfume.season}

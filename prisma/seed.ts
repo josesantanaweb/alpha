@@ -262,6 +262,29 @@ async function main() {
         huge: Math.floor(Math.random() * 100),
       }
     });
+
+    const notePool = [
+      { name: "Mandarina", image: "/images/notes/mandarina.png", stage: "TOP" },
+      { name: "Moscada", image: "/images/notes/moscada.png", stage: "TOP" },
+      { name: "Jasmine", image: "/images/notes/jasmine.png", stage: "HEART" },
+      { name: "Esclarea", image: "/images/notes/esclarea.png", stage: "HEART" },
+      { name: "Tabaco", image: "/images/notes/tabaco.png", stage: "BASE" },
+      { name: "Vainilla", image: "/images/notes/vainilla.png", stage: "BASE" },
+    ] as const;
+
+    const shuffledNotes = [...notePool].sort(() => 0.5 - Math.random());
+    const selectedNotes = shuffledNotes.slice(0, 4);
+
+    for (const note of selectedNotes) {
+      await prisma.note.create({
+        data: {
+          perfumeId: createdPerfume.id,
+          name: note.name,
+          image: note.image,
+          stage: note.stage as "TOP" | "HEART" | "BASE",
+        },
+      });
+    }
   }
 
   for (const banner of INITIAL_BANNERS) {

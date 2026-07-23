@@ -21,6 +21,7 @@ export async function getByIds(
         feeling: true,
         sillage: true,
         projection: true,
+        notes: true,
       },
     });
 
@@ -58,6 +59,7 @@ export async function getUserFavorites(
             feeling: true,
             sillage: true,
             projection: true,
+            notes: true,
           },
         },
       },
