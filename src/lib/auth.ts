@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from "jose";
 import { NextRequest } from "next/server";
 
-const TOKEN_EXPIRATION = process.env.AUTH_TOKEN_EXPIRATION || "10m";
+const TOKEN_EXPIRATION = process.env.AUTH_TOKEN_EXPIRATION || "1h";
 
 function getSecret() {
   const secret = process.env.AUTH_SECRET;

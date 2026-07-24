@@ -1,41 +1,24 @@
 "use client";
-import type { ReactElement } from "react";
+import { useEffect, type ReactElement } from "react";
+import { TopBar } from "@/modules/shared/components/layout";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
 import { PerfumeGrid } from "@/modules/perfumes/components/PerfumeGrid";
 import { EmptyState } from "@/modules/perfumes/components/EmptyState";
+import { useApp } from "@/modules/shared/stores/use-ui-store";
 
 export const Favorites = (): ReactElement => {
-  const { perfumes, ids, toggle, ready } = useFavorites();
+  const { perfumes, ids, toggle } = useFavorites();
+  const { setHideHeader } = useApp();
 
-  if (!ready) {
-    return (
-      <div className="flex flex-col gap-6 p-5 pb-25">
-        <div className="flex items-start flex-col gap-1">
-          <h5 className="text-lg font-semibold text-white">Favoritos</h5>
-          <p className="text-body text-sm">
-            Tu coleccion especial de perfumes exclusivos
-          </p>
-        </div>
-        <div className="grid grid-cols-2 gap-6">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="bg-surface animate-pulse h-45 w-full rounded-2xl"
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
+  useEffect(() => {
+    setHideHeader(true);
+    return () => {
+      setHideHeader(false);
+    };
+  }, [setHideHeader]);
   return (
-    <div className="flex flex-col gap-6 p-5 pb-25">
-      <div className="flex items-start flex-col gap-1">
-        <h5 className="text-lg font-semibold text-white">Favoritos</h5>
-        <p className="text-body text-sm">
-          Tu coleccion especial de perfumes exclusivos
-        </p>
-      </div>
+    <div className="flex w-full flex-col gap-4 p-5">
+      <TopBar title="Favoritos" />
 
       {ids.length === 0 && (
         <EmptyState
@@ -46,12 +29,14 @@ export const Favorites = (): ReactElement => {
       )}
 
       {ids.length > 0 && (
-        <PerfumeGrid
-          perfumes={perfumes}
-          isLoading={false}
-          likedIds={new Set(ids)}
-          onLikeToggle={toggle}
-        />
+        <div className="mt-6">
+          <PerfumeGrid
+            perfumes={perfumes}
+            isLoading={false}
+            likedIds={new Set(ids)}
+            onLikeToggle={toggle}
+          />
+        </div>
       )}
     </div>
   );

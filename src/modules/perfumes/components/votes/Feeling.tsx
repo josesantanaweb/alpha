@@ -87,7 +87,7 @@ export const Feeling = ({ perfumeId, feeling }: FeelingProps): ReactElement => {
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">Sentimiento</h6>
       </div>
-      <div className="flex w-full flex-wrap gap-3">
+      <div className="flex w-full flex-wrap justify-between">
         {feelings.map((feelingItem) => (
           <StatBar
             key={feelingItem.label}

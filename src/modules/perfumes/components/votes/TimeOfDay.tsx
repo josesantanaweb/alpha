@@ -64,7 +64,7 @@ export const TimeOfDay = ({ perfumeId, timeOfDay }: TimeOfDayProps): ReactElemen
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">Momento del día</h6>
       </div>
-      <div className="flex w-full gap-6">
+      <div className="flex w-full gap-10">
         {times.map((timeItem) => (
           <StatBar
             key={timeItem.label}

@@ -86,7 +86,7 @@ export const Longevity = ({ perfumeId, longevity }: LongevityProps): ReactElemen
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">Longevidad</h6>
       </div>
-      <div className="flex w-full gap-3">
+      <div className="flex w-full justify-between">
         {longevityOptions.map((longevityOption) => (
           <StatBar
             key={longevityOption.label}

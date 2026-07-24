@@ -87,7 +87,7 @@ export const Sillage = ({ perfumeId, sillage }: SillageProps): ReactElement => {
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">Estela</h6>
       </div>
-      <div className="flex w-full flex-wrap gap-3">
+      <div className="flex w-full flex-wrap justify-between">
         {sillages.map((sillageItem) => (
           <StatBar
             key={sillageItem.label}

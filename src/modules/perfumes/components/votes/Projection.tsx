@@ -87,7 +87,7 @@ export const Projection = ({ perfumeId, projection }: ProjectionProps): ReactEle
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">Proyección</h6>
       </div>
-      <div className="flex w-full flex-wrap gap-3">
+      <div className="flex w-full flex-wrap justify-between">
         {projections.map((projection) => (
           <StatBar
             key={projection.label}

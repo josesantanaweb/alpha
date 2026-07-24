@@ -25,7 +25,7 @@ export const Account = (): ReactElement => {
         </div>
       </div>
 
-      <Button variant="danger" onClick={logout} fullWidth={false} className="w-fit">
+      <Button variant="outline" onClick={logout}>
         Cerrar sesión
       </Button>
     </div>

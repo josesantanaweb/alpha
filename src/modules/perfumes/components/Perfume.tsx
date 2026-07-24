@@ -2,8 +2,7 @@
 import { useEffect, type ReactElement } from "react";
 import type { PerfumeWithRelations } from "../types";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
-import { Share } from "lucide-react";
-import { BackButton } from "@/modules/shared/components";
+import { TopBar } from "@/modules/shared/components/layout";
 import { Rating } from "@/modules/shared/components/Rating";
 import { Accords } from "./Accords";
 import { AboutPerfume } from "./AboutPerfume";
@@ -36,12 +35,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
 
   return (
     <div className="mb-40 flex w-full flex-col gap-4 p-5">
-      <div className="flex w-full justify-between">
-        <BackButton />
-        <div className="cursor-pointer text-white">
-          <Share size={24} />
-        </div>
-      </div>
+      <TopBar />
 
       <div className="relative mb-6 flex w-full items-center justify-center">
         <div className="absolute top-1/2 left-1/2 h-45 w-45 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/40 blur-[30px]" />

@@ -13,10 +13,18 @@
 
 ### 23/07/2026
 - [X] ~~Modificar conexion de supabase~~
-- [X] Agregar Tamano de 100ml y estado active
-- [X] Funcionalidad de boton atras
-- [ ] Boton de agregar al carrito y favoritos
+- [X] ~~Agregar Tamano de 100ml y estado active~~
+- [X] ~~Funcionalidad de boton atras~~
+- [X] ~~Boton de agregar al carrito y favoritos~~
+
+
+### 24/07/2026
+- [ ] Agregar el icono de mostrar contrasena
+- [ ] Mejorar los mensajes de error de login
 - [ ] Listar reviews
 - [ ] Formulario para agregar reviews
+- [ ] Filtro por notas al hacer click en las notas de los perfumes
 - [ ] Refactorizar modulo de experiencias y extraer logica repetida
+- [ ] Logica de agregar items al carrito
+- [ ] Integrar registro de usuarios
 ---

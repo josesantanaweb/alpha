@@ -8,7 +8,7 @@ interface AddToCartProps {
 
 export const AddToCart = ({ perfumeId }: AddToCartProps) => {
   return (
-    <div className="fixed right-0 bottom-0 left-0 z-50 mx-auto flex items-center gap-3 max-w-[90%] md:max-w-md bg-surface p-4">
+    <div className="fixed right-0 bottom-0 left-0 z-50 mx-auto flex items-center gap-3 md:max-w-md bg-surface p-4">
       <FavoriteButton perfumeId={perfumeId} />
       <Button>Agregar al carrito</Button>
     </div>

@@ -87,7 +87,7 @@ export const Season = ({ perfumeId, season }: SeasonProps): ReactElement => {
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">Clima / Estación</h6>
       </div>
-      <div className="flex w-full gap-6">
+      <div className="flex w-full justify-between">
         {seasons.map((seasonItem) => (
           <StatBar
             key={seasonItem.label}
