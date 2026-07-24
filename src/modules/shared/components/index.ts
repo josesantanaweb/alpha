@@ -3,7 +3,7 @@ export * from "./LikeButton";
 export * from "./Rating";
 export * from "./ProgressBar";
 export * from "./Tabs";
-export * from "./AddToCartButton";
+export * from "./AddToCart";
 export * from "./SearchInput";
 export * from "./AuthGuard";
 export * from "./GuestGuard";

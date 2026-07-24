@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 import perfumesData from "./data/perfumes.json";
 
 const prisma = new PrismaClient({
@@ -300,6 +301,17 @@ async function main() {
       data: vibe,
     });
   }
+
+  const passwordHash = await bcrypt.hash("aura12345", 10);
+  await prisma.user.upsert({
+    where: { email: "admin@aura.com" },
+    update: {},
+    create: {
+      email: "admin@aura.com",
+      password: passwordHash,
+      name: "Admin",
+    },
+  });
 
   console.log(`✅ Seeding se ha ejecutado con éxito.`);
 }

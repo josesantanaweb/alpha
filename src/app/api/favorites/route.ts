@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(null, { status: 200 });
+    return NextResponse.json(result, { status: result.status });
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
@@ -102,7 +102,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(null, { status: 200 });
+    return NextResponse.json(result, { status: result.status });
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },

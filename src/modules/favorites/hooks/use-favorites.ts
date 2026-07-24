@@ -46,19 +46,13 @@ export const useFavorites = () => {
     },
     onMutate: async (perfumeId) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<PerfumeWithRelations[]>(
-        queryKey,
-      );
       queryClient.setQueryData<PerfumeWithRelations[]>(queryKey, (old) => {
         if (old?.some((p) => p.id === perfumeId)) return old;
         return [...(old ?? [])];
       });
-      return { previous };
     },
-    onError: (_err, _perfumeId, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(queryKey, context.previous);
-      }
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 
@@ -76,18 +70,12 @@ export const useFavorites = () => {
     },
     onMutate: async (perfumeId) => {
       await queryClient.cancelQueries({ queryKey });
-      const previous = queryClient.getQueryData<PerfumeWithRelations[]>(
-        queryKey,
-      );
       queryClient.setQueryData<PerfumeWithRelations[]>(queryKey, (old) =>
         (old ?? []).filter((p) => p.id !== perfumeId),
       );
-      return { previous };
     },
-    onError: (_err, _perfumeId, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(queryKey, context.previous);
-      }
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 
@@ -129,7 +117,10 @@ export const useFavorites = () => {
 
   const isFavorite = useCallback((id: string) => ids.includes(id), [ids]);
 
+  const isPending = (id: string) =>
+    addMutation.isPending || removeMutation.isPending;
+
   const ready = !authLoading && (!user || !favoritesLoading);
 
-  return { ids, perfumes, ready, add, remove, toggle, isFavorite };
+  return { ids, perfumes, ready, add, remove, toggle, isFavorite, isPending };
 };

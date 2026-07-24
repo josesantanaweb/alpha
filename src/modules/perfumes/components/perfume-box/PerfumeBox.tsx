@@ -30,17 +30,14 @@ export const PerfumeBox = ({
   const { name, price, rating, designer, discount, image, slug } = perfume;
 
   return (
-    <Link
-      href={`/perfume/${slug}`}
-      className={cn("flex shrink-0 flex-col gap-3", className)}
-    >
+    <div className={cn("flex shrink-0 flex-col gap-3", className)}>
       <div className="bg-surface border-stroke relative flex h-45 w-full items-center justify-center overflow-hidden rounded-2xl border p-3">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-1/2 left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[30px]" />
         </div>
         <div className="absolute top-0 left-0 flex w-full items-center justify-between p-3">
           {perfumeBadge ? <PerfumeBadge label={perfumeBadge} /> : <span />}
-          <span onClick={(e) => e.stopPropagation()} role="presentation">
+          <span role="presentation">
             <LikeButton liked={liked} onToggle={onLikeToggle} />
           </span>
         </div>
@@ -62,14 +59,16 @@ export const PerfumeBox = ({
             <p className="text-body text-sm italic">{designer.name}</p>
           </div>
           <div className="flex w-full items-center justify-between">
-            <h4 className="max-w-27.5 truncate text-base font-medium text-white">
-              {name}
-            </h4>
+            <Link href={`/perfume/${slug}`} className="cursor-pointer">
+              <h4 className="max-w-27.5 truncate text-base font-medium text-white">
+                {name}
+              </h4>
+            </Link>
             <Rating rating={Number(rating)} />
           </div>
           <PerfumePrice price={Number(price)} discount={discount} />
         </div>
       </div>
-    </Link>
+    </div>
   );
 };

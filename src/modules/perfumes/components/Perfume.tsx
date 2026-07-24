@@ -15,19 +15,24 @@ import { SizeSelector } from "./SizeSelector";
 import { getGenderLabel } from "@/modules/shared/utils/gender";
 import { formatPrice } from "@/modules/shared/utils/format-price";
 import { usePerfumes } from "../hooks/use-perfume-query";
+import { AddToCart } from "@/modules/shared/components";
 
 interface PerfumeProps {
   perfume: PerfumeWithRelations;
 }
 
 export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
-  const { setHideHeader } = useApp();
+  const { setHideHeader, setHideBottomNav } = useApp();
   const { data: perfumes = [], isLoading } = usePerfumes({ limit: 50 });
 
   useEffect(() => {
     setHideHeader(true);
-    return () => setHideHeader(false);
-  }, [setHideHeader]);
+    setHideBottomNav(true);
+    return () => {
+      setHideHeader(false);
+      setHideBottomNav(false);
+    };
+  }, [setHideHeader, setHideBottomNav]);
 
   return (
     <div className="mb-40 flex w-full flex-col gap-4 p-5">
@@ -75,6 +80,8 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         />
       </div>
       <Similar perfumes={perfumes} isLoading={isLoading} />
+
+      <AddToCart perfumeId={perfume.id} />
     </div>
   );
 };

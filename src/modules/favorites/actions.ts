@@ -96,7 +96,7 @@ export async function create(
       data: { favorites: { connect: { id: perfumeId } } },
     });
 
-    return { success: true, status: 200, data: null };
+    return { success: true, status: 200, data: null, message: "Favorito agregado con éxito." };
   } catch (error: unknown) {
     return {
       success: false,
@@ -117,7 +117,7 @@ export async function remove(
       data: { favorites: { disconnect: { id: perfumeId } } },
     });
 
-    return { success: true, status: 200, data: null };
+    return { success: true, status: 200, data: null, message: "Favorito eliminado con éxito." };
   } catch (error: unknown) {
     return {
       success: false,

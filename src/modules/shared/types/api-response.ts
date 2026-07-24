@@ -2,6 +2,7 @@ export type ApiSuccess<T> = {
   success: true;
   status: number;
   data: T;
+  message?: string;
 };
 
 export type ApiError = {
