@@ -331,27 +331,85 @@ export async function remove(id: string) {
   }
 }
 
-export async function voteSeason(
+export type VoteCategory =
+  | "season"
+  | "timeOfDay"
+  | "longevity"
+  | "sillage"
+  | "projection"
+  | "feeling";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const CATEGORY_MODEL_MAP: Record<VoteCategory, any> = {
+  season: db.season,
+  timeOfDay: db.timeOfDay,
+  longevity: db.longevity,
+  sillage: db.sillage,
+  projection: db.projection,
+  feeling: db.feeling,
+};
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+export async function vote(
+  userId: string,
   perfumeId: string,
-  field: "winter" | "spring" | "summer" | "autumn"
-): Promise<ApiResult<boolean>> {
-  if (!perfumeId || !field) {
+  category: VoteCategory,
+  field: string,
+): Promise<ApiResult<{ previousField: string | null }>> {
+  if (!userId || !perfumeId || !category || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
   }
 
+  const model = CATEGORY_MODEL_MAP[category];
+  if (!model) {
+    return { success: false, status: 400, message: "Categoría inválida." };
+  }
+
   try {
-    await db.season.upsert({
-      where: { perfumeId },
-      update: {
-        [field]: { increment: 1 },
+    // Buscar voto anterior del usuario para esta categoría y perfume
+    const existingVote = await db.userVote.findUnique({
+      where: {
+        userId_perfumeId_category: { userId, perfumeId, category },
       },
+    });
+
+    const previousField = existingVote?.field ?? null;
+
+    // Si ya votó lo mismo, no hacer nada
+    if (previousField === field) {
+      return { success: true, status: 200, data: { previousField } };
+    }
+
+    // Construir las operaciones de actualización del modelo agregado
+    const updateData: Record<string, { increment: number } | { decrement: number }> = {
+      [field]: { increment: 1 },
+    };
+
+    // Si había un voto previo, decrementarlo
+    if (previousField) {
+      updateData[previousField] = { decrement: 1 };
+    }
+
+    // Actualizar el modelo agregado (Season, Longevity, etc.)
+    await model.upsert({
+      where: { perfumeId },
+      update: updateData,
       create: {
         perfumeId,
         [field]: 1,
       },
     });
 
-    return { success: true, status: 200, data: true };
+    // Registrar/actualizar el voto del usuario
+    await db.userVote.upsert({
+      where: {
+        userId_perfumeId_category: { userId, perfumeId, category },
+      },
+      update: { field },
+      create: { userId, perfumeId, category, field },
+    });
+
+    return { success: true, status: 200, data: { previousField } };
   } catch (error: unknown) {
     return {
       success: false,
@@ -362,27 +420,25 @@ export async function voteSeason(
   }
 }
 
-export async function voteTimeOfDay(
+export async function getUserVotes(
+  userId: string,
   perfumeId: string,
-  field: "day" | "night"
-): Promise<ApiResult<boolean>> {
-  if (!perfumeId || !field) {
+): Promise<ApiResult<Record<string, string>>> {
+  if (!userId || !perfumeId) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
   }
 
   try {
-    await db.timeOfDay.upsert({
-      where: { perfumeId },
-      update: {
-        [field]: { increment: 1 },
-      },
-      create: {
-        perfumeId,
-        [field]: 1,
-      },
+    const votes = await db.userVote.findMany({
+      where: { userId, perfumeId },
     });
 
-    return { success: true, status: 200, data: true };
+    const voteMap: Record<string, string> = {};
+    for (const v of votes) {
+      voteMap[v.category] = v.field;
+    }
+
+    return { success: true, status: 200, data: voteMap };
   } catch (error: unknown) {
     return {
       success: false,
@@ -393,126 +449,3 @@ export async function voteTimeOfDay(
   }
 }
 
-export async function voteLongevity(
-  perfumeId: string,
-  field: "weak" | "moderate" | "long" | "veryLong"
-): Promise<ApiResult<boolean>> {
-  if (!perfumeId || !field) {
-    return { success: false, status: 400, message: "Parámetros inválidos." };
-  }
-
-  try {
-    await db.longevity.upsert({
-      where: { perfumeId },
-      update: {
-        [field]: { increment: 1 },
-      },
-      create: {
-        perfumeId,
-        [field]: 1,
-      },
-    });
-
-    return { success: true, status: 200, data: true };
-  } catch (error: unknown) {
-    return {
-      success: false,
-      status: 500,
-      message:
-        error instanceof Error ? error.message : "Error interno del servidor.",
-    };
-  }
-}
-
-export async function voteFeeling(
-  perfumeId: string,
-  field: "hate" | "dislike" | "like" | "love"
-): Promise<ApiResult<boolean>> {
-  if (!perfumeId || !field) {
-    return { success: false, status: 400, message: "Parámetros inválidos." };
-  }
-
-  try {
-    await db.feeling.upsert({
-      where: { perfumeId },
-      update: {
-        [field]: { increment: 1 },
-      },
-      create: {
-        perfumeId,
-        [field]: 1,
-      },
-    });
-
-    return { success: true, status: 200, data: true };
-  } catch (error: unknown) {
-    return {
-      success: false,
-      status: 500,
-      message:
-        error instanceof Error ? error.message : "Error interno del servidor.",
-    };
-  }
-}
-
-export async function voteSillage(
-  perfumeId: string,
-  field: "soft" | "moderate" | "heavy" | "huge"
-): Promise<ApiResult<boolean>> {
-  if (!perfumeId || !field) {
-    return { success: false, status: 400, message: "Parámetros inválidos." };
-  }
-
-  try {
-    await db.sillage.upsert({
-      where: { perfumeId },
-      update: {
-        [field]: { increment: 1 },
-      },
-      create: {
-        perfumeId,
-        [field]: 1,
-      },
-    });
-
-    return { success: true, status: 200, data: true };
-  } catch (error: unknown) {
-    return {
-      success: false,
-      status: 500,
-      message:
-        error instanceof Error ? error.message : "Error interno del servidor.",
-    };
-  }
-}
-
-export async function voteProjection(
-  perfumeId: string,
-  field: "soft" | "moderate" | "heavy" | "huge"
-): Promise<ApiResult<boolean>> {
-  if (!perfumeId || !field) {
-    return { success: false, status: 400, message: "Parámetros inválidos." };
-  }
-
-  try {
-    await db.projection.upsert({
-      where: { perfumeId },
-      update: {
-        [field]: { increment: 1 },
-      },
-      create: {
-        perfumeId,
-        [field]: 1,
-      },
-    });
-
-    return { success: true, status: 200, data: true };
-  } catch (error: unknown) {
-    return {
-      success: false,
-      status: 500,
-      message:
-        error instanceof Error ? error.message : "Error interno del servidor.",
-    };
-  }
-}

@@ -8,12 +8,15 @@ import type {
   TimeOfDay as TimeOfDayType,
 } from "@prisma/client";
 import { CollapsibleSection } from "@/modules/shared/components";
-import { Longevity } from "./votes/Longevity";
-import { Sillage } from "./votes/Sillage";
-import { Projection } from "./votes/Projection";
-import { Feeling } from "./votes/Feeling";
-import { Season } from "./votes/Season";
-import { TimeOfDay } from "./votes/TimeOfDay";
+import { VoteSection } from "./votes/VoteSection";
+import {
+  SEASON_OPTIONS,
+  TIME_OF_DAY_OPTIONS,
+  LONGEVITY_OPTIONS,
+  SILLAGE_OPTIONS,
+  PROJECTION_OPTIONS,
+  FEELING_OPTIONS,
+} from "./votes/vote-options";
 
 interface ExperienceProps {
   perfumeId: string;
@@ -37,12 +40,53 @@ export const Experience = ({
   return (
     <CollapsibleSection title="Experiencia olfativa" defaultOpen={true}>
       <div className="flex flex-col gap-6">
-        <Season perfumeId={perfumeId} season={season} />
-        <TimeOfDay perfumeId={perfumeId} timeOfDay={timeOfDay} />
-        <Longevity perfumeId={perfumeId} longevity={longevity} />
-        <Sillage perfumeId={perfumeId} sillage={sillage} />
-        <Projection perfumeId={perfumeId} projection={projection} />
-        <Feeling perfumeId={perfumeId} feeling={feeling} />
+        <VoteSection
+          title="Clima / Estación"
+          category="season"
+          perfumeId={perfumeId}
+          options={SEASON_OPTIONS}
+          data={season}
+        />
+
+        <VoteSection
+          title="Momento del día"
+          category="timeOfDay"
+          perfumeId={perfumeId}
+          options={TIME_OF_DAY_OPTIONS}
+          data={timeOfDay}
+        />
+
+        <VoteSection
+          title="Longevidad"
+          category="longevity"
+          perfumeId={perfumeId}
+          options={LONGEVITY_OPTIONS}
+          data={longevity}
+        />
+
+        <VoteSection
+          title="Estela"
+          category="sillage"
+          perfumeId={perfumeId}
+          options={SILLAGE_OPTIONS}
+          data={sillage}
+        />
+
+        <VoteSection
+          title="Proyección"
+          category="projection"
+          perfumeId={perfumeId}
+          options={PROJECTION_OPTIONS}
+          data={projection}
+        />
+
+        <VoteSection
+          title="Sentimiento"
+          category="feeling"
+          perfumeId={perfumeId}
+          options={FEELING_OPTIONS}
+          data={feeling}
+        />
       </div>
     </CollapsibleSection>
   );
