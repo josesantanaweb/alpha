@@ -33,7 +33,7 @@ export async function initialize() {
 export async function login(
   email: string,
   password: string,
-): Promise<{ success: boolean; message?: string }> {
+): Promise<{ success: boolean; message?: string; errors?: Record<string, string[] | undefined> }> {
   try {
     const res = await fetch("/api/auth/login", {
       method: "POST",
@@ -45,6 +45,7 @@ export async function login(
       return {
         success: false,
         message: data.message || "Error al iniciar sesión",
+        errors: data.errors,
       };
     }
     useAuth.getState().setSession(data.user, data.token);

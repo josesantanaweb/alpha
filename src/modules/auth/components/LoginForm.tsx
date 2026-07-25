@@ -6,17 +6,76 @@ import Link from "next/link";
 import Image from "next/image";
 import { login } from "@/lib/api/auth";
 import { ROUTES } from "@/constants";
+import { LoginSchema } from "@/modules/auth/schema";
 
 export const Login = (): ReactElement => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [generalError, setGeneralError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [touched, setTouched] = useState({ email: false, password: false });
+
+  const hasErrors = !!emailError || !!passwordError;
+
+  const validateEmail = (val: string) => {
+    const res = LoginSchema.shape.email.safeParse(val);
+    if (!res.success) {
+      return res.error.issues[0].message;
+    }
+    return "";
+  };
+
+  const validatePassword = (val: string) => {
+    const res = LoginSchema.shape.password.safeParse(val);
+    if (!res.success) {
+      return res.error.issues[0].message;
+    }
+    return "";
+  };
+
+  const handleEmailChange = (val: string) => {
+    setEmail(val);
+    setGeneralError("");
+    if (touched.email || val.length > 0) {
+      setEmailError(validateEmail(val));
+    }
+  };
+
+  const handlePasswordChange = (val: string) => {
+    setPassword(val);
+    setGeneralError("");
+    if (touched.password || val.length > 0) {
+      setPasswordError(validatePassword(val));
+    }
+  };
+
+  const handleBlur = (field: "email" | "password") => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (field === "email") {
+      setEmailError(validateEmail(email));
+    } else {
+      setPasswordError(validatePassword(password));
+    }
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError("");
+    setTouched({ email: true, password: true });
+    setGeneralError("");
+
+    const emailErr = validateEmail(email);
+    const passwordErr = validatePassword(password);
+
+    setEmailError(emailErr);
+    setPasswordError(passwordErr);
+
+    if (emailErr || passwordErr) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     const result = await login(email, password);
@@ -24,15 +83,29 @@ export const Login = (): ReactElement => {
     if (result.success) {
       router.push("/");
     } else {
-      setError(result.message ?? "Error al iniciar sesión");
+      setGeneralError(result.message ?? "Correo o contraseña no válidos");
+      if (result.errors) {
+        if (result.errors.email?.[0]) setEmailError(result.errors.email[0]);
+        if (result.errors.password?.[0]) setPasswordError(result.errors.password[0]);
+      }
     }
 
     setIsSubmitting(false);
   };
 
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center bg-[url('/images/auth-bg.png')] bg-cover bg-center bg-no-repeat p-5">
-      <div className="absolute inset-0 bg-canvas/60" />
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-5">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster="/images/presentation.png"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/video/presentation.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-black/80" />
       <div className="relative z-10 flex w-full flex-col items-center justify-center gap-6">
         <Logo />
 
@@ -45,28 +118,32 @@ export const Login = (): ReactElement => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex w-full flex-col gap-5">
+        <form onSubmit={handleSubmit} noValidate className="flex w-full flex-col gap-5">
           <div className="flex w-full flex-col items-center gap-5">
             <Input
               placeholder="tu@correo.com"
               label="Correo electrónico"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              onChange={(e) => handleEmailChange(e.target.value)}
+              onBlur={() => handleBlur("email")}
+              error={emailError}
             />
             <Input
               placeholder="••••••••"
               label="Contraseña"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => handlePasswordChange(e.target.value)}
+              onBlur={() => handleBlur("password")}
+              error={passwordError}
             />
           </div>
 
-          {error && (
-            <p className="text-center text-sm text-error">{error}</p>
+          {generalError && (
+            <div className="w-full bg-error/5 p-4 text-center text-sm font-medium text-error">
+              {generalError}
+            </div>
           )}
 
           <Link
@@ -77,7 +154,7 @@ export const Login = (): ReactElement => {
           </Link>
 
           <div className="flex w-full flex-col items-center gap-6">
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting || hasErrors}>
               {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
             </Button>
             <div className="relative flex w-full items-center justify-center">

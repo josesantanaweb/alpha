@@ -60,12 +60,12 @@ interface SeedVibe {
 }
 
 const INITIAL_DESIGNERS: SeedDesigner[] = [
-  { name: "Versace", slug: "versace", image: "/images/versace.svg" },
-  { name: "Dior", slug: "dior", image: "/images/dior.svg" },
-  { name: "Xerjoff", slug: "xerjoff", image: "/images/xerjoff.svg" },
-  { name: "Tom Ford", slug: "tom-ford", image: "/images/tom-ford.svg" },
-  { name: "Gucci", slug: "gucci", image: "/images/gucci.svg" },
-  { name: "Louis Vuitton", slug: "louis-vuitton", image: "/images/louis-vuitton.svg" },
+  { name: "Versace", slug: "versace", image: "/images/designers/versace.svg" },
+  { name: "Dior", slug: "dior", image: "/images/designers/dior.svg" },
+  { name: "Xerjoff", slug: "xerjoff", image: "/images/designers/xerjoff.svg" },
+  { name: "Tom Ford", slug: "tom-ford", image: "/images/designers/tom-ford.svg" },
+  { name: "Gucci", slug: "gucci", image: "/images/designers/gucci.svg" },
+  { name: "Louis Vuitton", slug: "louis-vuitton", image: "/images/designers/louis-vuitton.svg" },
 ];
 
 const INITIAL_ACCORDS = [

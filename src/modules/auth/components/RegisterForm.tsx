@@ -7,8 +7,18 @@ import { ROUTES } from "@/constants";
 
 export const Register = (): ReactElement => {
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center bg-[url('/images/auth-bg.png')] bg-cover bg-center bg-no-repeat p-5">
-      <div className="absolute inset-0 bg-canvas/60" />
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center overflow-hidden p-5">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster="/images/presentation.png"
+        className="absolute inset-0 h-full w-full object-cover"
+      >
+        <source src="/video/presentation.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-black/80" />
       <div className="relative z-10 flex w-full flex-col items-center justify-center gap-6">
         <Logo />
 

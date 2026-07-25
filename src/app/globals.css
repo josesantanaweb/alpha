@@ -6,6 +6,7 @@
   --color-foreground: var(--foreground);
   --color-body: var(--body);
   --color-stroke: var(--stroke);
+  --color-error: var(--error);
   --font-sans: var(--font-lato, 'Lato');
   --font-mono: var(--font-fira-code, 'Fira Code');
 }
@@ -17,6 +18,7 @@
   --body: #616161;
   --foreground: #fff;
   --stroke: #282830;
+  --error: #DB4446;
 }
 
 @media (prefers-color-scheme: light) {
@@ -55,6 +57,7 @@ body {
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -62,22 +65,23 @@ body {
 
 .skeleton-shimmer {
   background-color: var(--body);
-  background: linear-gradient(
-    100deg,
-    color-mix(in srgb, var(--body) 8%, transparent) 20%,
-    color-mix(in srgb, var(--body) 24%, transparent) 50%,
-    color-mix(in srgb, var(--body) 8%, transparent) 100%
-  );
+  background: linear-gradient(100deg,
+      color-mix(in srgb, var(--body) 8%, transparent) 20%,
+      color-mix(in srgb, var(--body) 24%, transparent) 50%,
+      color-mix(in srgb, var(--body) 8%, transparent) 100%);
   background-size: 220% 100%;
   animation: skeleton-shimmer 2.2s ease-in-out infinite;
   will-change: background-position;
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE y Edge antiguos */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE y Edge antiguos */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
+  /* Chrome, Safari, Opera */
 }
