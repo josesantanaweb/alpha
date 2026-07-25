@@ -76,6 +76,38 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Google Login Redirect",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/auth/google",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["auth", "google"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Google Auth Callback",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/auth/google/callback?code=",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["auth", "google", "callback"],
+              "query": [
+                {
+                  "key": "code",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -249,6 +281,83 @@
               "raw": "{{URL_BACKEND}}/perfumes/{{PERFUME_ID}}",
               "host": ["{{URL_BACKEND}}"],
               "path": ["perfumes", "{{PERFUME_ID}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Vote Perfume",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"category\": \"season\",\n    \"field\": \"winter\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes/{{PERFUME_ID}}/vote",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes", "{{PERFUME_ID}}", "vote"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Perfume Votes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes/{{PERFUME_ID}}/vote",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes", "{{PERFUME_ID}}", "vote"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Favorites By IDs",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ids\": [\"{{PERFUME_ID}}\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/perfumes/favoritos",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["perfumes", "favoritos"]
             }
           },
           "response": []
@@ -702,6 +811,19 @@
     {
       "name": "Banners",
       "item": [
+        {
+          "name": "List Active Banners",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/banners/active",
+              "host": ["{{URL_BACKEND}}"],
+              "path": ["banners", "active"]
+            }
+          },
+          "response": []
+        },
         {
           "name": "List Banners",
           "request": {

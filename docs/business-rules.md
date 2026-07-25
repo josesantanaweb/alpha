@@ -50,8 +50,11 @@ Los beneficios asociados a la suscripción se definirán en una etapa posterior.
 - La ruta `/account` es **inaccesible** para usuarios sin sesión (redirige a `/login`).
 
 ### Favoritos
-- Actualmente los favoritos se almacenan en **localStorage** (sin vinculación con el usuario).
-- Pendiente: migrar a favoritos persistentes vinculados a la cuenta del usuario.
+- Los favoritos están **vinculados a la cuenta del usuario** y se persisten en la base de datos PostgreSQL mediante la relación muchos a muchos `@relation("FavoritePerfumes")` en el modelo Prisma.
+- Requieren autenticación mediante Bearer token (`GET /api/favorites`, `POST /api/favorites`, `DELETE /api/favorites`).
+- Si un usuario no autenticado intenta agregar o alternar un favorito, es redirigido automáticamente a la pantalla de `/login`.
+- El hook `useFavorites()` en React Query proporciona actualizaciones optimistas en la UI y sincronización del estado.
+
 
 ---
 

@@ -1,5 +1,6 @@
 "use client";
 import { useAuth, type User } from "@/modules/auth/store";
+import { API_ROUTES } from "@/constants";
 
 export async function initialize() {
   const { token, clearSession } = useAuth.getState();
@@ -10,7 +11,7 @@ export async function initialize() {
   }
 
   try {
-    const res = await fetch("/api/auth/me", {
+    const res = await fetch(API_ROUTES.AUTH.ME, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

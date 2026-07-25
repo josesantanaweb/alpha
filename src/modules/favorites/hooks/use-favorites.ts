@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/modules/auth/store";
+import { getFavorites, addFavorite, removeFavorite } from "@/lib/api/favorites";
 import { ROUTES } from "@/constants";
 import type { PerfumeWithRelations } from "@/modules/perfumes";
 
@@ -21,11 +22,12 @@ export const useFavorites = () => {
   } = useQuery<PerfumeWithRelations[]>({
     queryKey,
     queryFn: async () => {
-      const res = await fetch("/api/favorites", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) return [];
-      return res.json() as Promise<PerfumeWithRelations[]>;
+      if (!token) return [];
+      try {
+        return await getFavorites(token);
+      } catch {
+        return [];
+      }
     },
     enabled: !!user,
   });
@@ -34,15 +36,8 @@ export const useFavorites = () => {
 
   const addMutation = useMutation({
     mutationFn: async (perfumeId: string) => {
-      const res = await fetch("/api/favorites", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ perfumeId }),
-      });
-      if (!res.ok) throw new Error("Error al agregar favorito");
+      if (!token) throw new Error("No token");
+      await addFavorite(token, perfumeId);
     },
     onMutate: async (perfumeId) => {
       await queryClient.cancelQueries({ queryKey });
@@ -58,15 +53,8 @@ export const useFavorites = () => {
 
   const removeMutation = useMutation({
     mutationFn: async (perfumeId: string) => {
-      const res = await fetch("/api/favorites", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ perfumeId }),
-      });
-      if (!res.ok) throw new Error("Error al eliminar favorito");
+      if (!token) throw new Error("No token");
+      await removeFavorite(token, perfumeId);
     },
     onMutate: async (perfumeId) => {
       await queryClient.cancelQueries({ queryKey });

@@ -19,6 +19,9 @@
 
 
 ### 24/07/2026
+- [ ] ~~Refactorizar modulo de experiencias y extraer logica repetida~~
+
+### 25/07/2026
 - [ ] Agregar el icono de mostrar contrasena
 - [ ] Mejorar los mensajes de error de login
 - [ ] Listar reviews
@@ -27,4 +30,5 @@
 - [ ] Refactorizar modulo de experiencias y extraer logica repetida
 - [ ] Logica de agregar items al carrito
 - [ ] Integrar registro de usuarios
+- [ ] Integrar login de google
 ---

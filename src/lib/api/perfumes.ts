@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-
+import { API_ROUTES } from "@/constants";
 export interface GetPerfumesParams {
   search?: string;
   accord?: string;
@@ -29,7 +29,7 @@ export async function getPerfumes(
   if (params.priceMin) searchParams.set("priceMin", String(params.priceMin));
   if (params.priceMax) searchParams.set("priceMax", String(params.priceMax));
 
-  const response = await fetch(`/api/perfumes?${searchParams.toString()}`);
+  const response = await fetch(`${API_ROUTES.PERFUMES}?${searchParams.toString()}`);
 
   if (!response.ok) {
     throw new Error("Error al obtener los perfumes.");

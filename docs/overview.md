@@ -62,16 +62,18 @@ src/
 │   │   ├── perfume/        # Página de detalle del perfume (slug)
 │   │   └── page.tsx        # Home page
 │   └── layout.tsx          # Layout raíz (solo providers)
-├── constants/              # Assets, config, rutas
+├── constants/              # Assets, config, rutas (routes.ts: API_ROUTES y ROUTES)
 ├── lib/
-│   ├── api/                # Fetch helpers (cliente)
-│   │   ├── auth.ts         # Login, logout, initialize
-│   │   ├── banners.ts
-│   │   ├── categories.ts
-│   │   ├── designers.ts
-│   │   ├── perfumes.ts
-│   │   ├── tags.ts
-│   │   └── vibes.ts
+│   ├── api/                # Fetch helpers (cliente) centralizados usando API_ROUTES
+│   │   ├── accords.ts      # getAccords
+│   │   ├── auth.ts         # login, register, getMe, initialize
+│   │   ├── banners.ts      # getActiveBanners
+│   │   ├── categories.ts   # getCategories
+│   │   ├── designers.ts    # getDesigners
+│   │   ├── favorites.ts    # getFavorites, addFavorite, removeFavorite
+│   │   ├── perfumes.ts     # getPerfumes
+│   │   ├── tags.ts         # getTags
+│   │   └── vibes.ts        # getActiveVibes
 │   ├── auth.ts             # JWT (jose) sign/verify
 │   ├── cn.ts               # clsx + tailwind-merge
 │   ├── db.ts               # Prisma singleton
@@ -226,14 +228,18 @@ type ApiResult<T> =
 | GET    | /api/auth/google | Redirect a Google OAuth |
 | GET    | /api/auth/google/callback | Callback de Google OAuth → { user, token } |
 | GET/POST | /api/accords | CRUD acordes olfativos |
-| GET/POST | /api/banners | Listar banners activos |
+| GET/POST | /api/banners | CRUD banners |
+| GET    | /api/banners/active | Listar banners activos |
 | GET/POST | /api/categories | CRUD categorías |
 | GET/POST | /api/decants | CRUD decants |
 | GET/POST | /api/designers | CRUD diseñadores |
+| GET/POST/DELETE | /api/favorites | Favoritos del usuario autenticado (persistencia DB) |
 | GET/POST | /api/feelings | CRUD sentimientos |
 | GET/POST | /api/longevities | CRUD longevidad |
 | GET/POST | /api/notes | CRUD notas |
 | GET/POST | /api/perfumes | CRUD perfumes (con filtros: search, gender, type, designer, accord, tag, priceMin, priceMax) |
+| POST   | /api/perfumes/favoritos | Obtener detalles de perfumes por IDs |
+| GET/POST | /api/perfumes/[id]/vote | Consultar y votar métricas comunitarias (temporada, longevidad, estela, sentimiento) |
 | GET/POST | /api/seasons | CRUD temporadas |
 | GET/POST | /api/sillages | CRUD estelas |
 | GET/POST | /api/tags | CRUD tags |
