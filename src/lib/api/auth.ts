@@ -59,3 +59,23 @@ export async function logout() {
   useAuth.getState().clearSession();
   window.location.href = "/";
 }
+
+export function loginWithGoogle() {
+  window.location.href = API_ROUTES.AUTH.GOOGLE;
+}
+
+export async function completeGoogleLogin(token: string): Promise<boolean> {
+  try {
+    const res = await fetch(API_ROUTES.AUTH.ME, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) return false;
+
+    const user = (await res.json()) as User;
+    useAuth.getState().setSession(user, token);
+    return true;
+  } catch {
+    return false;
+  }
+}

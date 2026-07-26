@@ -5,17 +5,16 @@ export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
 
   if (!code) {
-    return NextResponse.json({ message: "Falta el código de autorización" }, { status: 400 });
+    return NextResponse.redirect(new URL("/login?error=google_auth_failed", request.url));
   }
 
   const result = await googleCallback(code);
 
-  if (!result.success) {
-    return NextResponse.json(
-      { message: result.message, errors: result.errors },
-      { status: result.status }
-    );
+  if (!result.success || !result.data) {
+    return NextResponse.redirect(new URL("/login?error=google_auth_failed", request.url));
   }
 
-  return NextResponse.json(result.data, { status: result.status });
+  return NextResponse.redirect(
+    new URL(`/login?token=${encodeURIComponent(result.data.token)}`, request.url),
+  );
 }

@@ -4,6 +4,7 @@ import { Logo, Input, Button } from "@/modules/shared/components/ui";
 import Link from "next/link";
 import Image from "next/image";
 import { ROUTES } from "@/constants";
+import { loginWithGoogle } from "@/lib/api/auth";
 
 export const Register = (): ReactElement => {
   return (
@@ -46,7 +47,7 @@ export const Register = (): ReactElement => {
                 O
               </p>
             </div>
-            <Button variant="secondary">
+            <Button variant="secondary" type="button" onClick={loginWithGoogle}>
               <Image
                 src="/images/google.png"
                 width={50}

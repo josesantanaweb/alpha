@@ -1,24 +1,53 @@
 "use client";
-import { type FormEvent, useState, type ReactElement } from "react";
-import { useRouter } from "next/navigation";
+import { type FormEvent, useEffect, useState, type ReactElement, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Logo, Input, Button } from "@/modules/shared/components/ui";
 import Link from "next/link";
 import Image from "next/image";
-import { login } from "@/lib/api/auth";
+import { login, loginWithGoogle, completeGoogleLogin } from "@/lib/api/auth";
 import { ROUTES } from "@/constants";
 import { LoginSchema } from "@/modules/auth/schema";
 
 export const Login = (): ReactElement => {
+  return (
+    <Suspense fallback={null}>
+      <LoginContent />
+    </Suspense>
+  );
+};
+
+const LoginContent = (): ReactElement => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [generalError, setGeneralError] = useState("");
+  const [generalError, setGeneralError] = useState(() =>
+    searchParams.get("error") ? "No se pudo iniciar sesión con Google" : "",
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [touched, setTouched] = useState({ email: false, password: false });
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    const error = searchParams.get("error");
+
+    if (token) {
+      completeGoogleLogin(token).then((success) => {
+        if (success) {
+          router.replace("/");
+        } else {
+          setGeneralError("No se pudo iniciar sesión con Google");
+          router.replace(ROUTES.LOGIN);
+        }
+      });
+    } else if (error) {
+      router.replace(ROUTES.LOGIN);
+    }
+  }, [searchParams, router]);
 
   const hasErrors = !!emailError || !!passwordError;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -176,7 +205,7 @@ export const Login = (): ReactElement => {
                 O
               </p>
             </div>
-            <Button variant="secondary" type="button">
+            <Button variant="secondary" type="button" onClick={loginWithGoogle}>
               <Image
                 src="/images/google.png"
                 width={50}
