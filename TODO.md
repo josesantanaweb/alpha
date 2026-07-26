@@ -29,8 +29,8 @@
 ### 26/07/2026
 - [X] ~~Skeleton pantalla de favoritos~~
 - [X] ~~Agregar el icono de mostrar contraseña~~
-- [ ] Integrar registro de usuarios
-- [ ] Integrar login de google
+- [X] ~~Integrar login de google~~
+- [X] ~~Integrar registro de usuarios~~
 - [ ] Listar reviews
 - [ ] Formulario para agregar reviews
 - [ ] Filtro por notas al hacer click en las notas de los perfumes
