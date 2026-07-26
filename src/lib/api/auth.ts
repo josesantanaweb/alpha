@@ -55,6 +55,32 @@ export async function login(
   }
 }
 
+export async function register(
+  name: string,
+  email: string,
+  password: string,
+): Promise<{ success: boolean; message?: string; errors?: Record<string, string[] | undefined> }> {
+  try {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return {
+        success: false,
+        message: data.message || "Error al registrar usuario",
+        errors: data.errors,
+      };
+    }
+    useAuth.getState().setSession(data.user, data.token);
+    return { success: true };
+  } catch {
+    return { success: false, message: "Error de conexión" };
+  }
+}
+
 export async function logout() {
   useAuth.getState().clearSession();
   window.location.href = "/";

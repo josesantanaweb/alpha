@@ -20,10 +20,8 @@ export const Login = (): ReactElement => {
 const LoginContent = (): ReactElement => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
   const [generalError, setGeneralError] = useState(() =>
     searchParams.get("error") ? "No se pudo iniciar sesión con Google" : "",
   );
@@ -49,7 +47,7 @@ const LoginContent = (): ReactElement => {
     }
   }, [searchParams, router]);
 
-  const hasErrors = !!emailError || !!passwordError;
+  const hasErrors = !!errors.email || !!errors.password;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const validateEmail = (val: string) => {
@@ -68,29 +66,19 @@ const LoginContent = (): ReactElement => {
     return "";
   };
 
-  const handleEmailChange = (val: string) => {
-    setEmail(val);
-    setGeneralError("");
-    if (touched.email || val.length > 0) {
-      setEmailError(validateEmail(val));
-    }
-  };
+  const validators = { email: validateEmail, password: validatePassword };
 
-  const handlePasswordChange = (val: string) => {
-    setPassword(val);
+  const handleFieldChange = (field: "email" | "password", val: string) => {
+    setFormData((prev) => ({ ...prev, [field]: val }));
     setGeneralError("");
-    if (touched.password || val.length > 0) {
-      setPasswordError(validatePassword(val));
+    if (touched[field] || val.length > 0) {
+      setErrors((prev) => ({ ...prev, [field]: validators[field](val) }));
     }
   };
 
   const handleBlur = (field: "email" | "password") => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    if (field === "email") {
-      setEmailError(validateEmail(email));
-    } else {
-      setPasswordError(validatePassword(password));
-    }
+    setErrors((prev) => ({ ...prev, [field]: validators[field](formData[field]) }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -98,31 +86,34 @@ const LoginContent = (): ReactElement => {
     setTouched({ email: true, password: true });
     setGeneralError("");
 
-    const emailErr = validateEmail(email);
-    const passwordErr = validatePassword(password);
+    const nextErrors = {
+      email: validateEmail(formData.email),
+      password: validatePassword(formData.password),
+    };
+    setErrors(nextErrors);
 
-    setEmailError(emailErr);
-    setPasswordError(passwordErr);
-
-    if (emailErr || passwordErr) {
+    if (nextErrors.email || nextErrors.password) {
       return;
     }
 
     setIsSubmitting(true);
 
-    const result = await login(email, password);
+    const result = await login(formData.email, formData.password);
 
     if (result.success) {
       router.push("/");
     } else {
       setGeneralError(result.message ?? "Correo o contraseña no válidos");
       if (result.errors) {
-        if (result.errors.email?.[0]) setEmailError(result.errors.email[0]);
-        if (result.errors.password?.[0]) setPasswordError(result.errors.password[0]);
+        setErrors((prev) => ({
+          email: result.errors?.email?.[0] ?? prev.email,
+          password: result.errors?.password?.[0] ?? prev.password,
+        }));
       }
     }
 
     setIsSubmitting(false);
+
   };
 
   return (
@@ -156,19 +147,19 @@ const LoginContent = (): ReactElement => {
               placeholder="tu@correo.com"
               label="Correo electrónico"
               type="email"
-              value={email}
-              onChange={(e) => handleEmailChange(e.target.value)}
+              value={formData.email}
+              onChange={(e) => handleFieldChange("email", e.target.value)}
               onBlur={() => handleBlur("email")}
-              error={emailError}
+              error={errors.email}
             />
             <Input
               placeholder="••••••••"
               label="Contraseña"
               type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => handlePasswordChange(e.target.value)}
+              value={formData.password}
+              onChange={(e) => handleFieldChange("password", e.target.value)}
               onBlur={() => handleBlur("password")}
-              error={passwordError}
+              error={errors.password}
               rightIcon={
                 <button
                   type="button"
