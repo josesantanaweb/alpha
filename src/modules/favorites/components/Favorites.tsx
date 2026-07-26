@@ -7,7 +7,7 @@ import { EmptyState } from "@/modules/perfumes/components/EmptyState";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
 
 export const Favorites = (): ReactElement => {
-  const { perfumes, ids, toggle } = useFavorites();
+  const { perfumes, ids, toggle, isLoading } = useFavorites();
   const { setHideHeader } = useApp();
 
   useEffect(() => {
@@ -16,28 +16,25 @@ export const Favorites = (): ReactElement => {
       setHideHeader(false);
     };
   }, [setHideHeader]);
+
   return (
-    <div className="flex w-full flex-col gap-4 p-5">
+    <div className="flex w-full flex-col gap-4 p-5 pb-25">
       <TopBar title="Favoritos" />
-
-      {ids.length === 0 && (
-        <EmptyState
-          title="No tienes favoritos"
-          subtitle="Los perfumes que marques como favoritos aparecerán aquí."
-          showClear={false}
+      <div className="mt-2">
+        <PerfumeGrid
+          perfumes={perfumes}
+          isLoading={isLoading}
+          likedIds={new Set(ids)}
+          onLikeToggle={toggle}
+          emptyState={
+            <EmptyState
+              title="No tienes favoritos"
+              subtitle="Los perfumes que marques como favoritos aparecerán aquí."
+              showClear={false}
+            />
+          }
         />
-      )}
-
-      {ids.length > 0 && (
-        <div className="mt-6">
-          <PerfumeGrid
-            perfumes={perfumes}
-            isLoading={false}
-            likedIds={new Set(ids)}
-            onLikeToggle={toggle}
-          />
-        </div>
-      )}
+      </div>
     </div>
   );
 };

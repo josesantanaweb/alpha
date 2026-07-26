@@ -9,6 +9,7 @@ import type {
 } from "@prisma/client";
 import { CollapsibleSection } from "@/modules/shared/components";
 import { VoteSection } from "./votes/VoteSection";
+import { VoteCategory } from "@/modules/perfumes/types";
 import {
   SEASON_OPTIONS,
   TIME_OF_DAY_OPTIONS,
@@ -42,7 +43,7 @@ export const Experience = ({
       <div className="flex flex-col gap-6">
         <VoteSection
           title="Clima / Estación"
-          category="season"
+          category={VoteCategory.Season}
           perfumeId={perfumeId}
           options={SEASON_OPTIONS}
           data={season}
@@ -50,7 +51,7 @@ export const Experience = ({
 
         <VoteSection
           title="Momento del día"
-          category="timeOfDay"
+          category={VoteCategory.TimeOfDay}
           perfumeId={perfumeId}
           options={TIME_OF_DAY_OPTIONS}
           data={timeOfDay}
@@ -58,7 +59,7 @@ export const Experience = ({
 
         <VoteSection
           title="Longevidad"
-          category="longevity"
+          category={VoteCategory.Longevity}
           perfumeId={perfumeId}
           options={LONGEVITY_OPTIONS}
           data={longevity}
@@ -66,7 +67,7 @@ export const Experience = ({
 
         <VoteSection
           title="Estela"
-          category="sillage"
+          category={VoteCategory.Sillage}
           perfumeId={perfumeId}
           options={SILLAGE_OPTIONS}
           data={sillage}
@@ -74,7 +75,7 @@ export const Experience = ({
 
         <VoteSection
           title="Proyección"
-          category="projection"
+          category={VoteCategory.Projection}
           perfumeId={perfumeId}
           options={PROJECTION_OPTIONS}
           data={projection}
@@ -82,7 +83,7 @@ export const Experience = ({
 
         <VoteSection
           title="Sentimiento"
-          category="feeling"
+          category={VoteCategory.Feeling}
           perfumeId={perfumeId}
           options={FEELING_OPTIONS}
           data={feeling}

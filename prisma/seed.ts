@@ -97,7 +97,7 @@ const INITIAL_VIBES: SeedVibe[] = [
   {
     name: "Para la Noche",
     image: "https://i.ibb.co/WpcGktL2/noche.png",
-    description: "Fragancias misteriosas e intensas",
+    description: "Fragancias misteriosas",
     slug: "noche",
     order: 0,
   },

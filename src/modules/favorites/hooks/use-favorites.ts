@@ -108,7 +108,7 @@ export const useFavorites = () => {
   const isPending = (id: string) =>
     addMutation.isPending || removeMutation.isPending;
 
-  const ready = !authLoading && (!user || !favoritesLoading);
+  const isLoading = authLoading || (!!user && favoritesLoading);
 
-  return { ids, perfumes, ready, add, remove, toggle, isFavorite, isPending };
+  return { ids, perfumes, isLoading, add, remove, toggle, isFavorite, isPending };
 };

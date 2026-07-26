@@ -4,14 +4,7 @@ import { useState, type ReactElement } from "react";
 import { StatBar } from "./StatBar";
 import { useExperienceVote } from "../../hooks/use-experience-vote";
 import type { VoteOption } from "./vote-options";
-
-type VoteCategory =
-  | "season"
-  | "timeOfDay"
-  | "longevity"
-  | "sillage"
-  | "projection"
-  | "feeling";
+import { VoteCategory } from "@/modules/perfumes/types";
 
 interface VoteSectionProps {
   title: string;
@@ -72,7 +65,7 @@ export const VoteSection = ({
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">{title}</h6>
       </div>
-      <div className="flex w-full flex-wrap gap-3">
+      <div className={`flex w-full ${category !== VoteCategory.TimeOfDay ? "justify-between gap-3" : "gap-10"}`}>
         {options.map((option) => (
           <StatBar
             key={option.label}

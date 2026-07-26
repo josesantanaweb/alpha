@@ -15,3 +15,12 @@ export interface GetPerfumesParams extends PaginationParams {
   priceMin?: string;
   priceMax?: string;
 }
+
+export enum VoteCategory {
+  Season = "season",
+  TimeOfDay = "timeOfDay",
+  Longevity = "longevity",
+  Sillage = "sillage",
+  Projection = "projection",
+  Feeling = "feeling",
+}

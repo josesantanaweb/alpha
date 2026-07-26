@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
+import { motion } from "framer-motion";
 import { cn } from "@/modules/shared/utils/cn";
 import { Rating, LikeButton } from "@/modules/shared/components";
 import { PerfumeBadge } from "./PerfumeBadge";
@@ -41,8 +42,12 @@ export const PerfumeBox = ({
             <LikeButton liked={liked} onToggle={onLikeToggle} />
           </span>
         </div>
-        <div className="flex w-full justify-center">
-          <div className="relative h-30 w-28.5 overflow-hidden">
+        <Link href={`/perfume/${slug}`} className="flex w-full justify-center">
+          <motion.div
+            className="relative h-26 w-24.5 overflow-hidden"
+            whileHover={{ scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          >
             <Image
               src={image ?? ""}
               alt="perfume"
@@ -50,8 +55,8 @@ export const PerfumeBox = ({
               sizes="(max-width: 640px) 112px, 114px"
               className="w-full object-contain"
             />
-          </div>
-        </div>
+          </motion.div>
+        </Link>
       </div>
       <div className="flex w-full items-center justify-between">
         <div className="flex w-full flex-col">

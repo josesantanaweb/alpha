@@ -3,6 +3,7 @@ import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
 import { ApiResult, PaginatedResult } from "@/modules/shared/types";
 import { Perfume, Prisma } from "@prisma/client";
 import type { PerfumeWithRelations, GetPerfumesParams } from "./types";
+import { VoteCategory } from "./types";
 
 export async function getAll(
   params: GetPerfumesParams = {}
@@ -331,22 +332,14 @@ export async function remove(id: string) {
   }
 }
 
-export type VoteCategory =
-  | "season"
-  | "timeOfDay"
-  | "longevity"
-  | "sillage"
-  | "projection"
-  | "feeling";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const CATEGORY_MODEL_MAP: Record<VoteCategory, any> = {
-  season: db.season,
-  timeOfDay: db.timeOfDay,
-  longevity: db.longevity,
-  sillage: db.sillage,
-  projection: db.projection,
-  feeling: db.feeling,
+  [VoteCategory.Season]: db.season,
+  [VoteCategory.TimeOfDay]: db.timeOfDay,
+  [VoteCategory.Longevity]: db.longevity,
+  [VoteCategory.Sillage]: db.sillage,
+  [VoteCategory.Projection]: db.projection,
+  [VoteCategory.Feeling]: db.feeling,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

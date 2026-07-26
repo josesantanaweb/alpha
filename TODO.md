@@ -22,8 +22,13 @@
 - [ ] ~~Refactorizar modulo de experiencias y extraer logica repetida~~
 
 ### 25/07/2026
+- [X] ~~Agregar video presentacion en el login y registro~~
+- [X] ~~Mejorar los mensajes de error de login~~
+- [X] ~~Boton de agregar al carrito y favoritos~~
+
+### 26/07/2026
+- [ ] Skeleton pantalla de favoritos
 - [ ] Agregar el icono de mostrar contrasena
-- [ ] Mejorar los mensajes de error de login
 - [ ] Listar reviews
 - [ ] Formulario para agregar reviews
 - [ ] Filtro por notas al hacer click en las notas de los perfumes

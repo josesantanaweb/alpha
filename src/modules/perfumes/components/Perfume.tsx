@@ -10,6 +10,7 @@ import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
 import { Experience } from "./Experience";
 import { Similar } from "./Similar";
+import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
 import { SizeSelector } from "./SizeSelector";
 import { getGenderLabel } from "@/modules/shared/utils/gender";
 import { formatPrice } from "@/modules/shared/utils/format-price";
@@ -23,6 +24,7 @@ interface PerfumeProps {
 export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
   const { setHideHeader, setHideBottomNav } = useApp();
   const { data: perfumes = [], isLoading } = usePerfumes({ limit: 50 });
+  const { ids: likedIds, toggle: toggleLike } = useFavorites();
 
   useEffect(() => {
     setHideHeader(true);
@@ -73,7 +75,12 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           projection={perfume.projection}
         />
       </div>
-      <Similar perfumes={perfumes} isLoading={isLoading} />
+      <Similar
+        perfumes={perfumes}
+        isLoading={isLoading}
+        likedIds={new Set(likedIds)}
+        onLikeToggle={toggleLike}
+      />
 
       <AddToCart perfumeId={perfume.id} />
     </div>

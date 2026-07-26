@@ -5,14 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/modules/auth/store";
 import { ROUTES } from "@/constants";
 import type { ApiResult } from "@/modules/shared/types";
-
-type VoteCategory =
-  | "season"
-  | "timeOfDay"
-  | "longevity"
-  | "sillage"
-  | "projection"
-  | "feeling";
+import { VoteCategory } from "@/modules/perfumes/types";
 
 interface VoteParams {
   category: VoteCategory;

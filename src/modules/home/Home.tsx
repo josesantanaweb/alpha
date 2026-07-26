@@ -47,7 +47,12 @@ export const Home = (): ReactElement => {
       <DesignerMarquee />
       <GenderCards />
       <TrustBadges />
-      <BestSellers perfumes={perfumes} isLoading={isLoading} />
+      <BestSellers
+        perfumes={perfumes}
+        isLoading={isLoading}
+        likedIds={new Set(likedIds)}
+        onLikeToggle={toggleLike}
+      />
       <FindYourVibe />
       <AuraPlus />
       <NewPerfumes

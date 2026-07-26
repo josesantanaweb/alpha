@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { vote, getUserVotes } from "@/modules/perfumes/actions";
 import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
-import type { VoteCategory } from "@/modules/perfumes/actions";
+import { VoteCategory } from "@/modules/perfumes/types";
 
-const VALID_CATEGORIES: VoteCategory[] = [
-  "season",
-  "timeOfDay",
-  "longevity",
-  "sillage",
-  "projection",
-  "feeling",
-];
+const VALID_CATEGORIES: VoteCategory[] = Object.values(VoteCategory);
 
 async function authenticate(request: NextRequest) {
   const token = getTokenFromHeaders(request);

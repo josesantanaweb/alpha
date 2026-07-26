@@ -20,25 +20,34 @@ const inputVariants = cva(
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
-    Omit<VariantProps<typeof inputVariants>, 'size'> {
+  Omit<VariantProps<typeof inputVariants>, 'size'> {
   label?: string;
   error?: string;
+  rightIcon?: React.ReactNode;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, inputSize, label, error, ...props }, ref) => {
+  ({ className, inputSize, label, error, rightIcon, ...props }, ref) => {
     return (
       <div className="flex flex-col w-full">
         <div className="flex flex-col gap-1.5 w-full">
           {label && <span className={cn("text-sm uppercase font-bold", error ? "text-error" : "text-white")}>{label}</span>}
-          <input
-            ref={ref}
-            className={cn(
-              inputVariants({ inputSize, className }),
-              error && "border-error focus:border-error"
+          <div className="relative">
+            <input
+              ref={ref}
+              className={cn(
+                inputVariants({ inputSize, className }),
+                error && "border-error focus:border-error",
+                rightIcon && "pr-10"
+              )}
+              {...props}
+            />
+            {rightIcon && (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 h-5">
+                {rightIcon}
+              </div>
             )}
-            {...props}
-          />
+          </div>
         </div>
         {error && <span className="text-error text-xs mt-1.5 font-medium">{error}</span>}
       </div>

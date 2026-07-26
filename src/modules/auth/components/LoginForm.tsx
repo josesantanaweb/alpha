@@ -1,6 +1,7 @@
 "use client";
 import { type FormEvent, useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 import { Logo, Input, Button } from "@/modules/shared/components/ui";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,8 +18,10 @@ export const Login = (): ReactElement => {
   const [generalError, setGeneralError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [touched, setTouched] = useState({ email: false, password: false });
+  const [showPassword, setShowPassword] = useState(false);
 
   const hasErrors = !!emailError || !!passwordError;
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const validateEmail = (val: string) => {
     const res = LoginSchema.shape.email.safeParse(val);
@@ -132,11 +135,21 @@ export const Login = (): ReactElement => {
             <Input
               placeholder="••••••••"
               label="Contraseña"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => handlePasswordChange(e.target.value)}
               onBlur={() => handleBlur("password")}
               error={passwordError}
+              rightIcon={
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="text-body hover:text-white transition-colors"
+                  tabIndex={-1}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              }
             />
           </div>
 
