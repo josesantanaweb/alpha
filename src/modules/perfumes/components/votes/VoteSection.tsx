@@ -65,7 +65,7 @@ export const VoteSection = ({
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">{title}</h6>
       </div>
-      <div className={`flex w-full ${category !== VoteCategory.TimeOfDay ? "justify-between gap-3" : "gap-10"}`}>
+      <div className={`flex w-full ${category !== VoteCategory.TimeOfDay ? "justify-between gap-3" : "gap-6"}`}>
         {options.map((option) => (
           <StatBar
             key={option.label}

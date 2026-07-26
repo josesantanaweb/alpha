@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
-import { SearchInput } from "@/modules/shared/components/SearchInput";
-import { FilterButton } from "@/modules/perfumes/components/filters";
+import { SearchInput, FilterButton } from "@/modules/shared/components";
 import { PerfumeGrid } from "@/modules/perfumes/components/PerfumeGrid";
 
 interface ExplorerProps {
@@ -65,7 +64,7 @@ export const Explorer = ({
   });
 
   return (
-    <div className="relative flex w-full flex-col gap-6 p-5 pb-25">
+    <div className="relative flex w-full flex-col gap-5 p-5 pb-25">
       <div className="flex w-full items-center justify-between gap-3">
         <SearchInput
           placeholder="Buscar perfumes..."
@@ -75,16 +74,19 @@ export const Explorer = ({
         />
         <FilterButton />
       </div>
-      <div className="flex items-center justify-between">
-        <h5 className="text-lg font-semibold text-white">{search ? `Resultados para "${search}"` : "Explorar"}</h5>
-        <p className="text-body cursor-pointer text-sm">{perfumes.length} perfumes</p>
+
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <h5 className="text-lg font-semibold text-white">{search ? `Resultados para "${search}"` : "Explorar"}</h5>
+          <p className="text-body cursor-pointer text-sm">{perfumes.length} perfumes</p>
+        </div>
+        <PerfumeGrid
+          perfumes={perfumes}
+          isLoading={isLoading}
+          likedIds={new Set(likedIds)}
+          onLikeToggle={toggleLike}
+        />
       </div>
-      <PerfumeGrid
-        perfumes={perfumes}
-        isLoading={isLoading}
-        likedIds={new Set(likedIds)}
-        onLikeToggle={toggleLike}
-      />
     </div>
   );
 };

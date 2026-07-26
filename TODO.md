@@ -27,13 +27,12 @@
 - [X] ~~Boton de agregar al carrito y favoritos~~
 
 ### 26/07/2026
-- [ ] Skeleton pantalla de favoritos
-- [ ] Agregar el icono de mostrar contrasena
+- [X] ~~Skeleton pantalla de favoritos~~
+- [X] ~~Agregar el icono de mostrar contraseña~~
+- [ ] Integrar registro de usuarios
+- [ ] Integrar login de google
 - [ ] Listar reviews
 - [ ] Formulario para agregar reviews
 - [ ] Filtro por notas al hacer click en las notas de los perfumes
-- [ ] Refactorizar modulo de experiencias y extraer logica repetida
 - [ ] Logica de agregar items al carrito
-- [ ] Integrar registro de usuarios
-- [ ] Integrar login de google
 ---

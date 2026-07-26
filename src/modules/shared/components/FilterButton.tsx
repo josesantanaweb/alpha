@@ -2,7 +2,7 @@
 import type { ReactElement } from "react";
 import { useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { FilterSheet } from "./FilterSheet";
+import { FilterSheet } from "@/modules/perfumes/components/filters/FilterSheet";
 
 export const FilterButton = (): ReactElement => {
   const [open, setOpen] = useState(false);
