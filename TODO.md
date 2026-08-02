@@ -31,8 +31,11 @@
 - [X] ~~Agregar el icono de mostrar contraseña~~
 - [X] ~~Integrar login de google~~
 - [X] ~~Integrar registro de usuarios~~
+
+### 31/07/2026
 - [ ] Listar reviews
 - [ ] Formulario para agregar reviews
 - [ ] Filtro por notas al hacer click en las notas de los perfumes
 - [ ] Logica de agregar items al carrito
+- [ ] Maquetar vista del carrito
 ---

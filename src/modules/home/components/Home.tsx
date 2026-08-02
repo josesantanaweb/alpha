@@ -9,9 +9,9 @@ import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
 import { GenderCards, TrustBadges, DesignerMarquee, BestSellers } from "@/modules/perfumes/components";
 import { FilterButton, SearchInput } from "@/modules/shared/components";
 import { ROUTES } from "@/constants";
-import { SliderHome } from "./slider-home";
-import { FindYourVibe } from "./find-your-vibe";
-import { NewPerfumes } from "./new-perfumes";
+import { SliderHome } from "../slider-home";
+import { FindYourVibe } from "../find-your-vibe";
+import { NewPerfumes } from "../new-perfumes";
 import { AuraPlus } from "./AuraPlus";
 
 export const Home = (): ReactElement => {

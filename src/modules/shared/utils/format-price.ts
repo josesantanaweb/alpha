@@ -1,12 +1,25 @@
 import { Decimal } from "@prisma/client/runtime/client";
 
-export function formatPrice(price: Decimal): string {
+type PriceValue = Decimal | number | null | undefined;
+
+type FormatPriceOptions = {
+  locale?: string;
+  currency?: string;
+};
+
+export function formatPrice(
+  price: PriceValue,
+  options: FormatPriceOptions = {},
+): string {
   if (price == null) return "";
   const num = Number(price);
   if (Number.isNaN(num)) return "";
-  return new Intl.NumberFormat("es-MX", {
+
+  const { locale = "es-MX", currency = "MXN" } = options;
+
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "MXN",
+    currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(num);

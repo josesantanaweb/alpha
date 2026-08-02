@@ -1,0 +1,58 @@
+{
+  "id": "cart-fake-1",
+  "userId": "user-fake-1",
+  "items": [
+    {
+      "id": "cart-item-1",
+      "perfumeId": "acqua-di-gio-eau-de-parfum-intense",
+      "quantity": 1,
+      "perfume": {
+        "id": "acqua-di-gio-eau-de-parfum-intense",
+        "name": "Acqua di Giò Eau de Parfum Intense",
+        "designer": "Versace",
+        "image": "https://i.ibb.co/qLrc9K9N/acqua-di-gi-eau-de-parfum-intense.png",
+        "price": 109,
+        "originalPrice": 109
+      }
+    },
+    {
+      "id": "cart-item-2",
+      "perfumeId": "eros",
+      "quantity": 2,
+      "perfume": {
+        "id": "eros",
+        "name": "Eros",
+        "designer": "Dior",
+        "image": "https://i.ibb.co/7NXVHmcL/eros.png",
+        "price": 109,
+        "originalPrice": 109
+      }
+    },
+    {
+      "id": "cart-item-3",
+      "perfumeId": "sauvage",
+      "quantity": 1,
+      "perfume": {
+        "id": "sauvage",
+        "name": "Sauvage",
+        "designer": "Xerjoff",
+        "image": "https://i.ibb.co/Vpgb8pPF/sauvage.png",
+        "price": 109,
+        "originalPrice": 109
+      }
+    },
+    {
+      "id": "cart-item-4",
+      "perfumeId": "good-girl",
+      "quantity": 3,
+      "perfume": {
+        "id": "good-girl",
+        "name": "Good Girl",
+        "designer": "Versace",
+        "image": "https://i.ibb.co/QvYNjYZj/good-girl.png",
+        "price": 109,
+        "originalPrice": 109
+      }
+    }
+  ]
+}

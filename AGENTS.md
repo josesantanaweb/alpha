@@ -21,12 +21,13 @@ No test scripts, no CI/CD.
 ### Module pattern (`src/modules/<name>/`)
 Each feature follows vertical-slice architecture:
 - `components/` — domain-specific React components
+- `components/index.ts` — barrel re-export for the module UI components
 - `hooks/` — React Query wrappers exclusive to this module
 - `store.ts` — Zustand store (optional, for modules that need local state)
 - `actions.ts` — server-side business logic returning `ApiResult<T>` (discriminated union)
 - `schema.ts` — Zod validation schemas
 - `types.ts` — TypeScript types specific to this domain
-- `index.ts` — barrel re-export
+- `index.ts` — barrel re-export for the module entry point
 
 Shared infrastructure lives in `src/modules/shared/`:
 - `shared/components/ui/` — primitives (Button, Input, Logo, Badge)

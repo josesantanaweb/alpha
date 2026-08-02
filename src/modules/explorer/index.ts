@@ -1,1 +1,1 @@
-export { Explorer } from "./components/Explorer";
+export * from "./components";

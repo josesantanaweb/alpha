@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { notFound } from "next/navigation";
 import { getBySlug } from "@/modules/perfumes";
-import { Perfume } from "@/modules/perfumes/components/Perfume";
+import { Perfume } from "@/modules/perfumes/components";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

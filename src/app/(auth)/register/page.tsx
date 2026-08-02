@@ -1,4 +1,4 @@
-import { Register } from "@/modules/auth/components/RegisterForm";
+import { Register } from "@/modules/auth";
 import { GuestGuard } from "@/modules/shared/components/GuestGuard";
 
 export default function RegisterPage() {
