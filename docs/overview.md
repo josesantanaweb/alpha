@@ -168,6 +168,33 @@ Login/Register
 - El estado global se maneja con **Zustand** (`modules/*/store.ts`), no con React Context.
 - Las acciones de negocio (login, logout) viven en `lib/api/*.ts`, no en el store.
 
+### Estado actual: Carrito (frontend)
+
+- La vista de carrito se renderiza desde `src/modules/cart/components/Cart.tsx`.
+- Actualmente usa un mock local en `src/modules/cart/data/cart.mock.json` como fuente de datos.
+- `CartItem` permite incrementar y decrementar cantidad por item.
+- Al decrementar desde cantidad 1, el item se elimina de la lista.
+- Los totales se calculan en tiempo real en el contenedor del carrito:
+  - `subtotal`
+  - `discount`
+  - `shipping`
+  - `total`
+- El panel de checkout muestra el descuento solo cuando es mayor a 0.
+- Barra de progreso de envio gratis integrada en `CartProgress`.
+  - Umbral actual: 200 USD
+  - Si `itemsTotal >= 200` entonces envio gratis
+  - Si no, se aplica envio fijo de 5 USD
+- Formato de precio centralizado en util compartido `src/modules/shared/utils/format-price.ts`.
+
+### Estado actual: Carrito (backend)
+
+- Modelo Prisma de carrito ya existe (`Cart`, `CartItem`).
+- Endpoints REST implementados y autenticados por Bearer token:
+  - `GET /api/cart`: consulta el carrito del usuario.
+  - `POST /api/cart/add`: agrega items y acumula cantidad para la misma combinación de perfume/decant.
+  - `DELETE /api/cart/remove/:itemId`: elimina un item que pertenezca al usuario autenticado.
+- La integración del frontend con esta API sigue pendiente para sustituir el mock local.
+
 ---
 
 ## Modelo de Datos

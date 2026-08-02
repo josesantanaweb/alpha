@@ -73,10 +73,26 @@ Cada usuario autenticado tiene un carrito donde acumula productos antes de compr
 - El carrito no tiene estado (siempre está "activo").
 - Al crear una orden, el carrito se vacía (no se elimina, se limpian los items).
 
+### Implementado actualmente (frontend)
+- Existe una implementación funcional en UI con datos mock locales.
+- Se pueden incrementar/decrementar cantidades por item.
+- Si un item llega a cantidad 0 por decremento, se elimina de la lista.
+- El resumen calcula en tiempo real: subtotal, descuento, envío y total.
+- Regla de envío en frontend actual:
+	- Umbral de envío gratis: 200 USD
+	- Si no se alcanza el umbral, aplica 5 USD de envío
+- El progreso al envío gratis se muestra con barra dinámica y mensaje de monto restante.
+- El descuento se renderiza solo cuando es mayor a 0.
+
+### API implementada
+- Todas las rutas requieren Bearer token.
+- `GET /api/cart` devuelve el carrito del usuario, con items, perfume, diseñador y decant cuando aplique.
+- `POST /api/cart/add` agrega un perfume al carrito. Recibe `perfumeId`, `quantity` opcional y `decantId` opcional.
+- Al agregar la misma combinación de perfume y decant, se incrementa la cantidad existente.
+- `DELETE /api/cart/remove/:itemId` elimina un item solo si pertenece al carrito del usuario autenticado.
+
 ### Pendiente
-- [ ] Agregar endpoint `POST /api/cart/add`
-- [ ] Agregar endpoint `DELETE /api/cart/remove/:itemId`
-- [ ] Agregar endpoint `GET /api/cart`
+- [ ] Reemplazar fuente mock local por API real del carrito
 - [ ] Sincronizar carrito localStorage ↔ servidor para usuarios no autenticados
 
 ---

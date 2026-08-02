@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, type ReactElement } from "react";
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
 import { CartCheckoutPanel } from "./CartCheckoutPanel";
 import { CartItem } from "./CartItem";
@@ -11,8 +12,6 @@ import type { CartData } from "../types";
 export const Cart = (): ReactElement => {
   const { setHideBottomNav } = useApp();
   const [cart, setCart] = useState<CartData>(cartData as CartData);
-  const FREE_SHIPPING_THRESHOLD = 200;
-  const SHIPPING_FEE = 5;
 
   const subtotal = cart.items.reduce(
     (acc, item) => acc + item.perfume.originalPrice * item.quantity,
@@ -97,3 +96,4 @@ export const Cart = (): ReactElement => {
     </div>
   );
 };
+

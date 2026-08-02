@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aura
 
-## Getting Started
+E-commerce de perfumes (decants y frascos) construido con Next.js App Router, Prisma y PostgreSQL.
 
-First, run the development server:
+## Requisitos
+
+- Node.js 20+
+- pnpm
+- PostgreSQL
+
+## Comandos
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
 pnpm dev
-# or
-bun dev
+pnpm build
+pnpm lint
+pnpm prisma:db:push
+pnpm prisma:seed
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estado actual del carrito
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Vista de carrito maquetada y funcional en frontend.
+- Fuente de datos actual: mock local en `src/modules/cart/data/cart.mock.json`.
+- Los items del carrito usan datos reales de catálogo (nombre, imagen, precio).
+- Botones `+` y `-` actualizan cantidad en tiempo real.
+- Si se reduce desde cantidad 1, el item se elimina del carrito.
+- Se calcula dinámicamente: subtotal, descuento, envío y total.
+- Barra de progreso de envío gratis conectada al total del carrito.
+- Regla actual de envío:
+	- Umbral envío gratis: 200 USD
+	- Si no alcanza el umbral: envío fijo de 5 USD
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pendiente (carrito backend)
 
-## Learn More
+- Reemplazar mock local por datos de API
 
-To learn more about Next.js, take a look at the following resources:
+## API del carrito
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Todas las rutas requieren autenticación Bearer.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `GET /api/cart`: obtiene el carrito del usuario.
+- `POST /api/cart/add`: agrega un item. Body: `perfumeId`, `quantity` opcional y `decantId` opcional.
+- `DELETE /api/cart/remove/:itemId`: elimina un item del carrito del usuario.
 
-## Deploy on Vercel
+## Estructura (resumen)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/` rutas App Router y API routes
+- `src/modules/` lógica por dominio (vertical slice)
+- `src/modules/shared/` utilidades y componentes compartidos
+- `prisma/` schema, migraciones y seed

@@ -16,6 +16,7 @@ export const API_ROUTES = {
     GOOGLE: "/api/auth/google",
   },
   FAVORITES: "/api/favorites",
+  CART: "/api/cart",
   PERFUMES: "/api/perfumes",
   ACCORDS: "/api/accords",
   DESIGNERS: "/api/designers",

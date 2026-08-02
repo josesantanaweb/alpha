@@ -36,6 +36,13 @@
 - [ ] Listar reviews
 - [ ] Formulario para agregar reviews
 - [ ] Filtro por notas al hacer click en las notas de los perfumes
-- [ ] Logica de agregar items al carrito
-- [ ] Maquetar vista del carrito
+- [X] ~~Logica de agregar items al carrito (frontend con mock local)~~
+- [X] ~~Maquetar vista del carrito~~
+
+### 02/08/2026
+- [X] ~~Conectar precios del carrito a util global (`formatPrice`)~~
+- [X] ~~Usar datos reales de perfumes para el mock del carrito~~
+- [X] ~~Ocultar descuento cuando es 0~~
+- [X] ~~Integrar progreso de envio gratis dinamico en carrito~~
+- [X] ~~Implementar endpoints backend del carrito (`GET /api/cart`, `POST /api/cart/add`, `DELETE /api/cart/remove/:itemId`)~~
 ---
