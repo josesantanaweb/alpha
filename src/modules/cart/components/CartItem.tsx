@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import { type ReactElement } from "react";
-import { Minus, Plus, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { formatPrice } from "@/modules/shared/utils/format-price";
+import { QuantityStepper } from "./QuantityStepper";
 import type { CartItemData } from "../types";
+
 
 type CartItemProps = {
   item: CartItemData;
@@ -37,7 +39,7 @@ export const CartItem = ({
           />
         </div>
       </div>
-      <div className="flex h-full w-full min-w-0 flex-col gap-3">
+      <div className="flex h-full w-full min-w-0 flex-col">
         <div className="flex w-full items-start justify-between">
           <div className="flex min-w-0 flex-col">
             <h4 className="max-w-45 truncate text-base font-bold text-white">
@@ -54,17 +56,17 @@ export const CartItem = ({
           </button>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start flex-col gap-3">
+          <div className="flex items-center gap-2">
             {perfume.originalPrice > perfume.price ? (
-              <p className="text-body text-base font-bold line-through">
+              <p className="text-body text-sm font-bold line-through">
                 {formatPrice(perfume.originalPrice, {
                   locale: "es-ES",
                   currency: "USD",
                 })}
               </p>
             ) : null}
-            <p className="text-base font-bold text-white">
+            <p className="text-sm font-bold text-white">
               {formatPrice(perfume.price, {
                 locale: "es-ES",
                 currency: "USD",
@@ -72,23 +74,12 @@ export const CartItem = ({
             </p>
           </div>
 
-          <div className="border-stroke bg-surface flex items-center rounded-lg border">
-            <button
-              className="cursor-pointer px-3 py-2 text-white transition-colors"
-              onClick={() => onDecrease(id)}
-              type="button"
-            >
-              <Minus size={18} />
-            </button>
-            <span className="px-3 text-white">{quantity}</span>
-            <button
-              className="cursor-pointer px-3 py-2 text-white transition-colors"
-              onClick={() => onIncrease(id)}
-              type="button"
-            >
-              <Plus size={18} />
-            </button>
-          </div>
+          <QuantityStepper
+            id={id}
+            quantity={quantity}
+            onIncrease={onIncrease}
+            onDecrease={onDecrease}
+          />
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useAuth, type User } from "@/modules/auth/store";
+import { useCartStore } from "@/modules/cart/store";
 import { API_ROUTES } from "@/constants";
 
 export async function initialize() {
@@ -83,6 +84,7 @@ export async function register(
 
 export async function logout() {
   useAuth.getState().clearSession();
+  useCartStore.getState().clearCart();
   window.location.href = "/";
 }
 

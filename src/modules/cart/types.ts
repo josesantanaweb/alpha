@@ -19,3 +19,6 @@ export type CartData = {
   userId: string;
   items: CartItemData[];
 };
+
+// Shape stored in the guest Zustand cart
+export type GuestCartItem = CartItemData;

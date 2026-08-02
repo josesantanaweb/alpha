@@ -8,6 +8,7 @@ type CartCheckoutPanelProps = {
   discount: number;
   shipping: number;
   total: number;
+  onCheckout: () => void;
 };
 
 export const CartCheckoutPanel = ({
@@ -15,6 +16,7 @@ export const CartCheckoutPanel = ({
   discount,
   shipping,
   total,
+  onCheckout,
 }: CartCheckoutPanelProps): ReactElement => {
   return (
     <div className="border-stroke flex w-full max-w-full flex-col gap-6 border-t md:max-w-md pt-5">
@@ -53,7 +55,7 @@ export const CartCheckoutPanel = ({
               {formatPrice(total, { locale: "es-ES", currency: "USD" })}
             </p>
           </div>
-          <Button>Pagar</Button>
+          <Button onClick={onCheckout}>Pagar</Button>
         </div>
       </div>
     </div>

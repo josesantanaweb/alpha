@@ -16,6 +16,7 @@ import { getGenderLabel } from "@/modules/shared/utils/gender";
 import { formatPrice } from "@/modules/shared/utils/format-price";
 import { usePerfumes } from "../hooks/use-perfume-query";
 import { AddToCart } from "@/modules/shared/components";
+import { toCartProduct } from "@/modules/cart/utils";
 
 interface PerfumeProps {
   perfume: PerfumeWithRelations;
@@ -82,7 +83,10 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
         onLikeToggle={toggleLike}
       />
 
-      <AddToCart perfumeId={perfume.id} />
+      <AddToCart
+        perfumeId={perfume.id}
+        perfume={toCartProduct(perfume)}
+      />
     </div>
   );
 };

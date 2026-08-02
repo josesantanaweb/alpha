@@ -29,6 +29,9 @@ const LoginContent = (): ReactElement => {
   const [touched, setTouched] = useState({ email: false, password: false });
   const [showPassword, setShowPassword] = useState(false);
 
+  const redirect = searchParams.get("redirect");
+  const postLoginRoute = redirect === "checkout" ? ROUTES.CHECKOUT : ROUTES.HOME;
+
   useEffect(() => {
     const token = searchParams.get("token");
     const error = searchParams.get("error");
@@ -36,7 +39,7 @@ const LoginContent = (): ReactElement => {
     if (token) {
       completeGoogleLogin(token).then((success) => {
         if (success) {
-          router.replace("/");
+          router.replace(postLoginRoute);
         } else {
           setGeneralError("No se pudo iniciar sesión con Google");
           router.replace(ROUTES.LOGIN);
@@ -45,7 +48,7 @@ const LoginContent = (): ReactElement => {
     } else if (error) {
       router.replace(ROUTES.LOGIN);
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, postLoginRoute]);
 
   const hasErrors = !!errors.email || !!errors.password;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -101,7 +104,7 @@ const LoginContent = (): ReactElement => {
     const result = await login(formData.email, formData.password);
 
     if (result.success) {
-      router.push("/");
+      router.push(postLoginRoute);
     } else {
       setGeneralError(result.message ?? "Correo o contraseña no válidos");
       if (result.errors) {

@@ -1,6 +1,6 @@
 "use client";
-import { type FormEvent, useState, type ReactElement } from "react";
-import { useRouter } from "next/navigation";
+import { type FormEvent, useState, type ReactElement, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { Logo, Input, Button } from "@/modules/shared/components/ui";
 import Link from "next/link";
@@ -10,13 +10,25 @@ import { register, loginWithGoogle } from "@/lib/api/auth";
 import { RegisterSchema } from "@/modules/auth/schema";
 
 export const Register = (): ReactElement => {
+  return (
+    <Suspense fallback={null}>
+      <RegisterContent />
+    </Suspense>
+  );
+};
+
+const RegisterContent = (): ReactElement => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [errors, setErrors] = useState({ name: "", email: "", password: "" });
   const [generalError, setGeneralError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [touched, setTouched] = useState({ name: false, email: false, password: false });
   const [showPassword, setShowPassword] = useState(false);
+
+  const redirect = searchParams.get("redirect");
+  const postRegisterRoute = redirect === "checkout" ? ROUTES.CHECKOUT : ROUTES.HOME;
 
   const hasErrors = !!errors.name || !!errors.email || !!errors.password;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -81,7 +93,7 @@ export const Register = (): ReactElement => {
     const result = await register(formData.name, formData.email, formData.password);
 
     if (result.success) {
-      router.push("/");
+      router.push(postRegisterRoute);
     } else {
       setGeneralError(result.message ?? "No se pudo completar el registro");
       if (result.errors) {
@@ -189,7 +201,10 @@ export const Register = (): ReactElement => {
             </Button>
             <div className="flex items-center justify-center gap-2.5">
               <p className="text-base text-white">¿Ya tienes cuenta?</p>
-              <Link href={ROUTES.LOGIN} className="text-base font-bold text-white">
+              <Link
+                href={redirect ? `${ROUTES.LOGIN}?redirect=${redirect}` : ROUTES.LOGIN}
+                className="text-base font-bold text-white"
+              >
                 Inicia sesión
               </Link>
             </div>

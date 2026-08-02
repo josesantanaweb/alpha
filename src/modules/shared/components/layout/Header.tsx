@@ -1,6 +1,7 @@
 "use client";
-import { Menu, Handbag } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Logo } from "@/modules/shared/components/ui";
+import { CartButton } from "@/modules/shared/components";
 
 export const Header = () => {
   return (
@@ -11,12 +12,7 @@ export const Header = () => {
         </button>
         <Logo />
         <div className="flex items-center gap-3">
-          <button className="relative cursor-pointer text-white">
-            <Handbag size={24} />
-            <span className="text-canvas absolute -top-1 -right-1 h-4 w-4 rounded-full bg-white text-[10px] font-semibold">
-              2
-            </span>
-          </button>
+          <CartButton />
         </div>
       </div>
     </div>

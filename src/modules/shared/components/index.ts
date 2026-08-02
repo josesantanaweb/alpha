@@ -4,6 +4,7 @@ export * from "./Rating";
 export * from "./ProgressBar";
 export * from "./Tabs";
 export * from "./AddToCart";
+export * from "./CartButton";
 export * from "./SearchInput";
 export * from "./AuthGuard";
 export * from "./GuestGuard";
