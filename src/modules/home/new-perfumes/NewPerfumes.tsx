@@ -1,5 +1,6 @@
 "use client";
 import type { ReactElement } from "react";
+import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { PerfumeBox, PerfumeBoxSkeleton } from "@/modules/perfumes/components/perfume-box";
 
@@ -22,7 +23,9 @@ export const NewPerfumes = ({
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <h5 className="text-lg font-semibold text-white">Novedades</h5>
-        <p className="text-body cursor-pointer text-sm">Ver todos</p>
+        <Link href="/explorer" className="text-body cursor-pointer text-sm">
+          Ver todos
+        </Link>
       </div>
 
       {isLoading && (

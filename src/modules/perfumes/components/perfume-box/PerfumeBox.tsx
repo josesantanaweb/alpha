@@ -65,7 +65,7 @@ export const PerfumeBox = ({
           </div>
           <div className="flex w-full items-center justify-between">
             <Link href={`/perfume/${slug}`} className="cursor-pointer">
-              <h4 className="max-w-27.5 truncate text-base font-medium text-white">
+              <h4 className="max-w-27.5 truncate text-base font-semibold text-white">
                 {name}
               </h4>
             </Link>
