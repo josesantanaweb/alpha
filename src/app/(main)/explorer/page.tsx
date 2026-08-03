@@ -10,7 +10,8 @@ export default async function ExplorerPage({
 }: PageProps): Promise<ReactElement> {
   const params = await searchParams;
 
-  const paramKey = params.search ?? params.tag ?? params.gender ?? "";
+  const paramKey =
+    params.search ?? params.tag ?? params.gender ?? params.accord ?? params.designer ?? params.type ?? params.priceMin ?? params.priceMax ?? "";
 
   return (
     <Explorer
@@ -20,6 +21,9 @@ export default async function ExplorerPage({
       gender={params.gender}
       accord={params.accord}
       designer={params.designer}
+      type={params.type}
+      priceMin={params.priceMin}
+      priceMax={params.priceMax}
     />
   );
 }

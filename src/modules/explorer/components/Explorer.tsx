@@ -13,6 +13,9 @@ interface ExplorerProps {
   gender?: string;
   accord?: string;
   designer?: string;
+  type?: string;
+  priceMin?: string;
+  priceMax?: string;
 }
 
 export const Explorer = ({
@@ -21,6 +24,9 @@ export const Explorer = ({
   gender,
   accord,
   designer,
+  type,
+  priceMin,
+  priceMax,
 }: ExplorerProps): ReactElement => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState(search ?? "");
@@ -50,6 +56,18 @@ export const Explorer = ({
       params.set("designer", designer);
     }
 
+    if (type) {
+      params.set("type", type);
+    }
+
+    if (priceMin) {
+      params.set("priceMin", priceMin);
+    }
+
+    if (priceMax) {
+      params.set("priceMax", priceMax);
+    }
+
     const queryString = params.toString();
     router.push(queryString ? `/explorer?${queryString}` : "/explorer");
   };
@@ -60,6 +78,9 @@ export const Explorer = ({
     gender,
     accord,
     designer,
+    type,
+    priceMin: priceMin ? Number(priceMin) : undefined,
+    priceMax: priceMax ? Number(priceMax) : undefined,
     limit: 50,
   });
 
