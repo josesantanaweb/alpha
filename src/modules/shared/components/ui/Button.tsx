@@ -9,8 +9,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "text-surface bg-white transition-all hover:-translate-y-0.5",
-        outline: "bg-transparent border border-white text-white hover:bg-white hover:text-surface",
-        secondary: "bg-surface text-white hover:bg-surface/80",
+        outline: "bg-transparent border border-white text-white transition-all hover:-translate-y-0.5 hover:bg-white hover:text-surface",
+        secondary: "bg-surface text-white transition-all hover:-translate-y-0.5 hover:bg-surface/80",
       },
       size: {
         sm: "h-9 rounded-md px-3 text-sm",

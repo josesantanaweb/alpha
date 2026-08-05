@@ -13,6 +13,7 @@ export async function getByIds(
     const perfumes = await db.perfume.findMany({
       where: { id: { in: ids } },
       include: {
+        decants: true,
         accords: { include: { accord: true } },
         designer: true,
         season: true,
@@ -51,6 +52,7 @@ export async function getUserFavorites(
       include: {
         favorites: {
           include: {
+            decants: true,
             accords: { include: { accord: true } },
             designer: true,
             season: true,

@@ -1,6 +1,7 @@
 "use client";
 import type { ReactElement } from "react";
 import { Truck } from "lucide-react";
+import { BackButton } from "@/modules/shared/components";
 import { formatPrice } from "@/modules/shared/utils/format-price";
 
 type CartProgressProps = {
@@ -17,7 +18,11 @@ export const CartProgress = ({
 
   return (
     <div className="flex flex-col gap-3">
-      <h3 className="text-lg font-bold text-white">Mi Carrito</h3>
+      <div className="flex items-center justify-between mb-4">
+        <BackButton />
+        <h3 className="text-lg font-bold text-white">Mi Carrito</h3>
+        <span/>
+      </div>
       <div className="flex items-center gap-2">
         <Truck size={18} className="text-white" />
         <p className="text-sm text-white">

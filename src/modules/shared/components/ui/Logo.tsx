@@ -1,10 +1,11 @@
 "use client";
 import { ASSETS } from "@/constants";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Logo = ({ className }: { className?: string }) => {
   return (
-    <div className={`w-20 ${className}`}>
+    <Link href="/" className={`block w-20 ${className}`} aria-label="Ir al inicio">
       <Image
         src={ASSETS.IMAGES.LOGO}
         alt="Logo"
@@ -12,6 +13,6 @@ export const Logo = ({ className }: { className?: string }) => {
         height={100}
         className="h-full w-full object-cover"
       />
-    </div>
+    </Link>
   );
 };

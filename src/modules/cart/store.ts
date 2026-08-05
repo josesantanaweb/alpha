@@ -18,11 +18,14 @@ export const useCartStore = create<GuestCartStore>()(
       items: [],
 
       addItem: (perfumeId, perfume) => {
-        const existing = get().items.find((i) => i.perfumeId === perfumeId);
+        const itemKey = perfume.decantId ?? perfumeId;
+        const existing = get().items.find(
+          (i) => (i.perfume.decantId ?? i.perfumeId) === itemKey,
+        );
         if (existing) {
           set((s) => ({
             items: s.items.map((i) =>
-              i.perfumeId === perfumeId
+              (i.perfume.decantId ?? i.perfumeId) === itemKey
                 ? { ...i, quantity: i.quantity + 1 }
                 : i,
             ),

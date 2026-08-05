@@ -5,6 +5,8 @@ export type CartProduct = {
   image: string;
   price: number;
   originalPrice: number;
+  ml?: number;
+  decantId?: string | null;
 };
 
 export type CartItemData = {

@@ -63,6 +63,7 @@ export async function getAll(
         where: whereConditions,
         orderBy: { name: "asc" },
         include: {
+          decants: true,
           accords: { include: { accord: true } },
           designer: true,
           season: true,
@@ -119,6 +120,7 @@ export async function getOne(
     const perfume = await db.perfume.findUnique({
       where: { id },
       include: {
+        decants: true,
         accords: { include: { accord: true } },
         designer: true,
         season: true,
@@ -165,6 +167,7 @@ export async function getBySlug(
     const perfume = await db.perfume.findUnique({
       where: { slug },
       include: {
+        decants: true,
         accords: { include: { accord: true } },
         designer: true,
         season: true,

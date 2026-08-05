@@ -86,6 +86,11 @@ const INITIAL_PERFUME_STATS = {
   reviewCount: 0,
 } as const;
 
+const DECANT_CONFIGS = [
+  { ml: 5, priceFactor: 0.3, image: "/images/5ml.png" },
+  { ml: 10, priceFactor: 0.5, image: "/images/10ml.png" },
+] as const;
+
 const INITIAL_PERFUMES: SeedPerfume[] = (
   perfumesData as SeedPerfumeInput[]
 ).map((perfume) => ({
@@ -140,6 +145,12 @@ async function main() {
   console.log("🌱 Iniciando el seeding..");
 
   await prisma.perfumeAccord.deleteMany();
+  await prisma.cartItem.deleteMany();
+  await prisma.orderItem.deleteMany();
+  await prisma.cart.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.review.deleteMany();
+  await prisma.userVote.deleteMany();
   await prisma.perfume.deleteMany();
   await prisma.banner.deleteMany();
   await prisma.accord.deleteMany();
@@ -191,6 +202,22 @@ async function main() {
         discount: perfume.discount,
       },
     });
+
+    for (const config of DECANT_CONFIGS) {
+      await prisma.decant.upsert({
+        where: {
+          perfumeId_ml: { perfumeId: createdPerfume.id, ml: config.ml },
+        },
+        update: {},
+        create: {
+          perfumeId: createdPerfume.id,
+          ml: config.ml,
+          price: Math.round(perfume.price * config.priceFactor * 100) / 100,
+          image: config.image,
+          stock: Math.floor(perfume.remainingMl / config.ml),
+        },
+      });
+    }
 
     const shuffledAccords = [...createdAccords].sort(() => 0.5 - Math.random());
     const selectedAccords = shuffledAccords.slice(0, Math.floor(Math.random() * 3) + 3);

@@ -1,31 +1,50 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { ReactElement } from "react";
 import type { PerfumeWithRelations } from "../types";
 import { SizeOption } from "./SizeOption";
+import { BOTTLE_ML } from "@/constants";
 
-const SIZES = [
-  { name: "5ml", image: "/images/5ml.png" },
-  { name: "10ml", image: "/images/10ml.png" },
-  { name: "100ml", image: null },
-];
+export interface PerfumeSize {
+  key: string;
+  ml: number;
+  price: number;
+  image: string | null;
+  decantId?: string;
+}
 
 interface SizeSelectorProps {
   perfume: PerfumeWithRelations;
+  value: number;
+  onChange: (ml: number) => void;
 }
 
-export const SizeSelector = ({ perfume }: SizeSelectorProps): ReactElement => {
-  const [selectedSize, setSelectedSize] = useState("5ml");
+export const SizeSelector = ({
+  perfume,
+  value,
+  onChange,
+}: SizeSelectorProps): ReactElement => {
+  const sizes = useMemo<PerfumeSize[]>(() => {
+    const decants = perfume.decants ?? [];
 
-  const sizes = useMemo(
-    () =>
-      SIZES.map((size) => ({
-        ...size,
-        image: size.name === "100ml" ? perfume.image : size.image,
-      })),
-    [perfume.image]
-  );
+    const decantSizes: PerfumeSize[] = decants.map((decant) => ({
+      key: `${decant.ml}ml`,
+      ml: decant.ml,
+      price: Number(decant.price),
+      image: decant.image ?? perfume.image,
+      decantId: decant.id,
+    }));
+
+    const bottle: PerfumeSize = {
+      key: `${BOTTLE_ML}ml`,
+      ml: BOTTLE_ML,
+      price: Number(perfume.price),
+      image: perfume.image,
+    };
+
+    return [...decantSizes, bottle];
+  }, [perfume.decants, perfume.image, perfume.price, perfume.remainingMl, perfume.stock]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -33,11 +52,11 @@ export const SizeSelector = ({ perfume }: SizeSelectorProps): ReactElement => {
       <div className="flex items-center gap-3">
         {sizes.map((size) => (
           <SizeOption
-            key={size.name}
-            name={size.name}
+            key={size.key}
+            name={`${size.ml}ml`}
             image={size.image}
-            isSelected={selectedSize === size.name}
-            onClick={() => setSelectedSize(size.name)}
+            isSelected={value === size.ml}
+            onClick={() => onChange(size.ml)}
           />
         ))}
       </div>

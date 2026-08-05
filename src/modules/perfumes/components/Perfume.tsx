@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, type ReactElement } from "react";
+import { useEffect, useState, type ReactElement } from "react";
 import type { PerfumeWithRelations } from "../types";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
 import { TopBar } from "@/modules/shared/components/layout";
@@ -17,6 +17,7 @@ import { formatPrice } from "@/modules/shared/utils/format-price";
 import { usePerfumes } from "../hooks/use-perfume-query";
 import { AddToCart } from "@/modules/shared/components";
 import { toCartProduct } from "@/modules/cart/utils";
+import { BOTTLE_ML } from "@/constants";
 
 interface PerfumeProps {
   perfume: PerfumeWithRelations;
@@ -26,6 +27,11 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
   const { setHideHeader, setHideBottomNav } = useApp();
   const { data: perfumes = [], isLoading } = usePerfumes({ limit: 50 });
   const { ids: likedIds, toggle: toggleLike } = useFavorites();
+  const [selectedMl, setSelectedMl] = useState(BOTTLE_ML);
+
+  const selectedDecant =
+    perfume.decants?.find((decant) => decant.ml === selectedMl) ?? null;
+  const displayPrice = selectedDecant ? Number(selectedDecant.price) : perfume.price;
 
   useEffect(() => {
     setHideHeader(true);
@@ -52,11 +58,15 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           <Rating rating={Number(perfume.rating)} />
         </div>
         <h4 className="text-2xl font-bold text-white">
-          {formatPrice(perfume.price)}
+          {formatPrice(displayPrice)}
         </h4>
       </div>
 
-      <SizeSelector perfume={perfume}/>
+      <SizeSelector
+        perfume={perfume}
+        value={selectedMl}
+        onChange={setSelectedMl}
+      />
 
       <div>
         {perfume.description && (
@@ -85,7 +95,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
 
       <AddToCart
         perfumeId={perfume.id}
-        perfume={toCartProduct(perfume)}
+        perfume={toCartProduct(perfume, selectedDecant)}
       />
     </div>
   );

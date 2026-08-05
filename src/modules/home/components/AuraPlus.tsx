@@ -55,7 +55,7 @@ export const AuraPlus = (): ReactElement => {
           );
         })}
       </div>
-      <Button size="lg">Unete</Button>
+      <Button variant="outline">únete</Button>
     </div>
   );
 };

@@ -10,11 +10,37 @@ type PerfumeSource = {
   designer: { name: string };
 };
 
+type DecantSource = {
+  id: string;
+  ml: number;
+  price: string | number | { toString(): string };
+  image?: string | null;
+};
+
 /**
  * Normalizes a Prisma perfume record (or any compatible shape) into the flat
  * CartProduct type used throughout the cart UI.
+ * When a decant is provided, its price/ml/image take precedence over the bottle.
  */
-export function toCartProduct(perfume: PerfumeSource): CartProduct {
+export function toCartProduct(
+  perfume: PerfumeSource,
+  decant?: DecantSource | null,
+): CartProduct {
+  if (decant) {
+    const decantPrice = Number(decant.price);
+
+    return {
+      id: perfume.id,
+      name: perfume.name,
+      designer: perfume.designer.name,
+      image: decant.image ?? perfume.image ?? "",
+      price: decantPrice,
+      originalPrice: decantPrice,
+      ml: decant.ml,
+      decantId: decant.id,
+    };
+  }
+
   const price = Number(perfume.price);
   const originalPrice =
     perfume.discount > 0

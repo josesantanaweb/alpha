@@ -34,6 +34,9 @@
 - [ ] Historial de pedidos en la cuenta
 - [ ] Formulario de cambio de contraseña
 
+### Detalle
+- [X] Integrar seleccionador de medidas
+
 ### General
 - [ ] Mejorar accesibilidad (roles ARIA, navegación por teclado, focus management)
 - [ ] Optimizar carga de imágenes (lazy loading, blur placeholders, next/image)
