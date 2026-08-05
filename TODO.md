@@ -5,8 +5,9 @@
 ## 🎨 Diseño
 
 ### Páginas nuevas / por diseñar
-- [ ] Pantalla de cuenta de usuario (historial de pedidos, perfil, direcciones)
 - [ ] Pantalla de checkout completa (paso a paso, formulario,confirmación, estado del pedido)
+- [ ] Página de perfumes por Nota
+- [ ] Pantalla de cuenta de usuario (historial de pedidos, perfil, direcciones)
 - [ ] Página 404 personalizada
 - [ ] Página de error global (500 / error genérico)
 
@@ -35,7 +36,6 @@
 - [ ] Formulario de cambio de contraseña
 
 ### Detalle
-- [X] Integrar seleccionador de medidas
 
 ### General
 - [ ] Mejorar accesibilidad (roles ARIA, navegación por teclado, focus management)
@@ -115,6 +115,11 @@
 
 ### 03/08/2026
 - [X] ~~Corregir filtro por medida y tipo en la página explorer~~
-- [ ] ~~Agregar redireccion a los botones de ver todos~~
+- [X] ~~Agregar redireccion a los botones de ver todos~~
+
+### 04/08/2026
+- [X] ~~Integrar seleccionador de medidas~~
+
+### 05/08/2026
 
 </details>
