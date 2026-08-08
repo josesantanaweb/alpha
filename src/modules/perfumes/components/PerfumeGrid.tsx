@@ -3,7 +3,7 @@ import type { ReactElement, ReactNode } from "react";
 import { Prisma } from "@prisma/client";
 import { cn } from "@/modules/shared/utils/cn";
 import { PerfumeBox, PerfumeBoxSkeleton } from "./perfume-box";
-import { EmptyState } from "./EmptyState";
+import { EmptyState } from "@/modules/shared/components";
 
 type GridPerfume = Prisma.PerfumeGetPayload<{
   include: { designer: true };
@@ -14,13 +14,9 @@ interface PerfumeGridProps {
   isLoading: boolean;
   likedIds?: Set<string>;
   onLikeToggle?: (id: string) => void;
-  /** Badge a mostrar en cada PerfumeBox */
   perfumeBadge?: string;
-  /** Limitar perfumes mostrados */
   limit?: number;
-  /** Custom empty state: undefined = default, null = ocultar, ReactNode = custom */
   emptyState?: ReactNode | null;
-  /** className del contenedor */
   className?: string;
 }
 
@@ -36,7 +32,6 @@ export const PerfumeGrid = ({
 }: PerfumeGridProps): ReactElement => {
   const visiblePerfumes = limit ? perfumes.slice(0, limit) : perfumes;
 
-  // Loading state — show skeletons
   if (isLoading) {
     return (
       <div className={cn("grid grid-cols-2 gap-5", className)}>
@@ -47,17 +42,12 @@ export const PerfumeGrid = ({
     );
   }
 
-  // Empty state
   if (visiblePerfumes.length === 0) {
-    // null = no mostrar nada
     if (emptyState === null) return <></>;
-    // custom ReactNode
     if (emptyState !== undefined) return <>{emptyState}</>;
-    // default
     return <EmptyState />;
   }
 
-  // Content
   return (
     <div className={cn("grid grid-cols-2 gap-5", className)}>
       {visiblePerfumes.map((perfume) => (

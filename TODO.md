@@ -29,6 +29,7 @@
 ### Carrito y checkout
 - [ ] Conectar mutaciones del carrito al backend para usuarios autenticados (actualmente solo usa Zustand local)
 - [ ] Sincronizar carrito de invitado → carrito del servidor al hacer login
+- [ ] Crear cart drawer y remover la ruta cart
 
 ### Cuenta de usuario
 - [ ] Página de perfil con edición de datos (nombre, avatar)

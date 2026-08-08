@@ -2,8 +2,8 @@
 import { ReactElement } from "react";
 import { useState } from "react";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
-import { EmptyState, PerfumeGrid } from "@/modules/perfumes/components";
-import { SearchInput, FilterButton } from "@/modules/shared/components";
+import { PerfumeGrid } from "@/modules/perfumes/components";
+import { SearchInput, FilterButton, EmptyState } from "@/modules/shared/components";
 
 export const Favorites = (): ReactElement => {
   const { perfumes, ids, toggle, isLoading } = useFavorites();

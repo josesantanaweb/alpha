@@ -8,11 +8,13 @@ import { useCart } from "../hooks/use-cart";
 import { CartCheckoutPanel } from "./CartCheckoutPanel";
 import { CartItem } from "./CartItem";
 import { CartProgress } from "./CartProgress";
-import { CartSummaryCard } from "./CartSummaryCard";
+import { CartHeader } from "./CartHeader";
+import { EmptyState } from "@/modules/shared/components";
+import { CartItemSkeleton } from "./CartItemSkeleton";
 
 export const Cart = (): ReactElement => {
   const router = useRouter();
-  const { setHideBottomNav } = useApp();
+  const { setHideBottomNav, setCartDrawerOpen } = useApp();
   const { items, isLoading, isLoggedIn, increase, decrease, remove } =
     useCart();
 
@@ -31,7 +33,6 @@ export const Cart = (): ReactElement => {
   const shipping = itemsTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
   const total = itemsTotal + shipping;
 
-  // Hide BottomNav only when there are items — it overlaps the checkout summary
   useEffect(() => {
     const hasItems = items.length > 0;
     setHideBottomNav(hasItems);
@@ -46,55 +47,62 @@ export const Cart = (): ReactElement => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex w-full flex-col gap-5 p-5">
-        <div className="bg-surface h-10 w-full animate-pulse rounded-lg" />
-        <div className="flex flex-col gap-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-surface h-28 w-full animate-pulse rounded-2xl" />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const handleHome = () => {
+    setCartDrawerOpen(false);
+    router.push(ROUTES.EXPLORER);
+  };
 
-  if (items.length === 0) {
-    return (
-      <div className="flex w-full flex-col items-center justify-center gap-4 p-5 py-20">
-        <p className="text-body text-lg">Tu carrito está vacío</p>
-      </div>
-    );
-  }
+  const renderSkeletons = () => {
+    return <CartItemSkeleton count={3} />;
+  };
 
   return (
-    <div className="relative flex w-full flex-col gap-5 p-5">
-      <CartProgress
-        currentTotal={itemsTotal}
-        freeShippingThreshold={FREE_SHIPPING_THRESHOLD}
-      />
-
-      <div className="mb-10 flex flex-col gap-3">
-        {items.map((item) => (
-          <CartItem
-            key={item.id}
-            item={item}
-            onIncrease={increase}
-            onDecrease={decrease}
-            onRemove={remove}
+    <div className="relative flex h-screen w-full flex-col p-5 gap-5 overflow-hidden">
+      <CartHeader />
+      <div className="flex flex-col min-h-0 h-full gap-5 justify-between">
+        <div className="flex flex-col gap-5 flex-2 min-h-0">
+          <CartProgress
+            currentTotal={itemsTotal}
+            freeShippingThreshold={FREE_SHIPPING_THRESHOLD}
           />
-        ))}
+
+          <div className="flex flex-col gap-3 overflow-y-auto scrollbar-hide flex-1 min-h-0 pr-1">
+            {isLoading && renderSkeletons()}
+
+            {items.length === 0 && !isLoading && (
+              <EmptyState
+                title="Tu carrito está vacío"
+                subtitle="Explora nuestro catálogo y agrega tus fragancias favoritas."
+                showClear={false}
+                showHome={true}
+                onHome={handleHome}
+              />
+            )}
+
+            {items.map((item) => (
+              <CartItem
+                key={item.id}
+                item={item}
+                onIncrease={increase}
+                onDecrease={decrease}
+                onRemove={remove}
+              />
+            ))}
+          </div>
+        </div>
+
+        {!isLoading && items.length > 0 && (
+          <div className="mt-auto shrink-0 flex-1">
+            <CartCheckoutPanel
+              subtotal={subtotal}
+              discount={discount}
+              shipping={shipping}
+              total={total}
+              onCheckout={handleCheckout}
+            />
+          </div>
+        )}
       </div>
-
-      <CartSummaryCard />
-
-      <CartCheckoutPanel
-        subtotal={subtotal}
-        discount={discount}
-        shipping={shipping}
-        total={total}
-        onCheckout={handleCheckout}
-      />
     </div>
   );
 };

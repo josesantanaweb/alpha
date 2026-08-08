@@ -22,7 +22,6 @@ const TABS: TabItem[] = [
   { href: "/", icon: House },
   { href: ROUTES.EXPLORER, icon: Search },
   { href: ROUTES.FAVORITES, icon: Heart },
-  { href: ROUTES.CART, icon: Handbag },
   { href: ROUTES.ACCOUNT, icon: User },
 ];
 

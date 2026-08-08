@@ -5,7 +5,7 @@ import { Handbag } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/modules/cart/hooks/use-cart";
-import { ROUTES } from "@/constants";
+import { useApp } from "@/modules/shared/stores/use-ui-store";
 
 interface CartButtonProps {
   className?: string;
@@ -38,12 +38,12 @@ const transitions: Record<AnimState, object> = {
 export const CartButton = ({ className }: CartButtonProps): ReactElement => {
   const router = useRouter();
   const { items } = useCart();
+  const { setCartDrawerOpen } = useApp();
   const count = items.reduce((sum, i) => sum + i.quantity, 0);
 
   const prevCountRef = useRef(count);
   const [anim, setAnim] = useState<AnimState>("idle");
 
-  // Bump animation when an item is added
   useEffect(() => {
     if (count > prevCountRef.current) {
       setAnim("bump");
@@ -54,7 +54,6 @@ export const CartButton = ({ className }: CartButtonProps): ReactElement => {
     prevCountRef.current = count;
   }, [count]);
 
-  // Periodic wiggle — only fires if not already animating
   useEffect(() => {
     const interval = setInterval(() => {
       setAnim((current) => {
@@ -73,7 +72,7 @@ export const CartButton = ({ className }: CartButtonProps): ReactElement => {
     <button
       type="button"
       className={`relative cursor-pointer text-white transition-colors ${className ?? ""}`}
-      onClick={() => router.push(ROUTES.CART)}
+      onClick={() => setCartDrawerOpen(true)}
       aria-label="Ver carrito"
     >
       <motion.div

@@ -24,12 +24,12 @@ export const CartItem = ({
   const { id, quantity, perfume } = item;
 
   return (
-    <div className="flex w-full items-center gap-6">
-      <div className="border-stroke relative flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-2xl border p-3">
+    <div className="flex w-full items-center gap-5 h-24">
+      <div className="border-stroke relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border p-3">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-1/2 left-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[20px]" />
         </div>
-        <div className="relative h-18 w-18 overflow-hidden">
+        <div className="relative h-14 w-14 overflow-hidden">
           <Image
             src={perfume.image}
             alt={perfume.name}
@@ -39,13 +39,29 @@ export const CartItem = ({
           />
         </div>
       </div>
-      <div className="flex h-full w-full min-w-0 flex-col">
+      <div className="flex h-full w-full min-w-0 flex-col justify-between">
         <div className="flex w-full items-start justify-between">
-          <div className="flex min-w-0 flex-col">
-            <h4 className="max-w-45 truncate text-base font-bold text-white">
+          <div className="flex flex-col">
+
+            <h4 className="max-w-45 truncate text-base font-medium text-white">
               {perfume.name}
             </h4>
-            <p className="text-body text-sm italic">{perfume.designer}</p>
+            <div className="flex items-center gap-2">
+              {perfume.originalPrice > perfume.price ? (
+                <p className="text-body text-lg">
+                  {formatPrice(perfume.originalPrice, {
+                    locale: "es-ES",
+                    currency: "USD",
+                  })}
+                </p>
+              ) : null}
+              <p className="text-body font-bold text-white text-lg">
+                {formatPrice(perfume.price, {
+                  locale: "es-ES",
+                  currency: "USD",
+                })}
+              </p>
+            </div>
           </div>
           <button
             className="cursor-pointer text-white transition-colors"
@@ -56,31 +72,14 @@ export const CartItem = ({
           </button>
         </div>
 
-        <div className="flex items-start flex-col gap-3">
-          <div className="flex items-center gap-2">
-            {perfume.originalPrice > perfume.price ? (
-              <p className="text-body text-sm font-bold line-through">
-                {formatPrice(perfume.originalPrice, {
-                  locale: "es-ES",
-                  currency: "USD",
-                })}
-              </p>
-            ) : null}
-            <p className="text-sm font-bold text-white">
-              {formatPrice(perfume.price, {
-                locale: "es-ES",
-                currency: "USD",
-              })}
-            </p>
-          </div>
 
-          <QuantityStepper
-            id={id}
-            quantity={quantity}
-            onIncrease={onIncrease}
-            onDecrease={onDecrease}
-          />
-        </div>
+
+        <QuantityStepper
+          id={id}
+          quantity={quantity}
+          onIncrease={onIncrease}
+          onDecrease={onDecrease}
+        />
       </div>
     </div>
   );

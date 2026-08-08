@@ -2,7 +2,7 @@
 import type { ReactElement } from "react";
 import { Button } from "@/modules/shared/components/ui";
 
-export const CartSummaryCard = (): ReactElement => {
+export const CartAuraPlusCard = (): ReactElement => {
   return (
     <div className="bg-surface border-stroke flex flex-col gap-6 rounded-lg border p-5">
       <div className="flex flex-col gap-3">

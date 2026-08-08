@@ -12,3 +12,4 @@ export * from "./QueryProvider";
 export * from "./CollapsibleSection";
 export * from "./BackButton";
 export * from "./FilterButton";
+export * from "./EmptyState";
