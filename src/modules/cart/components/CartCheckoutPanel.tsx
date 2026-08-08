@@ -1,7 +1,8 @@
 "use client";
 import type { ReactElement } from "react";
-import { Button, Input } from "@/modules/shared/components/ui";
+import { Button } from "@/modules/shared/components/ui";
 import { formatPrice } from "@/modules/shared/utils/format-price";
+import { DiscountCodeForm } from "./DiscountCodeForm";
 
 type CartCheckoutPanelProps = {
   subtotal: number;
@@ -20,10 +21,7 @@ export const CartCheckoutPanel = ({
 }: CartCheckoutPanelProps): ReactElement => {
   return (
     <div className="border-stroke flex flex-col gap-6 border-t pt-5">
-      <div className="flex items-center gap-3">
-        <Input placeholder="Código de descuento" className="flex-2" />
-        <Button className="flex-1">Aplicar</Button>
-      </div>
+      <DiscountCodeForm />
       <div className="flex flex-col gap-4">
         <h4 className="text-lg font-bold text-white">Resumen</h4>
         <div className="flex flex-col gap-2">
