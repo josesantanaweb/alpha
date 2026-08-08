@@ -92,7 +92,7 @@ export const Cart = (): ReactElement => {
         </div>
 
         {!isLoading && items.length > 0 && (
-          <div className="shrink-0 mt-20">
+          <div className="shrink-0 mt-20 bg-red-200">
             <CartCheckoutPanel
               subtotal={subtotal}
               discount={discount}
