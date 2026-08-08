@@ -23,13 +23,12 @@
 
 ### Catálogo y navegación
 - [ ] Filtro por notas olfativas al hacer clic en las notas del perfume (navegar a explorer con el filtro aplicado)
-- [ ] Agregar botones de "volver atrás" a las pantallas que lo requieran
 - [ ] Scroll infinito (infinite scroll) o "cargar más" en el grid de perfumes
 
 ### Carrito y checkout
 - [ ] Conectar mutaciones del carrito al backend para usuarios autenticados (actualmente solo usa Zustand local)
 - [ ] Sincronizar carrito de invitado → carrito del servidor al hacer login
-- [ ] Crear cart drawer y remover la ruta cart
+- [X] Crear cart drawer y remover la ruta cart
 
 ### Cuenta de usuario
 - [ ] Página de perfil con edición de datos (nombre, avatar)
