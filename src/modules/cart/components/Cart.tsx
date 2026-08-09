@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, type ReactElement } from "react";
+import type { ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { ROUTES } from "@/constants";
@@ -14,30 +14,24 @@ import { CartItemSkeleton } from "./CartItemSkeleton";
 
 export const Cart = (): ReactElement => {
   const router = useRouter();
-  const { setHideBottomNav, setCartDrawerOpen } = useApp();
+  const { setCartDrawerOpen } = useApp();
   const { items, isLoading, isLoggedIn, increase, decrease, remove } =
     useCart();
 
   const subtotal = items.reduce(
     (acc, item) => acc + item.perfume.originalPrice * item.quantity,
-    0,
+    0
   );
   const discount = items.reduce((acc, item) => {
     const savings = Math.max(
       item.perfume.originalPrice - item.perfume.price,
-      0,
+      0
     );
     return acc + savings * item.quantity;
   }, 0);
   const itemsTotal = subtotal - discount;
   const shipping = itemsTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
   const total = itemsTotal + shipping;
-
-  useEffect(() => {
-    const hasItems = items.length > 0;
-    setHideBottomNav(hasItems);
-    return () => setHideBottomNav(false);
-  }, [items.length, setHideBottomNav]);
 
   const handleCheckout = () => {
     if (isLoggedIn) {
@@ -57,52 +51,50 @@ export const Cart = (): ReactElement => {
   };
 
   return (
-    <div className="relative flex h-screen w-full flex-col p-5 gap-5 overflow-hidden">
+    <div className="flex h-full min-h-0 w-full flex-col gap-5 overflow-hidden p-5">
       <CartHeader />
-      <div className="flex flex-col min-h-0 h-full gap-5">
-        <div className="flex flex-col gap-5 min-h-0">
-          <CartProgress
-            currentTotal={itemsTotal}
-            freeShippingThreshold={FREE_SHIPPING_THRESHOLD}
-          />
+      <div className="flex min-h-0 flex-1 flex-col gap-5">
+        <CartProgress
+          currentTotal={itemsTotal}
+          freeShippingThreshold={FREE_SHIPPING_THRESHOLD}
+        />
 
-          <div className="flex flex-col gap-3 overflow-y-auto scrollbar-hide flex-1 min-h-full pr-1">
-            {isLoading && renderSkeletons()}
+        <div className="scrollbar-hide flex max-h-1/2 min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
+          {isLoading && renderSkeletons()}
 
-            {items.length === 0 && !isLoading && (
-              <EmptyState
-                title="Tu carrito está vacío"
-                subtitle="Explora nuestro catálogo y agrega tus fragancias favoritas."
-                showClear={false}
-                showHome={true}
-                onHome={handleHome}
-              />
-            )}
-
-            {items.map((item) => (
-              <CartItem
-                key={item.id}
-                item={item}
-                onIncrease={increase}
-                onDecrease={decrease}
-                onRemove={remove}
-              />
-            ))}
-          </div>
-        </div>
-
-        {!isLoading && items.length > 0 && (
-          <div className="shrink-0 mt-20 bg-red-200">
-            <CartCheckoutPanel
-              subtotal={subtotal}
-              discount={discount}
-              shipping={shipping}
-              total={total}
-              onCheckout={handleCheckout}
+          {items.length === 0 && !isLoading && (
+            <EmptyState
+              title="Tu carrito está vacío"
+              subtitle="Explora nuestro catálogo y agrega tus fragancias favoritas."
+              showClear={false}
+              showHome={true}
+              onHome={handleHome}
             />
-          </div>
-        )}
+          )}
+
+          {items.map((item) => (
+            <CartItem
+              key={item.id}
+              item={item}
+              onIncrease={increase}
+              onDecrease={decrease}
+              onRemove={remove}
+            />
+          ))}
+        </div>
       </div>
+
+      {!isLoading && items.length > 0 && (
+        <div className="mt-20 shrink-0">
+          <CartCheckoutPanel
+            subtotal={subtotal}
+            discount={discount}
+            shipping={shipping}
+            total={total}
+            onCheckout={handleCheckout}
+          />
+        </div>
+      )}
     </div>
   );
 };
