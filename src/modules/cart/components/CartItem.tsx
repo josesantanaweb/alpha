@@ -48,14 +48,14 @@ export const CartItem = ({
             </h4>
             <div className="flex items-center gap-1">
               {perfume.originalPrice > perfume.price ? (
-                <p className="text-sm text-lg">
+                <p className="text-sm">
                   {formatPrice(perfume.originalPrice, {
                     locale: "es-ES",
                     currency: "USD",
                   })}
                 </p>
               ) : null}
-              <p className="text-sm font-bold text-white text-lg">
+              <p className="text-sm font-bold text-white">
                 {formatPrice(perfume.price, {
                   locale: "es-ES",
                   currency: "USD",
