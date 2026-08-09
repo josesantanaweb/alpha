@@ -59,7 +59,7 @@ export const Cart = (): ReactElement => {
           freeShippingThreshold={FREE_SHIPPING_THRESHOLD}
         />
 
-        <div className="scrollbar-hide flex max-h-[65%] min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
+        <div className="scrollbar-hide flex max-h-full min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-1">
           {isLoading && renderSkeletons()}
 
           {items.length === 0 && !isLoading && (
