@@ -29,7 +29,7 @@ export const NewPerfumes = ({
       </div>
 
       {isLoading && (
-        <div className="flex max-w-full gap-5 overflow-x-scroll pr-2.5">
+        <div className="flex max-w-full gap-5 overflow-x-scroll scrollbar-hide pr-2.5">
           {Array.from({ length: 6 }).map((_, index) => (
             <PerfumeBoxSkeleton key={index} />
           ))}
@@ -37,7 +37,7 @@ export const NewPerfumes = ({
       )}
 
       {!isLoading && perfumes.length > 0 && (
-        <div className="flex max-w-full gap-5 overflow-x-scroll pr-2.5">
+        <div className="flex max-w-full gap-5 overflow-x-scroll scrollbar-hide pr-2.5">
           {perfumes.slice(0, 6).map((perfume) => (
             <PerfumeBox
               className="min-w-45"

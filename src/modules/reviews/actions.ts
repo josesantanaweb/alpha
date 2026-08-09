@@ -110,7 +110,7 @@ export async function create(
     };
   }
 
-  const { perfumeId, comment, rating } = result.data;
+  const { perfumeId, comment, rating, title } = result.data;
 
   const perfume = await db.perfume.findUnique({ where: { id: perfumeId } });
   if (!perfume) {
@@ -119,7 +119,7 @@ export async function create(
 
   try {
     const review = await db.review.create({
-      data: { userId, perfumeId, comment, rating },
+      data: { userId, perfumeId, comment, rating, title },
       include: { user: { select: userSelect } },
     });
 
@@ -163,7 +163,7 @@ export async function update(
     };
   }
 
-  if (!result.data.comment && result.data.rating === undefined) {
+  if (!result.data.comment && !result.data.title && result.data.rating === undefined) {
     return {
       success: false,
       status: 400,

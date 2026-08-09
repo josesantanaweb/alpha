@@ -15,7 +15,7 @@ export const FindYourVibe = (): ReactElement => {
         </p>
       </div>
 
-      <div className="flex max-w-full gap-5 overflow-x-scroll pr-2.5">
+      <div className="flex max-w-full gap-5 overflow-x-scroll scrollbar-hide pr-2.5">
         {vibes.map((vibe) => (
           <FindYourVibeItem
             key={vibe.id}

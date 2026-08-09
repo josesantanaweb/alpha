@@ -59,6 +59,15 @@ interface SeedVibe {
   order: number;
 }
 
+interface SeedPost {
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  image: string;
+  createdAt: Date;
+}
+
 const INITIAL_DESIGNERS: SeedDesigner[] = [
   { name: "Versace", slug: "versace", image: "/images/designers/versace.svg" },
   { name: "Dior", slug: "dior", image: "/images/designers/dior.svg" },
@@ -141,6 +150,39 @@ const INITIAL_BANNERS: SeedBanner[] = [
   },
 ];
 
+const INITIAL_POSTS: SeedPost[] = [
+  {
+    title: "¿Cómo elegir tu fragancia ideal?",
+    slug: "como-elegir-tu-fragancia-ideal",
+    content:
+      "Elegir un perfume es una experiencia muy personal. Para acertar, identifica tus notas favoritas y las familias olfativas que más te atraen, prueba la fragancia sobre tu piel y déjala evolucionar a lo largo del día. Así encontrarás el perfume que mejor se adapta a tu estilo y a cada momento.",
+    excerpt:
+      "Descubre cómo identificar tus notas favoritas y encontrar el perfume que mejor se adapta a tu estilo y momento.",
+    image: "https://i.ibb.co/Zpz0YMZN/post1.png",
+    createdAt: new Date("2026-04-12T00:00:00.000Z"),
+  },
+  {
+    title: "Tendencias en perfumería 2024",
+    slug: "tendencias-en-perfumeria-2024",
+    content:
+      "Cada año trae nuevas propuestas olfativas que marcan el rumbo de la industria. Las notas y familias olfativas que dominarán este año van desde frescos cítricos hasta maderas profundas, con acuerdos que sorprenden y elevan los clásicos a nuevas versiones.",
+    excerpt:
+      "Las notas y familias olfativas que dominarán este año: desde frescos cítricos hasta maderas profundas.",
+    image: "https://i.ibb.co/y13z5tK/post2.png",
+    createdAt: new Date("2026-05-20T00:00:00.000Z"),
+  },
+  {
+    title: "El arte de las notas olfativas",
+    slug: "el-arte-de-las-notas-olfativas",
+    content:
+      "Una fragancia no huele igual durante todo el día: se despliega en notas de salida, corazón y fondo. Aprende a leer una pirámide olfativa y a entender cómo evoluciona una fragancia en tu piel con el tiempo para apreciar cada una de sus capas.",
+    excerpt:
+      "Aprende a leer una pirámide olfativa y a entender cómo evoluciona una fragancia en tu piel con el tiempo.",
+    image: "https://i.ibb.co/7xJMJPrV/post3.png",
+    createdAt: new Date("2026-04-12T00:00:00.000Z"),
+  },
+];
+
 async function main() {
   console.log("🌱 Iniciando el seeding..");
 
@@ -155,6 +197,7 @@ async function main() {
   await prisma.banner.deleteMany();
   await prisma.accord.deleteMany();
   await prisma.designer.deleteMany();
+  await prisma.post.deleteMany();
 
   for (const designer of INITIAL_DESIGNERS) {
     await prisma.designer.upsert({
@@ -326,6 +369,12 @@ async function main() {
   for (const vibe of INITIAL_VIBES) {
     await prisma.vibe.create({
       data: vibe,
+    });
+  }
+
+  for (const post of INITIAL_POSTS) {
+    await prisma.post.create({
+      data: post,
     });
   }
 

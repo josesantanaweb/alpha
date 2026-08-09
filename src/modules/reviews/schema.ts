@@ -2,6 +2,12 @@ import { z } from "zod";
 
 export const CreateReviewSchema = z.object({
   perfumeId: z.string().uuid("ID de perfume inválido"),
+  title: z
+    .string()
+    .trim()
+    .min(1, "El título no puede estar vacío")
+    .max(80, "El título no puede superar los 80 caracteres")
+    .optional(),
   comment: z
     .string()
     .min(10, "El comentario debe tener al menos 10 caracteres")
@@ -14,6 +20,12 @@ export const CreateReviewSchema = z.object({
 });
 
 export const UpdateReviewSchema = z.object({
+  title: z
+    .string()
+    .trim()
+    .min(1, "El título no puede estar vacío")
+    .max(80, "El título no puede superar los 80 caracteres")
+    .optional(),
   comment: z
     .string()
     .min(10, "El comentario debe tener al menos 10 caracteres")

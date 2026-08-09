@@ -7,6 +7,7 @@ export const ROUTES = {
   CHECKOUT: "/checkout",
   LOGIN: "/login",
   REGISTER: "/register",
+  BLOG: "/blog",
 };
 
 export const API_ROUTES = {
@@ -26,4 +27,5 @@ export const API_ROUTES = {
   BANNERS: {
     ACTIVE: "/api/banners/active",
   },
+  POSTS: "/api/posts",
 };

@@ -20,8 +20,8 @@ export const CartCheckoutPanel = ({
   onCheckout,
 }: CartCheckoutPanelProps): ReactElement => {
   return (
-    <div className="border-stroke flex flex-col gap-6 border-t pt-5">
-      <DiscountCodeForm />
+    <div className="border-stroke flex flex-col gap-3 border-t pt-5">
+      <DiscountCodeForm onApply={(code) => console.log("Código aplicado:", code)} />
       <div className="flex flex-col gap-4">
         <h4 className="text-lg font-bold text-white">Resumen</h4>
         <div className="flex flex-col gap-2">
@@ -53,7 +53,7 @@ export const CartCheckoutPanel = ({
               {formatPrice(total, { locale: "es-ES", currency: "USD" })}
             </p>
           </div>
-          <Button onClick={onCheckout}>Pagar</Button>
+          <Button onClick={onCheckout}>Finalizar compra</Button>
         </div>
       </div>
     </div>

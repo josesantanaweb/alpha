@@ -1725,6 +1725,287 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Posts",
+      "item": [
+        {
+          "name": "List Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/posts?search=&limit=10&offset=0",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "posts"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": ""
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/posts/{{POST_ID}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "posts",
+                "{{POST_ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Post By Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/posts/slug/{{POST_SLUG}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "posts",
+                "slug",
+                "{{POST_SLUG}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Los mejores perfumes para el verano\",\n    \"content\": \"El verano es la estación perfecta para explorar fragancias frescas y ligeras...\",\n    \"excerpt\": \"Descubre las fragancias más refrescantes para esta temporada.\",\n    \"image\": \"https://example.com/images/post-verano.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/posts",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"excerpt\": \"Extracto actualizado del post.\",\n    \"image\": \"https://example.com/images/post-updated.jpg\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/posts/{{POST_ID}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "posts",
+                "{{POST_ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/posts/{{POST_ID}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "posts",
+                "{{POST_ID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "List Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/reviews?perfumeId={{PERFUME_ID}}&limit=10&offset=0",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "perfumeId",
+                  "value": "{{PERFUME_ID}}"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"perfumeId\": \"{{PERFUME_ID}}\",\n    \"rating\": 5,\n    \"comment\": \"Un perfume absolutamente increíble. Lo uso todos los días y los elogios no paran.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/reviews",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 4,\n    \"comment\": \"Muy buen perfume, aunque la duraci\\u00f3n podr\\u00eda mejorar un poco.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/reviews/{{REVIEW_ID}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "reviews",
+                "{{REVIEW_ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/reviews/{{REVIEW_ID}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "reviews",
+                "{{REVIEW_ID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -1806,6 +2087,18 @@
     },
     {
       "key": "SILLAGE_ID",
+      "value": ""
+    },
+    {
+      "key": "POST_ID",
+      "value": ""
+    },
+    {
+      "key": "POST_SLUG",
+      "value": ""
+    },
+    {
+      "key": "REVIEW_ID",
       "value": ""
     }
   ]

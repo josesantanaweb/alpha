@@ -13,6 +13,7 @@ import { SliderHome } from "../slider-home";
 import { FindYourVibe } from "../find-your-vibe";
 import { NewPerfumes } from "../new-perfumes";
 import { AuraPlus } from "./AuraPlus";
+import { Blog } from "./Blog";
 
 export const Home = (): ReactElement => {
   const [searchValue, setSearchValue] = useState("");
@@ -51,6 +52,7 @@ export const Home = (): ReactElement => {
       />
       <FindYourVibe />
       <AuraPlus />
+      <Blog />
       <NewPerfumes
         perfumes={perfumes}
         likedIds={new Set(likedIds)}
