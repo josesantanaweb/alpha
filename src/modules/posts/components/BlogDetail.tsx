@@ -3,6 +3,7 @@ import type { ReactElement } from "react";
 import Image from "next/image";
 import { usePost } from "@/modules/posts/hooks/use-posts";
 import { BackButton } from "@/modules/shared/components";
+import { formatDate } from "@/modules/shared/utils/format-date";
 
 interface BlogDetailProps {
   slug: string;
@@ -61,11 +62,7 @@ export const BlogDetail = ({ slug }: BlogDetailProps): ReactElement => {
                 {post.title}
               </h1>
               <p className="text-sm text-body italic">
-                {new Intl.DateTimeFormat("es-ES", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                }).format(new Date(post.createdAt))}
+                {formatDate(post.createdAt)}
               </p>
             </div>
 

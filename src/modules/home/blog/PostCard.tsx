@@ -2,6 +2,7 @@
 import type { ReactElement } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Calendar } from "lucide-react";
 
 type PostCardProps = {
   image: string;
@@ -19,21 +20,26 @@ export const PostCard = ({
   href,
 }: PostCardProps): ReactElement => {
   return (
-    <div className="relative overflow-hidden rounded-lg bg-surface border border-stroke">
-      <div className="w-full h-48 bg-red-100 overflow-hidden">
+    <div className="bg-surface border-stroke relative overflow-hidden rounded-lg border">
+      <div className="h-48 w-full overflow-hidden bg-red-100">
         <Image
           src={image}
           alt={title}
           width={400}
           height={400}
-          className="object-cover w-full h-full"
+          className="h-full w-full object-cover grayscale-70"
         />
       </div>
       <div className="flex flex-col gap-1 p-5">
-        <h4 className="text-base text-white font-bold">{title}</h4>
-        <p className="text-sm text-body italic">{date}</p>
-        <p className="text-sm text-body">{excerpt}</p>
-        <Link href={href} className="text-sm text-white font-bold mt-3">
+        <h4 className="truncate text-lg font-bold text-white">
+          {title}
+        </h4>
+        <div className="flex items-center gap-1 mb-2">
+          <Calendar size={14} className="text-body" />
+          <p className="text-body text-xs">{date}</p>
+        </div>
+        <p className="text-body text-sm italic">{excerpt}</p>
+        <Link href={href} className="mt-3 text-sm font-bold text-white">
           Ver más
         </Link>
       </div>

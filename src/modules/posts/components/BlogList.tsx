@@ -6,6 +6,7 @@ import { usePosts } from "@/modules/posts/hooks/use-posts";
 import { PostCard } from "@/modules/home/blog/PostCard";
 import { PostCardSkeleton } from "@/modules/home/blog/PostCardSkeleton";
 import { SearchInput } from "@/modules/shared/components";
+import { formatDate } from "@/modules/shared/utils/format-date";
 import { ROUTES } from "@/constants";
 
 interface BlogListProps {
@@ -62,11 +63,7 @@ export const BlogList = ({ search }: BlogListProps): ReactElement => {
               key={post.id}
               image={post.image ?? ""}
               title={post.title}
-              date={new Intl.DateTimeFormat("es-ES", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }).format(new Date(post.createdAt))}
+              date={formatDate(post.createdAt)}
               excerpt={post.excerpt ?? ""}
               href={`${ROUTES.BLOG}/${post.slug}`}
             />

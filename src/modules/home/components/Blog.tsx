@@ -5,6 +5,7 @@ import { usePosts } from "@/modules/posts/hooks/use-posts";
 import { PostCard } from "../blog/PostCard";
 import { PostCardSkeleton } from "../blog/PostCardSkeleton";
 import { ROUTES } from "@/constants";
+import { formatDate } from "@/modules/shared/utils/format-date";
 
 export const Blog = (): ReactElement => {
   const { data, isLoading } = usePosts({ limit: 3 });
@@ -29,21 +30,11 @@ export const Blog = (): ReactElement => {
               key={post.id}
               image={post.image ?? ""}
               title={post.title}
-              date={new Intl.DateTimeFormat("es-ES", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              }).format(new Date(post.createdAt))}
+              date={formatDate(post.createdAt)}
               excerpt={post.excerpt ?? ""}
               href={`${ROUTES.BLOG}/${post.slug}`}
             />
           ))}
-
-        {!isLoading && posts.length === 0 && (
-          <p className="text-sm text-body">
-            No hay posts disponibles por el momento.
-          </p>
-        )}
       </div>
     </div>
   );
