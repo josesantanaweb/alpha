@@ -98,7 +98,7 @@ export const Checkout = (): ReactElement => {
 
           <div className="flex items-center gap-3">
             <Input
-              placeholder="Jonh"
+              placeholder="Ej: Jonh"
               label="Nombre"
               type="text"
               value={formData.email}
@@ -108,9 +108,21 @@ export const Checkout = (): ReactElement => {
             />
 
             <Input
-              placeholder="Jonh"
-              label="Nombre"
+              placeholder="Ej: Doe"
+              label="Apellido"
               type="text"
+              value={formData.email}
+              onChange={(e) => handleFieldChange("email", e.target.value)}
+              onBlur={() => handleBlur("email")}
+              error={errors.email}
+            />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Input
+              placeholder="Ej: jonhdoe@gmail.com"
+              label="Correo electrónico"
+              type="email"
               value={formData.email}
               onChange={(e) => handleFieldChange("email", e.target.value)}
               onBlur={() => handleBlur("email")}
