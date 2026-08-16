@@ -19,6 +19,7 @@ export const DeliveryMethodSelector = ({
       <Button
         variant={value === "delivery" ? "primary" : "secondary"}
         onClick={() => onChange("delivery")}
+        className="capitalize"
       >
         <Truck size={16} className="text-inherit" />
         Delivery
@@ -27,6 +28,7 @@ export const DeliveryMethodSelector = ({
       <Button
         variant={value === "pickup" ? "primary" : "secondary"}
         onClick={() => onChange("pickup")}
+        className="capitalize"
       >
         <Store size={16} className="text-inherit" />
         Retiro

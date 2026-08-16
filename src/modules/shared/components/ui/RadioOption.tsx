@@ -43,7 +43,7 @@ export const RadioOption = ({
       {content && (
         <p
           className={cn(
-            "text-sm transition-colors",
+            "text-base transition-colors",
             isActive ? "text-white font-medium" : "text-body"
           )}
         >
