@@ -1,31 +1,36 @@
 "use client";
+
 import { useRouter } from "next/navigation";
-import {
-  type FormEvent,
-  useEffect,
-  useState,
-  type ReactElement,
-  Suspense,
-} from "react";
-import Image from "next/image";
-import { ShoppingBag, ShoppingCart } from "lucide-react";
+import { useEffect, useState, type ReactElement } from "react";
 import { useAuth } from "@/modules/auth/store";
 import { useCart } from "../cart/hooks/use-cart";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
 import { ROUTES } from "@/constants";
-import { formatPrice } from "@/modules/shared/utils/format-price";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
-import { Button, Input } from "@/modules/shared/components/ui";
+import { Button } from "@/modules/shared/components/ui";
 import { TopBar } from "@/modules/shared/components/layout";
+import { OrderSummary } from "@/modules/shared/components/OrderSummary";
+import { DeliveryMethodSelector } from "./components/DeliveryMethodSelector";
+import { ContactForm } from "./components/ContactForm";
+import { ShippingAddressForm } from "./components/ShippingAddressForm";
+import { PaymentPreferenceSelector } from "./components/PaymentPreferenceSelector";
+
+import {
+  type CheckoutFormData,
+  type DeliveryMethod,
+  type FormErrors,
+  INITIAL_FORM,
+} from "./types";
 
 export const Checkout = (): ReactElement => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const router = useRouter();
-  const [errors, setErrors] = useState({ email: "", password: "" });
   const { setHideBottomNav } = useApp();
   const user = useAuth((s) => s.user);
   const isLoading = useAuth((s) => s.isLoading);
   const { items, isLoading: cartLoading } = useCart();
+
+  const [formData, setFormData] = useState<CheckoutFormData>(INITIAL_FORM);
+  const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -50,13 +55,82 @@ export const Checkout = (): ReactElement => {
     return acc + savings * item.quantity;
   }, 0);
   const itemsTotal = subtotal - discount;
-  const shipping = itemsTotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
+  const isDelivery = formData.deliveryMethod === "delivery";
+  const shipping = isDelivery
+    ? itemsTotal >= FREE_SHIPPING_THRESHOLD
+      ? 0
+      : SHIPPING_FEE
+    : 0;
   const total = itemsTotal + shipping;
 
-  const handleFieldChange = (field: "email" | "password", val: string) => {};
+  const mockSubtotal = items.length > 0 ? itemsTotal : 48.0;
+  const mockDiscount = items.length > 0 ? discount : 12.0;
+  const mockShipping: number | "pickup" =
+    items.length > 0
+      ? isDelivery
+        ? shipping
+        : "pickup"
+      : isDelivery
+        ? 5.0
+        : "pickup";
+  const mockTotal =
+    items.length > 0
+      ? total
+      : mockSubtotal -
+        mockDiscount +
+        (mockShipping === "pickup" ? 0 : (mockShipping as number));
 
-  const handleBlur = (field: "email" | "password") => {
-    // setErrors((prev) => ({ ...prev, [field]: validators[field](formData[field]) }));
+  const setField = <K extends keyof CheckoutFormData>(
+    field: K,
+    value: string
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
+  };
+
+  const setDeliveryMethod = (method: DeliveryMethod) => {
+    setFormData((prev) => ({
+      ...prev,
+      deliveryMethod: method,
+      ...(method === "pickup" ? { city: "", address: "" } : {}),
+    }));
+    setErrors({});
+  };
+
+  const validate = (): boolean => {
+    const next: FormErrors = {};
+
+    if (!formData.firstName.trim()) next.firstName = "Requerido";
+    if (!formData.lastName.trim()) next.lastName = "Requerido";
+    if (!formData.email.trim()) next.email = "Requerido";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      next.email = "Correo inválido";
+    if (!formData.phone.trim()) next.phone = "Requerido";
+
+    if (isDelivery) {
+      if (!formData.city.trim()) next.city = "Requerido";
+      if (!formData.address.trim()) next.address = "Requerido";
+    }
+
+    setErrors(next);
+    return Object.keys(next).length === 0;
+  };
+
+  const handleSubmit = () => {
+    if (!validate()) return;
+
+    // TODO: await createOrder({ ...formData, items, subtotal, discount, shipping, total })
+    console.log("Checkout payload:", {
+      ...formData,
+      items: items.map((i) => ({
+        perfumeId: i.perfume.id,
+        quantity: i.quantity,
+      })),
+      subtotal,
+      discount,
+      shipping,
+      total,
+    });
   };
 
   if (isLoading || cartLoading) {
@@ -76,155 +150,43 @@ export const Checkout = (): ReactElement => {
     <div className="flex w-full flex-col gap-6 p-5">
       <TopBar title="Mi pedido" isCheckout />
 
-      <div className="flex flex-col gap-3">
-        <h4 className="text-lg font-semibold text-white">
-          1. Método de Entrega
-        </h4>
-        <div className="flex items-center gap-3">
-          <Button>
-            <ShoppingCart size={16} className="text-inherit" />
-            Delivery
-          </Button>
-          <Button>
-            <ShoppingCart size={16} className="text-inherit" />
-            Retiro
-          </Button>
-        </div>
+      <DeliveryMethodSelector
+        value={formData.deliveryMethod}
+        onChange={setDeliveryMethod}
+      />
 
-        <div className="flex flex-col gap-3">
-          <h4 className="text-base font-semibold text-white">
-            Datos de entrega
-          </h4>
+      <div className="flex flex-col gap-4">
+        <ContactForm values={formData} errors={errors} onChange={setField} />
 
-          <div className="flex items-center gap-3">
-            <Input
-              placeholder="Ej: Jonh"
-              label="Nombre"
-              type="text"
-              value={formData.email}
-              onChange={(e) => handleFieldChange("email", e.target.value)}
-              onBlur={() => handleBlur("email")}
-              error={errors.email}
-            />
+        {isDelivery && (
+          <ShippingAddressForm
+            values={formData}
+            errors={errors}
+            onChange={setField}
+          />
+        )}
 
-            <Input
-              placeholder="Ej: Doe"
-              label="Apellido"
-              type="text"
-              value={formData.email}
-              onChange={(e) => handleFieldChange("email", e.target.value)}
-              onBlur={() => handleBlur("email")}
-              error={errors.email}
-            />
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Input
-              placeholder="Ej: jonhdoe@gmail.com"
-              label="Correo electrónico"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleFieldChange("email", e.target.value)}
-              onBlur={() => handleBlur("email")}
-              error={errors.email}
-            />
-          </div>
-        </div>
+        <PaymentPreferenceSelector
+          currency={formData.paymentCurrency}
+          provider={formData.paymentProvider}
+          onCurrencyChange={(currency) => setField("paymentCurrency", currency)}
+          onProviderChange={(provider) => setField("paymentProvider", provider)}
+        />
       </div>
 
-      {/* {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-4 py-20">
-          <ShoppingBag size={48} className="text-body" />
-          <p className="text-body text-base">Tu carrito está vacío</p>
-          <Button onClick={() => router.push(ROUTES.HOME)}>Explorar perfumes</Button>
-        </div>
-      ) : (
-        <>
-          <div className="flex flex-col gap-4">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="border-stroke bg-surface flex items-center gap-4 rounded-2xl border p-4"
-              >
-                <div className="border-stroke relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border p-2">
-                  <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute top-1/2 left-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[16px]" />
-                  </div>
-                  <div className="relative h-14 w-14">
-                    <Image
-                      src={item.perfume.image}
-                      alt={item.perfume.name}
-                      fill
-                      sizes="56px"
-                      className="object-contain"
-                    />
-                  </div>
-                </div>
+       <section className="flex flex-col gap-3">
+        <h4 className="text-lg font-semibold text-white">
+          3. Resumen de la Orden
+        </h4>
+        <OrderSummary
+          subtotal={mockSubtotal}
+          discount={mockDiscount}
+          shipping={mockShipping}
+          total={mockTotal}
+        />
+      </section>
 
-                <div className="flex flex-1 min-w-0 flex-col gap-1">
-                  <p className="truncate text-sm font-bold text-white">
-                    {item.perfume.name}
-                  </p>
-                  <p className="text-body text-xs italic">{item.perfume.designer}</p>
-                  <p className="text-body text-xs">Cantidad: {item.quantity}</p>
-                </div>
-
-                <div className="flex flex-col items-end gap-1 shrink-0">
-                  {item.perfume.originalPrice > item.perfume.price && (
-                    <p className="text-body text-xs line-through">
-                      {formatPrice(item.perfume.originalPrice * item.quantity, {
-                        locale: "es-ES",
-                        currency: "USD",
-                      })}
-                    </p>
-                  )}
-                  <p className="text-sm font-bold text-white">
-                    {formatPrice(item.perfume.price * item.quantity, {
-                      locale: "es-ES",
-                      currency: "USD",
-                    })}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="border-stroke flex flex-col gap-3 border-t pt-5">
-            <div className="flex items-center justify-between">
-              <p className="text-body text-sm">Subtotal</p>
-              <p className="text-sm font-semibold text-white">
-                {formatPrice(subtotal, { locale: "es-ES", currency: "USD" })}
-              </p>
-            </div>
-            {discount > 0 && (
-              <div className="flex items-center justify-between">
-                <p className="text-body text-sm">Descuento</p>
-                <p className="text-sm font-semibold text-white">
-                  -{formatPrice(discount, { locale: "es-ES", currency: "USD" })}
-                </p>
-              </div>
-            )}
-            <div className="flex items-center justify-between">
-              <p className="text-body text-sm">Envío</p>
-              <p className="text-sm font-semibold text-white">
-                {shipping === 0
-                  ? "Gratis"
-                  : formatPrice(shipping, { locale: "es-ES", currency: "USD" })}
-              </p>
-            </div>
-            <div className="border-stroke flex items-center justify-between border-t pt-3">
-              <p className="text-lg font-bold text-white">Total</p>
-              <p className="text-lg font-bold text-white">
-                {formatPrice(total, { locale: "es-ES", currency: "USD" })}
-              </p>
-            </div>
-          </div>
-
-          <Button disabled className="opacity-60 cursor-not-allowed">
-            Confirmar pedido (próximamente)
-          </Button>
-        </>
-      )} */}
+      <Button onClick={handleSubmit}>Confirmar pedido</Button>
     </div>
   );
 };
