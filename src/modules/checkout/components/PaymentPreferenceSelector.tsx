@@ -38,13 +38,13 @@ export const PaymentPreferenceSelector = ({
 
       <div className="flex items-center gap-3">
         <RadioOption
-          label="Bolívares (Bs. VES)"
+          label="Bolívares"
           isActive={currency === "ves"}
           onClick={() => handleCurrencySelect("ves")}
           className="w-1/2"
         />
         <RadioOption
-          label="Dólares ($ USD)"
+          label="Dólares"
           isActive={currency === "usd"}
           onClick={() => handleCurrencySelect("usd")}
           className="w-1/2"

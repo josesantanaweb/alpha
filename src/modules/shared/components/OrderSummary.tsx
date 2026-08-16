@@ -8,7 +8,7 @@ type OrderSummaryProps = {
   discount: number;
   shipping: number | "pickup";
   total: number;
-  showTitle?: boolean;
+  isCheckout?: boolean;
 };
 
 export const OrderSummary = ({
@@ -16,7 +16,7 @@ export const OrderSummary = ({
   discount,
   shipping,
   total,
-  showTitle = true,
+  isCheckout = true,
 }: OrderSummaryProps): ReactElement => {
   const shippingLabel =
     shipping === "pickup"
@@ -26,8 +26,8 @@ export const OrderSummary = ({
         : formatPrice(shipping, { locale: "es-ES", currency: "USD" });
 
   return (
-    <div className="border-stroke flex flex-col gap-2 border-t pt-4">
-      {showTitle && <h4 className="text-lg font-bold text-white">Resumen</h4>}
+    <div className={`flex flex-col gap-2 pt-4 ${!isCheckout ? "border-t border-stroke " : ""}`}>
+      {!isCheckout && <h4 className="text-lg font-bold text-white">Resumen</h4>}
 
 
       <div className="flex flex-col gap-2">
