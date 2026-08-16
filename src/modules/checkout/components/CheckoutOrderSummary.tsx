@@ -43,7 +43,7 @@ export const CheckoutOrderSummary = ({
       discount={discount}
       shipping={shipping}
       total={total}
-      showTitle={false}
+      isCheckout
     />
   </section>
 );

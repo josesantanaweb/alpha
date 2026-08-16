@@ -16,7 +16,7 @@ export const OrderSummary = ({
   discount,
   shipping,
   total,
-  isCheckout = true,
+  isCheckout = false,
 }: OrderSummaryProps): ReactElement => {
   const shippingLabel =
     shipping === "pickup"
