@@ -14,6 +14,7 @@ import { DeliveryMethodSelector } from "./components/DeliveryMethodSelector";
 import { ContactForm } from "./components/ContactForm";
 import { ShippingAddressForm } from "./components/ShippingAddressForm";
 import { PaymentPreferenceSelector } from "./components/PaymentPreferenceSelector";
+import { CheckoutOrderSummary } from "./components/CheckoutOrderSummary";
 
 import {
   type CheckoutFormData,
@@ -174,19 +175,17 @@ export const Checkout = (): ReactElement => {
         />
       </div>
 
-       <section className="flex flex-col gap-3">
-        <h4 className="text-lg font-semibold text-white">
-          3. Resumen de la Orden
-        </h4>
-        <OrderSummary
+      <div className="flex flex-col gap-3">
+        <CheckoutOrderSummary
+          items={items}
           subtotal={mockSubtotal}
           discount={mockDiscount}
           shipping={mockShipping}
           total={mockTotal}
         />
-      </section>
 
-      <Button onClick={handleSubmit}>Confirmar pedido</Button>
+        <Button onClick={handleSubmit}>Confirmar pedido</Button>
+      </div>
     </div>
   );
 };

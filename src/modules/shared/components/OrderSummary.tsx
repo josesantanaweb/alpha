@@ -8,6 +8,7 @@ type OrderSummaryProps = {
   discount: number;
   shipping: number | "pickup";
   total: number;
+  showTitle?: boolean;
 };
 
 export const OrderSummary = ({
@@ -15,6 +16,7 @@ export const OrderSummary = ({
   discount,
   shipping,
   total,
+  showTitle = true,
 }: OrderSummaryProps): ReactElement => {
   const shippingLabel =
     shipping === "pickup"
@@ -25,7 +27,8 @@ export const OrderSummary = ({
 
   return (
     <div className="border-stroke flex flex-col gap-2 border-t pt-4">
-      <h4 className="text-lg font-bold text-white">Resumen</h4>
+      {showTitle && <h4 className="text-lg font-bold text-white">Resumen</h4>}
+
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
