@@ -65,6 +65,18 @@ export const Checkout = (): ReactElement => {
     : 0;
   const total = itemsTotal + shipping;
 
+  const isFormValid = (() => {
+    if (!formData.firstName.trim()) return false;
+    if (!formData.lastName.trim()) return false;
+    if (!formData.email.trim()) return false;
+    if (!formData.phone.trim()) return false;
+    if (isDelivery) {
+      if (!formData.city.trim()) return false;
+      if (!formData.address.trim()) return false;
+    }
+    return true;
+  })();
+
   const mockSubtotal = items.length > 0 ? itemsTotal : 48.0;
   const mockDiscount = items.length > 0 ? discount : 12.0;
   const mockShipping: number | typeof DeliveryMethod.PICKUP =
@@ -200,7 +212,7 @@ export const Checkout = (): ReactElement => {
           </p>
         )}
 
-        <Button onClick={handleSubmit} disabled={isPending}>
+        <Button onClick={handleSubmit} disabled={isPending || !isFormValid}>
           {isPending ? "Creando pedido..." : "Confirmar pedido"}
         </Button>
       </div>

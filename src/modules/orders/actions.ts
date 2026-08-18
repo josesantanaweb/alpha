@@ -39,61 +39,61 @@ export async function createOrder(
   const data = parsed.data;
 
   try {
-    const cart = await db.cart.findUnique({
-      where: { userId },
-      include: {
-        items: {
-          include: {
-            perfume: { select: { id: true, name: true, price: true, discount: true, stock: true } },
-            decant: { select: { id: true, price: true, stock: true } },
-          },
-        },
-      },
-    });
+    const perfumeIds = [...new Set(data.items.map((i) => i.perfumeId))];
+    const decantIds = [
+      ...new Set(
+        data.items.filter((i) => i.decantId).map((i) => i.decantId!),
+      ),
+    ];
 
-    if (!cart || cart.items.length === 0) {
-      return {
-        success: false,
-        status: 400,
-        message: "El carrito está vacío.",
-      };
-    }
+    const [perfumes, decants] = await Promise.all([
+      db.perfume.findMany({
+        where: { id: { in: perfumeIds } },
+        select: { id: true, name: true, price: true, discount: true, stock: true },
+      }),
+      decantIds.length > 0
+        ? db.decant.findMany({
+            where: { id: { in: decantIds } },
+            select: { id: true, perfumeId: true, price: true, stock: true },
+          })
+        : Promise.resolve([]),
+    ]);
 
-    const requestedItems = data.items;
-    const cartItemMap = new Map(cart.items.map((i) => [i.perfumeId, i]));
+    const perfumeMap = new Map(perfumes.map((p) => [p.id, p]));
+    const decantMap = new Map(decants.map((d) => [d.id, d]));
 
-    for (const reqItem of requestedItems) {
-      const cartItem = cartItemMap.get(reqItem.perfumeId);
-      if (!cartItem) {
+    for (const item of data.items) {
+      const perfume = perfumeMap.get(item.perfumeId);
+      if (!perfume) {
         return {
           success: false,
           status: 400,
-          message: `El producto no está en tu carrito.`,
+          message: `Perfume no encontrado.`,
         };
       }
 
-      if (reqItem.decantId) {
-        const decant = cartItem.decant;
-        if (!decant || decant.id !== reqItem.decantId) {
+      if (item.decantId) {
+        const decant = decantMap.get(item.decantId);
+        if (!decant || decant.perfumeId !== item.perfumeId) {
           return {
             success: false,
             status: 400,
-            message: "Decant no encontrado en el carrito.",
+            message: "Decant no encontrado.",
           };
         }
-        if (decant.stock < reqItem.quantity) {
+        if (decant.stock < item.quantity) {
           return {
             success: false,
             status: 400,
-            message: `Stock insuficiente para el decant seleccionado.`,
+            message: "Stock insuficiente para el decant seleccionado.",
           };
         }
       } else {
-        if (cartItem.perfume.stock < reqItem.quantity) {
+        if (perfume.stock < item.quantity) {
           return {
             success: false,
             status: 400,
-            message: `Stock insuficiente para "${cartItem.perfume.name}".`,
+            message: `Stock insuficiente para "${perfume.name}".`,
           };
         }
       }
@@ -109,18 +109,18 @@ export async function createOrder(
     let subtotal = 0;
     let discount = 0;
 
-    for (const reqItem of requestedItems) {
-      const cartItem = cartItemMap.get(reqItem.perfumeId)!;
+    for (const item of data.items) {
+      const perfume = perfumeMap.get(item.perfumeId)!;
       let unitPrice: number;
       let originalPrice: number;
 
-      if (reqItem.decantId) {
-        const decantPrice = Number(cartItem.decant!.price);
+      if (item.decantId) {
+        const decantPrice = Number(decantMap.get(item.decantId)!.price);
         unitPrice = decantPrice;
         originalPrice = decantPrice;
       } else {
-        const perfumePrice = Number(cartItem.perfume.price);
-        const perfumeDiscount = cartItem.perfume.discount;
+        const perfumePrice = Number(perfume.price);
+        const perfumeDiscount = perfume.discount;
         unitPrice = perfumePrice;
         originalPrice =
           perfumeDiscount > 0
@@ -128,13 +128,13 @@ export async function createOrder(
             : perfumePrice;
       }
 
-      subtotal += originalPrice * reqItem.quantity;
-      discount += (originalPrice - unitPrice) * reqItem.quantity;
+      subtotal += originalPrice * item.quantity;
+      discount += (originalPrice - unitPrice) * item.quantity;
 
       orderItems.push({
-        perfumeId: reqItem.perfumeId,
-        decantId: reqItem.decantId ?? null,
-        quantity: reqItem.quantity,
+        perfumeId: item.perfumeId,
+        decantId: item.decantId ?? null,
+        quantity: item.quantity,
         price: new Prisma.Decimal(unitPrice),
       });
     }
@@ -169,23 +169,30 @@ export async function createOrder(
         include: orderInclude,
       });
 
-      for (const reqItem of requestedItems) {
-        if (reqItem.decantId) {
+      for (const item of data.items) {
+        if (item.decantId) {
           await tx.decant.update({
-            where: { id: reqItem.decantId },
-            data: { stock: { decrement: reqItem.quantity } },
+            where: { id: item.decantId },
+            data: { stock: { decrement: item.quantity } },
           });
         } else {
           await tx.perfume.update({
-            where: { id: reqItem.perfumeId },
-            data: { stock: { decrement: reqItem.quantity } },
+            where: { id: item.perfumeId },
+            data: { stock: { decrement: item.quantity } },
           });
         }
       }
 
-      await tx.cartItem.deleteMany({
-        where: { cartId: cart.id },
+      const cart = await tx.cart.findUnique({
+        where: { userId },
+        select: { id: true },
       });
+
+      if (cart) {
+        await tx.cartItem.deleteMany({
+          where: { cartId: cart.id },
+        });
+      }
 
       return created;
     });

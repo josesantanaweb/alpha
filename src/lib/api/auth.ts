@@ -1,7 +1,24 @@
 "use client";
 import { useAuth, type User } from "@/modules/auth/store";
 import { useCartStore } from "@/modules/cart/store";
+import { addCartItem } from "@/lib/api/cart";
 import { API_ROUTES } from "@/constants";
+
+async function syncGuestCartToServer(token: string) {
+  const guestItems = useCartStore.getState().items;
+  if (guestItems.length === 0) return;
+
+  await Promise.allSettled(
+    guestItems.map((item) =>
+      addCartItem(
+        token,
+        item.perfumeId,
+        item.perfume.decantId ?? undefined,
+        item.quantity,
+      ),
+    ),
+  );
+}
 
 export async function initialize() {
   const { token, clearSession } = useAuth.getState();
@@ -50,6 +67,7 @@ export async function login(
       };
     }
     useAuth.getState().setSession(data.user, data.token);
+    await syncGuestCartToServer(data.token);
     return { success: true };
   } catch {
     return { success: false, message: "Error de conexión" };
@@ -76,6 +94,7 @@ export async function register(
       };
     }
     useAuth.getState().setSession(data.user, data.token);
+    await syncGuestCartToServer(data.token);
     return { success: true };
   } catch {
     return { success: false, message: "Error de conexión" };
@@ -102,6 +121,7 @@ export async function completeGoogleLogin(token: string): Promise<boolean> {
 
     const user = (await res.json()) as User;
     useAuth.getState().setSession(user, token);
+    await syncGuestCartToServer(token);
     return true;
   } catch {
     return false;

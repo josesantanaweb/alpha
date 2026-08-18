@@ -28,7 +28,7 @@ export const CartCheckoutPanel = ({
         shipping={shipping}
         total={total}
       />
-      <Button onClick={onCheckout}>Finalizar compra</Button>
+      <Button onClick={onCheckout}>Ver mi pedido</Button>
     </div>
   );
 };
