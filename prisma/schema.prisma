@@ -248,19 +248,36 @@ model CartItem {
 }
 
 model Order {
-  id              String      @id @default(uuid())
-  userId          String
-  user            User        @relation(fields: [userId], references: [id])
-  status          OrderStatus @default(PENDING)
-  subtotal        Decimal     @db.Decimal(10, 2)
-  discount        Decimal     @default(0) @db.Decimal(10, 2)
-  shipping        Decimal     @default(0) @db.Decimal(10, 2)
-  total           Decimal     @db.Decimal(10, 2)
-  shippingAddress String?     @db.Text
-  notes           String?
-  items           OrderItem[]
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id             String         @id @default(uuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id])
+  status         OrderStatus    @default(PENDING)
+
+  // Método de entrega
+  deliveryMethod DeliveryMethod @default(DELIVERY)
+
+  // Método de pago
+  currency Currency @default(VES)
+  paymentMethod   PaymentMethod   @default(PAGO_MOVIL)
+
+  // Datos de contacto del comprador
+  contactName  String
+  contactEmail String
+  contactPhone String
+
+  // Dirección de envío (solo si deliveryMethod == DELIVERY)
+  city    String? @db.VarChar(100)
+  address String? @db.Text
+
+  // Totales
+  subtotal Decimal @db.Decimal(10, 2)
+  discount Decimal @default(0) @db.Decimal(10, 2)
+  shipping Decimal @default(0) @db.Decimal(10, 2)
+  total    Decimal @db.Decimal(10, 2)
+
+  items     OrderItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 }
 
 model OrderItem {
@@ -324,4 +341,20 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+enum DeliveryMethod {
+  DELIVERY
+  PICKUP
+}
+
+enum Currency {
+  VES
+  USD
+}
+
+enum PaymentMethod {
+  PAGO_MOVIL
+  BINANCE
+  ZINLI
 }
