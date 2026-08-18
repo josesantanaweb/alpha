@@ -2,12 +2,13 @@ import type { ReactElement } from "react";
 import { OrderSummary } from "@/modules/shared/components/OrderSummary";
 import { OrderItemSummary } from "./OrderItemSummary";
 import type { CartItemData } from "@/modules/cart/types";
+import { DeliveryMethod } from "../types";
 
 interface CheckoutOrderSummaryProps {
   items: CartItemData[];
   subtotal: number;
   discount: number;
-  shipping: number | "pickup";
+  shipping: number | typeof DeliveryMethod.PICKUP;
   total: number;
   stepNumber?: number | string;
 }

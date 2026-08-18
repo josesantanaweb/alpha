@@ -104,24 +104,40 @@ Registrar las compras realizadas por los usuarios.
 
 ### Flujo
 1. El usuario revisa su carrito y procede al checkout.
-2. Se calculan subtotal, descuento, envío y total.
-3. Se crea la orden con estado `PENDING`.
-4. El usuario completa el pago → estado `CONFIRMED`.
-5. El administrador prepara el envío → estado `SHIPPED`.
-6. El usuario recibe → estado `DELIVERED`.
-7. El usuario o admin pueden cancelar → estado `CANCELLED`.
+2. Se calculan subtotal, descuento, envío y total (validados server-side).
+3. Se valida el stock de cada ítem (perfume y decant).
+4. Se crea la orden con estado `PENDING` dentro de una transacción.
+5. Se decrementa el stock de los ítems comprados.
+6. Se vacía el carrito del usuario.
+7. El usuario completa el pago → estado `CONFIRMED`.
+8. El administrador prepara el envío → estado `SHIPPED`.
+9. El usuario recibe → estado `DELIVERED`.
+10. El usuario o admin pueden cancelar → estado `CANCELLED`.
 
 ### Reglas
-- Cada item de la orden guarda el **precio en el momento de la compra** (no el precio actual del perfume).
-- Una orden puede tener items de tipo **Perfume** (fraseo completo) o **Decant** (fracción).
-- El `shippingAddress` se captura durante el checkout.
-- El campo `notes` permite al usuario agregar instrucciones especiales.
+- Cada item de la orden guarda el **precio en el momento de la compra** (no el precio actual del perfume/decant).
+- Una orden puede tener items de tipo **Perfume** (frasco completo) o **Decant** (fracción).
+- Si el ítem tiene `decantId`, el precio se toma del decant. Si no, del perfume (ya con descuento aplicado).
+- El envío es gratuito para delivery con total ≥ $200. Bajo ese umbral, $5. Pickup no tiene costo de envío.
+- Métodos de pago soportados: `MOBILE_PAYMENT`, `BINANCE`, `ZINLI`. Monedas: `VES`, `USD`.
+
+### Endpoints
+- `GET /api/orders` — Lista las órdenes del usuario autenticado
+- `POST /api/orders` — Crea una orden (body validado con Zod, requiere Bearer token)
+- `GET /api/orders/[id]` — Detalle de una orden específica
+
+### Implementado
+- [x] Schema Zod `CreateOrderSchema` con validación de enums UPPERCASE
+- [x] `createOrder` — transacción con validación de stock, creación de Order+OrderItems, vaciado de carrito
+- [x] `getOrders` y `getOrderById` — consultas con includes completos
+- [x] API routes con autenticación Bearer token
+- [x] Fetch helpers en `src/lib/api/orders.ts`
+- [x] Const objects UPPERCASE sincronizados con Prisma enums: `DeliveryMethod`, `PaymentCurrency`, `PaymentProvider`
 
 ### Pendiente
-- [ ] Definir cálculo de envío (¿gratis para suscriptores?)
-- [ ] Integrar proveedor de pagos
-- [ ] Crear módulo `orders` con actions y API routes
-- [ ] Panel de administración para cambiar estados
+- [ ] Integrar `useCreateOrder` hook en el Checkout.tsx (reemplazar console.log)
+- [ ] Conectar con proveedor de pagos real
+- [ ] Panel de administración para cambiar estados de órdenes
 
 ### Tipos de perfume
 - `ARABIC` — Perfumes árabes/aceites

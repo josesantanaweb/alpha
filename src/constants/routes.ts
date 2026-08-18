@@ -19,6 +19,7 @@ export const API_ROUTES = {
   },
   FAVORITES: "/api/favorites",
   CART: "/api/cart",
+  ORDERS: "/api/orders",
   PERFUMES: "/api/perfumes",
   ACCORDS: "/api/accords",
   DESIGNERS: "/api/designers",

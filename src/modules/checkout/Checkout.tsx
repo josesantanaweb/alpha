@@ -9,17 +9,17 @@ import { ROUTES } from "@/constants";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { Button } from "@/modules/shared/components/ui";
 import { TopBar } from "@/modules/shared/components/layout";
-import { OrderSummary } from "@/modules/shared/components/OrderSummary";
 import { DeliveryMethodSelector } from "./components/DeliveryMethodSelector";
 import { ContactForm } from "./components/ContactForm";
 import { ShippingAddressForm } from "./components/ShippingAddressForm";
 import { PaymentPreferenceSelector } from "./components/PaymentPreferenceSelector";
 import { CheckoutOrderSummary } from "./components/CheckoutOrderSummary";
+import { useCreateOrder } from "./hooks/use-create-order";
 
 import {
   type CheckoutFormData,
-  type DeliveryMethod,
   type FormErrors,
+  DeliveryMethod,
   INITIAL_FORM,
 } from "./types";
 
@@ -29,6 +29,7 @@ export const Checkout = (): ReactElement => {
   const user = useAuth((s) => s.user);
   const isLoading = useAuth((s) => s.isLoading);
   const { items, isLoading: cartLoading } = useCart();
+  const { mutate: createOrder, isPending, isError, error } = useCreateOrder();
 
   const [formData, setFormData] = useState<CheckoutFormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -46,17 +47,17 @@ export const Checkout = (): ReactElement => {
 
   const subtotal = items.reduce(
     (acc, item) => acc + item.perfume.originalPrice * item.quantity,
-    0
+    0,
   );
   const discount = items.reduce((acc, item) => {
     const savings = Math.max(
       item.perfume.originalPrice - item.perfume.price,
-      0
+      0,
     );
     return acc + savings * item.quantity;
   }, 0);
   const itemsTotal = subtotal - discount;
-  const isDelivery = formData.deliveryMethod === "delivery";
+  const isDelivery = formData.deliveryMethod === DeliveryMethod.DELIVERY;
   const shipping = isDelivery
     ? itemsTotal >= FREE_SHIPPING_THRESHOLD
       ? 0
@@ -66,24 +67,24 @@ export const Checkout = (): ReactElement => {
 
   const mockSubtotal = items.length > 0 ? itemsTotal : 48.0;
   const mockDiscount = items.length > 0 ? discount : 12.0;
-  const mockShipping: number | "pickup" =
+  const mockShipping: number | typeof DeliveryMethod.PICKUP =
     items.length > 0
       ? isDelivery
         ? shipping
-        : "pickup"
+        : DeliveryMethod.PICKUP
       : isDelivery
         ? 5.0
-        : "pickup";
+        : DeliveryMethod.PICKUP;
   const mockTotal =
     items.length > 0
       ? total
       : mockSubtotal -
         mockDiscount +
-        (mockShipping === "pickup" ? 0 : (mockShipping as number));
+        (mockShipping === DeliveryMethod.PICKUP ? 0 : (mockShipping as number));
 
   const setField = <K extends keyof CheckoutFormData>(
     field: K,
-    value: string
+    value: string,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -93,7 +94,7 @@ export const Checkout = (): ReactElement => {
     setFormData((prev) => ({
       ...prev,
       deliveryMethod: method,
-      ...(method === "pickup" ? { city: "", address: "" } : {}),
+      ...(method === DeliveryMethod.PICKUP ? { city: "", address: "" } : {}),
     }));
     setErrors({});
   };
@@ -120,18 +121,25 @@ export const Checkout = (): ReactElement => {
   const handleSubmit = () => {
     if (!validate()) return;
 
-    // TODO: await createOrder({ ...formData, items, subtotal, discount, shipping, total })
-    console.log("Checkout payload:", {
-      ...formData,
-      items: items.map((i) => ({
-        perfumeId: i.perfume.id,
-        quantity: i.quantity,
-      })),
-      subtotal,
-      discount,
-      shipping,
-      total,
-    });
+    createOrder(
+      {
+        ...formData,
+        items: items.map((i) => ({
+          perfumeId: i.perfumeId,
+          decantId: i.perfume.decantId ?? undefined,
+          quantity: i.quantity,
+        })),
+        subtotal,
+        discount,
+        shipping,
+        total,
+      },
+      {
+        onSuccess: () => {
+          router.push(ROUTES.ACCOUNT);
+        },
+      },
+    );
   };
 
   if (isLoading || cartLoading) {
@@ -184,7 +192,17 @@ export const Checkout = (): ReactElement => {
           total={mockTotal}
         />
 
-        <Button onClick={handleSubmit}>Confirmar pedido</Button>
+        {isError && (
+          <p className="text-center text-sm text-red-400">
+            {error instanceof Error
+              ? error.message
+              : "Error al crear el pedido. Intenta de nuevo."}
+          </p>
+        )}
+
+        <Button onClick={handleSubmit} disabled={isPending}>
+          {isPending ? "Creando pedido..." : "Confirmar pedido"}
+        </Button>
       </div>
     </div>
   );

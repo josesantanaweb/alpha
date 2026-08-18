@@ -2006,6 +2006,102 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "List Orders",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/orders",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"deliveryMethod\": \"DELIVERY\",\n    \"paymentCurrency\": \"VES\",\n    \"paymentProvider\": \"MOBILE_PAYMENT\",\n    \"firstName\": \"José\",\n    \"lastName\": \"Santana\",\n    \"email\": \"jose@example.com\",\n    \"phone\": \"+584121234567\",\n    \"city\": \"Caracas\",\n    \"address\": \"Av. Francisco de Miranda, Edif. Galipán\",\n    \"items\": [\n        { \"perfumeId\": \"{{PERFUME_ID}}\", \"quantity\": 1 }\n    ],\n    \"subtotal\": 109,\n    \"discount\": 0,\n    \"shipping\": 5,\n    \"total\": 114\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL_BACKEND}}/orders",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{BEARER_TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL_BACKEND}}/orders/{{ORDER_ID}}",
+              "host": [
+                "{{URL_BACKEND}}"
+              ],
+              "path": [
+                "orders",
+                "{{ORDER_ID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
@@ -2099,6 +2195,10 @@
     },
     {
       "key": "REVIEW_ID",
+      "value": ""
+    },
+    {
+      "key": "ORDER_ID",
       "value": ""
     }
   ]

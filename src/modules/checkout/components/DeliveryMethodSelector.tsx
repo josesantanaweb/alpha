@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { Truck, Store } from "lucide-react";
 import { Button } from "@/modules/shared/components/ui";
-import type { DeliveryMethod } from "../types";
+import { DeliveryMethod } from "../types";
 
 type DeliveryMethodSelectorProps = {
   value: DeliveryMethod;
@@ -17,8 +17,8 @@ export const DeliveryMethodSelector = ({
 
     <div className="flex w-full items-center gap-3">
       <Button
-        variant={value === "delivery" ? "primary" : "secondary"}
-        onClick={() => onChange("delivery")}
+        variant={value === DeliveryMethod.DELIVERY ? "primary" : "secondary"}
+        onClick={() => onChange(DeliveryMethod.DELIVERY)}
         className="capitalize"
       >
         <Truck size={16} className="text-inherit" />
@@ -26,8 +26,8 @@ export const DeliveryMethodSelector = ({
       </Button>
 
       <Button
-        variant={value === "pickup" ? "primary" : "secondary"}
-        onClick={() => onChange("pickup")}
+        variant={value === DeliveryMethod.PICKUP ? "primary" : "secondary"}
+        onClick={() => onChange(DeliveryMethod.PICKUP)}
         className="capitalize"
       >
         <Store size={16} className="text-inherit" />

@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { RadioOption } from "@/modules/shared/components/ui";
-import type { PaymentProvider } from "../types";
+import { PaymentProvider } from "../types";
 
 interface VesPaymentOptionsProps {
   provider: PaymentProvider;
@@ -13,8 +13,8 @@ export const VesPaymentOptions = ({
 }: VesPaymentOptionsProps): ReactElement => (
   <RadioOption
     label="Pago Móvil"
-    isActive={provider === "pago_movil"}
-    onClick={() => onProviderChange("pago_movil")}
+    isActive={provider === PaymentProvider.MOBILE_PAYMENT}
+    onClick={() => onProviderChange(PaymentProvider.MOBILE_PAYMENT)}
     className="w-1/2"
   />
 );

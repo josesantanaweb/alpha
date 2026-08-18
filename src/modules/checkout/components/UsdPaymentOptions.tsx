@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { RadioOption } from "@/modules/shared/components/ui";
-import type { PaymentProvider } from "../types";
+import { PaymentProvider } from "../types";
 
 interface UsdPaymentOptionsProps {
   provider: PaymentProvider;
@@ -14,14 +14,14 @@ export const UsdPaymentOptions = ({
   <>
     <RadioOption
       label="Binance Pay"
-      isActive={provider === "binance"}
-      onClick={() => onProviderChange("binance")}
+      isActive={provider === PaymentProvider.BINANCE}
+      onClick={() => onProviderChange(PaymentProvider.BINANCE)}
       className="w-1/2"
     />
     <RadioOption
       label="Zinli"
-      isActive={provider === "zinli"}
-      onClick={() => onProviderChange("zinli")}
+      isActive={provider === PaymentProvider.ZINLI}
+      onClick={() => onProviderChange(PaymentProvider.ZINLI)}
       className="w-1/2"
     />
   </>

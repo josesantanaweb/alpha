@@ -6,7 +6,7 @@ import { formatPrice } from "@/modules/shared/utils/format-price";
 type OrderSummaryProps = {
   subtotal: number;
   discount: number;
-  shipping: number | "pickup";
+  shipping: number | "PICKUP";
   total: number;
   isCheckout?: boolean;
 };
@@ -19,7 +19,7 @@ export const OrderSummary = ({
   isCheckout = false,
 }: OrderSummaryProps): ReactElement => {
   const shippingLabel =
-    shipping === "pickup"
+    shipping === "PICKUP"
       ? "Retiro en tienda"
       : shipping === 0
         ? "Gratis"

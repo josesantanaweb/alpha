@@ -1,6 +1,24 @@
-export type DeliveryMethod = "delivery" | "pickup";
-export type PaymentCurrency = "ves" | "usd";
-export type PaymentProvider = "pago_movil" | "binance" | "zinli";
+export const DeliveryMethod = {
+  DELIVERY: "DELIVERY",
+  PICKUP: "PICKUP",
+} as const;
+
+export type DeliveryMethod = (typeof DeliveryMethod)[keyof typeof DeliveryMethod];
+
+export const PaymentCurrency = {
+  VES: "VES",
+  USD: "USD",
+} as const;
+
+export type PaymentCurrency = (typeof PaymentCurrency)[keyof typeof PaymentCurrency];
+
+export const PaymentProvider = {
+  MOBILE_PAYMENT: "MOBILE_PAYMENT",
+  BINANCE: "BINANCE",
+  ZINLI: "ZINLI",
+} as const;
+
+export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
 
 export interface CheckoutFormData {
   deliveryMethod: DeliveryMethod;
@@ -17,9 +35,9 @@ export interface CheckoutFormData {
 export type FormErrors = Partial<Record<keyof CheckoutFormData, string>>;
 
 export const INITIAL_FORM: CheckoutFormData = {
-  deliveryMethod: "delivery",
-  paymentCurrency: "ves",
-  paymentProvider: "pago_movil",
+  deliveryMethod: DeliveryMethod.DELIVERY,
+  paymentCurrency: PaymentCurrency.VES,
+  paymentProvider: PaymentProvider.MOBILE_PAYMENT,
   firstName: "",
   lastName: "",
   email: "",
@@ -27,5 +45,3 @@ export const INITIAL_FORM: CheckoutFormData = {
   city: "",
   address: "",
 };
-
-

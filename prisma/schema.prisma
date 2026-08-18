@@ -7,19 +7,19 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
+  id        String     @id @default(uuid())
+  email     String     @unique
   password  String? // null si usó Google
   name      String?
   avatar    String?
-  googleId  String?   @unique // null si usó email/password
-  favorites Perfume[] @relation("FavoritePerfumes")
+  googleId  String?    @unique // null si usó email/password
+  favorites Perfume[]  @relation("FavoritePerfumes")
   cart      Cart?
   orders    Order[]
   reviews   Review[]
   votes     UserVote[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Perfume {
@@ -38,12 +38,12 @@ model Perfume {
   reviewCount Int         @default(0)
 
   // Métricas de la Comunidad (Relaciones 1 a 1)
-  longevity Longevity?
-  sillage   Sillage?
-  decants   Decant[]
-  season    Season?
-  timeOfDay TimeOfDay?
-  feeling   Feeling?
+  longevity  Longevity?
+  sillage    Sillage?
+  decants    Decant[]
+  season     Season?
+  timeOfDay  TimeOfDay?
+  feeling    Feeling?
   projection Projection?
 
   // Relaciones
@@ -248,24 +248,19 @@ model CartItem {
 }
 
 model Order {
-  id             String         @id @default(uuid())
-  userId         String
-  user           User           @relation(fields: [userId], references: [id])
-  status         OrderStatus    @default(PENDING)
+  id     String      @id @default(uuid())
+  userId String
+  user   User        @relation(fields: [userId], references: [id])
+  status OrderStatus @default(PENDING)
 
-  // Método de entrega
   deliveryMethod DeliveryMethod @default(DELIVERY)
+  currency       Currency       @default(VES)
+  paymentMethod  PaymentMethod  @default(MOBILE_PAYMENT)
 
-  // Método de pago
-  currency Currency @default(VES)
-  paymentMethod   PaymentMethod   @default(PAGO_MOVIL)
-
-  // Datos de contacto del comprador
   contactName  String
   contactEmail String
   contactPhone String
 
-  // Dirección de envío (solo si deliveryMethod == DELIVERY)
   city    String? @db.VarChar(100)
   address String? @db.Text
 
@@ -294,14 +289,14 @@ model OrderItem {
 }
 
 model Post {
-  id          String      @id @default(uuid())
-  title       String      @unique
-  slug        String      @unique
-  content     String      @db.Text
-  excerpt     String?     @db.Text
-  image       String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id        String   @id @default(uuid())
+  title     String   @unique
+  slug      String   @unique
+  content   String   @db.Text
+  excerpt   String?  @db.Text
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum PerfumeType {
@@ -354,7 +349,8 @@ enum Currency {
 }
 
 enum PaymentMethod {
-  PAGO_MOVIL
+  MOBILE_PAYMENT
   BINANCE
   ZINLI
+  CASH
 }

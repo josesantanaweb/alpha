@@ -76,3 +76,70 @@ Shared infrastructure lives in `src/modules/shared/`:
 - `src/app/api/favorites/route.ts` — `GET` (returns array of perfume objects with designer & accords), `POST` (add), `DELETE` (remove). All require Bearer token auth.
 - `src/modules/favorites/hooks/use-favorites.ts` — React Query hook that fetches favorites from the API when logged in. Uses optimistic updates via `useMutation`. If user is not authenticated, `toggle`/`add`/`remove` redirect to `/login`.
 - `useFavorites()` returns `{ ids: string[], perfumes: PerfumeWithRelations[], ready: boolean, add, remove, toggle, isFavorite }`
+
+## Enum Convention (UPPERCASE everywhere)
+
+**All enum values MUST be UPPERCASE across the entire stack.** This ensures consistency between Prisma enums (which are UPPERCASE by Prisma convention), server-side actions, Zod schemas, and frontend components.
+
+### Frontend: const objects + type union
+
+In `src/modules/<name>/types.ts`, define enums as **both** a const object (for value access) and a type (for type annotations):
+
+```ts
+export const DeliveryMethod = {
+  DELIVERY: "DELIVERY",
+  PICKUP: "PICKUP",
+} as const;
+
+export type DeliveryMethod = (typeof DeliveryMethod)[keyof typeof DeliveryMethod];
+```
+
+Import in components as a **value** (not `import type`):
+
+```ts
+import { DeliveryMethod } from "../types";
+
+// Usage: value access with dot notation
+isActive={value === DeliveryMethod.DELIVERY}
+onChange(DeliveryMethod.PICKUP)
+```
+
+### Backend: Zod schemas with UPPERCASE
+
+```ts
+export const DeliveryMethodEnum = z.enum(["DELIVERY", "PICKUP"]);
+```
+
+### Backend: Prisma enum mappings
+
+Maps should be identity maps (UPPERCASE → UPPERCASE) since all layers use the same values:
+
+```ts
+const DELIVERY_METHOD_MAP = {
+  DELIVERY: "DELIVERY",
+  PICKUP: "PICKUP",
+} as const;
+```
+
+### Shared components
+
+Shared components (`src/modules/shared/`) use the raw UPPERCASE string literal (no import from domain modules):
+
+```ts
+shipping === "PICKUP" ? "Retiro en tienda" : formatPrice(shipping)
+```
+
+### Prisma schema
+
+All enum values always UPPERCASE:
+
+```prisma
+enum DeliveryMethod { DELIVERY  PICKUP }
+enum Currency       { VES       USD }
+enum PaymentMethod  { MOBILE_PAYMENT  BINANCE  ZINLI  CASH }
+```
+
+### NEVER use lowercase
+
+❌ `"delivery"`, `"pickup"`, `"ves"`, `"usd"`, `"mobile_payment"`, `"pago_movil"`, `"efectivo"`  
+✅ `"DELIVERY"`, `"PICKUP"`, `"VES"`, `"USD"`, `"MOBILE_PAYMENT"`, `"BINANCE"`, `"ZINLI"`, `"CASH"`

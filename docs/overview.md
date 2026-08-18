@@ -48,7 +48,8 @@ src/
 │   │   ├── feelings/
 │   │   ├── longevities/
 │   │   ├── notes/
-│   │   ├── perfumes/
+│   │   ├── orders/
+      │   │   ├── perfumes/
 │   │   ├── seasons/
 │   │   ├── sillages/
 │   │   ├── tags/
@@ -71,7 +72,8 @@ src/
 │   │   ├── categories.ts   # getCategories
 │   │   ├── designers.ts    # getDesigners
 │   │   ├── favorites.ts    # getFavorites, addFavorite, removeFavorite
-│   │   ├── perfumes.ts     # getPerfumes
+  │   │   ├── orders.ts       # getOrders, getOrder, createOrder
+  │   │   ├── perfumes.ts     # getPerfumes
 │   │   ├── tags.ts         # getTags
 │   │   └── vibes.ts        # getActiveVibes
 │   ├── auth.ts             # JWT (jose) sign/verify
@@ -96,7 +98,8 @@ src/
 │   │   └── categories-filter/
 │   ├── longevities/
 │   ├── notes/
-│   ├── perfumes/
+  │   ├── orders/
+  │   ├── perfumes/
 │   │   ├── components/
 │   │   │   └── filters/   # FilterGender, FilterType, FilterDesigner, etc.
 │   │   ├── hooks/
@@ -205,6 +208,8 @@ Login/Register
 |---|---|---|
 | **User** | Usuario con email, password (hash), nombre, avatar, googleId |
 | **Perfume** | Fragancia con nombre, tipo, género, precio, stock, etc. |
+| **Order** | Pedido con ítems, estado, datos de envío y pago |
+| **OrderItem** | Línea de pedido con cantidad y precio al momento de compra |
 | **Decant** | Variante de tamaño/volumen de un perfume (ej. 5ml, 10ml) |
 | **Designer** | Marca/fabricante (Dior, Versace, Xerjoff...) |
 | **Category** | Categoría del perfume |
@@ -226,9 +231,13 @@ Login/Register
 ### Enums
 
 ```prisma
-enum PerfumeType { ARABIC, DESIGNER, NICHE }
-enum Gender      { MALE, FEMALE, UNISEX }
-enum NoteStage   { TOP, HEART, BASE }
+enum PerfumeType    { ARABIC, DESIGNER, NICHE }
+enum Gender         { MALE, FEMALE, UNISEX }
+enum NoteStage      { TOP, HEART, BASE }
+enum OrderStatus    { PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED }
+enum DeliveryMethod { DELIVERY, PICKUP }
+enum Currency       { VES, USD }
+enum PaymentMethod  { MOBILE_PAYMENT, BINANCE, ZINLI, CASH }
 ```
 
 ---
@@ -261,6 +270,8 @@ type ApiResult<T> =
 | GET/POST | /api/decants | CRUD decants |
 | GET/POST | /api/designers | CRUD diseñadores |
 | GET/POST/DELETE | /api/favorites | Favoritos del usuario autenticado (persistencia DB) |
+| GET/POST | /api/orders | Órdenes del usuario autenticado |
+| GET    | /api/orders/[id] | Detalle de una orden específica |
 | GET/POST | /api/feelings | CRUD sentimientos |
 | GET/POST | /api/longevities | CRUD longevidad |
 | GET/POST | /api/notes | CRUD notas |
