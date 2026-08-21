@@ -6,84 +6,175 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Commands
 
-- `pnpm dev` — dev server on :3000
-- `pnpm build` — production build
-- `pnpm lint` — eslint (next/core-web-vitals + typescript + prettier)
-- `pnpm prisma db push` — sync schema to local PostgreSQL
-- `npx tsx ./prisma/seed.ts` — seed the DB (requires `DATABASE_URL` in `.env`)
+| Command | Purpose |
+|---|---|
+| `pnpm dev` | Dev server on :3000 |
+| `pnpm build` | Production build (TypeScript + lint check) |
+| `pnpm lint` | ESLint — next/core-web-vitals + typescript + prettier |
+| `pnpm prisma db push` | Sync Prisma schema → local PostgreSQL (no migrations) |
+| `npx tsx ./prisma/seed.ts` | Seed the DB (requires `DATABASE_URL` in `.env`) |
 
-No test scripts, no CI/CD.
+> No test scripts, no CI/CD.
+
+---
+
+## Project: Aura
+
+**Aura** is a premium perfume e-commerce store built on **Next.js 16 App Router**.  
+Language: TypeScript 5 (strict). Package manager: **pnpm**.
+
+---
 
 ## Architecture
 
-**Aura** — perfume e-commerce store, Next.js App Router.
+### Module pattern — vertical slices (`src/modules/<name>/`)
 
-### Module pattern (`src/modules/<name>/`)
-Each feature follows vertical-slice architecture:
-- `components/` — domain-specific React components
-- `components/index.ts` — barrel re-export for the module UI components
-- `hooks/` — React Query wrappers exclusive to this module
-- `store.ts` — Zustand store (optional, for modules that need local state)
-- `actions.ts` — server-side business logic returning `ApiResult<T>` (discriminated union)
-- `schema.ts` — Zod validation schemas
-- `types.ts` — TypeScript types specific to this domain
-- `index.ts` — barrel re-export for the module entry point
+Every feature domain lives in its own folder. The internal structure is:
 
-Shared infrastructure lives in `src/modules/shared/`:
-- `shared/components/ui/` — primitives (Button, Input, Logo, Badge)
-- `shared/components/layout/` — AppLayout, Header, BottomNav
-- `shared/components/` — generic reusable components (CategoryButton, LikeButton, Rating, etc.)
-- `shared/hooks/` — technical hooks (useDebounce)
-- `shared/stores/` — global UI state (useUIStore)
-- `shared/types/` — global TypeScript types (ApiResult, PaginationParams)
-- `shared/utils/` — cn() utility (clsx + tailwind-merge)
+```
+src/modules/<name>/
+  actions.ts        ← server-side DB logic, returns ApiResult<T>
+  schema.ts         ← Zod validation schemas
+  types.ts          ← domain-specific TypeScript types and const enums
+  store.ts          ← Zustand store (only if the module needs client-local state)
+  hooks/            ← React Query wrappers (one file per query/mutation)
+  components/       ← domain-specific React components
+  components/index.ts  ← barrel re-export for components
+  index.ts          ← barrel re-export for the module entry point
+```
+
+### Existing modules
+
+| Module | Description |
+|---|---|
+| `auth` | JWT login / register / Google OAuth |
+| `perfumes` | Perfume catalog CRUD, detail page, filtering |
+| `designers` | Brand / maison management |
+| `accords` | Accord taxonomy |
+| `notes` | Olfactive notes (TOP / HEART / BASE) |
+| `tags` | Tag taxonomy |
+| `decants` | Decant sizes and pricing per perfume |
+| `banners` | Home promotional banners |
+| `vibes` | Mood/vibe categories |
+| `home` | Home page data assembly |
+| `explorer` | Search, filter, sort catalog |
+| `favorites` | User ↔ Perfume many-to-many favorites |
+| `cart` | Guest + authenticated cart (Zustand + backend sync) |
+| `checkout` | Order creation flow |
+| `orders` | Order history and status |
+| `reviews` | Star ratings and review comments |
+| `feelings` | Community vote: love / like / dislike / hate |
+| `longevities` | Community vote: longevity (weak → veryLong) |
+| `sillages` | Community vote: sillage projection (soft → huge) |
+| `seasons` | Community vote: season (winter / spring / summer / autumn) |
+| `posts` | Blog / editorial posts |
+| `uploads` | Image upload utility |
+| `account` | User profile and settings |
+| `shared` | Generic infrastructure (see below) |
+
+### Shared infrastructure (`src/modules/shared/`)
+
+```
+shared/
+  components/
+    ui/         ← primitives: Button, Input, Logo, Badge, Modal, Skeleton
+    layout/     ← AppLayout, Header, BottomNav
+    *.tsx       ← reusable generic components: CategoryButton, LikeButton, Rating, etc.
+  hooks/        ← technical hooks: useDebounce, useIntersectionObserver
+  stores/       ← global UI state: useUIStore (drawer, modal open/close)
+  types/        ← global TypeScript types: ApiResult<T>, PaginationParams
+  utils/        ← cn() utility (clsx + tailwind-merge)
+```
 
 ### Data flow
-- Server: modules → direct Prisma calls (via `@/lib/db`)
-- Client: React Query hooks (per-module `hooks/`) → fetch wrappers (`src/lib/api/`) → API routes → modules
-- `@/lib/db.ts` exports a Prisma singleton using `@prisma/adapter-pg`
+
+```
+[Page / Server Component]
+    └─ calls module actions.ts  ←→  Prisma (@/lib/db)
+
+[Client Component]
+    └─ React Query hook (modules/<name>/hooks/)
+          └─ fetch wrapper (src/lib/api/)
+                └─ Next.js API route (src/app/api/<name>/route.ts)
+                      └─ module actions.ts  ←→  Prisma
+```
+
+- **`@/lib/db.ts`** — exports a **Prisma singleton** using `@prisma/adapter-pg`. Import only from `actions.ts`.
+- **Never** call `db` directly from React components or hooks.
+- Server Actions must begin with `import 'server-only';`.
 
 ### Key directories
-- `src/modules/` — business logic (one folder per feature, vertical slices)
-- `src/modules/shared/` — generic infrastructure (UI, utils, types, stores)
-- `src/modules/perfumes/` — perfume domain (components, hooks, actions, schema, types)
-- `src/modules/auth/` — auth domain (components, hooks, store, actions, schema)
-- `src/app/api/` — REST API routes
-- `src/app/page.tsx` — thin page shells delegating to modules
-- `src/lib/api/` — client-side fetch helpers
+
+```
+src/
+  app/
+    api/<name>/route.ts   ← REST endpoints (ApiResult shape)
+    (routes)/page.tsx     ← thin page shells delegating to modules
+  modules/                ← all feature slices
+  lib/
+    db.ts                 ← Prisma singleton
+    api/                  ← client-side fetch helpers
+```
 
 ### Path alias
-`@/*` → `./src/*`
 
-## Tech stack
-- Next.js 16, React 19, TypeScript 5 (strict)
-- Prisma 7 (`@prisma/adapter-pg` for PostgreSQL)
-- Tailwind CSS v4 (PostCSS plugin)
-- @tanstack/react-query, zustand, zod, framer-motion
-- Prettier (semicolons, double-quotes, trailing commas, tailwindcss plugin)
-- ESLint with prettier integration
-- pnpm (see `pnpm-lock.yaml`)
+```
+@/* → ./src/*
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19 |
+| Language | TypeScript 5 — strict mode |
+| Database | PostgreSQL via Prisma 7 (`@prisma/adapter-pg`) |
+| Styling | Tailwind CSS v4 (PostCSS plugin) |
+| State — server | @tanstack/react-query v5 |
+| State — client | Zustand |
+| Validation | Zod |
+| Animation | Framer Motion |
+| Icons | Lucide React |
+| Linting | ESLint (next/core-web-vitals + typescript + prettier) |
+| Formatting | Prettier — semicolons, double quotes, trailing commas, tailwindcss plugin |
+
+---
+
+## Design System
+
+Dark-mode premium theme:
+
+| Token | Value |
+|---|---|
+| Background | `#0B0B0E` |
+| Surface / Cards | `#1E1E24` with subtle borders |
+| Accent | `#D4AF37` (gold / amber) |
+| Text primary | White / near-white |
+| Text secondary | `#A0A0A8` |
+
+Use `cn()` (from `@/modules/shared/utils`) for conditional class merging.
+
+---
 
 ## Conventions
-- Spanish for user-facing messages and error strings
-- All Prisma calls happen through module actions — never call `db` directly from components
-- API routes return `ApiResult<T>` shape: `{ success, status, data, message?, errors? }`
-- New features follow the `modules/<name>/` → `api/<name>/` → hooks → components pattern
 
-## Favorites
-- Favorites are stored in the DB via the `User` ↔ `Perfume` many-to-many relation (`@relation("FavoritePerfumes")`)
-- `src/modules/favorites/actions.ts` — `create(userId, perfumeId)`, `remove(userId, perfumeId)`, `getUserFavorites(userId)` (returns `PerfumeWithRelations[]`), `getByIds(ids)`
-- `src/app/api/favorites/route.ts` — `GET` (returns array of perfume objects with designer & accords), `POST` (add), `DELETE` (remove). All require Bearer token auth.
-- `src/modules/favorites/hooks/use-favorites.ts` — React Query hook that fetches favorites from the API when logged in. Uses optimistic updates via `useMutation`. If user is not authenticated, `toggle`/`add`/`remove` redirect to `/login`.
-- `useFavorites()` returns `{ ids: string[], perfumes: PerfumeWithRelations[], ready: boolean, add, remove, toggle, isFavorite }`
+### General
+- **User-facing text and error strings → Spanish.**
+- All Prisma calls go through `actions.ts` — never from components or hooks.
+- `ApiResult<T>` shape for every API response and server action:
+  ```ts
+  { success: boolean; status: number; data?: T; message?: string; errors?: Record<string, string[]> }
+  ```
+- New features follow: `modules/<name>/` → `app/api/<name>/route.ts` → hooks → components.
+- Barrel exports must be updated (`index.ts`) whenever a new component/hook is added.
 
-## Enum Convention (UPPERCASE everywhere)
+### Enum Convention — UPPERCASE everywhere
 
-**All enum values MUST be UPPERCASE across the entire stack.** This ensures consistency between Prisma enums (which are UPPERCASE by Prisma convention), server-side actions, Zod schemas, and frontend components.
+**All enum values MUST be UPPERCASE** across Prisma, Zod, actions, and frontend.
 
-### Frontend: const objects + type union
-
-In `src/modules/<name>/types.ts`, define enums as **both** a const object (for value access) and a type (for type annotations):
+#### Frontend (types.ts) — const object + type union
 
 ```ts
 export const DeliveryMethod = {
@@ -94,52 +185,96 @@ export const DeliveryMethod = {
 export type DeliveryMethod = (typeof DeliveryMethod)[keyof typeof DeliveryMethod];
 ```
 
-Import in components as a **value** (not `import type`):
+Import as a value (not `import type`):
 
 ```ts
 import { DeliveryMethod } from "../types";
-
-// Usage: value access with dot notation
 isActive={value === DeliveryMethod.DELIVERY}
-onChange(DeliveryMethod.PICKUP)
 ```
 
-### Backend: Zod schemas with UPPERCASE
+#### Backend — Zod enum
 
 ```ts
 export const DeliveryMethodEnum = z.enum(["DELIVERY", "PICKUP"]);
 ```
 
-### Backend: Prisma enum mappings
-
-Maps should be identity maps (UPPERCASE → UPPERCASE) since all layers use the same values:
-
-```ts
-const DELIVERY_METHOD_MAP = {
-  DELIVERY: "DELIVERY",
-  PICKUP: "PICKUP",
-} as const;
-```
-
-### Shared components
-
-Shared components (`src/modules/shared/`) use the raw UPPERCASE string literal (no import from domain modules):
-
-```ts
-shipping === "PICKUP" ? "Retiro en tienda" : formatPrice(shipping)
-```
-
-### Prisma schema
-
-All enum values always UPPERCASE:
+#### Prisma schema
 
 ```prisma
 enum DeliveryMethod { DELIVERY  PICKUP }
 enum Currency       { VES       USD }
 enum PaymentMethod  { MOBILE_PAYMENT  BINANCE  ZINLI  CASH }
+enum OrderStatus    { PENDING  CONFIRMED  SHIPPED  DELIVERED  CANCELLED }
+enum PerfumeType    { ARABIC  DESIGNER  NICHE }
+enum Gender         { MALE  FEMALE  UNISEX }
+enum NoteStage      { TOP  HEART  BASE }
 ```
 
-### NEVER use lowercase
+#### ❌ NEVER lowercase
 
-❌ `"delivery"`, `"pickup"`, `"ves"`, `"usd"`, `"mobile_payment"`, `"pago_movil"`, `"efectivo"`  
-✅ `"DELIVERY"`, `"PICKUP"`, `"VES"`, `"USD"`, `"MOBILE_PAYMENT"`, `"BINANCE"`, `"ZINLI"`, `"CASH"`
+`"delivery"`, `"pickup"`, `"ves"`, `"usd"`, `"mobile_payment"`, `"pago_movil"`, `"efectivo"`
+
+#### ✅ Always UPPERCASE
+
+`"DELIVERY"`, `"PICKUP"`, `"VES"`, `"USD"`, `"MOBILE_PAYMENT"`, `"BINANCE"`, `"ZINLI"`, `"CASH"`
+
+---
+
+## Favorites Module
+
+- Stored in DB via `User ↔ Perfume` many-to-many `@relation("FavoritePerfumes")`.
+- `src/modules/favorites/actions.ts` — `create()`, `remove()`, `getUserFavorites()`, `getByIds()`.
+- `src/app/api/favorites/route.ts` — GET / POST / DELETE, all require Bearer token.
+- `src/modules/favorites/hooks/use-favorites.ts` — optimistic updates via `useMutation`.
+- Returns: `{ ids, perfumes, ready, add, remove, toggle, isFavorite }`.
+- Unauthenticated `toggle/add/remove` → redirect to `/login`.
+
+---
+
+## Community Votes (UserVote)
+
+Votes are deduplicated per `(userId, perfumeId, category)`. Categories:
+
+| category | fields |
+|---|---|
+| `season` | `winter`, `spring`, `summer`, `autumn` |
+| `timeOfDay` | `day`, `night` |
+| `longevity` | `weak`, `moderate`, `long`, `veryLong` |
+| `sillage` | `soft`, `moderate`, `heavy`, `huge` |
+| `projection` | `soft`, `moderate`, `heavy`, `huge` |
+| `feeling` | `love`, `like`, `dislike`, `hate` |
+
+---
+
+## Cart
+
+- Guest cart: Zustand local state only.
+- Authenticated cart: synced to backend (`GET /api/cart`, `POST /api/cart/add`, `DELETE /api/cart/remove/:itemId`).
+- On login: merge guest cart → server cart.
+- `CartItem` supports both full-bottle (`perfumeId` only) and decant (`perfumeId + decantId`).
+
+---
+
+## Orders
+
+Enum chain: `PENDING → CONFIRMED → SHIPPED → DELIVERED` (or `CANCELLED`).  
+Fields: `deliveryMethod`, `currency`, `paymentMethod`, `contactName/Email/Phone`, `city`, `address`, `subtotal`, `discount`, `shipping`, `total`.  
+Order creation must be a Prisma transaction: create order + items + validate/decrement stock atomically.
+
+---
+
+## Reviews
+
+- One review per `(userId, perfumeId)` — enforced by `@@unique`.
+- Creating/editing/deleting a review must recalculate `perfume.rating` and `perfume.reviewCount`.
+- Review has: `title?`, `comment` (Text), `rating` (Int 1–5).
+- Lazy-validation pattern: eligibility is checked only when the user clicks the button, not on page load.
+
+---
+
+## Auth
+
+- JWT-based (access token in Authorization header).
+- Google OAuth via `googleId` field on User.
+- Password field is null for Google users.
+- Pending: refresh tokens, password reset flow, email verification.
