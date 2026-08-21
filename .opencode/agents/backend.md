@@ -1,6 +1,5 @@
 ---
 description: Arquitecto Backend — Prisma, Server Actions y API Routes de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.1
 permission:

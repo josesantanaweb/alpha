@@ -1,6 +1,5 @@
 ---
 description: Especialista en Testing — pruebas unitarias, de integración y E2E de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.2
 permission:

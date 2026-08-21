@@ -1,6 +1,5 @@
 ---
 description: Documentador — mantiene la documentación técnica y de negocio de Aura actualizada
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.2
 permission:

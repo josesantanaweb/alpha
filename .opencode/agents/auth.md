@@ -1,6 +1,5 @@
 ---
 description: Especialista en autenticación JWT y Google OAuth de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.1
 permission:

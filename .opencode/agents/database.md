@@ -1,6 +1,5 @@
 ---
 description: Especialista en Schema Prisma, migraciones y modelos de base de datos de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.1
 permission:

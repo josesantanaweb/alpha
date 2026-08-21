@@ -1,6 +1,5 @@
 ---
 description: Planificador y organizador de tareas del proyecto Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.2
 permission:

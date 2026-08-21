@@ -1,6 +1,5 @@
 ---
 description: Revisor de Código Senior — Arquitectura, boundaries y calidad de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.1
 permission:

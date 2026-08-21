@@ -1,6 +1,5 @@
 ---
 description: Especialista Frontend — Componentes React, Tailwind v4 y UX de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.3
 permission:

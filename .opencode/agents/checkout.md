@@ -1,6 +1,5 @@
 ---
 description: Especialista en Checkout, Órdenes y flujo de pago de Aura
-model: anthropic/claude-sonnet-4-5
 mode: subagent
 temperature: 0.1
 permission:
