@@ -11,7 +11,7 @@ interface AddReviewFormProps {
 export const AddReviewForm = ({
   onSubmit,
 }: AddReviewFormProps): ReactElement => {
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState(0);
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
   const [errors, setErrors] = useState<{ title?: string; comment?: string }>(
@@ -33,7 +33,7 @@ export const AddReviewForm = ({
       <h3 className="text-base font-semibold text-white">Agrega tu Reseña</h3>
 
       <div className="flex flex-col gap-2">
-        <p className="text-body text-sm font-bold text-white uppercase">
+        <p className="text-white text-sm font-bold uppercase">
           Clasificación
         </p>
         <div className="flex items-center gap-1">

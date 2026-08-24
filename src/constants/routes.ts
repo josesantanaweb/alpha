@@ -29,4 +29,5 @@ export const API_ROUTES = {
     ACTIVE: "/api/banners/active",
   },
   POSTS: "/api/posts",
+  REVIEWS: "/api/reviews",
 };

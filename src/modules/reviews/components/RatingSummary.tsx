@@ -1,11 +1,15 @@
+"use client";
+
 import type { ReactElement } from "react";
 import { CollapsibleSection } from "@/modules/shared/components";
 import { AddReviewForm } from "./AddReviewForm";
 import { RatingAverage } from "./RatingAverage";
 import { RatingBreakdown } from "./RatingBreakdown";
 import { ReviewCard } from "./ReviewCard";
+import { useReviews } from "../hooks";
 
 interface RatingSummaryProps {
+  perfumeId: string;
   rating?: number;
   reviewCount?: number;
   distribution?: Record<number, number>;
@@ -13,11 +17,15 @@ interface RatingSummaryProps {
 }
 
 export const RatingSummary = ({
+  perfumeId,
   rating = 4.3,
   reviewCount = 400,
   distribution,
-  defaultOpen = false,
+  defaultOpen = true,
 }: RatingSummaryProps): ReactElement => {
+  const { data, isLoading } = useReviews({ perfumeId, limit: 10 });
+  const reviews = data?.data || [];
+
   return (
     <CollapsibleSection
       title={`Reseñas (${reviewCount})`}
@@ -30,9 +38,19 @@ export const RatingSummary = ({
         </div>
 
         <div className="flex w-full flex-col">
-          <ReviewCard />
-          <ReviewCard />
-          <ReviewCard />
+          {isLoading ? (
+            <p className="py-4 text-center text-sm text-white">
+              Cargando reseñas...
+            </p>
+          ) : reviews.length > 0 ? (
+            reviews.map((review) => (
+              <ReviewCard key={review.id} review={review} />
+            ))
+          ) : (
+            <p className="py-4 text-center text-sm text-white">
+              No hay reseñas aún. Sé el primero en opinar.
+            </p>
+          )}
         </div>
 
         <AddReviewForm />

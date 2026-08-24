@@ -10,13 +10,13 @@ import { toCartProduct } from "@/modules/cart/utils";
 import { useFavorites } from "@/modules/favorites/hooks";
 import { RatingSummary } from "@/modules/reviews/components";
 import { usePerfumes } from "../hooks/use-perfume-query";
-import type { PerfumeWithRelations } from "../types";
 import { AboutPerfume } from "./AboutPerfume";
 import { Experience } from "./Experience";
 import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
 import { SizeSelector } from "./SizeSelector";
 import { Similar } from "./Similar";
+import type { PerfumeWithRelations } from "../types";
 
 interface PerfumeProps {
   perfume: PerfumeWithRelations;
@@ -86,6 +86,7 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           projection={perfume.projection}
         />
         <RatingSummary
+          perfumeId={perfume.id}
           rating={Number(perfume.rating)}
           reviewCount={perfume.reviewCount}
         />
