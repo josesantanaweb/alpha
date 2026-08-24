@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +18,7 @@ export const GenderCards = (): ReactElement => {
         <Link
           key={gender.alt}
           href={`${ROUTES.EXPLORER}?gender=${gender.param}`}
-          className="bg-surface h-46.5 w-46.5 rounded-2xl overflow-hidden relative cursor-pointer group block"
+          className="bg-surface group relative block h-46.5 w-46.5 cursor-pointer overflow-hidden rounded-2xl"
         >
           <div className="relative h-full w-full overflow-hidden rounded-2xl">
             <motion.div
@@ -30,12 +31,12 @@ export const GenderCards = (): ReactElement => {
                 alt={gender.alt}
                 height={400}
                 width={400}
-                className="w-full h-full object-contain"
+                className="h-full w-full object-contain"
               />
-              <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-10" />
+              <div className="absolute top-0 left-0 z-10 h-full w-full bg-black/50" />
             </motion.div>
           </div>
-          <div className="w-full h-full flex flex-col items-center justify-center absolute top-0 right-0 z-20 pointer-events-none">
+          <div className="pointer-events-none absolute top-0 right-0 z-20 flex h-full w-full flex-col items-center justify-center">
             <h6 className="text-sm text-white">Perfume para</h6>
             <h5 className="text-lg font-bold text-white">{gender.label}</h5>
           </div>

@@ -1,7 +1,8 @@
 "use client";
+
 import { useState, type ReactElement, type ReactNode } from "react";
-import { Plus, Minus } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Minus, Plus } from "lucide-react";
 
 export interface CollapsibleSectionProps {
   title: string;
@@ -35,9 +36,7 @@ export const CollapsibleSection = ({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="pt-6 pb-3">
-              {children}
-            </div>
+            <div className="pt-6 pb-3">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>

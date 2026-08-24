@@ -1,9 +1,7 @@
-import type {OrderWithItems} from "@/modules/orders/types";
 import { API_ROUTES } from "@/constants";
+import type { OrderWithItems } from "@/modules/orders/types";
 
-export async function getOrders(
-  token: string,
-): Promise<OrderWithItems[]> {
+export async function getOrders(token: string): Promise<OrderWithItems[]> {
   const res = await fetch(API_ROUTES.ORDERS, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -14,7 +12,7 @@ export async function getOrders(
 
 export async function getOrder(
   token: string,
-  orderId: string,
+  orderId: string
 ): Promise<OrderWithItems | null> {
   const res = await fetch(`${API_ROUTES.ORDERS}/${orderId}`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -26,7 +24,7 @@ export async function getOrder(
 
 export async function createOrder(
   token: string,
-  payload: unknown,
+  payload: unknown
 ): Promise<{ order: OrderWithItems }> {
   const res = await fetch(API_ROUTES.ORDERS, {
     method: "POST",
@@ -40,7 +38,7 @@ export async function createOrder(
   if (!res.ok) {
     const error = await res.json().catch(() => ({}));
     throw new Error(
-      (error as { message?: string }).message ?? "Error al crear el pedido",
+      (error as { message?: string }).message ?? "Error al crear el pedido"
     );
   }
 

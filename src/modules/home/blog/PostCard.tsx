@@ -1,7 +1,8 @@
 "use client";
+
 import type { ReactElement } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { Calendar } from "lucide-react";
 
 type PostCardProps = {
@@ -31,10 +32,8 @@ export const PostCard = ({
         />
       </div>
       <div className="flex flex-col gap-1 p-5">
-        <h4 className="truncate text-lg font-bold text-white">
-          {title}
-        </h4>
-        <div className="flex items-center gap-1 mb-2">
+        <h4 className="truncate text-lg font-bold text-white">{title}</h4>
+        <div className="mb-2 flex items-center gap-1">
           <Calendar size={14} className="text-body" />
           <p className="text-body text-xs">{date}</p>
         </div>

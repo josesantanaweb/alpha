@@ -1,11 +1,12 @@
 "use client";
+
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/modules/auth/store";
 import { getCart } from "@/lib/api/cart";
-import { normalizeCartItems } from "../utils";
+import { useAuth } from "@/modules/auth/store";
 import { useCartStore } from "../store";
 import type { CartItemData } from "../types";
+import { normalizeCartItems } from "../utils";
 
 /**
  * Unified cart hook.
@@ -40,7 +41,7 @@ export const useCart = () => {
   // Normalize API response to CartItemData[]
   const serverItems = useMemo<CartItemData[]>(
     () => (serverCart ? normalizeCartItems(serverCart) : []),
-    [serverCart],
+    [serverCart]
   );
 
   const isLoggedIn = !!user;
@@ -53,7 +54,8 @@ export const useCart = () => {
       ? serverItems
       : guestItems;
 
-  const isLoading = authLoading || (isLoggedIn && serverLoading && guestItems.length === 0);
+  const isLoading =
+    authLoading || (isLoggedIn && serverLoading && guestItems.length === 0);
 
   return {
     items,

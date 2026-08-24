@@ -2,7 +2,7 @@
 
 import { useState, type ReactElement } from "react";
 import { Star } from "lucide-react";
-import { Input, Textarea, Button } from "@/modules/shared/components/ui";
+import { Button, Input, Textarea } from "@/modules/shared/components/ui";
 
 interface AddReviewFormProps {
   onSubmit?: (data: { rating: number; title: string; comment: string }) => void;
@@ -14,7 +14,9 @@ export const AddReviewForm = ({
   const [rating, setRating] = useState(5);
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
-  const [errors, setErrors] = useState<{ title?: string; comment?: string }>({});
+  const [errors, setErrors] = useState<{ title?: string; comment?: string }>(
+    {}
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ export const AddReviewForm = ({
       <h3 className="text-base font-semibold text-white">Agrega tu Reseña</h3>
 
       <div className="flex flex-col gap-2">
-        <p className="text-body text-sm font-bold uppercase text-white">
+        <p className="text-body text-sm font-bold text-white uppercase">
           Clasificación
         </p>
         <div className="flex items-center gap-1">

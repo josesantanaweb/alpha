@@ -80,9 +80,9 @@ Toda respuesta de API route o server action debe seguir:
 - ✅ La restricción `@@unique([userId, perfumeId])` debe manejarse con un error descriptivo en español.
 
 ### 10. Barrel exports
-
-- ✅ Cada componente/hook nuevo debe estar exportado en el `index.ts` del módulo.
-- ❌ No importes directamente de rutas profundas si existe barrel.
+- ✅ Cada componente/hook/utilidad nuevo debe estar exportado en el `index.ts` del subdirectorio correspondiente (`components/index.ts`, `hooks/index.ts`, etc.).
+- ❌ **Prohibido**: usar un `index.ts` en la raíz del módulo (`src/modules/<name>/index.ts`) para prevenir que Next.js mezcle Server Actions (`actions.ts`) con Client Components.
+- ❌ Importa siempre apuntando a la subcarpeta específica (`@/modules/<name>/components`, `@/modules/<name>/actions`, `@/modules/<name>/hooks`).
 
 ### 11. Cobertura de tests (si el framework está instalado)
 

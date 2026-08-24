@@ -1,6 +1,6 @@
 "use client";
-import type { ReactElement } from "react";
-import { useState } from "react";
+
+import { useState, type ReactElement } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { FilterSheet } from "@/modules/perfumes/components/filters/FilterSheet";
 
@@ -10,7 +10,7 @@ export const FilterButton = (): ReactElement => {
   return (
     <>
       <button
-        className="bg-surface border-stroke flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-md border text-white hover:bg-white hover:text-surface transition-all"
+        className="bg-surface border-stroke hover:text-surface flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-md border text-white transition-all hover:bg-white"
         onClick={() => setOpen(true)}
       >
         <SlidersHorizontal size={20} />

@@ -3,14 +3,16 @@ export const DeliveryMethod = {
   PICKUP: "PICKUP",
 } as const;
 
-export type DeliveryMethod = (typeof DeliveryMethod)[keyof typeof DeliveryMethod];
+export type DeliveryMethod =
+  (typeof DeliveryMethod)[keyof typeof DeliveryMethod];
 
 export const PaymentCurrency = {
   VES: "VES",
   USD: "USD",
 } as const;
 
-export type PaymentCurrency = (typeof PaymentCurrency)[keyof typeof PaymentCurrency];
+export type PaymentCurrency =
+  (typeof PaymentCurrency)[keyof typeof PaymentCurrency];
 
 export const PaymentProvider = {
   MOBILE_PAYMENT: "MOBILE_PAYMENT",
@@ -18,7 +20,8 @@ export const PaymentProvider = {
   ZINLI: "ZINLI",
 } as const;
 
-export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider];
+export type PaymentProvider =
+  (typeof PaymentProvider)[keyof typeof PaymentProvider];
 
 export interface CheckoutFormData {
   deliveryMethod: DeliveryMethod;

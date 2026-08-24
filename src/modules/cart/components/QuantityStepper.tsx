@@ -16,7 +16,7 @@ export const QuantityStepper = ({
   onIncrease,
   onDecrease,
 }: QuantityStepperProps): ReactElement => (
-  <div className="border-stroke bg-surface flex items-center justify-between rounded-lg border w-[120px]">
+  <div className="border-stroke bg-surface flex w-[120px] items-center justify-between rounded-lg border">
     <button
       className="cursor-pointer px-3 py-2 text-white transition-colors"
       onClick={() => onDecrease(id)}

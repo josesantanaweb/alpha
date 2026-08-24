@@ -1,8 +1,9 @@
 "use client";
+
 import type { ReactElement } from "react";
-import { useDesigners } from "@/modules/designers/hooks/use-designers";
 import Image from "next/image";
 import { cn } from "@/modules/shared/utils/cn";
+import { useDesigners } from "@/modules/designers/hooks/use-designers";
 
 interface FilterDesignerProps {
   value: string | null;
@@ -20,24 +21,27 @@ export const FilterDesigner = ({
       <h4 className="text-base font-semibold text-white">Diseñador</h4>
       <div className="grid grid-cols-4 flex-wrap items-center gap-2">
         {designers?.map((designer) => (
-              <div
-                key={designer.id}
-                onClick={() => onChange(value === designer.name ? null : designer.name)}
-                className={cn(
-                  "group hover:bg-white transition-all flex h-20 items-center justify-center rounded-2xl border p-3 cursor-pointer",
-                  value === designer.name
-                    ? "bg-white"
-                    : "bg-surface border-stroke",
-                )}
-              >
-                <Image
-                  src={designer.image || "/images/versace.svg"}
-                  width={200}
-                  height={200}
-                  alt={designer.name}
-                  className={cn("w-10", value === designer.name ? "invert" : "group-hover:invert")}
-                />
-              </div>
+          <div
+            key={designer.id}
+            onClick={() =>
+              onChange(value === designer.name ? null : designer.name)
+            }
+            className={cn(
+              "group flex h-20 cursor-pointer items-center justify-center rounded-2xl border p-3 transition-all hover:bg-white",
+              value === designer.name ? "bg-white" : "bg-surface border-stroke"
+            )}
+          >
+            <Image
+              src={designer.image || "/images/versace.svg"}
+              width={200}
+              height={200}
+              alt={designer.name}
+              className={cn(
+                "w-10",
+                value === designer.name ? "invert" : "group-hover:invert"
+              )}
+            />
+          </div>
         ))}
       </div>
     </div>

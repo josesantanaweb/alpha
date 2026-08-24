@@ -8,16 +8,16 @@ import type {
   TimeOfDay as TimeOfDayType,
 } from "@prisma/client";
 import { CollapsibleSection } from "@/modules/shared/components";
-import { VoteSection } from "./votes/VoteSection";
 import { VoteCategory } from "@/modules/perfumes/types";
 import {
-  SEASON_OPTIONS,
-  TIME_OF_DAY_OPTIONS,
-  LONGEVITY_OPTIONS,
-  SILLAGE_OPTIONS,
-  PROJECTION_OPTIONS,
   FEELING_OPTIONS,
+  LONGEVITY_OPTIONS,
+  PROJECTION_OPTIONS,
+  SEASON_OPTIONS,
+  SILLAGE_OPTIONS,
+  TIME_OF_DAY_OPTIONS,
 } from "./votes/vote-options";
+import { VoteSection } from "./votes/VoteSection";
 
 interface ExperienceProps {
   perfumeId: string;

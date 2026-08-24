@@ -1,18 +1,22 @@
 "use client";
+
 import { useState, type ReactElement } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/modules/shared/components/ui";
-import { FavoriteButton } from "./FavoriteButton";
 import { useCartStore } from "@/modules/cart/store";
 import type { CartProduct } from "@/modules/cart/types";
+import { FavoriteButton } from "./FavoriteButton";
 
 interface AddToCartProps {
   perfumeId: string;
   perfume: CartProduct;
 }
 
-export const AddToCart = ({ perfumeId, perfume }: AddToCartProps): ReactElement => {
+export const AddToCart = ({
+  perfumeId,
+  perfume,
+}: AddToCartProps): ReactElement => {
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
 
@@ -23,7 +27,7 @@ export const AddToCart = ({ perfumeId, perfume }: AddToCartProps): ReactElement 
   };
 
   return (
-    <div className="fixed right-0 bottom-0 left-0 z-50 mx-auto flex items-center gap-3 bg-surface p-4 md:max-w-md">
+    <div className="bg-surface fixed right-0 bottom-0 left-0 z-50 mx-auto flex items-center gap-3 p-4 md:max-w-md">
       <FavoriteButton perfumeId={perfumeId} />
       <Button
         onClick={handleAddToCart}

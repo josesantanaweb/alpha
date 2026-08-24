@@ -9,7 +9,7 @@ type FormatPriceOptions = {
 
 export function formatPrice(
   price: PriceValue,
-  options: FormatPriceOptions = {},
+  options: FormatPriceOptions = {}
 ): string {
   if (price == null) return "";
   const num = Number(price);

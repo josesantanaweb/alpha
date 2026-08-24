@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { BadgeCheck, Sparkles, Truck } from "lucide-react";
 
@@ -12,8 +13,7 @@ const BADGES = [
   {
     icon: Truck,
     title: "Envío gratis a partir de $75",
-    description:
-      "Tu pedido llega rápido desde Valencia, sin costes.",
+    description: "Tu pedido llega rápido desde Valencia, sin costes.",
   },
   {
     icon: Sparkles,
@@ -31,11 +31,11 @@ export const TrustBadges = (): ReactElement => {
         return (
           <div
             key={badge.title}
-            className="flex w-full items-center gap-3 bg-surface p-3 rounded-2xl border border-stroke h-20"
+            className="bg-surface border-stroke flex h-20 w-full items-center gap-3 rounded-2xl border p-3"
           >
             <div className="flex items-start gap-3">
-              <Icon size={20} className="text-white mt-0.5" />
-              <div className="flex items-start flex-col">
+              <Icon size={20} className="mt-0.5 text-white" />
+              <div className="flex flex-col items-start">
                 <h4 className="text-base font-semibold text-white">
                   {badge.title}
                 </h4>

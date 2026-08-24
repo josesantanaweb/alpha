@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { Heart, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Heart, Loader2 } from "lucide-react";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
 
 interface FavoriteButtonProps {
@@ -18,13 +18,13 @@ export const FavoriteButton = ({
 
   return (
     <motion.button
-      className="cursor-pointer w-12.5 h-12.5 shrink-0 inline-flex items-center rounded-md justify-center bg-white text-surface transition-all hover:-translate-y-0.5 disabled:opacity-50"
+      className="text-surface inline-flex h-12.5 w-12.5 shrink-0 cursor-pointer items-center justify-center rounded-md bg-white transition-all hover:-translate-y-0.5 disabled:opacity-50"
       onClick={() => toggle(perfumeId)}
       disabled={loading}
       whileTap={loading ? {} : { scale: 0.85 }}
     >
       {loading ? (
-        <Loader2 size={24} className="animate-spin text-surface" />
+        <Loader2 size={24} className="text-surface animate-spin" />
       ) : (
         <motion.span
           key={liked ? "liked" : "unliked"}

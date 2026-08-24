@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, type ReactElement } from "react";
+import { useEffect, useRef, useState, type ReactElement } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/modules/shared/utils/cn";
 
@@ -44,7 +44,10 @@ export function Dropdown<T extends Record<string, unknown>>({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -63,17 +66,28 @@ export function Dropdown<T extends Record<string, unknown>>({
   }, []);
 
   const getOptionLabel = (option: T): string => {
-    if (labelKey && option[labelKey] !== undefined && option[labelKey] !== null) {
+    if (
+      labelKey &&
+      option[labelKey] !== undefined &&
+      option[labelKey] !== null
+    ) {
       return String(option[labelKey]);
     }
-    if (option.label !== undefined && option.label !== null) return String(option.label);
-    if (option.name !== undefined && option.name !== null) return String(option.name);
-    if (option.title !== undefined && option.title !== null) return String(option.title);
+    if (option.label !== undefined && option.label !== null)
+      return String(option.label);
+    if (option.name !== undefined && option.name !== null)
+      return String(option.name);
+    if (option.title !== undefined && option.title !== null)
+      return String(option.title);
     return String(option);
   };
 
   const getOptionValue = (option: T): string | number => {
-    if (valueKey && option[valueKey] !== undefined && option[valueKey] !== null) {
+    if (
+      valueKey &&
+      option[valueKey] !== undefined &&
+      option[valueKey] !== null
+    ) {
       return option[valueKey] as string | number;
     }
     if (option.value !== undefined && option.value !== null) {
@@ -101,13 +115,20 @@ export function Dropdown<T extends Record<string, unknown>>({
     setIsOpen(false);
   };
 
-  const selectedLabel = currentOption ? getOptionLabel(currentOption) : placeholder;
+  const selectedLabel = currentOption
+    ? getOptionLabel(currentOption)
+    : placeholder;
 
   return (
     <div className={cn("flex w-full flex-col", className)}>
       <div className="relative flex w-full flex-col gap-1.5" ref={containerRef}>
         {label && (
-          <span className={cn("text-sm font-bold uppercase", error ? "text-error" : "text-white")}>
+          <span
+            className={cn(
+              "text-sm font-bold uppercase",
+              error ? "text-error" : "text-white"
+            )}
+          >
             {label}
           </span>
         )}
@@ -119,18 +140,26 @@ export function Dropdown<T extends Record<string, unknown>>({
             onClick={() => !disabled && setIsOpen((prev) => !prev)}
             aria-expanded={isOpen}
             className={cn(
-              "bg-surface border-stroke relative flex w-full items-center rounded-lg border text-base text-white transition-colors cursor-pointer outline-none focus:border-white/50",
+              "bg-surface border-stroke relative flex w-full cursor-pointer items-center rounded-lg border text-base text-white transition-colors outline-none focus:border-white/50",
               error && "border-error focus:border-error",
               disabled && "cursor-not-allowed opacity-60"
             )}
           >
             <div className="relative flex w-full items-center justify-between px-3 py-3">
-              <p className={cn("flex-1 text-left text-base text-white", !currentOption && "text-body")}>
+              <p
+                className={cn(
+                  "flex-1 text-left text-base text-white",
+                  !currentOption && "text-body"
+                )}
+              >
                 {selectedLabel}
               </p>
               <ChevronDown
                 size={18}
-                className={cn("text-white transition-transform duration-200", isOpen && "rotate-180")}
+                className={cn(
+                  "text-white transition-transform duration-200",
+                  isOpen && "rotate-180"
+                )}
               />
             </div>
           </button>
@@ -138,12 +167,15 @@ export function Dropdown<T extends Record<string, unknown>>({
           {isOpen && (
             <div className="bg-surface border-stroke absolute top-[calc(100%+4px)] left-0 z-50 max-h-60 w-full overflow-y-auto rounded-lg border py-1 shadow-lg backdrop-blur-md">
               {options.length === 0 ? (
-                <div className="text-body px-3 py-2 text-sm">No hay opciones</div>
+                <div className="text-body px-3 py-2 text-sm">
+                  No hay opciones
+                </div>
               ) : (
                 options.map((option, idx) => {
                   const optVal = getOptionValue(option);
                   const optLabel = getOptionLabel(option);
-                  const isSelected = currentOption && getOptionValue(currentOption) === optVal;
+                  const isSelected =
+                    currentOption && getOptionValue(currentOption) === optVal;
 
                   return (
                     <button
@@ -151,7 +183,7 @@ export function Dropdown<T extends Record<string, unknown>>({
                       type="button"
                       onClick={() => handleSelect(option)}
                       className={cn(
-                        "w-full px-3 py-2.5 text-left text-base text-white transition-colors hover:bg-surface/70 flex items-center justify-between cursor-pointer",
+                        "hover:bg-surface/70 flex w-full cursor-pointer items-center justify-between px-3 py-2.5 text-left text-base text-white transition-colors",
                         isSelected && "bg-stroke font-semibold"
                       )}
                     >
@@ -164,7 +196,9 @@ export function Dropdown<T extends Record<string, unknown>>({
           )}
         </div>
       </div>
-      {error && <span className="text-error mt-1.5 text-xs font-medium">{error}</span>}
+      {error && (
+        <span className="text-error mt-1.5 text-xs font-medium">{error}</span>
+      )}
     </div>
   );
 }

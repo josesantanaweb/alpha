@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { Input, Slider } from "@/modules/shared/components/ui";
 
@@ -36,7 +37,10 @@ export const FilterPrice = ({
 
       <div className="flex items-center gap-4">
         <div className="flex flex-col gap-1">
-          <label htmlFor="price-min" className="text-xs font-semibold text-white">
+          <label
+            htmlFor="price-min"
+            className="text-xs font-semibold text-white"
+          >
             Minimo
           </label>
           <Input
@@ -48,7 +52,10 @@ export const FilterPrice = ({
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label htmlFor="price-max" className="text-xs font-semibold text-white">
+          <label
+            htmlFor="price-max"
+            className="text-xs font-semibold text-white"
+          >
             Maximo
           </label>
           <Input

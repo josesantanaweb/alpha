@@ -14,6 +14,3 @@ export * from "./PerfumeImage";
 export * from "./Similar";
 export * from "./SizeOption";
 export * from "./SizeSelector";
-
-
-

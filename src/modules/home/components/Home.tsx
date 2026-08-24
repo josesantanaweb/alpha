@@ -1,17 +1,21 @@
 "use client";
-import type { ReactElement } from "react";
 
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
-import { useBanners } from "@/modules/banners/hooks/use-banners";
-import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
-import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
-import { GenderCards, TrustBadges, DesignerMarquee, BestSellers } from "@/modules/perfumes/components";
-import { FilterButton, SearchInput } from "@/modules/shared/components";
 import { ROUTES } from "@/constants";
-import { SliderHome } from "../slider-home";
+import { FilterButton, SearchInput } from "@/modules/shared/components";
+import { useBanners } from "@/modules/banners/hooks/use-banners";
+import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
+import {
+  BestSellers,
+  DesignerMarquee,
+  GenderCards,
+  TrustBadges,
+} from "@/modules/perfumes/components";
+import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
 import { FindYourVibe } from "../find-your-vibe";
 import { NewPerfumes } from "../new-perfumes";
+import { SliderHome } from "../slider-home";
 import { AuraPlus } from "./AuraPlus";
 import { Blog } from "./Blog";
 

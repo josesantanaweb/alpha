@@ -1,9 +1,7 @@
 import "server-only";
-
 import { db } from "@/lib/db";
-
 import type { ApiResult } from "@/modules/shared/types";
-import type {PerfumeWithRelations} from "@/modules/perfumes/types";
+import type { PerfumeWithRelations } from "@/modules/perfumes/types";
 
 export async function getByIds(
   ids: string[]
@@ -101,7 +99,12 @@ export async function create(
       data: { favorites: { connect: { id: perfumeId } } },
     });
 
-    return { success: true, status: 200, data: null, message: "Favorito agregado con éxito." };
+    return {
+      success: true,
+      status: 200,
+      data: null,
+      message: "Favorito agregado con éxito.",
+    };
   } catch (error: unknown) {
     return {
       success: false,
@@ -122,7 +125,12 @@ export async function remove(
       data: { favorites: { disconnect: { id: perfumeId } } },
     });
 
-    return { success: true, status: 200, data: null, message: "Favorito eliminado con éxito." };
+    return {
+      success: true,
+      status: 200,
+      data: null,
+      message: "Favorito eliminado con éxito.",
+    };
   } catch (error: unknown) {
     return {
       success: false,

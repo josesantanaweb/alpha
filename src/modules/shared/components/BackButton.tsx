@@ -1,8 +1,8 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export const BackButton = (): ReactElement => {
   const router = useRouter();

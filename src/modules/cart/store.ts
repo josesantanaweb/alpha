@@ -1,7 +1,8 @@
 "use client";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { GuestCartItem, CartProduct } from "./types";
+import type { CartProduct, GuestCartItem } from "./types";
 
 interface GuestCartStore {
   items: GuestCartItem[];
@@ -20,14 +21,14 @@ export const useCartStore = create<GuestCartStore>()(
       addItem: (perfumeId, perfume) => {
         const itemKey = perfume.decantId ?? perfumeId;
         const existing = get().items.find(
-          (i) => (i.perfume.decantId ?? i.perfumeId) === itemKey,
+          (i) => (i.perfume.decantId ?? i.perfumeId) === itemKey
         );
         if (existing) {
           set((s) => ({
             items: s.items.map((i) =>
               (i.perfume.decantId ?? i.perfumeId) === itemKey
                 ? { ...i, quantity: i.quantity + 1 }
-                : i,
+                : i
             ),
           }));
         } else {
@@ -46,7 +47,7 @@ export const useCartStore = create<GuestCartStore>()(
       increaseQuantity: (id) =>
         set((s) => ({
           items: s.items.map((i) =>
-            i.id === id ? { ...i, quantity: i.quantity + 1 } : i,
+            i.id === id ? { ...i, quantity: i.quantity + 1 } : i
           ),
         })),
 
@@ -63,6 +64,6 @@ export const useCartStore = create<GuestCartStore>()(
     }),
     {
       name: "aura_guest_cart",
-    },
-  ),
+    }
+  )
 );

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {getByIds} from "@/modules/favorites/actions";
+import { getByIds } from "@/modules/favorites/actions";
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     if (!Array.isArray(ids)) {
       return NextResponse.json(
         { message: "ids debe ser un array." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }

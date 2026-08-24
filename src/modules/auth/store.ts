@@ -1,4 +1,5 @@
 "use client";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -29,6 +30,6 @@ export const useAuth = create<AuthState>()(
     {
       name: "aura_auth",
       partialize: (state) => ({ token: state.token }),
-    },
-  ),
+    }
+  )
 );

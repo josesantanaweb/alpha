@@ -32,7 +32,7 @@ export const ReviewCard = ({ review }: ReviewCardProps): ReactElement => {
             className="h-10 w-10 rounded-full object-cover"
           />
         ) : (
-          <span className="bg-white text-surface flex h-10 w-10 items-center justify-center rounded-full text-lg font-semibold">
+          <span className="text-surface flex h-10 w-10 items-center justify-center rounded-full bg-white text-lg font-semibold">
             {userInitial}
           </span>
         )}
@@ -43,7 +43,9 @@ export const ReviewCard = ({ review }: ReviewCardProps): ReactElement => {
       </div>
       <div className="flex flex-col gap-3 pl-14">
         <div className="flex flex-col gap-2">
-          {title && <h5 className="text-sm font-semibold text-white">{title}</h5>}
+          {title && (
+            <h5 className="text-sm font-semibold text-white">{title}</h5>
+          )}
           <p className="text-body text-xs">{comment}</p>
         </div>
         <div className="flex items-center gap-1">

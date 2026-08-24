@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {update, remove} from "@/modules/reviews/actions";
-import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
+import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
+import { remove, update } from "@/modules/reviews/actions";
 
 type RouteParams = {
   params: Promise<{ id: string }>;
@@ -16,10 +16,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   const payload = await authenticate(request);
 
   if (!payload) {
-    return NextResponse.json(
-      { message: "No autenticado" },
-      { status: 401 },
-    );
+    return NextResponse.json({ message: "No autenticado" }, { status: 401 });
   }
 
   try {
@@ -31,7 +28,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message, errors: result.errors },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -39,7 +36,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }
@@ -48,10 +45,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   const payload = await authenticate(request);
 
   if (!payload) {
-    return NextResponse.json(
-      { message: "No autenticado" },
-      { status: 401 },
-    );
+    return NextResponse.json({ message: "No autenticado" }, { status: 401 });
   }
 
   try {
@@ -62,18 +56,18 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   } catch {
     return NextResponse.json(
       { message: "Error interno del servidor." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -5,13 +5,12 @@ export const CreateDecantSchema = z.object({
   ml: z.number().positive("Los mililitros deben ser mayor a 0"),
   stock: z.number().positive("El stock debe ser mayor a 0"),
   image: z.string().url("URL inválida").optional().nullable(),
-  perfumeId: z.string().uuid("ID inválido")
+  perfumeId: z.string().uuid("ID inválido"),
 });
 
 export const UpdateDecantSchema = CreateDecantSchema.partial().extend({
   id: z.string().uuid("ID inválido"),
 });
-
 
 export type CreateDecantInput = z.infer<typeof CreateDecantSchema>;
 export type UpdateDecantInput = z.infer<typeof UpdateDecantSchema>;

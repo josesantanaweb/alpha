@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { notFound } from "next/navigation";
-import {getBySlug} from "@/modules/perfumes/actions";
+import { getBySlug } from "@/modules/perfumes/actions";
 import { Perfume } from "@/modules/perfumes/components";
 
 interface PageProps {

@@ -11,13 +11,20 @@ export interface StatBarProps {
   onClick?: () => void;
 }
 
-export const StatBar = ({ label, image, value, count, isActive, onClick }: StatBarProps): ReactElement => {
+export const StatBar = ({
+  label,
+  image,
+  value,
+  count,
+  isActive,
+  onClick,
+}: StatBarProps): ReactElement => {
   const displayCount = count;
   const displayValue = value;
 
   return (
     <motion.div
-      className="flex flex-col items-center gap-2 cursor-pointer transition-opacity"
+      className="flex cursor-pointer flex-col items-center gap-2 transition-opacity"
       onClick={onClick}
       whileTap={{ scale: 0.9 }}
       animate={isActive ? { scale: 1.05 } : { scale: 1 }}
@@ -33,14 +40,22 @@ export const StatBar = ({ label, image, value, count, isActive, onClick }: StatB
           style={isActive ? { filter: "brightness(0) invert(1)" } : {}}
         />
       </div>
-      <p className={`text-xs font-semibold transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`}>{label}</p>
+      <p
+        className={`text-xs font-semibold transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`}
+      >
+        {label}
+      </p>
       <div className="bg-surface border-stroke relative h-2.5 w-17.5 overflow-hidden rounded-xs">
         <span
           className={`block h-full transition-all duration-500 ease-out ${isActive ? "bg-white" : "bg-stroke"}`}
           style={{ width: `${displayValue}%` }}
         />
       </div>
-      <p className={`text-xs font-semibold transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`}>{displayCount}</p>
+      <p
+        className={`text-xs font-semibold transition-colors duration-300 ${isActive ? "text-white" : "text-white/50"}`}
+      >
+        {displayCount}
+      </p>
     </motion.div>
   );
 };

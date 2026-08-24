@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {getOne, update, remove} from "@/modules/posts/actions";
+import { getOne, remove, update } from "@/modules/posts/actions";
 
 type RouteParams = {
   params: Promise<{ id: string }>;
@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: RouteParams) {
   if (!result.success) {
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   }
 
@@ -30,7 +30,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message, errors: result.errors },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -38,7 +38,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }
@@ -52,18 +52,18 @@ export async function DELETE(request: Request, { params }: RouteParams) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   } catch {
     return NextResponse.json(
       { message: "Error interno del servidor." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

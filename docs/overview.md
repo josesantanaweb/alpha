@@ -101,12 +101,13 @@ src/
   │   ├── orders/
   │   ├── perfumes/
 │   │   ├── components/
-│   │   │   └── filters/   # FilterGender, FilterType, FilterDesigner, etc.
+│   │   │   ├── filters/   # FilterGender, FilterType, FilterDesigner, etc.
+│   │   │   └── index.ts   # Barrel export para componentes
 │   │   ├── hooks/
+│   │   │   └── index.ts   # Barrel export para hooks
 │   │   ├── actions.ts
 │   │   ├── schema.ts
-│   │   ├── types.ts
-│   │   └── index.ts
+│   │   └── types.ts
 │   ├── seasons/
 │   ├── shared/             # Infraestructura compartida
 │   │   ├── components/
@@ -133,14 +134,15 @@ Cada feature en `src/modules/<name>/` sigue una estructura vertical-slice:
 
 ```
 modules/<name>/
-├── components/   # Domain-specific React components
-├── hooks/        # React Query hooks
-├── actions.ts    # Server-side business logic → ApiResult<T>
-├── schema.ts     # Zod validation schemas
-├── types.ts      # Domain-level TypeScript types
-├── store.ts      # Zustand store (optional)
-└── index.ts      # Barrel re-export
+├── components/       # React components (+ index.ts barrel export)
+├── hooks/            # React Query hooks (+ index.ts barrel export)
+├── utils/            # Domain-specific helpers (+ index.ts barrel export si aplica)
+├── actions.ts        # Server-side business logic → ApiResult<T>
+├── schema.ts         # Zod validation schemas
+├── types.ts          # Domain-level TypeScript types
+└── store.ts          # Zustand store (optional)
 ```
+> **Nota**: No se usan archivos `index.ts` en la raíz del módulo para evitar mezclar Server Actions con componentes de cliente en Next.js App Router. Las importaciones deben hacerse desde las subcarpetas explícitas (ej: `@/modules/<name>/components`, `@/modules/<name>/actions`, `@/modules/<name>/hooks`).
 
 ### Flujo de Datos
 

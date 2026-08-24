@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import type { ReactElement } from "react";
+import Image from "next/image";
 import { cn } from "@/modules/shared/utils/cn";
 
 interface SizeOptionProps {
@@ -17,18 +17,17 @@ export const SizeOption = ({
   isSelected,
   onClick,
 }: SizeOptionProps): ReactElement => {
-
   return (
     <div className="flex flex-col items-center gap-2">
       <button
         className={cn(
           "bg-surface flex h-22 w-22 cursor-pointer items-center justify-center rounded-lg border transition-colors duration-200",
-          isSelected ? "border-white" : "border-stroke",
+          isSelected ? "border-white" : "border-stroke"
         )}
         onClick={onClick}
         aria-label={name}
       >
-        <div className="w-8 h-16">
+        <div className="h-16 w-8">
           <Image
             src={image || "/images/versache.png"}
             alt={name}

@@ -1,6 +1,7 @@
 "use client";
+
 import { useState, type ReactElement } from "react";
-import { Input, Dropdown } from "@/modules/shared/components/ui";
+import { Dropdown, Input } from "@/modules/shared/components/ui";
 import type { CheckoutFormData, FormErrors } from "../types";
 
 const SHIPPING_CARRIERS = [
@@ -51,4 +52,3 @@ export const ShippingAddressForm = ({
     </section>
   );
 };
-

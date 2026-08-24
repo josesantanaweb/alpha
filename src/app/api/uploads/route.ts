@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {upload} from "@/modules/uploads/actions";
+import { upload } from "@/modules/uploads/actions";
 
 export async function POST(request: Request) {
   try {
@@ -27,7 +27,9 @@ export async function POST(request: Request) {
     return NextResponse.json(result.data, { status: result.status });
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "Error al procesar la solicitud.";
+      error instanceof Error
+        ? error.message
+        : "Error al procesar la solicitud.";
     return NextResponse.json({ message }, { status: 400 });
   }
 }

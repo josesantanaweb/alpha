@@ -10,7 +10,9 @@ function parseNonNegativeInt(value: string | null, fallback: number): number {
   return Number.isNaN(parsed) || parsed < 0 ? fallback : parsed;
 }
 
-export function parsePaginationParams(searchParams: URLSearchParams): Required<PaginationParams> {
+export function parsePaginationParams(
+  searchParams: URLSearchParams
+): Required<PaginationParams> {
   return {
     limit: parsePositiveInt(searchParams.get("limit"), 10),
     offset: parseNonNegativeInt(searchParams.get("offset"), 0),

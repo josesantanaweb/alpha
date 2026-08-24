@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { motion } from "framer-motion";
 
@@ -21,8 +22,7 @@ export const SliderHomeDots = ({
         className="cursor-pointer rounded-full"
         animate={{
           width: index === current ? 20 : 10,
-          backgroundColor:
-            index === current ? "#ffffff" : "var(--color-body)",
+          backgroundColor: index === current ? "#ffffff" : "var(--color-body)",
         }}
         transition={{ duration: 0.25 }}
         style={{ height: 4 }}

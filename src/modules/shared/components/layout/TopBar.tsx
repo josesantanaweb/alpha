@@ -2,8 +2,7 @@
 
 import type { ReactElement } from "react";
 import { Share } from "lucide-react";
-import { BackButton } from "@/modules/shared/components";
-import { CartButton } from "@/modules/shared/components";
+import { BackButton, CartButton } from "@/modules/shared/components";
 
 interface TopBarProps {
   title?: string;

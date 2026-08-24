@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {update, remove, getOne} from "@/modules/tags/actions";
+import { getOne, remove, update } from "@/modules/tags/actions";
 
 type RouteParams = {
   params: Promise<{ id: string }>;
@@ -11,7 +11,10 @@ export async function GET(request: Request, { params }: RouteParams) {
   const result = await getOne(id);
 
   if (!result.success) {
-    return NextResponse.json({ message: result.message }, { status: result.status });
+    return NextResponse.json(
+      { message: result.message },
+      { status: result.status }
+    );
   }
 
   return NextResponse.json(result.data, { status: result.status });
@@ -33,7 +36,8 @@ export async function PUT(request: Request, { params }: RouteParams) {
 
     return NextResponse.json(result.data, { status: result.status });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Invalid JSON format";
+    const message =
+      error instanceof Error ? error.message : "Invalid JSON format";
     return NextResponse.json({ message }, { status: 400 });
   }
 }
@@ -51,8 +55,14 @@ export async function DELETE(request: Request, { params }: RouteParams) {
       );
     }
 
-    return NextResponse.json({ message: result.message }, { status: result.status });
+    return NextResponse.json(
+      { message: result.message },
+      { status: result.status }
+    );
   } catch (error: unknown) {
-    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

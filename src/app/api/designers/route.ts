@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import {create, getAll} from "@/modules/designers/actions";
 import { parsePaginationParams } from "@/lib/pagination";
+import { create, getAll } from "@/modules/designers/actions";
 
 export async function GET(request: NextRequest) {
-  const result = await getAll(parsePaginationParams(request.nextUrl.searchParams));
+  const result = await getAll(
+    parsePaginationParams(request.nextUrl.searchParams)
+  );
   if (!result.success) {
-    return NextResponse.json({ message: result.message }, { status: result.status });
+    return NextResponse.json(
+      { message: result.message },
+      { status: result.status }
+    );
   }
 
   return NextResponse.json(result.data, { status: result.status });
@@ -26,7 +31,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json(result.data, { status: result.status });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Invalid JSON format";
+    const message =
+      error instanceof Error ? error.message : "Invalid JSON format";
     return NextResponse.json({ message }, { status: 400 });
   }
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { X } from "lucide-react";
 import { useApp } from "@/modules/shared/stores/use-ui-store";

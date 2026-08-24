@@ -26,9 +26,10 @@ export const OrderSummary = ({
         : formatPrice(shipping, { locale: "es-ES", currency: "USD" });
 
   return (
-    <div className={`flex flex-col gap-2 pt-4 ${!isCheckout ? "border-t border-stroke " : ""}`}>
+    <div
+      className={`flex flex-col gap-2 pt-4 ${!isCheckout ? "border-stroke border-t" : ""}`}
+    >
       {!isCheckout && <h4 className="text-lg font-bold text-white">Resumen</h4>}
-
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
@@ -39,7 +40,7 @@ export const OrderSummary = ({
         {discount > 0 && (
           <div className="flex items-center justify-between">
             <p className="text-body text-base">Descuento:</p>
-            <p className="text-base font-bold text-body">
+            <p className="text-body text-base font-bold">
               -{formatPrice(discount, { locale: "es-ES", currency: "USD" })}
             </p>
           </div>

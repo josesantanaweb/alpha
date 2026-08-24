@@ -1,21 +1,22 @@
 "use client";
+
 import { useEffect, useState, type ReactElement } from "react";
-import type { PerfumeWithRelations } from "../types";
-import { Rating, TopBar, AddToCart } from "@/modules/shared/components";
+import { BOTTLE_ML } from "@/constants";
+import { AddToCart, Rating, TopBar } from "@/modules/shared/components";
 import { useApp } from "@/modules/shared/stores";
-import { getGenderLabel, formatPrice } from "@/modules/shared/utils";
+import { formatPrice, getGenderLabel } from "@/modules/shared/utils";
 import { Accords } from "@/modules/accords/components";
+import { toCartProduct } from "@/modules/cart/utils";
+import { useFavorites } from "@/modules/favorites/hooks";
+import { RatingSummary } from "@/modules/reviews/components";
+import { usePerfumes } from "../hooks/use-perfume-query";
+import type { PerfumeWithRelations } from "../types";
 import { AboutPerfume } from "./AboutPerfume";
+import { Experience } from "./Experience";
 import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
-import { Experience } from "./Experience";
-import { RatingSummary } from "@/modules/reviews/components";
-import { Similar } from "./Similar";
-import { useFavorites } from "@/modules/favorites/hooks";
 import { SizeSelector } from "./SizeSelector";
-import { usePerfumes } from "../hooks/use-perfume-query";
-import { toCartProduct } from "@/modules/cart/utils";
-import { BOTTLE_ML } from "@/constants";
+import { Similar } from "./Similar";
 
 interface PerfumeProps {
   perfume: PerfumeWithRelations;
@@ -29,7 +30,9 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
 
   const selectedDecant =
     perfume.decants?.find((decant) => decant.ml === selectedMl) ?? null;
-  const displayPrice = selectedDecant ? Number(selectedDecant.price) : perfume.price;
+  const displayPrice = selectedDecant
+    ? Number(selectedDecant.price)
+    : perfume.price;
 
   useEffect(() => {
     setHideHeader(true);

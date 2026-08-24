@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import type { Metadata } from "next";
 import { Lato } from "next/font/google";
 import { QueryProvider } from "@/modules/shared/components/QueryProvider";
 import { AuthInitializer } from "@/modules/auth/components/AuthInitializer";
@@ -16,14 +16,16 @@ export const metadata: Metadata = {
   description: "Aura store",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${lato.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <QueryProvider>
-            <AuthInitializer />
-            {children}
-          </QueryProvider>
+          <AuthInitializer />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,27 +1,25 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactElement } from "react";
+import { useRouter } from "next/navigation";
+import { FREE_SHIPPING_THRESHOLD, ROUTES, SHIPPING_FEE } from "@/constants";
+import { TopBar } from "@/modules/shared/components/layout";
+import { Button } from "@/modules/shared/components/ui";
+import { useApp } from "@/modules/shared/stores";
 import { useAuth } from "@/modules/auth/store";
 import { useCart } from "@/modules/cart/hooks";
-import { useApp } from "@/modules/shared/stores";
-import { ROUTES } from "@/constants";
-import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
-import { Button } from "@/modules/shared/components/ui";
-import { TopBar } from "@/modules/shared/components/layout";
-import { DeliveryMethodSelector } from "./DeliveryMethodSelector";
-import { ContactForm } from "./ContactForm";
-import { ShippingAddressForm } from "./ShippingAddressForm";
-import { PaymentPreferenceSelector } from "./PaymentPreferenceSelector";
-import { CheckoutOrderSummary } from "./CheckoutOrderSummary";
 import { useCreateOrder } from "../hooks/use-create-order";
-
 import {
-  type CheckoutFormData,
-  type FormErrors,
   DeliveryMethod,
   INITIAL_FORM,
+  type CheckoutFormData,
+  type FormErrors,
 } from "../types";
+import { CheckoutOrderSummary } from "./CheckoutOrderSummary";
+import { ContactForm } from "./ContactForm";
+import { DeliveryMethodSelector } from "./DeliveryMethodSelector";
+import { PaymentPreferenceSelector } from "./PaymentPreferenceSelector";
+import { ShippingAddressForm } from "./ShippingAddressForm";
 
 export const Checkout = (): ReactElement => {
   const router = useRouter();
@@ -47,12 +45,12 @@ export const Checkout = (): ReactElement => {
 
   const subtotal = items.reduce(
     (acc, item) => acc + item.perfume.originalPrice * item.quantity,
-    0,
+    0
   );
   const discount = items.reduce((acc, item) => {
     const savings = Math.max(
       item.perfume.originalPrice - item.perfume.price,
-      0,
+      0
     );
     return acc + savings * item.quantity;
   }, 0);
@@ -96,7 +94,7 @@ export const Checkout = (): ReactElement => {
 
   const setField = <K extends keyof CheckoutFormData>(
     field: K,
-    value: string,
+    value: string
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -150,7 +148,7 @@ export const Checkout = (): ReactElement => {
         onSuccess: () => {
           router.push(ROUTES.ACCOUNT);
         },
-      },
+      }
     );
   };
 

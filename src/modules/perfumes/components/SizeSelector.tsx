@@ -1,10 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
-import type { ReactElement } from "react";
+import { useMemo, type ReactElement } from "react";
+import { BOTTLE_ML } from "@/constants";
 import type { PerfumeWithRelations } from "../types";
 import { SizeOption } from "./SizeOption";
-import { BOTTLE_ML } from "@/constants";
 
 export interface PerfumeSize {
   key: string;
@@ -44,7 +43,13 @@ export const SizeSelector = ({
     };
 
     return [...decantSizes, bottle];
-  }, [perfume.decants, perfume.image, perfume.price, perfume.remainingMl, perfume.stock]);
+  }, [
+    perfume.decants,
+    perfume.image,
+    perfume.price,
+    perfume.remainingMl,
+    perfume.stock,
+  ]);
 
   return (
     <div className="flex flex-col gap-3">

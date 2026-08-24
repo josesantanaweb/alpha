@@ -1,6 +1,6 @@
+import type { Vibe } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveVibes } from "@/lib/api/vibes";
-import type { Vibe } from "@prisma/client";
 
 export const useVibes = () => {
   return useQuery<Vibe[]>({

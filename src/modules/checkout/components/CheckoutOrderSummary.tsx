@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import { OrderSummary } from "@/modules/shared/components/OrderSummary";
-import { OrderItemSummary } from "./OrderItemSummary";
 import type { CartItemData } from "@/modules/cart/types";
 import { DeliveryMethod } from "../types";
+import { OrderItemSummary } from "./OrderItemSummary";
 
 interface CheckoutOrderSummaryProps {
   items: CartItemData[];

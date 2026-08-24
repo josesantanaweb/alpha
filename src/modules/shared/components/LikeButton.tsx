@@ -1,7 +1,8 @@
 "use client";
+
 import type { ReactElement } from "react";
-import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { Heart } from "lucide-react";
 
 interface LikeButtonProps {
   liked: boolean;

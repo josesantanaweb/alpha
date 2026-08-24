@@ -1,14 +1,20 @@
 "use client";
 
-import type { ComponentType } from "react";
-import { forwardRef, useLayoutEffect, useMemo, useRef, useState } from "react";
-import type { BoxIconProps } from "@boxicons/react";
-import { House, Heart, Search, Handbag, User } from "lucide-react";
-import { motion } from "framer-motion";
+import {
+  forwardRef,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentType,
+} from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/modules/shared/utils/cn";
+import type { BoxIconProps } from "@boxicons/react";
+import { motion } from "framer-motion";
+import { Handbag, Heart, House, Search, User } from "lucide-react";
 import { ROUTES } from "@/constants";
+import { cn } from "@/modules/shared/utils/cn";
 
 type NavIcon = ComponentType<BoxIconProps>;
 

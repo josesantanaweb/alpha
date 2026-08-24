@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactElement } from "react";
-import { Handbag } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { useCart } from "@/modules/cart/hooks/use-cart";
+import { AnimatePresence, motion } from "framer-motion";
+import { Handbag } from "lucide-react";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
+import { useCart } from "@/modules/cart/hooks/use-cart";
 
 interface CartButtonProps {
   className?: string;
@@ -87,7 +87,7 @@ export const CartButton = ({ className }: CartButtonProps): ReactElement => {
         {count > 0 && (
           <motion.span
             key={count}
-            className="text-canvas absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[10px] font-semibold leading-none"
+            className="text-canvas absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-white text-[10px] leading-none font-semibold"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}

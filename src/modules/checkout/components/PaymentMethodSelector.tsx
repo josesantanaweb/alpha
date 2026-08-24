@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
-import { VesPaymentOptions } from "./VesPaymentOptions";
-import { UsdPaymentOptions } from "./UsdPaymentOptions";
 import { PaymentCurrency, PaymentProvider } from "../types";
+import { UsdPaymentOptions } from "./UsdPaymentOptions";
+import { VesPaymentOptions } from "./VesPaymentOptions";
 
 type PaymentMethodSelectorProps = {
   currency: PaymentCurrency;

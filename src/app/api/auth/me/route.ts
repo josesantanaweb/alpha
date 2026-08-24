@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {getMe} from "@/modules/auth/actions";
+import { getMe } from "@/modules/auth/actions";
 
 export async function GET(request: NextRequest) {
   const result = await getMe(request);

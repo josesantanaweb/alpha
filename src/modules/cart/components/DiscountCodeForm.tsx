@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, type ReactElement } from "react";
 import { Button, Input } from "@/modules/shared/components/ui";
 
@@ -25,12 +26,12 @@ export const DiscountCodeForm = ({
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="Código de descuento"
-        className="flex-2 h-10 text-sm"
+        className="h-10 flex-2 text-sm"
       />
       <Button
         onClick={handleApply}
         disabled={!code.trim()}
-        className="flex-1 h-10 text-sm"
+        className="h-10 flex-1 text-sm"
       >
         Aplicar
       </Button>

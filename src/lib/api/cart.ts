@@ -1,5 +1,5 @@
-import type { CartWithItems } from "@/modules/cart/actions";
 import { API_ROUTES } from "@/constants";
+import type { CartWithItems } from "@/modules/cart/actions";
 
 export async function getCart(token: string): Promise<CartWithItems | null> {
   const res = await fetch(API_ROUTES.CART, {
@@ -14,7 +14,7 @@ export async function addCartItem(
   token: string,
   perfumeId: string,
   decantId?: string | null,
-  quantity?: number,
+  quantity?: number
 ): Promise<void> {
   const res = await fetch(`${API_ROUTES.CART}/add`, {
     method: "POST",

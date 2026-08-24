@@ -1,8 +1,12 @@
 "use client";
+
 import type { ReactElement } from "react";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
-import { PerfumeBox, PerfumeBoxSkeleton } from "@/modules/perfumes/components/perfume-box";
+import {
+  PerfumeBox,
+  PerfumeBoxSkeleton,
+} from "@/modules/perfumes/components/perfume-box";
 
 type NewPerfume = Prisma.PerfumeGetPayload<{ include: { designer: true } }>;
 
@@ -29,7 +33,7 @@ export const NewPerfumes = ({
       </div>
 
       {isLoading && (
-        <div className="flex max-w-full gap-5 overflow-x-scroll scrollbar-hide pr-2.5">
+        <div className="scrollbar-hide flex max-w-full gap-5 overflow-x-scroll pr-2.5">
           {Array.from({ length: 6 }).map((_, index) => (
             <PerfumeBoxSkeleton key={index} />
           ))}
@@ -37,7 +41,7 @@ export const NewPerfumes = ({
       )}
 
       {!isLoading && perfumes.length > 0 && (
-        <div className="flex max-w-full gap-5 overflow-x-scroll scrollbar-hide pr-2.5">
+        <div className="scrollbar-hide flex max-w-full gap-5 overflow-x-scroll pr-2.5">
           {perfumes.slice(0, 6).map((perfume) => (
             <PerfumeBox
               className="min-w-45"

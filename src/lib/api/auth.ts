@@ -1,8 +1,9 @@
 "use client";
+
+import { API_ROUTES } from "@/constants";
+import { addCartItem } from "@/lib/api/cart";
 import { useAuth, type User } from "@/modules/auth/store";
 import { useCartStore } from "@/modules/cart/store";
-import { addCartItem } from "@/lib/api/cart";
-import { API_ROUTES } from "@/constants";
 
 async function syncGuestCartToServer(token: string) {
   const guestItems = useCartStore.getState().items;
@@ -14,9 +15,9 @@ async function syncGuestCartToServer(token: string) {
         token,
         item.perfumeId,
         item.perfume.decantId ?? undefined,
-        item.quantity,
-      ),
-    ),
+        item.quantity
+      )
+    )
   );
 }
 
@@ -50,8 +51,12 @@ export async function initialize() {
 
 export async function login(
   email: string,
-  password: string,
-): Promise<{ success: boolean; message?: string; errors?: Record<string, string[] | undefined> }> {
+  password: string
+): Promise<{
+  success: boolean;
+  message?: string;
+  errors?: Record<string, string[] | undefined>;
+}> {
   try {
     const res = await fetch("/api/auth/login", {
       method: "POST",
@@ -77,8 +82,12 @@ export async function login(
 export async function register(
   name: string,
   email: string,
-  password: string,
-): Promise<{ success: boolean; message?: string; errors?: Record<string, string[] | undefined> }> {
+  password: string
+): Promise<{
+  success: boolean;
+  message?: string;
+  errors?: Record<string, string[] | undefined>;
+}> {
   try {
     const res = await fetch("/api/auth/register", {
       method: "POST",

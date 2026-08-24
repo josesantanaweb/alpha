@@ -1,6 +1,6 @@
-import { type NextRequest, NextResponse } from "next/server";
-import {createOrder, getOrders} from "@/modules/orders/actions";
+import { NextResponse, type NextRequest } from "next/server";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
+import { createOrder, getOrders } from "@/modules/orders/actions";
 
 async function authenticate(request: NextRequest) {
   const token = getTokenFromHeaders(request);
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   if (!payload) {
     return NextResponse.json(
       { success: false, status: 401, message: "No autenticado." },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   if (!payload) {
     return NextResponse.json(
       { success: false, status: 401, message: "No autenticado." },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json(
       { success: false, status: 400, message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 

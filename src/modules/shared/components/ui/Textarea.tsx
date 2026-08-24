@@ -1,6 +1,5 @@
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/modules/shared/utils/cn";
 
 const textareaVariants = cva(
@@ -8,49 +7,47 @@ const textareaVariants = cva(
   {
     variants: {},
     defaultVariants: {},
-  },
+  }
 );
 
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  extends
+    React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     VariantProps<typeof textareaVariants> {
   label?: string;
   error?: string;
 }
 
-export const Textarea = React.forwardRef<
-  HTMLTextAreaElement,
-  TextareaProps
->(({ className, label, error, ...props }, ref) => {
-  return (
-    <div className="flex w-full flex-col">
-      <div className="flex w-full flex-col gap-1.5">
-        {label && (
-          <span
-            className={cn(
-              "text-sm font-bold uppercase",
-              error ? "text-error" : "text-white",
-            )}
-          >
-            {label}
-          </span>
-        )}
-        <textarea
-          ref={ref}
-          className={cn(
-            textareaVariants({ className }),
-            error && "border-error focus:border-error",
+export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ className, label, error, ...props }, ref) => {
+    return (
+      <div className="flex w-full flex-col">
+        <div className="flex w-full flex-col gap-1.5">
+          {label && (
+            <span
+              className={cn(
+                "text-sm font-bold uppercase",
+                error ? "text-error" : "text-white"
+              )}
+            >
+              {label}
+            </span>
           )}
-          {...props}
-        />
+          <textarea
+            ref={ref}
+            className={cn(
+              textareaVariants({ className }),
+              error && "border-error focus:border-error"
+            )}
+            {...props}
+          />
+        </div>
+        {error && (
+          <span className="text-error mt-1.5 text-xs font-medium">{error}</span>
+        )}
       </div>
-      {error && (
-        <span className="text-error mt-1.5 text-xs font-medium">
-          {error}
-        </span>
-      )}
-    </div>
-  );
-});
+    );
+  }
+);
 
 Textarea.displayName = "Textarea";

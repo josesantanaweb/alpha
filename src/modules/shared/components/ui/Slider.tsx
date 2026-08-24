@@ -1,5 +1,6 @@
 "use client";
-import { type ReactElement, useCallback } from "react";
+
+import { useCallback, type ReactElement } from "react";
 
 interface SliderProps {
   min: number;
@@ -22,14 +23,14 @@ export const Slider = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onMinChange(Math.min(Number(e.target.value), maxValue - 1));
     },
-    [maxValue, onMinChange],
+    [maxValue, onMinChange]
   );
 
   const handleMaxSlider = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onMaxChange(Math.max(Number(e.target.value), minValue + 1));
     },
-    [minValue, onMaxChange],
+    [minValue, onMaxChange]
   );
 
   const rangePercent = ((maxValue - minValue) / (max - min)) * 100;
@@ -39,7 +40,7 @@ export const Slider = ({
     <div className="relative h-6">
       <div className="bg-stroke absolute top-1/2 h-1 w-full -translate-y-1/2 rounded-full" />
       <div
-        className="bg-white absolute top-1/2 h-1 -translate-y-1/2 rounded-full"
+        className="absolute top-1/2 h-1 -translate-y-1/2 rounded-full bg-white"
         style={{ left: `${leftPercent}%`, width: `${rangePercent}%` }}
       />
       <input
@@ -48,7 +49,7 @@ export const Slider = ({
         max={max}
         value={minValue}
         onChange={handleMinSlider}
-        className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-md"
+        className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full appearance-none bg-transparent [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:shadow-md [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md"
       />
       <input
         type="range"
@@ -56,7 +57,7 @@ export const Slider = ({
         max={max}
         value={maxValue}
         onChange={handleMaxSlider}
-        className="pointer-events-none absolute top-0 left-0 h-full w-full appearance-none bg-transparent [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:shadow-md]"
+        className="[&::-moz-range-thumb]:shadow-md] pointer-events-none absolute top-0 left-0 h-full w-full appearance-none bg-transparent [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-white [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md"
       />
     </div>
   );

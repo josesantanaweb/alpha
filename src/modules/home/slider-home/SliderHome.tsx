@@ -1,9 +1,9 @@
 "use client";
-import type { ReactElement } from "react";
-import { useState, useCallback, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+
+import { useCallback, useRef, useState, type ReactElement } from "react";
 import type { Banner } from "@prisma/client";
-import { SliderHomeDots, SliderHomeSlide, SliderHomeSkeleton } from ".";
+import { AnimatePresence, motion } from "framer-motion";
+import { SliderHomeDots, SliderHomeSkeleton, SliderHomeSlide } from ".";
 
 const slideVariants = {
   enter: (direction: number) => ({
@@ -39,7 +39,7 @@ export const SliderHome = ({
       setDirection(index > current ? 1 : -1);
       setCurrent(index);
     },
-    [current],
+    [current]
   );
 
   const paginate = useCallback(
@@ -49,16 +49,13 @@ export const SliderHome = ({
       setDirection(newDirection);
       setCurrent(next);
     },
-    [current, banners.length],
+    [current, banners.length]
   );
 
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      isTouching.current = true;
-      touchStartX.current = e.touches[0].clientX;
-    },
-    [],
-  );
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    isTouching.current = true;
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
@@ -67,16 +64,13 @@ export const SliderHome = ({
         paginate(diff > 0 ? 1 : -1);
       }
     },
-    [paginate],
+    [paginate]
   );
 
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      if (isTouching.current) return;
-      touchStartX.current = e.clientX;
-    },
-    [],
-  );
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (isTouching.current) return;
+    touchStartX.current = e.clientX;
+  }, []);
 
   const handleMouseUp = useCallback(
     (e: React.MouseEvent) => {
@@ -89,14 +83,14 @@ export const SliderHome = ({
         paginate(diff > 0 ? 1 : -1);
       }
     },
-    [paginate],
+    [paginate]
   );
 
   if (loading) return <SliderHomeSkeleton />;
   if (!banners.length) return <div />;
 
   return (
-    <div className="flex flex-col gap-3 items-center">
+    <div className="flex flex-col items-center gap-3">
       <div
         className="bg-surface relative flex h-47 w-full items-center gap-3 overflow-hidden rounded-2xl"
         onTouchStart={handleTouchStart}

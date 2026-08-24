@@ -1,7 +1,8 @@
 "use client";
+
 import type { ReactElement } from "react";
-import { Button } from "@/modules/shared/components/ui";
 import { OrderSummary } from "@/modules/shared/components/OrderSummary";
+import { Button } from "@/modules/shared/components/ui";
 import { DiscountCodeForm } from "./DiscountCodeForm";
 
 type CartCheckoutPanelProps = {
@@ -21,7 +22,9 @@ export const CartCheckoutPanel = ({
 }: CartCheckoutPanelProps): ReactElement => {
   return (
     <div className="border-stroke flex flex-col gap-3 border-t pt-5">
-      <DiscountCodeForm onApply={(code) => console.log("Código aplicado:", code)} />
+      <DiscountCodeForm
+        onApply={(code) => console.log("Código aplicado:", code)}
+      />
       <OrderSummary
         subtotal={subtotal}
         discount={discount}

@@ -1,11 +1,11 @@
 "use client";
-import type { ReactElement } from "react";
-import { useState } from "react";
+
+import { useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
-import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
+import { FilterButton, SearchInput } from "@/modules/shared/components";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
-import { SearchInput, FilterButton } from "@/modules/shared/components";
 import { PerfumeGrid } from "@/modules/perfumes/components/PerfumeGrid";
+import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
 
 interface ExplorerProps {
   search?: string;
@@ -98,8 +98,12 @@ export const Explorer = ({
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h5 className="text-lg font-semibold text-white">{search ? `Resultados para "${search}"` : "Explorar"}</h5>
-          <p className="text-body cursor-pointer text-sm">{perfumes.length} perfumes</p>
+          <h5 className="text-lg font-semibold text-white">
+            {search ? `Resultados para "${search}"` : "Explorar"}
+          </h5>
+          <p className="text-body cursor-pointer text-sm">
+            {perfumes.length} perfumes
+          </p>
         </div>
         <PerfumeGrid
           perfumes={perfumes}

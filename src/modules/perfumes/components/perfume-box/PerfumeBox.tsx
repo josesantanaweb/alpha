@@ -1,11 +1,12 @@
 "use client";
+
 import type { ReactElement } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 import { motion } from "framer-motion";
+import { LikeButton, Rating } from "@/modules/shared/components";
 import { cn } from "@/modules/shared/utils/cn";
-import { Rating, LikeButton } from "@/modules/shared/components";
 import { PerfumeBadge } from "./PerfumeBadge";
 import { PerfumePrice } from "./PerfumePrice";
 

@@ -10,7 +10,7 @@ export const AboutPerfume = ({
 }: AboutPerfumeProps): ReactElement => {
   return (
     <CollapsibleSection title="Sobre este perfume" defaultOpen={false}>
-      <p className="text-body text-sm text-justify">{description}</p>
+      <p className="text-body text-justify text-sm">{description}</p>
     </CollapsibleSection>
   );
 };

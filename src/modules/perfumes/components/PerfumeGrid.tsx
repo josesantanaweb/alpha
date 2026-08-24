@@ -1,9 +1,10 @@
 "use client";
+
 import type { ReactElement, ReactNode } from "react";
 import { Prisma } from "@prisma/client";
+import { EmptyState } from "@/modules/shared/components";
 import { cn } from "@/modules/shared/utils/cn";
 import { PerfumeBox, PerfumeBoxSkeleton } from "./perfume-box";
-import { EmptyState } from "@/modules/shared/components";
 
 type GridPerfume = Prisma.PerfumeGetPayload<{
   include: { designer: true };

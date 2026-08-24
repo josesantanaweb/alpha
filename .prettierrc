@@ -4,5 +4,20 @@
   "singleQuote": false,
   "tabWidth": 2,
   "useTabs": false,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "plugins": [
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrder": [
+    "^(react/(.*)$)|^(react$)",
+    "^(next/(.*)$)|^(next$)",
+    "<THIRD_PARTY_MODULES>",
+    "^@/constants/(.*)$|^@/constants$",
+    "^@/lib/(.*)$|^@/lib$",
+    "^@/modules/shared/(.*)$|^@/modules/shared$",
+    "^@/modules/(.*)$",
+    "^[./]"
+  ],
+  "importOrderParserPlugins": ["typescript", "jsx"],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

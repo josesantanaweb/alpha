@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {removeItem} from "@/modules/cart/actions";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
+import { removeItem } from "@/modules/cart/actions";
 
 type RouteParams = {
   params: Promise<{ itemId: string }>;
@@ -13,7 +13,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   if (!payload) {
     return NextResponse.json(
       { success: false, status: 401, message: "No autenticado." },
-      { status: 401 },
+      { status: 401 }
     );
   }
 

@@ -16,7 +16,7 @@ export interface PostsPageResult {
 }
 
 export async function getPosts(
-  params: GetPostsParams = {},
+  params: GetPostsParams = {}
 ): Promise<PostsPageResult> {
   const searchParams = new URLSearchParams();
 
@@ -25,7 +25,7 @@ export async function getPosts(
   if (params.search) searchParams.set("search", params.search);
 
   const response = await fetch(
-    `${API_ROUTES.POSTS}?${searchParams.toString()}`,
+    `${API_ROUTES.POSTS}?${searchParams.toString()}`
   );
 
   if (!response.ok) {

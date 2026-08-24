@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {getAll, create} from "@/modules/posts/actions";
 import { parsePaginationParams } from "@/lib/pagination";
+import { create, getAll } from "@/modules/posts/actions";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   if (!result.success) {
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   }
 
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message, errors: result.errors },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }

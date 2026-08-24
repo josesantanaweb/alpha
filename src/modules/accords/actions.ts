@@ -1,12 +1,16 @@
 import "server-only";
-
-import { db, isPrismaError } from "@/lib/db";
-
-import { CreateAccordSchema, UpdateAccordSchema } from "./schema";
-import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Accord } from "@prisma/client";
+import { db, isPrismaError } from "@/lib/db";
+import {
+  ApiResult,
+  PaginatedResult,
+  PaginationParams,
+} from "@/modules/shared/types";
+import { CreateAccordSchema, UpdateAccordSchema } from "./schema";
 
-export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Accord>>> {
+export async function getAll(
+  params: PaginationParams = {}
+): Promise<ApiResult<PaginatedResult<Accord>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
 
@@ -36,7 +40,10 @@ export async function getAll(params: PaginationParams = {}): Promise<ApiResult<P
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener los acordes.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener los acordes.",
     };
   }
 }
@@ -68,7 +75,8 @@ export async function getOne(id: string): Promise<ApiResult<Accord>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -79,51 +87,55 @@ export async function create(rawData: unknown): Promise<ApiResult<Accord>> {
     return {
       success: false,
       status: 400,
-      errors: result.error.flatten().fieldErrors
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
   try {
     const accord = await db.accord.create({
-      data: {  ...result.data },
+      data: { ...result.data },
     });
     return {
       success: true,
       status: 201,
-      data: accord
+      data: accord,
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Ese nombre de acorde ya existe."
+        message: "Ese nombre de acorde ya existe.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
 export async function update(id: string, rawData: unknown) {
-  const result = UpdateAccordSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+  const result = UpdateAccordSchema.safeParse({
+    id,
+    ...(rawData as Record<string, unknown>),
+  });
 
   if (!result.success) {
     return {
       success: false,
       status: 400,
-      errors: result.error.flatten().fieldErrors
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
   try {
     const accord = await db.accord.update({
       where: { id },
-      data: {  ...result.data  },
+      data: { ...result.data },
     });
 
     return { success: true, status: 200, data: accord };
@@ -132,14 +144,15 @@ export async function update(id: string, rawData: unknown) {
       return {
         success: false,
         status: 409,
-        message: "Ese nombre de acorde ya existe."
+        message: "Ese nombre de acorde ya existe.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -148,7 +161,7 @@ export async function remove(id: string) {
     return {
       success: false,
       status: 400,
-      message: "El ID es requerido."
+      message: "El ID es requerido.",
     };
   }
 
@@ -160,20 +173,21 @@ export async function remove(id: string) {
     return {
       success: true,
       status: 200,
-      message: "Acorde eliminado con éxito."
+      message: "Acorde eliminado con éxito.",
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Acorde no encontrado."
+        message: "Acorde no encontrado.",
       };
     }
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }

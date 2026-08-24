@@ -46,6 +46,6 @@ Todas las rutas requieren autenticación Bearer.
 ## Estructura (resumen)
 
 - `src/app/` rutas App Router y API routes
-- `src/modules/` lógica por dominio (vertical slice)
-- `src/modules/shared/` utilidades y componentes compartidos
+- `src/modules/` lógica por dominio (vertical slice). Cada módulo organiza su código en subcarpetas (`components/`, `hooks/`, `actions.ts`, `types.ts`, `utils/`) usando barrel exports únicamente en las subcarpetas (evitando `index.ts` en la raíz del módulo para prevenir conflictos entre Server y Client components).
+- `src/modules/shared/` utilidades y componentes compartidos (`components/`, `hooks/`, `stores/`, `types/`, `utils/`)
 - `prisma/` schema, migraciones y seed

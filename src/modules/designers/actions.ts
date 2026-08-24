@@ -1,12 +1,16 @@
 import "server-only";
-
-import { db, isPrismaError } from "@/lib/db";
-
-import { CreateDesignerSchema, UpdateDesignerSchema } from "./schema";
-import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Designer } from "@prisma/client";
+import { db, isPrismaError } from "@/lib/db";
+import {
+  ApiResult,
+  PaginatedResult,
+  PaginationParams,
+} from "@/modules/shared/types";
+import { CreateDesignerSchema, UpdateDesignerSchema } from "./schema";
 
-export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Designer>>> {
+export async function getAll(
+  params: PaginationParams = {}
+): Promise<ApiResult<PaginatedResult<Designer>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
 
@@ -36,7 +40,10 @@ export async function getAll(params: PaginationParams = {}): Promise<ApiResult<P
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener los diseñadores.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener los diseñadores.",
     };
   }
 }
@@ -68,7 +75,8 @@ export async function getOne(id: string): Promise<ApiResult<Designer>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -79,44 +87,48 @@ export async function create(rawData: unknown): Promise<ApiResult<Designer>> {
     return {
       success: false,
       status: 400,
-      errors: result.error.flatten().fieldErrors
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
   try {
     const designer = await db.designer.create({
-      data: {  ...result.data },
+      data: { ...result.data },
     });
     return {
       success: true,
       status: 201,
-      data: designer
+      data: designer,
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
       return {
         success: false,
         status: 409,
-        message: "Ese nombre o slug de diseñador ya existe."
+        message: "Ese nombre o slug de diseñador ya existe.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
 export async function update(id: string, rawData: unknown) {
-  const result = UpdateDesignerSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+  const result = UpdateDesignerSchema.safeParse({
+    id,
+    ...(rawData as Record<string, unknown>),
+  });
 
   if (!result.success) {
     return {
       success: false,
       status: 400,
-      errors: result.error.flatten().fieldErrors
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
@@ -134,21 +146,22 @@ export async function update(id: string, rawData: unknown) {
       return {
         success: false,
         status: 409,
-        message: "Ese nombre o slug de diseñador ya existe."
+        message: "Ese nombre o slug de diseñador ya existe.",
       };
     }
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Diseñador no encontrado."
+        message: "Diseñador no encontrado.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -158,7 +171,7 @@ export async function remove(id: string) {
     return {
       success: false,
       status: 400,
-      message: "El ID es requerido."
+      message: "El ID es requerido.",
     };
   }
 
@@ -170,20 +183,21 @@ export async function remove(id: string) {
     return {
       success: true,
       status: 200,
-      message: "Diseñador eliminado con éxito."
+      message: "Diseñador eliminado con éxito.",
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return {
         success: false,
         status: 404,
-        message: "Diseñador no encontrado."
+        message: "Diseñador no encontrado.",
       };
     }
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }

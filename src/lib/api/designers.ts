@@ -1,5 +1,6 @@
 import type { Designer } from "@prisma/client";
 import { API_ROUTES } from "@/constants";
+
 export async function getDesigners(): Promise<
   Pick<Designer, "id" | "name" | "image">[]
 > {

@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,12 +38,10 @@ export const FindYourVibeItem = ({
         />
       </motion.div>
     )}
-    <div className="absolute top-0 left-0 z-50 flex h-full w-full items-end bg-linear-to-t from-neutral-900 to-transparent p-5 pointer-events-none">
+    <div className="pointer-events-none absolute top-0 left-0 z-50 flex h-full w-full items-end bg-linear-to-t from-neutral-900 to-transparent p-5">
       <div className="flex flex-col">
         <h4 className="text-lg font-bold text-white">{name}</h4>
-        {description && (
-          <p className="text-body text-base">{description}</p>
-        )}
+        {description && <p className="text-body text-base">{description}</p>}
       </div>
     </div>
   </Link>

@@ -1,16 +1,16 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { useRouter } from "next/navigation";
-import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
-import { ROUTES } from "@/constants";
+import { FREE_SHIPPING_THRESHOLD, ROUTES, SHIPPING_FEE } from "@/constants";
+import { EmptyState } from "@/modules/shared/components";
 import { useApp } from "@/modules/shared/stores/use-ui-store";
 import { useCart } from "../hooks/use-cart";
 import { CartCheckoutPanel } from "./CartCheckoutPanel";
-import { CartItem } from "./CartItem";
-import { CartProgress } from "./CartProgress";
 import { CartHeader } from "./CartHeader";
-import { EmptyState } from "@/modules/shared/components";
+import { CartItem } from "./CartItem";
 import { CartItemSkeleton } from "./CartItemSkeleton";
+import { CartProgress } from "./CartProgress";
 
 export const Cart = (): ReactElement => {
   const router = useRouter();

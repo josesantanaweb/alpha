@@ -1,7 +1,8 @@
 "use client";
+
 import { Menu } from "lucide-react";
-import { Logo } from "@/modules/shared/components/ui";
 import { CartButton } from "@/modules/shared/components";
+import { Logo } from "@/modules/shared/components/ui";
 
 export const Header = () => {
   return (

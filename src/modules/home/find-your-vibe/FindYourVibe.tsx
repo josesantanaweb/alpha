@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { useVibes } from "@/modules/vibes/hooks/use-vibes";
 import { FindYourVibeItem } from "./FindYourVibeItem";
@@ -15,7 +16,7 @@ export const FindYourVibe = (): ReactElement => {
         </p>
       </div>
 
-      <div className="flex max-w-full gap-5 overflow-x-scroll scrollbar-hide pr-2.5">
+      <div className="scrollbar-hide flex max-w-full gap-5 overflow-x-scroll pr-2.5">
         {vibes.map((vibe) => (
           <FindYourVibeItem
             key={vibe.id}

@@ -12,7 +12,7 @@ export const PaymentProviderEnum = z.enum(
   ["MOBILE_PAYMENT", "BINANCE", "ZINLI"],
   {
     errorMap: () => ({ message: "Método de pago inválido" }),
-  },
+  }
 );
 
 const orderItemSchema = z.object({

@@ -1,14 +1,14 @@
 "use client";
-import type { ReactElement } from "react";
-import { useState, Suspense } from "react";
+
+import { Suspense, useState, type ReactElement } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/modules/shared/components/ui";
-import { FilterGender } from "./FilterGender";
-import { FilterType } from "./FilterType";
 import { FilterDesigner } from "./FilterDesigner";
+import { FilterGender } from "./FilterGender";
 import { FilterPrice } from "./FilterPrice";
 import { FilterSizes } from "./FilterSizes";
+import { FilterType } from "./FilterType";
 
 interface FilterSheetProps {
   open: boolean;
@@ -33,22 +33,26 @@ const FilterSheetContent = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [gender, setGender] = useState<string | null>(
-    searchParams.get("gender"),
+    searchParams.get("gender")
   );
-  const [type, setType] = useState<string | null>(
-    searchParams.get("type"),
-  );
+  const [type, setType] = useState<string | null>(searchParams.get("type"));
   const [designer, setDesigner] = useState<string | null>(
-    searchParams.get("designer"),
+    searchParams.get("designer")
   );
   const [priceMin, setPriceMin] = useState<string>(
-    searchParams.get("priceMin") ?? "",
+    searchParams.get("priceMin") ?? ""
   );
   const [priceMax, setPriceMax] = useState<string>(
-    searchParams.get("priceMax") ?? "",
+    searchParams.get("priceMax") ?? ""
   );
 
-  const hasActiveFilters = !!(gender || type || designer || priceMin || priceMax);
+  const hasActiveFilters = !!(
+    gender ||
+    type ||
+    designer ||
+    priceMin ||
+    priceMax
+  );
 
   const handleApply = () => {
     const params = new URLSearchParams();
@@ -96,7 +100,7 @@ const FilterSheetContent = ({
                 Filtros
               </h4>
 
-              <div className="flex w-full flex-col justify-start gap-6 max-h-120 overflow-y-scroll">
+              <div className="flex max-h-120 w-full flex-col justify-start gap-6 overflow-y-scroll">
                 <FilterGender value={gender} onChange={setGender} />
                 <FilterType value={type} onChange={setType} />
                 <FilterDesigner value={designer} onChange={setDesigner} />
@@ -113,7 +117,9 @@ const FilterSheetContent = ({
                 <Button variant="outline" onClick={handleClear}>
                   Limpiar
                 </Button>
-                <Button onClick={handleApply} disabled={!hasActiveFilters}>Aplicar</Button>
+                <Button onClick={handleApply} disabled={!hasActiveFilters}>
+                  Aplicar
+                </Button>
               </div>
             </div>
           </motion.div>

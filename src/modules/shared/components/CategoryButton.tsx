@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement, ReactNode } from "react";
 import * as Icons from "lucide-react";
 import { LayoutDashboard, type LucideIcon } from "lucide-react";
@@ -33,7 +34,11 @@ export const CategoryButton = ({
   };
 
   return (
-    <button type="button" onClick={onClick} className="group cursor-pointer shrink-0 flex flex-col items-center justify-center">
+    <button
+      type="button"
+      onClick={onClick}
+      className="group flex shrink-0 cursor-pointer flex-col items-center justify-center"
+    >
       <div className="border-stroke flex h-12 w-12 items-center justify-center rounded-full border text-sm font-medium text-white transition-colors duration-200 group-hover:border-white group-hover:bg-white group-hover:text-black">
         {renderIcon()}
       </div>

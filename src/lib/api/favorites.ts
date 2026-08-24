@@ -1,8 +1,10 @@
-import type {PerfumeWithRelations} from "@/modules/perfumes/types";
 import { API_ROUTES } from "@/constants";
+import type { PerfumeWithRelations } from "@/modules/perfumes/types";
 
 /** Get current user's favorite perfumes */
-export async function getFavorites(token: string): Promise<PerfumeWithRelations[]> {
+export async function getFavorites(
+  token: string
+): Promise<PerfumeWithRelations[]> {
   const res = await fetch(API_ROUTES.FAVORITES, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -13,7 +15,7 @@ export async function getFavorites(token: string): Promise<PerfumeWithRelations[
 /** Add a perfume to the user's favorites */
 export async function addFavorite(
   token: string,
-  perfumeId: string,
+  perfumeId: string
 ): Promise<void> {
   const res = await fetch(API_ROUTES.FAVORITES, {
     method: "POST",
@@ -29,7 +31,7 @@ export async function addFavorite(
 /** Remove a perfume from the user's favorites */
 export async function removeFavorite(
   token: string,
-  perfumeId: string,
+  perfumeId: string
 ): Promise<void> {
   const res = await fetch(API_ROUTES.FAVORITES, {
     method: "DELETE",

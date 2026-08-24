@@ -1,6 +1,5 @@
-import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/modules/shared/utils/cn";
 
 const buttonVariants = cva(
@@ -9,8 +8,10 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "text-surface bg-white transition-all hover:-translate-y-0.5",
-        outline: "bg-transparent border border-white text-white transition-all hover:-translate-y-0.5 hover:bg-white hover:text-surface",
-        secondary: "bg-surface text-white transition-all hover:-translate-y-0.5 hover:bg-surface/80",
+        outline:
+          "bg-transparent border border-white text-white transition-all hover:-translate-y-0.5 hover:bg-white hover:text-surface",
+        secondary:
+          "bg-surface text-white transition-all hover:-translate-y-0.5 hover:bg-surface/80",
       },
       size: {
         sm: "h-9 rounded-md px-3 text-sm",
@@ -32,14 +33,25 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  VariantProps<typeof buttonVariants> {
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   children?: React.ReactNode;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, fullWidth, asChild = false, children, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      fullWidth,
+      asChild = false,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const classes = cn(buttonVariants({ variant, size, fullWidth, className }));
 
     if (asChild && React.isValidElement(children)) {

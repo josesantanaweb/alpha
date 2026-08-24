@@ -1,6 +1,6 @@
-import { type NextRequest, NextResponse } from "next/server";
-import {getUserCart} from "@/modules/cart/actions";
+import { NextResponse, type NextRequest } from "next/server";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
+import { getUserCart } from "@/modules/cart/actions";
 
 async function authenticate(request: NextRequest) {
   const token = getTokenFromHeaders(request);
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   if (!payload) {
     return NextResponse.json(
       { success: false, status: 401, message: "No autenticado." },
-      { status: 401 },
+      { status: 401 }
     );
   }
 

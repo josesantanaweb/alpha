@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {getActive} from "@/modules/vibes/actions";
+import { getActive } from "@/modules/vibes/actions";
 
 export async function GET() {
   const result = await getActive();
@@ -7,7 +7,7 @@ export async function GET() {
   if (!result.success) {
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   }
 

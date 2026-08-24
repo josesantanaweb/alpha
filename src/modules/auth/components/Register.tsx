@@ -1,12 +1,13 @@
 "use client";
-import { type FormEvent, useState, type ReactElement, Suspense } from "react";
+
+import { Suspense, useState, type FormEvent, type ReactElement } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { Logo, Input, Button } from "@/modules/shared/components/ui";
-import Link from "next/link";
-import Image from "next/image";
 import { ROUTES } from "@/constants";
-import { register, loginWithGoogle } from "@/lib/api/auth";
+import { loginWithGoogle, register } from "@/lib/api/auth";
+import { Button, Input, Logo } from "@/modules/shared/components/ui";
 import { RegisterSchema } from "@/modules/auth/schema";
 
 export const Register = (): ReactElement => {
@@ -20,15 +21,24 @@ export const Register = (): ReactElement => {
 const RegisterContent = (): ReactElement => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [errors, setErrors] = useState({ name: "", email: "", password: "" });
   const [generalError, setGeneralError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [touched, setTouched] = useState({ name: false, email: false, password: false });
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const redirect = searchParams.get("redirect");
-  const postRegisterRoute = redirect === "checkout" ? ROUTES.CHECKOUT : ROUTES.HOME;
+  const postRegisterRoute =
+    redirect === "checkout" ? ROUTES.CHECKOUT : ROUTES.HOME;
 
   const hasErrors = !!errors.name || !!errors.email || !!errors.password;
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -57,9 +67,16 @@ const RegisterContent = (): ReactElement => {
     return "";
   };
 
-  const validators = { name: validateName, email: validateEmail, password: validatePassword };
+  const validators = {
+    name: validateName,
+    email: validateEmail,
+    password: validatePassword,
+  };
 
-  const handleFieldChange = (field: "name" | "email" | "password", val: string) => {
+  const handleFieldChange = (
+    field: "name" | "email" | "password",
+    val: string
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: val }));
     setGeneralError("");
     if (touched[field] || val.length > 0) {
@@ -69,7 +86,10 @@ const RegisterContent = (): ReactElement => {
 
   const handleBlur = (field: "name" | "email" | "password") => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    setErrors((prev) => ({ ...prev, [field]: validators[field](formData[field]) }));
+    setErrors((prev) => ({
+      ...prev,
+      [field]: validators[field](formData[field]),
+    }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -90,7 +110,11 @@ const RegisterContent = (): ReactElement => {
 
     setIsSubmitting(true);
 
-    const result = await register(formData.name, formData.email, formData.password);
+    const result = await register(
+      formData.name,
+      formData.email,
+      formData.password
+    );
 
     if (result.success) {
       router.push(postRegisterRoute);
@@ -125,15 +149,17 @@ const RegisterContent = (): ReactElement => {
         <Logo />
 
         <div className="flex w-full flex-col items-start">
-          <h3 className="text-xl font-bold text-white">
-            Registra tu cuenta.
-          </h3>
+          <h3 className="text-xl font-bold text-white">Registra tu cuenta.</h3>
           <p className="text-body text-base">
             Estamos encantados de tenerte con nosotros.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="flex w-full flex-col gap-5">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="flex w-full flex-col gap-5"
+        >
           <div className="flex w-full flex-col items-center gap-5">
             <Input
               placeholder="Tu nombre"
@@ -164,7 +190,7 @@ const RegisterContent = (): ReactElement => {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="text-body hover:text-white transition-colors"
+                  className="text-body transition-colors hover:text-white"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -174,7 +200,7 @@ const RegisterContent = (): ReactElement => {
           </div>
 
           {generalError && (
-            <div className="w-full bg-error/5 p-4 text-center text-sm font-medium text-error">
+            <div className="bg-error/5 text-error w-full p-4 text-center text-sm font-medium">
               {generalError}
             </div>
           )}
@@ -202,7 +228,11 @@ const RegisterContent = (): ReactElement => {
             <div className="flex items-center justify-center gap-2.5">
               <p className="text-base text-white">¿Ya tienes cuenta?</p>
               <Link
-                href={redirect ? `${ROUTES.LOGIN}?redirect=${redirect}` : ROUTES.LOGIN}
+                href={
+                  redirect
+                    ? `${ROUTES.LOGIN}?redirect=${redirect}`
+                    : ROUTES.LOGIN
+                }
                 className="text-base font-bold text-white"
               >
                 Inicia sesión

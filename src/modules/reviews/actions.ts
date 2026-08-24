@@ -1,20 +1,15 @@
 import "server-only";
-
-import { db, isPrismaError } from "@/lib/db";
-import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
-
-import type { ApiResult } from "@/modules/shared/types";
-import { PaginatedResult } from "@/modules/shared/types";
-import type { ReviewWithUser, GetReviewsParams } from "./types";
 import { Review } from "@prisma/client";
-
+import { db, isPrismaError } from "@/lib/db";
+import { PaginatedResult, type ApiResult } from "@/modules/shared/types";
+import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
+import type { GetReviewsParams, ReviewWithUser } from "./types";
 
 const userSelect = {
   id: true,
   name: true,
   avatar: true,
 } as const;
-
 
 async function syncPerfumeRating(perfumeId: string): Promise<void> {
   const agg = await db.review.aggregate({
@@ -33,12 +28,16 @@ async function syncPerfumeRating(perfumeId: string): Promise<void> {
 }
 
 export async function getByPerfume(
-  params: GetReviewsParams,
+  params: GetReviewsParams
 ): Promise<ApiResult<PaginatedResult<ReviewWithUser>>> {
   const { perfumeId, limit = 10, offset = 0 } = params;
 
   if (!perfumeId) {
-    return { success: false, status: 400, message: "El perfumeId es requerido." };
+    return {
+      success: false,
+      status: 400,
+      message: "El perfumeId es requerido.",
+    };
   }
 
   try {
@@ -70,14 +69,17 @@ export async function getByPerfume(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener las reviews.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener las reviews.",
     };
   }
 }
 
 export async function getUserReview(
   userId: string,
-  perfumeId: string,
+  perfumeId: string
 ): Promise<ApiResult<ReviewWithUser | null>> {
   if (!userId || !perfumeId) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
@@ -94,14 +96,15 @@ export async function getUserReview(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener la review.",
+      message:
+        error instanceof Error ? error.message : "Error al obtener la review.",
     };
   }
 }
 
 export async function create(
   userId: string,
-  rawData: unknown,
+  rawData: unknown
 ): Promise<ApiResult<ReviewWithUser>> {
   const result = CreateReviewSchema.safeParse(rawData);
 
@@ -146,7 +149,8 @@ export async function create(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al crear la review.",
+      message:
+        error instanceof Error ? error.message : "Error al crear la review.",
     };
   }
 }
@@ -154,7 +158,7 @@ export async function create(
 export async function update(
   reviewId: string,
   userId: string,
-  rawData: unknown,
+  rawData: unknown
 ): Promise<ApiResult<ReviewWithUser>> {
   const result = UpdateReviewSchema.safeParse(rawData);
 
@@ -166,7 +170,11 @@ export async function update(
     };
   }
 
-  if (!result.data.comment && !result.data.title && result.data.rating === undefined) {
+  if (
+    !result.data.comment &&
+    !result.data.title &&
+    result.data.rating === undefined
+  ) {
     return {
       success: false,
       status: 400,
@@ -182,7 +190,11 @@ export async function update(
     }
 
     if (existing.userId !== userId) {
-      return { success: false, status: 403, message: "No tienes permiso para editar esta review." };
+      return {
+        success: false,
+        status: 403,
+        message: "No tienes permiso para editar esta review.",
+      };
     }
 
     const updated = await db.review.update({
@@ -207,14 +219,17 @@ export async function update(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al actualizar la review.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al actualizar la review.",
     };
   }
 }
 
 export async function remove(
   reviewId: string,
-  userId: string,
+  userId: string
 ): Promise<ApiResult<null>> {
   try {
     const existing = await db.review.findUnique({ where: { id: reviewId } });
@@ -224,13 +239,22 @@ export async function remove(
     }
 
     if (existing.userId !== userId) {
-      return { success: false, status: 403, message: "No tienes permiso para eliminar esta review." };
+      return {
+        success: false,
+        status: 403,
+        message: "No tienes permiso para eliminar esta review.",
+      };
     }
 
     await db.review.delete({ where: { id: reviewId } });
     await syncPerfumeRating(existing.perfumeId);
 
-    return { success: true, status: 200, data: null, message: "Review eliminada con éxito." };
+    return {
+      success: true,
+      status: 200,
+      data: null,
+      message: "Review eliminada con éxito.",
+    };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
       return { success: false, status: 404, message: "Review no encontrada." };
@@ -239,7 +263,8 @@ export async function remove(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al eliminar la review.",
+      message:
+        error instanceof Error ? error.message : "Error al eliminar la review.",
     };
   }
 }

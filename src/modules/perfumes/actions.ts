@@ -1,12 +1,13 @@
 import "server-only";
-
-import { db, isPrismaError } from "@/lib/db";
-
-import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
-import { ApiResult, PaginatedResult } from "@/modules/shared/types";
 import { Perfume, Prisma } from "@prisma/client";
-import type { PerfumeWithRelations, GetPerfumesParams } from "./types";
-import { VoteCategory } from "./types";
+import { db, isPrismaError } from "@/lib/db";
+import { ApiResult, PaginatedResult } from "@/modules/shared/types";
+import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
+import {
+  VoteCategory,
+  type GetPerfumesParams,
+  type PerfumeWithRelations,
+} from "./types";
 
 export async function getAll(
   params: GetPerfumesParams = {}
@@ -132,7 +133,7 @@ export async function getOne(
         feeling: true,
         sillage: true,
         projection: true,
-          notes: true,
+        notes: true,
       },
     });
 
@@ -179,7 +180,7 @@ export async function getBySlug(
         feeling: true,
         sillage: true,
         projection: true,
-          notes: true,
+        notes: true,
       },
     });
 
@@ -353,7 +354,7 @@ export async function vote(
   userId: string,
   perfumeId: string,
   category: VoteCategory,
-  field: string,
+  field: string
 ): Promise<ApiResult<{ previousField: string | null }>> {
   if (!userId || !perfumeId || !category || !field) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
@@ -380,7 +381,10 @@ export async function vote(
     }
 
     // Construir las operaciones de actualización del modelo agregado
-    const updateData: Record<string, { increment: number } | { decrement: number }> = {
+    const updateData: Record<
+      string,
+      { increment: number } | { decrement: number }
+    > = {
       [field]: { increment: 1 },
     };
 
@@ -421,7 +425,7 @@ export async function vote(
 
 export async function getUserVotes(
   userId: string,
-  perfumeId: string,
+  perfumeId: string
 ): Promise<ApiResult<Record<string, string>>> {
   if (!userId || !perfumeId) {
     return { success: false, status: 400, message: "Parámetros inválidos." };
@@ -447,4 +451,3 @@ export async function getUserVotes(
     };
   }
 }
-

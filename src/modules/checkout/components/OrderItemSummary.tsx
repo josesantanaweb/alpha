@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
-import { formatPrice } from "@/modules/shared/utils/format-price";
 import { cn } from "@/modules/shared/utils/cn";
+import { formatPrice } from "@/modules/shared/utils/format-price";
 
 export interface OrderItemSummaryProps {
   name: string;
@@ -41,7 +41,7 @@ export const OrderItemSummary = ({
           />
         </div>
       </div>
-      <div className="flex h-full min-w-0 flex-col justify-evenly flex-1">
+      <div className="flex h-full min-w-0 flex-1 flex-col justify-evenly">
         <h4 className="max-w-45 truncate text-sm leading-3 font-medium text-white">
           {name}
         </h4>

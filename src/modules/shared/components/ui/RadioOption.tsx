@@ -21,7 +21,7 @@ export const RadioOption = ({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex items-center border rounded-lg h-12.5 px-4 gap-2 transition-colors cursor-pointer text-left outline-none",
+        "flex h-12.5 cursor-pointer items-center gap-2 rounded-lg border px-4 text-left transition-colors outline-none",
         isActive ? "border-white" : "border-stroke",
         className
       )}
@@ -29,13 +29,13 @@ export const RadioOption = ({
     >
       <div
         className={cn(
-          "flex items-center justify-center p-0.5 h-4.5 w-4.5 rounded-full border-2 transition-colors shrink-0",
+          "flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full border-2 p-0.5 transition-colors",
           isActive ? "border-white" : "border-stroke"
         )}
       >
         <span
           className={cn(
-            "rounded-full w-full h-full transition-colors",
+            "h-full w-full rounded-full transition-colors",
             isActive ? "bg-white" : "bg-transparent"
           )}
         />
@@ -44,7 +44,7 @@ export const RadioOption = ({
         <p
           className={cn(
             "text-base transition-colors",
-            isActive ? "text-white font-medium" : "text-body"
+            isActive ? "font-medium text-white" : "text-body"
           )}
         >
           {content}

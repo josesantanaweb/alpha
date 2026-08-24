@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement, ReactNode } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -49,8 +50,8 @@ export const EmptyState = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col items-center justify-center gap-6 py-10 text-center w-full",
-        className,
+        "relative flex w-full flex-col items-center justify-center gap-6 py-10 text-center",
+        className
       )}
     >
       <div className="flex flex-col items-center justify-center">
@@ -58,7 +59,7 @@ export const EmptyState = ({
           {icon ? (
             icon
           ) : (
-            <div className="w-10 h-10 relative">
+            <div className="relative h-10 w-10">
               <Image
                 src="/images/empty-search.svg"
                 width={300}
@@ -69,7 +70,7 @@ export const EmptyState = ({
             </div>
           )}
         </div>
-        <div className="flex flex-col items-center justify-center gap-1.5 max-w-xs">
+        <div className="flex max-w-xs flex-col items-center justify-center gap-1.5">
           <h4 className="text-lg font-semibold text-white">{title}</h4>
           {subtitle && (
             <p className="text-body text-center text-sm">{subtitle}</p>

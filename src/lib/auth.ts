@@ -1,5 +1,5 @@
-import { SignJWT, jwtVerify } from "jose";
 import { NextRequest } from "next/server";
+import { jwtVerify, SignJWT } from "jose";
 
 const TOKEN_EXPIRATION = process.env.AUTH_TOKEN_EXPIRATION || "1h";
 
@@ -9,7 +9,10 @@ function getSecret() {
   return new TextEncoder().encode(secret);
 }
 
-export async function signToken(payload: { userId: string; email: string }): Promise<string> {
+export async function signToken(payload: {
+  userId: string;
+  email: string;
+}): Promise<string> {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime(TOKEN_EXPIRATION)
@@ -17,7 +20,9 @@ export async function signToken(payload: { userId: string; email: string }): Pro
     .sign(getSecret());
 }
 
-export async function verifyToken(token: string): Promise<{ userId: string; email: string } | null> {
+export async function verifyToken(
+  token: string
+): Promise<{ userId: string; email: string } | null> {
   try {
     const { payload } = await jwtVerify(token, getSecret());
     return payload as { userId: string; email: string };

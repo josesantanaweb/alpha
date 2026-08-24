@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Truck, Store } from "lucide-react";
+import { Store, Truck } from "lucide-react";
 import { Button } from "@/modules/shared/components/ui";
 import { DeliveryMethod } from "../types";
 

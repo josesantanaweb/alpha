@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
-import { StatBar } from "./StatBar";
-import { useExperienceVote } from "../../hooks/use-experience-vote";
-import type { VoteOption } from "./vote-options";
 import { VoteCategory } from "@/modules/perfumes/types";
+import { useExperienceVote } from "../../hooks/use-experience-vote";
+import { StatBar } from "./StatBar";
+import type { VoteOption } from "./vote-options";
 
 interface VoteSectionProps {
   title: string;
@@ -65,7 +65,9 @@ export const VoteSection = ({
       <div className="flex items-center gap-1">
         <h6 className="text-xs font-semibold uppercase">{title}</h6>
       </div>
-      <div className={`flex w-full ${category !== VoteCategory.TimeOfDay ? "justify-between gap-3" : "gap-6"}`}>
+      <div
+        className={`flex w-full ${category !== VoteCategory.TimeOfDay ? "justify-between gap-3" : "gap-6"}`}
+      >
         {options.map((option) => (
           <StatBar
             key={option.label}

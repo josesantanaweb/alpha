@@ -1,12 +1,19 @@
 "use client";
-import { type FormEvent, useEffect, useState, type ReactElement, Suspense } from "react";
+
+import {
+  Suspense,
+  useEffect,
+  useState,
+  type FormEvent,
+  type ReactElement,
+} from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { Logo, Input, Button } from "@/modules/shared/components/ui";
-import Link from "next/link";
-import Image from "next/image";
-import { login, loginWithGoogle, completeGoogleLogin } from "@/lib/api/auth";
 import { ROUTES } from "@/constants";
+import { completeGoogleLogin, login, loginWithGoogle } from "@/lib/api/auth";
+import { Button, Input, Logo } from "@/modules/shared/components/ui";
 import { LoginSchema } from "@/modules/auth/schema";
 
 export const Login = (): ReactElement => {
@@ -23,14 +30,15 @@ const LoginContent = (): ReactElement => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [generalError, setGeneralError] = useState(() =>
-    searchParams.get("error") ? "No se pudo iniciar sesión con Google" : "",
+    searchParams.get("error") ? "No se pudo iniciar sesión con Google" : ""
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [touched, setTouched] = useState({ email: false, password: false });
   const [showPassword, setShowPassword] = useState(false);
 
   const redirect = searchParams.get("redirect");
-  const postLoginRoute = redirect === "checkout" ? ROUTES.CHECKOUT : ROUTES.HOME;
+  const postLoginRoute =
+    redirect === "checkout" ? ROUTES.CHECKOUT : ROUTES.HOME;
 
   useEffect(() => {
     const token = searchParams.get("token");
@@ -81,7 +89,10 @@ const LoginContent = (): ReactElement => {
 
   const handleBlur = (field: "email" | "password") => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    setErrors((prev) => ({ ...prev, [field]: validators[field](formData[field]) }));
+    setErrors((prev) => ({
+      ...prev,
+      [field]: validators[field](formData[field]),
+    }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -116,7 +127,6 @@ const LoginContent = (): ReactElement => {
     }
 
     setIsSubmitting(false);
-
   };
 
   return (
@@ -144,7 +154,11 @@ const LoginContent = (): ReactElement => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="flex w-full flex-col gap-5">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="flex w-full flex-col gap-5"
+        >
           <div className="flex w-full flex-col items-center gap-5">
             <Input
               placeholder="tu@correo.com"
@@ -167,7 +181,7 @@ const LoginContent = (): ReactElement => {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="text-body hover:text-white transition-colors"
+                  className="text-body transition-colors hover:text-white"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -177,7 +191,7 @@ const LoginContent = (): ReactElement => {
           </div>
 
           {generalError && (
-            <div className="w-full bg-error/5 p-4 text-center text-sm font-medium text-error">
+            <div className="bg-error/5 text-error w-full p-4 text-center text-sm font-medium">
               {generalError}
             </div>
           )}
@@ -211,7 +225,10 @@ const LoginContent = (): ReactElement => {
             </Button>
             <div className="flex items-center justify-center gap-2.5">
               <p className="text-base text-white">¿No tienes cuenta?</p>
-              <Link href={ROUTES.REGISTER} className="text-base font-bold text-white">
+              <Link
+                href={ROUTES.REGISTER}
+                className="text-base font-bold text-white"
+              >
                 Regístrate
               </Link>
             </div>

@@ -1,7 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPosts, getPostBySlug, type GetPostsParams } from "@/lib/api/posts";
 import type { Post } from "@prisma/client";
-import type { PostsPageResult } from "@/lib/api/posts";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getPostBySlug,
+  getPosts,
+  type GetPostsParams,
+  type PostsPageResult,
+} from "@/lib/api/posts";
 
 export const usePosts = (params: GetPostsParams = {}) => {
   return useQuery<PostsPageResult>({

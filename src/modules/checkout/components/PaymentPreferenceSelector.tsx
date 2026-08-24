@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
 import { RadioOption } from "@/modules/shared/components/ui";
-import { PaymentNotice } from "./PaymentNotice";
-import { PaymentMethodSelector } from "./PaymentMethodSelector";
 import { PaymentCurrency, PaymentProvider } from "../types";
+import { PaymentMethodSelector } from "./PaymentMethodSelector";
+import { PaymentNotice } from "./PaymentNotice";
 
 type PaymentPreferenceSelectorProps = {
   currency: PaymentCurrency;

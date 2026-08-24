@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { vote, getUserVotes } from "@/modules/perfumes/actions";
-import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
+import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
+import { getUserVotes, vote } from "@/modules/perfumes/actions";
 import { VoteCategory } from "@/modules/perfumes/types";
 
 const VALID_CATEGORIES: VoteCategory[] = Object.values(VoteCategory);
@@ -13,13 +13,13 @@ async function authenticate(request: NextRequest) {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const payload = await authenticate(request);
   if (!payload) {
     return NextResponse.json(
       { success: false, status: 401, message: "No autenticado" },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -30,13 +30,13 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const payload = await authenticate(request);
   if (!payload) {
     return NextResponse.json(
       { success: false, status: 401, message: "No autenticado" },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -59,7 +59,7 @@ export async function POST(
           status: 400,
           message: "Categoría o campo inválido.",
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -67,13 +67,13 @@ export async function POST(
       payload.userId,
       id,
       category as VoteCategory,
-      field,
+      field
     );
     return NextResponse.json(result, { status: result.status });
   } catch {
     return NextResponse.json(
       { success: false, status: 500, message: "Error interno" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

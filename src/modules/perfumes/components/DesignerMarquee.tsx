@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";

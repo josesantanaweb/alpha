@@ -1,9 +1,7 @@
 import "server-only";
-
-import { db } from "@/lib/db";
-
-import type { ApiResult } from "@/modules/shared/types";
 import type { Vibe } from "@prisma/client";
+import { db } from "@/lib/db";
+import type { ApiResult } from "@/modules/shared/types";
 
 export async function getActive(): Promise<ApiResult<Vibe[]>> {
   try {
@@ -18,9 +16,7 @@ export async function getActive(): Promise<ApiResult<Vibe[]>> {
       success: false,
       status: 500,
       message:
-        error instanceof Error
-          ? error.message
-          : "Error al obtener las vibras.",
+        error instanceof Error ? error.message : "Error al obtener las vibras.",
     };
   }
 }

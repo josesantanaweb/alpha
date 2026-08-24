@@ -1,14 +1,11 @@
 import "server-only";
-
 import { db, isPrismaError } from "@/lib/db";
-
+import { PaginatedResult, type ApiResult } from "@/modules/shared/types";
 import { CreatePostSchema, UpdatePostSchema } from "./schema";
-import type { ApiResult } from "@/modules/shared/types";
-import { PaginatedResult } from "@/modules/shared/types";
 import type { GetPostsParams, Post } from "./types";
 
 export async function getAll(
-  params: GetPostsParams = {},
+  params: GetPostsParams = {}
 ): Promise<ApiResult<PaginatedResult<Post>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
@@ -17,8 +14,15 @@ export async function getAll(
     const where = params.search
       ? {
           OR: [
-            { title: { contains: params.search, mode: "insensitive" as const } },
-            { excerpt: { contains: params.search, mode: "insensitive" as const } },
+            {
+              title: { contains: params.search, mode: "insensitive" as const },
+            },
+            {
+              excerpt: {
+                contains: params.search,
+                mode: "insensitive" as const,
+              },
+            },
           ],
         }
       : {};
@@ -73,7 +77,8 @@ export async function getOne(id: string): Promise<ApiResult<Post>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -95,7 +100,8 @@ export async function getBySlug(slug: string): Promise<ApiResult<Post>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -127,14 +133,15 @@ export async function create(rawData: unknown): Promise<ApiResult<Post>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al crear el post.",
+      message:
+        error instanceof Error ? error.message : "Error al crear el post.",
     };
   }
 }
 
 export async function update(
   id: string,
-  rawData: unknown,
+  rawData: unknown
 ): Promise<ApiResult<Post>> {
   const result = UpdatePostSchema.safeParse({
     id,
@@ -175,7 +182,8 @@ export async function update(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al actualizar el post.",
+      message:
+        error instanceof Error ? error.message : "Error al actualizar el post.",
     };
   }
 }
@@ -202,7 +210,8 @@ export async function remove(id: string): Promise<ApiResult<null>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al eliminar el post.",
+      message:
+        error instanceof Error ? error.message : "Error al eliminar el post.",
     };
   }
 }

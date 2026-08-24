@@ -1,18 +1,13 @@
 import "server-only";
-
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-
-import { s3 } from "@/lib/s3";
-import { ALLOWED_MIME_TYPES, MAX_FILE_SIZE, MAX_FILES } from "./schema";
-import type { ApiResult } from "@/modules/shared/types";
 import { randomUUID } from "node:crypto";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { s3 } from "@/lib/s3";
+import type { ApiResult } from "@/modules/shared/types";
+import { ALLOWED_MIME_TYPES, MAX_FILE_SIZE, MAX_FILES } from "./schema";
 
 type UploadResult = { url: string; key: string };
 
-function generateKey(
-  file: File,
-  prefix?: string
-): string {
+function generateKey(file: File, prefix?: string): string {
   const ext = file.name.split(".").pop() ?? "jpg";
   const id = randomUUID();
   const parts: string[] = [id];
@@ -38,7 +33,10 @@ function validateFiles(files: File[]): ApiResult<File[]> {
   }
 
   const invalidType = files.find(
-    (f) => !ALLOWED_MIME_TYPES.includes(f.type as (typeof ALLOWED_MIME_TYPES)[number])
+    (f) =>
+      !ALLOWED_MIME_TYPES.includes(
+        f.type as (typeof ALLOWED_MIME_TYPES)[number]
+      )
   );
   if (invalidType) {
     return {
@@ -102,7 +100,8 @@ export async function upload(
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al subir las imágenes.",
+      message:
+        error instanceof Error ? error.message : "Error al subir las imágenes.",
     };
   }
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 
 interface PerfumeBadgeProps {
@@ -11,7 +12,7 @@ export const PerfumeBadge = ({
   if (!label) return null;
 
   return (
-    <p className="text-[10px] text-canvas bg-white rounded-md px-1.5 py-0.5">
+    <p className="text-canvas rounded-md bg-white px-1.5 py-0.5 text-[10px]">
       {label}
     </p>
   );

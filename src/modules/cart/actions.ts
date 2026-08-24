@@ -1,7 +1,5 @@
 import "server-only";
-
 import { Prisma } from "@prisma/client";
-
 import { db, isPrismaError } from "@/lib/db";
 import type { ApiResult } from "@/modules/shared/types";
 import { AddCartItemSchema } from "./schema";
@@ -27,7 +25,7 @@ export type CartWithItems = Prisma.CartGetPayload<{
 }>;
 
 export async function getUserCart(
-  userId: string,
+  userId: string
 ): Promise<ApiResult<CartWithItems | null>> {
   try {
     const cart = await db.cart.findUnique({
@@ -48,7 +46,7 @@ export async function getUserCart(
 
 export async function addItem(
   userId: string,
-  rawData: unknown,
+  rawData: unknown
 ): Promise<ApiResult<CartWithItems>> {
   const parsed = AddCartItemSchema.safeParse(rawData);
 
@@ -149,7 +147,7 @@ export async function addItem(
 
 export async function removeItem(
   userId: string,
-  itemId: string,
+  itemId: string
 ): Promise<ApiResult<null>> {
   try {
     const { count } = await db.cartItem.deleteMany({

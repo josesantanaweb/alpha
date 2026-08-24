@@ -1,10 +1,11 @@
-'use client';
-import type { ReactElement } from 'react';
-import { CategoryButton } from '@/modules/shared/components/CategoryButton';
-import type { Accord } from '@prisma/client';
-import { CategoriesFilterSkeleton } from './CategoriesFilterSkeleton';
+"use client";
 
-type CategoryFilterItem = Pick<Accord, 'id' | 'name'> & {
+import type { ReactElement } from "react";
+import type { Accord } from "@prisma/client";
+import { CategoryButton } from "@/modules/shared/components/CategoryButton";
+import { CategoriesFilterSkeleton } from "./CategoriesFilterSkeleton";
+
+type CategoryFilterItem = Pick<Accord, "id" | "name"> & {
   icon?: string | null;
 };
 
@@ -13,26 +14,24 @@ interface CategoriesFilterProps {
   loading: boolean;
 }
 
-export const CategoriesFilter = ({ categories, loading }: CategoriesFilterProps): ReactElement => {
-
+export const CategoriesFilter = ({
+  categories,
+  loading,
+}: CategoriesFilterProps): ReactElement => {
   return (
-    <div className="flex items-center gap-8 max-w-md overflow-x-auto scrollbar-hide">
-      <CategoryButton
-        key="all"
-        text="Todos"
-      />
+    <div className="scrollbar-hide flex max-w-md items-center gap-8 overflow-x-auto">
+      <CategoryButton key="all" text="Todos" />
 
-      {loading && (
-        <CategoriesFilterSkeleton />
-      )}
+      {loading && <CategoriesFilterSkeleton />}
 
-      {!loading && categories.map((category) => (
-        <CategoryButton
-          key={category.id}
-          text={category.name}
-          icon={category.icon ?? undefined}
-        />
-      ))}
+      {!loading &&
+        categories.map((category) => (
+          <CategoryButton
+            key={category.id}
+            text={category.name}
+            icon={category.icon ?? undefined}
+          />
+        ))}
     </div>
   );
 };

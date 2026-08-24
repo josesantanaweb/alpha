@@ -1,11 +1,12 @@
 "use client";
+
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/modules/auth/store";
-import { getFavorites, addFavorite, removeFavorite } from "@/lib/api/favorites";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ROUTES } from "@/constants";
-import type {PerfumeWithRelations} from "@/modules/perfumes/types";
+import { addFavorite, getFavorites, removeFavorite } from "@/lib/api/favorites";
+import { useAuth } from "@/modules/auth/store";
+import type { PerfumeWithRelations } from "@/modules/perfumes/types";
 
 export const useFavorites = () => {
   const router = useRouter();
@@ -16,10 +17,9 @@ export const useFavorites = () => {
 
   const queryKey = ["favorites", user?.id];
 
-  const {
-    data: perfumes = [],
-    isLoading: favoritesLoading,
-  } = useQuery<PerfumeWithRelations[]>({
+  const { data: perfumes = [], isLoading: favoritesLoading } = useQuery<
+    PerfumeWithRelations[]
+  >({
     queryKey,
     queryFn: async () => {
       if (!token) return [];
@@ -59,7 +59,7 @@ export const useFavorites = () => {
     onMutate: async (perfumeId) => {
       await queryClient.cancelQueries({ queryKey });
       queryClient.setQueryData<PerfumeWithRelations[]>(queryKey, (old) =>
-        (old ?? []).filter((p) => p.id !== perfumeId),
+        (old ?? []).filter((p) => p.id !== perfumeId)
       );
     },
     onSettled: () => {
@@ -80,7 +80,7 @@ export const useFavorites = () => {
       if (!requireAuth()) return;
       addMutation.mutate(id);
     },
-    [requireAuth, addMutation],
+    [requireAuth, addMutation]
   );
 
   const remove = useCallback(
@@ -88,7 +88,7 @@ export const useFavorites = () => {
       if (!requireAuth()) return;
       removeMutation.mutate(id);
     },
-    [requireAuth, removeMutation],
+    [requireAuth, removeMutation]
   );
 
   const toggle = useCallback(
@@ -100,7 +100,7 @@ export const useFavorites = () => {
         addMutation.mutate(id);
       }
     },
-    [ids, requireAuth, addMutation, removeMutation],
+    [ids, requireAuth, addMutation, removeMutation]
   );
 
   const isFavorite = useCallback((id: string) => ids.includes(id), [ids]);
@@ -110,5 +110,14 @@ export const useFavorites = () => {
 
   const isLoading = authLoading || (!!user && favoritesLoading);
 
-  return { ids, perfumes, isLoading, add, remove, toggle, isFavorite, isPending };
+  return {
+    ids,
+    perfumes,
+    isLoading,
+    add,
+    remove,
+    toggle,
+    isFavorite,
+    isPending,
+  };
 };

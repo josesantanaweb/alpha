@@ -1,5 +1,6 @@
 import type { Banner } from "@prisma/client";
 import { API_ROUTES } from "@/constants";
+
 export async function getActiveBanners(): Promise<Banner[]> {
   const response = await fetch(API_ROUTES.BANNERS.ACTIVE);
 

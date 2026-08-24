@@ -1,5 +1,5 @@
-import type { CartProduct } from "./types";
 import type { CartWithItems } from "./actions";
+import type { CartProduct } from "./types";
 
 type PerfumeSource = {
   id: string;
@@ -24,7 +24,7 @@ type DecantSource = {
  */
 export function toCartProduct(
   perfume: PerfumeSource,
-  decant?: DecantSource | null,
+  decant?: DecantSource | null
 ): CartProduct {
   if (decant) {
     const decantPrice = Number(decant.price);
@@ -61,7 +61,7 @@ export function toCartProduct(
  * Normalizes a full CartWithItems server response into CartItemData[].
  */
 export function normalizeCartItems(
-  cart: CartWithItems,
+  cart: CartWithItems
 ): import("./types").CartItemData[] {
   return cart.items.map((item) => ({
     id: item.id,

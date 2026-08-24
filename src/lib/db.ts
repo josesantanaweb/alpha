@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "@prisma/client";
 
 const prismaClientSingleton = () => {
   if (!process.env.DATABASE_URL) {
@@ -24,5 +24,10 @@ export const db = globalThis.prismaGlobal ?? prismaClientSingleton();
 if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = db;
 
 export function isPrismaError(error: unknown): error is { code: string } {
-  return typeof error === "object" && error !== null && "code" in error && typeof (error as Record<string, unknown>).code === "string";
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof (error as Record<string, unknown>).code === "string"
+  );
 }

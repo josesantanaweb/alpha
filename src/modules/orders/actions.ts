@@ -1,10 +1,8 @@
 import "server-only";
-
 import { Prisma } from "@prisma/client";
-
+import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { db } from "@/lib/db";
 import type { ApiResult } from "@/modules/shared/types";
-import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { CreateOrderSchema } from "./schema";
 import { orderInclude, type OrderWithItems } from "./types";
 
@@ -26,7 +24,7 @@ const PAYMENT_METHOD_MAP = {
 
 export async function createOrder(
   userId: string,
-  rawData: unknown,
+  rawData: unknown
 ): Promise<ApiResult<OrderWithItems>> {
   const parsed = CreateOrderSchema.safeParse(rawData);
 
@@ -44,15 +42,19 @@ export async function createOrder(
   try {
     const perfumeIds = [...new Set(data.items.map((i) => i.perfumeId))];
     const decantIds = [
-      ...new Set(
-        data.items.filter((i) => i.decantId).map((i) => i.decantId!),
-      ),
+      ...new Set(data.items.filter((i) => i.decantId).map((i) => i.decantId!)),
     ];
 
     const [perfumes, decants] = await Promise.all([
       db.perfume.findMany({
         where: { id: { in: perfumeIds } },
-        select: { id: true, name: true, price: true, discount: true, stock: true },
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          discount: true,
+          stock: true,
+        },
       }),
       decantIds.length > 0
         ? db.decant.findMany({
@@ -217,7 +219,7 @@ export async function createOrder(
 }
 
 export async function getOrders(
-  userId: string,
+  userId: string
 ): Promise<ApiResult<OrderWithItems[]>> {
   try {
     const orders = await db.order.findMany({
@@ -241,7 +243,7 @@ export async function getOrders(
 
 export async function getOrderById(
   userId: string,
-  orderId: string,
+  orderId: string
 ): Promise<ApiResult<OrderWithItems>> {
   try {
     const order = await db.order.findFirst({
@@ -263,9 +265,7 @@ export async function getOrderById(
       success: false,
       status: 500,
       message:
-        error instanceof Error
-          ? error.message
-          : "Error al obtener el pedido.",
+        error instanceof Error ? error.message : "Error al obtener el pedido.",
     };
   }
 }

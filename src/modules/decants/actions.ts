@@ -1,12 +1,16 @@
 import "server-only";
-
-import { db, isPrismaError } from "@/lib/db";
-
-import { CreateDecantSchema, UpdateDecantSchema } from "./schema";
-import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Decant } from "@prisma/client";
+import { db, isPrismaError } from "@/lib/db";
+import {
+  ApiResult,
+  PaginatedResult,
+  PaginationParams,
+} from "@/modules/shared/types";
+import { CreateDecantSchema, UpdateDecantSchema } from "./schema";
 
-export async function getAll(params: PaginationParams = {}): Promise<ApiResult<PaginatedResult<Decant>>> {
+export async function getAll(
+  params: PaginationParams = {}
+): Promise<ApiResult<PaginatedResult<Decant>>> {
   const limit = params.limit ?? 10;
   const offset = params.offset ?? 0;
 
@@ -14,7 +18,7 @@ export async function getAll(params: PaginationParams = {}): Promise<ApiResult<P
     const [decants, total] = await Promise.all([
       db.decant.findMany({
         include: {
-          perfume: true
+          perfume: true,
         },
         take: limit,
         skip: offset,
@@ -39,7 +43,10 @@ export async function getAll(params: PaginationParams = {}): Promise<ApiResult<P
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener los decants.",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener los decants.",
     };
   }
 }
@@ -57,8 +64,8 @@ export async function getOne(id: string): Promise<ApiResult<Decant>> {
     const decant = await db.decant.findUnique({
       where: { id },
       include: {
-        perfume: true
-      }
+        perfume: true,
+      },
     });
 
     if (!decant) {
@@ -74,7 +81,8 @@ export async function getOne(id: string): Promise<ApiResult<Decant>> {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
@@ -83,49 +91,56 @@ export async function create(rawData: unknown): Promise<ApiResult<Decant>> {
   const result = CreateDecantSchema.safeParse(rawData);
 
   if (!result.success) {
-    return { 
-      success: false, 
-      status: 400, 
-      errors: result.error.flatten().fieldErrors 
+    return {
+      success: false,
+      status: 400,
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
   try {
     const decant = await db.decant.create({
-      data: { 
-        ...result.data
+      data: {
+        ...result.data,
       },
     });
-    return { 
-      success: true, 
-      status: 201, 
-      data: decant 
+    return {
+      success: true,
+      status: 201,
+      data: decant,
     };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2002") {
-      return { 
-        success: false, 
-        status: 409, 
-        message: "Ese decant ya existe." 
+      return {
+        success: false,
+        status: 409,
+        message: "Ese decant ya existe.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
-export async function update(id: string, rawData: unknown): Promise<ApiResult<Decant>> {
-  const result = UpdateDecantSchema.safeParse({ id, ...(rawData as Record<string, unknown>) });
+export async function update(
+  id: string,
+  rawData: unknown
+): Promise<ApiResult<Decant>> {
+  const result = UpdateDecantSchema.safeParse({
+    id,
+    ...(rawData as Record<string, unknown>),
+  });
 
   if (!result.success) {
-    return { 
-      success: false, 
-      status: 400, 
-      errors: result.error.flatten().fieldErrors 
+    return {
+      success: false,
+      status: 400,
+      errors: result.error.flatten().fieldErrors,
     };
   }
 
@@ -139,27 +154,28 @@ export async function update(id: string, rawData: unknown): Promise<ApiResult<De
     return { success: true, status: 200, data: updatedPerfume };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
-      return { 
-        success: false, 
-        status: 404, 
-        message: "Decant no encontrado." 
+      return {
+        success: false,
+        status: 404,
+        message: "Decant no encontrado.",
       };
     }
 
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }
 
 export async function remove(id: string) {
   if (!id) {
-    return { 
-      success: false, 
-      status: 400, 
-      message: "El ID es requerido." 
+    return {
+      success: false,
+      status: 400,
+      message: "El ID es requerido.",
     };
   }
 
@@ -168,19 +184,25 @@ export async function remove(id: string) {
       where: { id },
     });
 
-    return { success: true, status: 200, data: null, message: "Decant eliminado con éxito." };
+    return {
+      success: true,
+      status: 200,
+      data: null,
+      message: "Decant eliminado con éxito.",
+    };
   } catch (error: unknown) {
     if (isPrismaError(error) && error.code === "P2025") {
-      return { 
-        success: false, 
-        status: 404, 
-        message: "Decant no encontrada." 
+      return {
+        success: false,
+        status: 404,
+        message: "Decant no encontrada.",
       };
     }
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error interno del servidor.",
+      message:
+        error instanceof Error ? error.message : "Error interno del servidor.",
     };
   }
 }

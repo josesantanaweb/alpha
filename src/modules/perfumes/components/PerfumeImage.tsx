@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { ReactElement } from "react";
+import Image from "next/image";
 
 interface PerfumeImageProps {
   src: string | null;

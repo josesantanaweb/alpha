@@ -155,7 +155,7 @@ Los componentes de voting siguen este patrón:
 - [ ] ¿Usé `cn()` para clases condicionales?
 - [ ] ¿Separé correctamente Server / Client components?
 - [ ] ¿Los textos de usuario están en español?
-- [ ] ¿Actualicé el barrel `index.ts` del módulo?
+- [ ] ¿Actualicé el barrel `components/index.ts` o `hooks/index.ts` correspondiente? (Nota: NO usar `index.ts` en la raíz del módulo)
 - [ ] ¿Usé Lucide para iconos y no importé otra librería?
 - [ ] ¿Los enums están en UPPERCASE?
 - [ ] ¿El diseño es premium (dark mode, acento dorado, sin colores planos)?

@@ -1,13 +1,13 @@
 "use client";
-import type { ReactElement } from "react";
-import { useState } from "react";
+
+import { useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
-import { usePosts } from "@/modules/posts/hooks/use-posts";
-import { PostCard } from "@/modules/home/blog/PostCard";
-import { PostCardSkeleton } from "@/modules/home/blog/PostCardSkeleton";
+import { ROUTES } from "@/constants";
 import { SearchInput } from "@/modules/shared/components";
 import { formatDate } from "@/modules/shared/utils/format-date";
-import { ROUTES } from "@/constants";
+import { PostCard } from "@/modules/home/blog/PostCard";
+import { PostCardSkeleton } from "@/modules/home/blog/PostCardSkeleton";
+import { usePosts } from "@/modules/posts/hooks/use-posts";
 
 interface BlogListProps {
   search?: string;
@@ -22,16 +22,16 @@ export const BlogList = ({ search }: BlogListProps): ReactElement => {
 
   const handleSearch = (value: string) => {
     const query = value.trim();
-    router.push(query ? `${ROUTES.BLOG}?search=${encodeURIComponent(query)}` : ROUTES.BLOG);
+    router.push(
+      query ? `${ROUTES.BLOG}?search=${encodeURIComponent(query)}` : ROUTES.BLOG
+    );
   };
 
   return (
     <div className="relative flex w-full flex-col gap-5 p-5 pb-25">
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold text-white">Blog</h1>
-        <p className="text-sm text-body">
-          Descubre el mundo de la perfumería
-        </p>
+        <p className="text-body text-sm">Descubre el mundo de la perfumería</p>
       </div>
 
       <SearchInput
@@ -42,7 +42,7 @@ export const BlogList = ({ search }: BlogListProps): ReactElement => {
       />
 
       {!isLoading && (
-        <p className="text-sm text-body">
+        <p className="text-body text-sm">
           {posts.length} {posts.length === 1 ? "artículo" : "artículos"}
           {search ? ` para "${search}"` : ""}
         </p>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import {getByPerfume, getUserReview, create} from "@/modules/reviews/actions";
-import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
+import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
 import { parsePaginationParams } from "@/lib/pagination";
+import { create, getByPerfume, getUserReview } from "@/modules/reviews/actions";
 
 async function authenticate(request: NextRequest) {
   const token = getTokenFromHeaders(request);
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   if (!perfumeId) {
     return NextResponse.json(
       { message: "El parámetro perfumeId es requerido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
   if (!reviewsResult.success) {
     return NextResponse.json(
       { message: reviewsResult.message },
-      { status: reviewsResult.status },
+      { status: reviewsResult.status }
     );
   }
 
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(
     { ...reviewsResult.data, userReview },
-    { status: 200 },
+    { status: 200 }
   );
 }
 
@@ -52,10 +52,7 @@ export async function POST(request: NextRequest) {
   const payload = await authenticate(request);
 
   if (!payload) {
-    return NextResponse.json(
-      { message: "No autenticado" },
-      { status: 401 },
-    );
+    return NextResponse.json({ message: "No autenticado" }, { status: 401 });
   }
 
   try {
@@ -65,7 +62,7 @@ export async function POST(request: NextRequest) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message, errors: result.errors },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -73,7 +70,7 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }

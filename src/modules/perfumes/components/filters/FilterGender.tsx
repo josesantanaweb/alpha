@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { Badge } from "@/modules/shared/components/ui";
 

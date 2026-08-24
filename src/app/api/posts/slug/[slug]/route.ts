@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {getBySlug} from "@/modules/posts/actions";
+import { getBySlug } from "@/modules/posts/actions";
 
 type RouteParams = {
   params: Promise<{ slug: string }>;
@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: RouteParams) {
   if (!result.success) {
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   }
 

@@ -1,10 +1,11 @@
 "use client";
+
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "@/modules/auth/store";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ROUTES } from "@/constants";
 import type { ApiResult } from "@/modules/shared/types";
+import { useAuth } from "@/modules/auth/store";
 import { VoteCategory } from "@/modules/perfumes/types";
 
 interface VoteParams {
@@ -92,25 +93,25 @@ export const useExperienceVote = (perfumeId: string) => {
       if (!requireAuth()) return;
       voteMutation.mutate({ category, field });
     },
-    [requireAuth, voteMutation],
+    [requireAuth, voteMutation]
   );
 
   const getUserVote = useCallback(
     (category: VoteCategory): string | null => {
       return userVotes[category] ?? null;
     },
-    [userVotes],
+    [userVotes]
   );
 
   const isVoted = useCallback(
     (category: VoteCategory, field: string): boolean => {
       return userVotes[category] === field;
     },
-    [userVotes],
+    [userVotes]
   );
 
   return useMemo(
     () => ({ userVotes, vote, getUserVote, isVoted }),
-    [userVotes, vote, getUserVote, isVoted],
+    [userVotes, vote, getUserVote, isVoted]
   );
 };

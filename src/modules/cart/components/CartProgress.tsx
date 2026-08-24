@@ -1,4 +1,5 @@
 "use client";
+
 import type { ReactElement } from "react";
 import { Truck } from "lucide-react";
 import { formatPrice } from "@/modules/shared/utils/format-price";

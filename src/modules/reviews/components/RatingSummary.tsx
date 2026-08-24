@@ -1,9 +1,9 @@
 import type { ReactElement } from "react";
 import { CollapsibleSection } from "@/modules/shared/components";
+import { AddReviewForm } from "./AddReviewForm";
 import { RatingAverage } from "./RatingAverage";
 import { RatingBreakdown } from "./RatingBreakdown";
 import { ReviewCard } from "./ReviewCard";
-import { AddReviewForm } from "./AddReviewForm";
 
 interface RatingSummaryProps {
   rating?: number;

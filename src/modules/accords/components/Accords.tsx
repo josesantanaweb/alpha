@@ -1,8 +1,8 @@
 import type { ReactElement } from "react";
-import { Search } from "lucide-react";
-import { Button } from "@/modules/shared/components/ui";
-import { CollapsibleSection } from "@/modules/shared/components";
 import { Accord } from "@prisma/client";
+import { Search } from "lucide-react";
+import { CollapsibleSection } from "@/modules/shared/components";
+import { Button } from "@/modules/shared/components/ui";
 
 interface AccordBarProps {
   name: string;
@@ -31,7 +31,9 @@ interface AccordsProps {
 export const Accords = ({ accords }: AccordsProps): ReactElement => {
   if (!accords || accords.length === 0) return <></>;
 
-  const sortedAccords = [...accords].sort((a, b) => b.percentage - a.percentage);
+  const sortedAccords = [...accords].sort(
+    (a, b) => b.percentage - a.percentage
+  );
 
   return (
     <CollapsibleSection title="Acordes principales" defaultOpen={false}>

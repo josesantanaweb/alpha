@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
-import type { Note as NoteType } from "@prisma/client";
 import Image from "next/image";
+import type { Note as NoteType } from "@prisma/client";
 import { Info } from "lucide-react";
 import { CollapsibleSection } from "@/modules/shared/components";
 
@@ -49,7 +49,9 @@ export const Notes = ({ notes }: NotesProps): ReactElement => {
                       className="h-full w-full object-scale-down"
                     />
                   </div>
-                  <p className="text-xs font-semibold text-white">{note.name}</p>
+                  <p className="text-xs font-semibold text-white">
+                    {note.name}
+                  </p>
                 </div>
               ))}
             </div>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {getUserFavorites, create, remove} from "@/modules/favorites/actions";
-import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
+import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
+import { create, getUserFavorites, remove } from "@/modules/favorites/actions";
 
 async function authenticate(request: NextRequest) {
   const token = getTokenFromHeaders(request);
@@ -13,10 +13,7 @@ async function authenticate(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const payload = await authenticate(request);
   if (!payload) {
-    return NextResponse.json(
-      { message: "No autenticado" },
-      { status: 401 },
-    );
+    return NextResponse.json({ message: "No autenticado" }, { status: 401 });
   }
 
   const result = await getUserFavorites(payload.userId);
@@ -24,7 +21,7 @@ export async function GET(request: NextRequest) {
   if (!result.success) {
     return NextResponse.json(
       { message: result.message },
-      { status: result.status },
+      { status: result.status }
     );
   }
 
@@ -34,10 +31,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const payload = await authenticate(request);
   if (!payload) {
-    return NextResponse.json(
-      { message: "No autenticado" },
-      { status: 401 },
-    );
+    return NextResponse.json({ message: "No autenticado" }, { status: 401 });
   }
 
   try {
@@ -47,7 +41,7 @@ export async function POST(request: NextRequest) {
     if (!perfumeId || typeof perfumeId !== "string") {
       return NextResponse.json(
         { message: "perfumeId es requerido." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -56,7 +50,7 @@ export async function POST(request: NextRequest) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -64,7 +58,7 @@ export async function POST(request: NextRequest) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }
@@ -72,10 +66,7 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const payload = await authenticate(request);
   if (!payload) {
-    return NextResponse.json(
-      { message: "No autenticado" },
-      { status: 401 },
-    );
+    return NextResponse.json({ message: "No autenticado" }, { status: 401 });
   }
 
   try {
@@ -85,7 +76,7 @@ export async function DELETE(request: NextRequest) {
     if (!perfumeId || typeof perfumeId !== "string") {
       return NextResponse.json(
         { message: "perfumeId es requerido." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -94,7 +85,7 @@ export async function DELETE(request: NextRequest) {
     if (!result.success) {
       return NextResponse.json(
         { message: result.message },
-        { status: result.status },
+        { status: result.status }
       );
     }
 
@@ -102,7 +93,7 @@ export async function DELETE(request: NextRequest) {
   } catch {
     return NextResponse.json(
       { message: "Formato JSON inválido." },
-      { status: 400 },
+      { status: 400 }
     );
   }
 }

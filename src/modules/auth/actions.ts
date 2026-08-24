@@ -1,13 +1,11 @@
 import "server-only";
-
-import { db } from "@/lib/db";
-
-import { signToken, verifyToken, getTokenFromHeaders } from "@/lib/auth";
-import { RegisterSchema, LoginSchema } from "./schema";
-import { ApiResult } from "@/modules/shared/types";
+import { NextRequest } from "next/server";
 import { User } from "@prisma/client";
 import bcrypt from "bcryptjs";
-import { NextRequest } from "next/server";
+import { getTokenFromHeaders, signToken, verifyToken } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { ApiResult } from "@/modules/shared/types";
+import { LoginSchema, RegisterSchema } from "./schema";
 
 type UserWithoutPassword = Omit<User, "password">;
 
@@ -17,7 +15,9 @@ function sanitizeUser(user: User): UserWithoutPassword {
   return rest;
 }
 
-export async function register(input: unknown): Promise<ApiResult<{ user: UserWithoutPassword; token: string }>> {
+export async function register(
+  input: unknown
+): Promise<ApiResult<{ user: UserWithoutPassword; token: string }>> {
   const parsed = RegisterSchema.safeParse(input);
   if (!parsed.success) {
     return {
@@ -48,17 +48,24 @@ export async function register(input: unknown): Promise<ApiResult<{ user: UserWi
 
     const token = await signToken({ userId: user.id, email: user.email });
 
-    return { success: true, status: 201, data: { user: sanitizeUser(user), token } };
+    return {
+      success: true,
+      status: 201,
+      data: { user: sanitizeUser(user), token },
+    };
   } catch (error) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al registrar usuario",
+      message:
+        error instanceof Error ? error.message : "Error al registrar usuario",
     };
   }
 }
 
-export async function login(input: unknown): Promise<ApiResult<{ user: UserWithoutPassword; token: string }>> {
+export async function login(
+  input: unknown
+): Promise<ApiResult<{ user: UserWithoutPassword; token: string }>> {
   const parsed = LoginSchema.safeParse(input);
   if (!parsed.success) {
     return {
@@ -92,17 +99,24 @@ export async function login(input: unknown): Promise<ApiResult<{ user: UserWitho
 
     const token = await signToken({ userId: user.id, email: user.email });
 
-    return { success: true, status: 200, data: { user: sanitizeUser(user), token } };
+    return {
+      success: true,
+      status: 200,
+      data: { user: sanitizeUser(user), token },
+    };
   } catch (error) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al iniciar sesión",
+      message:
+        error instanceof Error ? error.message : "Error al iniciar sesión",
     };
   }
 }
 
-export async function getMe(request: NextRequest): Promise<ApiResult<UserWithoutPassword>> {
+export async function getMe(
+  request: NextRequest
+): Promise<ApiResult<UserWithoutPassword>> {
   const token = getTokenFromHeaders(request);
   if (!token) {
     return { success: false, status: 401, message: "Token no proporcionado" };
@@ -110,7 +124,11 @@ export async function getMe(request: NextRequest): Promise<ApiResult<UserWithout
 
   const payload = await verifyToken(token);
   if (!payload) {
-    return { success: false, status: 401, message: "Token inválido o expirado" };
+    return {
+      success: false,
+      status: 401,
+      message: "Token inválido o expirado",
+    };
   }
 
   try {
@@ -124,7 +142,8 @@ export async function getMe(request: NextRequest): Promise<ApiResult<UserWithout
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error al obtener perfil",
+      message:
+        error instanceof Error ? error.message : "Error al obtener perfil",
     };
   }
 }
@@ -134,7 +153,9 @@ export function getGoogleAuthUrl(): string {
   const redirectUri = process.env.GOOGLE_REDIRECT_URI;
 
   if (!clientId || !redirectUri) {
-    throw new Error("Google OAuth no configurado (GOOGLE_CLIENT_ID o GOOGLE_REDIRECT_URI faltantes)");
+    throw new Error(
+      "Google OAuth no configurado (GOOGLE_CLIENT_ID o GOOGLE_REDIRECT_URI faltantes)"
+    );
   }
 
   const params = new URLSearchParams({
@@ -149,7 +170,9 @@ export function getGoogleAuthUrl(): string {
   return `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
 }
 
-export async function googleCallback(code: string): Promise<ApiResult<{ user: UserWithoutPassword; token: string }>> {
+export async function googleCallback(
+  code: string
+): Promise<ApiResult<{ user: UserWithoutPassword; token: string }>> {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const redirectUri = process.env.GOOGLE_REDIRECT_URI;
@@ -184,9 +207,12 @@ export async function googleCallback(code: string): Promise<ApiResult<{ user: Us
       };
     }
 
-    const userResponse = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
-      headers: { Authorization: `Bearer ${tokenData.access_token}` },
-    });
+    const userResponse = await fetch(
+      "https://www.googleapis.com/oauth2/v2/userinfo",
+      {
+        headers: { Authorization: `Bearer ${tokenData.access_token}` },
+      }
+    );
 
     const googleUser = await userResponse.json();
     if (!userResponse.ok || !googleUser.email) {
@@ -214,12 +240,19 @@ export async function googleCallback(code: string): Promise<ApiResult<{ user: Us
 
     const token = await signToken({ userId: user.id, email: user.email });
 
-    return { success: true, status: 200, data: { user: sanitizeUser(user), token } };
+    return {
+      success: true,
+      status: 200,
+      data: { user: sanitizeUser(user), token },
+    };
   } catch (error) {
     return {
       success: false,
       status: 500,
-      message: error instanceof Error ? error.message : "Error en autenticación con Google",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error en autenticación con Google",
     };
   }
 }

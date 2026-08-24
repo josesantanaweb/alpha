@@ -1,11 +1,12 @@
 "use client";
+
 import type { ReactElement } from "react";
 import Link from "next/link";
+import { ROUTES } from "@/constants";
+import { formatDate } from "@/modules/shared/utils/format-date";
 import { usePosts } from "@/modules/posts/hooks/use-posts";
 import { PostCard } from "../blog/PostCard";
 import { PostCardSkeleton } from "../blog/PostCardSkeleton";
-import { ROUTES } from "@/constants";
-import { formatDate } from "@/modules/shared/utils/format-date";
 
 export const Blog = (): ReactElement => {
   const { data, isLoading } = usePosts({ limit: 3 });
