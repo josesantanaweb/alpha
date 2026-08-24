@@ -1,4 +1,7 @@
+import "server-only";
+
 import { db } from "@/lib/db";
+
 import { signToken, verifyToken, getTokenFromHeaders } from "@/lib/auth";
 import { RegisterSchema, LoginSchema } from "./schema";
 import { ApiResult } from "@/modules/shared/types";

@@ -1,5 +1,8 @@
+import "server-only";
+
 import { db, isPrismaError } from "@/lib/db";
 import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
+
 import type { ApiResult } from "@/modules/shared/types";
 import { PaginatedResult } from "@/modules/shared/types";
 import type { ReviewWithUser, GetReviewsParams } from "./types";

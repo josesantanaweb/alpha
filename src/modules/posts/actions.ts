@@ -1,4 +1,7 @@
+import "server-only";
+
 import { db, isPrismaError } from "@/lib/db";
+
 import { CreatePostSchema, UpdatePostSchema } from "./schema";
 import type { ApiResult } from "@/modules/shared/types";
 import { PaginatedResult } from "@/modules/shared/types";

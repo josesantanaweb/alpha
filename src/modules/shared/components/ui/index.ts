@@ -5,4 +5,6 @@ export * from './Badge';
 export * from './Slider';
 export * from './Dropdown';
 export * from './RadioOption';
+export * from './Textarea';
+
 

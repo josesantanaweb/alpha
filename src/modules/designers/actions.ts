@@ -1,4 +1,7 @@
+import "server-only";
+
 import { db, isPrismaError } from "@/lib/db";
+
 import { CreateDesignerSchema, UpdateDesignerSchema } from "./schema";
 import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Designer } from "@prisma/client";

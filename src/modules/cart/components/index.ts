@@ -3,3 +3,9 @@ export * from "./CartHeader";
 export * from "./CartDrawer";
 export * from "./CartItemSkeleton";
 export * from "./DiscountCodeForm";
+export * from "./CartAuraPlusCard";
+export * from "./CartCheckoutPanel";
+export * from "./CartItem";
+export * from "./CartProgress";
+export * from "./QuantityStepper";
+

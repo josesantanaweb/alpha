@@ -1,4 +1,7 @@
+import "server-only";
+
 import { db } from "@/lib/db";
+
 import type { ApiResult } from "@/modules/shared/types";
 import type { Vibe } from "@prisma/client";
 

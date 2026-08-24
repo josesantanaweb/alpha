@@ -1,4 +1,7 @@
+import "server-only";
+
 import { Prisma } from "@prisma/client";
+
 import { db, isPrismaError } from "@/lib/db";
 import type { ApiResult } from "@/modules/shared/types";
 import { AddCartItemSchema } from "./schema";

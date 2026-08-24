@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState, type ReactElement } from "react";
 import type { PerfumeWithRelations } from "../types";
-import { useApp } from "@/modules/shared/stores/use-ui-store";
+import { Rating, CollapsibleSection } from "@/modules/shared/components";
 import { TopBar } from "@/modules/shared/components/layout";
-import { Rating } from "@/modules/shared/components/Rating";
+import { useApp } from "@/modules/shared/stores/use-ui-store";
 import { Accords } from "./Accords";
 import { AboutPerfume } from "./AboutPerfume";
 import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
 import { Experience } from "./Experience";
+import { RatingSummary } from "@/modules/reviews/components";
 import { Similar } from "./Similar";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
 import { SizeSelector } from "./SizeSelector";
@@ -84,6 +85,10 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
           feeling={perfume.feeling}
           sillage={perfume.sillage}
           projection={perfume.projection}
+        />
+        <RatingSummary
+          rating={Number(perfume.rating)}
+          reviewCount={perfume.reviewCount}
         />
       </div>
       <Similar

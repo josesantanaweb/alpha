@@ -1,4 +1,7 @@
+import "server-only";
+
 import { db, isPrismaError } from "@/lib/db";
+
 import { CreateDecantSchema, UpdateDecantSchema } from "./schema";
 import { ApiResult, PaginationParams, PaginatedResult } from "@/modules/shared/types";
 import { Decant } from "@prisma/client";

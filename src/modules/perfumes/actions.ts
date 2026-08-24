@@ -1,4 +1,7 @@
+import "server-only";
+
 import { db, isPrismaError } from "@/lib/db";
+
 import { CreatePerfumeSchema, UpdatePerfumeSchema } from "./schema";
 import { ApiResult, PaginatedResult } from "@/modules/shared/types";
 import { Perfume, Prisma } from "@prisma/client";

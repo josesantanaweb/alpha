@@ -1,4 +1,7 @@
+import "server-only";
+
 import { Prisma } from "@prisma/client";
+
 import { db } from "@/lib/db";
 import type { ApiResult } from "@/modules/shared/types";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
