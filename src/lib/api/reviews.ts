@@ -1,5 +1,8 @@
 import { API_ROUTES } from "@/constants";
-import type { ReviewWithUser, GetReviewsParams } from "@/modules/reviews/types";
+import type {
+  ReviewWithUser,
+  GetReviewsParams,
+} from "@/modules/reviews/types";
 import type { PaginatedResult } from "@/modules/shared/types";
 
 export interface GetReviewsResponse extends PaginatedResult<ReviewWithUser> {
@@ -26,4 +29,64 @@ export async function getReviews(
 
   const json = await response.json();
   return json;
+}
+
+export async function createReview(
+  token: string,
+  data: { perfumeId: string; rating: number; title?: string; comment: string }
+): Promise<ReviewWithUser> {
+  const response = await fetch(API_ROUTES.REVIEWS, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message ?? "Error al crear la reseña.");
+  }
+
+  return response.json();
+}
+
+export async function updateReview(
+  token: string,
+  reviewId: string,
+  data: { rating?: number; title?: string; comment?: string }
+): Promise<ReviewWithUser> {
+  const response = await fetch(`${API_ROUTES.REVIEWS}/${reviewId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message ?? "Error al actualizar la reseña.");
+  }
+
+  return response.json();
+}
+
+export async function deleteReview(
+  token: string,
+  reviewId: string
+): Promise<void> {
+  const response = await fetch(`${API_ROUTES.REVIEWS}/${reviewId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message ?? "Error al eliminar la reseña.");
+  }
 }

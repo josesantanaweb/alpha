@@ -5,4 +5,4 @@ export * from "./RatingAverageSkeleton";
 export * from "./RatingSummary";
 export * from "./ReviewCard";
 export * from "./ReviewCardSkeleton";
-export * from "./AddReviewForm";
+export * from "./ReviewForm";
