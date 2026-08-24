@@ -3,7 +3,7 @@ import "server-only";
 import { db } from "@/lib/db";
 
 import type { ApiResult } from "@/modules/shared/types";
-import type { PerfumeWithRelations } from "@/modules/perfumes";
+import type {PerfumeWithRelations} from "@/modules/perfumes/types";
 
 export async function getByIds(
   ids: string[]

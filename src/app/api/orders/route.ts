@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createOrder, getOrders } from "@/modules/orders";
+import {createOrder, getOrders} from "@/modules/orders/actions";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
 
 async function authenticate(request: NextRequest) {

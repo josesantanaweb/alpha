@@ -8,7 +8,6 @@ export * from "./DesignerMarquee";
 export * from "./TrustBadges";
 export * from "./Perfume";
 export * from "./AboutPerfume";
-export * from "./Accords";
 export * from "./Experience";
 export * from "./Notes";
 export * from "./PerfumeImage";

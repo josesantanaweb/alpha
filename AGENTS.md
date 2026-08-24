@@ -39,8 +39,7 @@ src/modules/<name>/
   store.ts          ← Zustand store (only if the module needs client-local state)
   hooks/            ← React Query wrappers (one file per query/mutation)
   components/       ← domain-specific React components
-  components/index.ts  ← barrel re-export for components
-  index.ts          ← barrel re-export for the module entry point
+  components/index.ts  ← barrel re-export for components (Avoid root index.ts to prevent mixing client/server)
 ```
 
 ### Existing modules
@@ -168,7 +167,7 @@ Use `cn()` (from `@/modules/shared/utils`) for conditional class merging.
   { success: boolean; status: number; data?: T; message?: string; errors?: Record<string, string[]> }
   ```
 - New features follow: `modules/<name>/` → `app/api/<name>/route.ts` → hooks → components.
-- Barrel exports must be updated (`index.ts`) whenever a new component/hook is added.
+- **NEVER use a root `index.ts` in modules.** This prevents accidentally mixing server actions (`actions.ts`) with client components, which breaks Next.js App Router builds. Use barrel exports only in subdirectories (e.g., `components/index.ts`, `hooks/index.ts`, `utils/index.ts`) and import from them explicitly.
 
 ### Enum Convention — UPPERCASE everywhere
 

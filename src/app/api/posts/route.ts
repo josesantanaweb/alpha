@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAll, create } from "@/modules/posts";
+import {getAll, create} from "@/modules/posts/actions";
 import { parsePaginationParams } from "@/lib/pagination";
 
 export async function GET(request: NextRequest) {

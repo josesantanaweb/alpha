@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Explorer } from "@/modules/explorer";
+import {Explorer} from "@/modules/explorer/components";
 
 interface PageProps {
   searchParams: Promise<Record<string, string | undefined>>;

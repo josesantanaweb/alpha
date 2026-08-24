@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getByIds } from "@/modules/favorites";
+import {getByIds} from "@/modules/favorites/actions";
 
 export async function POST(request: Request) {
   try {

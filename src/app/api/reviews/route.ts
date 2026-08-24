@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getByPerfume, getUserReview, create } from "@/modules/reviews";
+import {getByPerfume, getUserReview, create} from "@/modules/reviews/actions";
 import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
 import { parsePaginationParams } from "@/lib/pagination";
 

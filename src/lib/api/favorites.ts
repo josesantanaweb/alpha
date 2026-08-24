@@ -1,4 +1,4 @@
-import type { PerfumeWithRelations } from "@/modules/perfumes";
+import type {PerfumeWithRelations} from "@/modules/perfumes/types";
 import { API_ROUTES } from "@/constants";
 
 /** Get current user's favorite perfumes */

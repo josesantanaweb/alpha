@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { googleCallback } from "@/modules/auth";
+import {googleCallback} from "@/modules/auth/actions";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");

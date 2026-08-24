@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getActive } from "@/modules/banners";
+import {getActive} from "@/modules/banners/actions";
 
 export async function GET() {
   const result = await getActive();

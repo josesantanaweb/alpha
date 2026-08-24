@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { upload } from "@/modules/uploads";
+import {upload} from "@/modules/uploads/actions";
 
 export async function POST(request: Request) {
   try {

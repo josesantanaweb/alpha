@@ -1,3 +1,4 @@
+export * from "./Checkout";
 export * from "./CheckoutOrderSummary";
 export * from "./ContactForm";
 export * from "./DeliveryMethodSelector";

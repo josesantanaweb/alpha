@@ -1,4 +1,4 @@
-import type { OrderWithItems } from "@/modules/orders";
+import type {OrderWithItems} from "@/modules/orders/types";
 import { API_ROUTES } from "@/constants";
 
 export async function getOrders(

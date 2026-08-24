@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getUserCart } from "@/modules/cart";
+import {getUserCart} from "@/modules/cart/actions";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
 
 async function authenticate(request: NextRequest) {

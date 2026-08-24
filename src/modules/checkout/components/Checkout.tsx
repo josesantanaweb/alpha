@@ -3,25 +3,25 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactElement } from "react";
 import { useAuth } from "@/modules/auth/store";
-import { useCart } from "../cart/hooks/use-cart";
-import { useApp } from "@/modules/shared/stores/use-ui-store";
+import { useCart } from "@/modules/cart/hooks";
+import { useApp } from "@/modules/shared/stores";
 import { ROUTES } from "@/constants";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { Button } from "@/modules/shared/components/ui";
 import { TopBar } from "@/modules/shared/components/layout";
-import { DeliveryMethodSelector } from "./components/DeliveryMethodSelector";
-import { ContactForm } from "./components/ContactForm";
-import { ShippingAddressForm } from "./components/ShippingAddressForm";
-import { PaymentPreferenceSelector } from "./components/PaymentPreferenceSelector";
-import { CheckoutOrderSummary } from "./components/CheckoutOrderSummary";
-import { useCreateOrder } from "./hooks/use-create-order";
+import { DeliveryMethodSelector } from "./DeliveryMethodSelector";
+import { ContactForm } from "./ContactForm";
+import { ShippingAddressForm } from "./ShippingAddressForm";
+import { PaymentPreferenceSelector } from "./PaymentPreferenceSelector";
+import { CheckoutOrderSummary } from "./CheckoutOrderSummary";
+import { useCreateOrder } from "../hooks/use-create-order";
 
 import {
   type CheckoutFormData,
   type FormErrors,
   DeliveryMethod,
   INITIAL_FORM,
-} from "./types";
+} from "../types";
 
 export const Checkout = (): ReactElement => {
   const router = useRouter();

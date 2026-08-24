@@ -1,4 +1,4 @@
-import { Account } from "@/modules/account";
+import {Account} from "@/modules/account/components";
 import { AuthGuard } from "@/modules/shared/components/AuthGuard";
 
 export default function AccountPage() {

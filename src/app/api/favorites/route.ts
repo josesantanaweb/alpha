@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getUserFavorites,
-  create,
-  remove,
-} from "@/modules/favorites";
+import {getUserFavorites, create, remove} from "@/modules/favorites/actions";
 import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
 
 async function authenticate(request: NextRequest) {

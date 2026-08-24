@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { addItem } from "@/modules/cart";
+import {addItem} from "@/modules/cart/actions";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {

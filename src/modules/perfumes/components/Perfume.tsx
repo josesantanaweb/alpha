@@ -1,22 +1,19 @@
 "use client";
 import { useEffect, useState, type ReactElement } from "react";
 import type { PerfumeWithRelations } from "../types";
-import { Rating, CollapsibleSection } from "@/modules/shared/components";
-import { TopBar } from "@/modules/shared/components/layout";
-import { useApp } from "@/modules/shared/stores/use-ui-store";
-import { Accords } from "./Accords";
+import { Rating, TopBar, AddToCart } from "@/modules/shared/components";
+import { useApp } from "@/modules/shared/stores";
+import { getGenderLabel, formatPrice } from "@/modules/shared/utils";
+import { Accords } from "@/modules/accords/components";
 import { AboutPerfume } from "./AboutPerfume";
 import { Notes } from "./Notes";
 import { PerfumeImage } from "./PerfumeImage";
 import { Experience } from "./Experience";
 import { RatingSummary } from "@/modules/reviews/components";
 import { Similar } from "./Similar";
-import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
+import { useFavorites } from "@/modules/favorites/hooks";
 import { SizeSelector } from "./SizeSelector";
-import { getGenderLabel } from "@/modules/shared/utils/gender";
-import { formatPrice } from "@/modules/shared/utils/format-price";
 import { usePerfumes } from "../hooks/use-perfume-query";
-import { AddToCart } from "@/modules/shared/components";
 import { toCartProduct } from "@/modules/cart/utils";
 import { BOTTLE_ML } from "@/constants";
 
@@ -46,7 +43,6 @@ export const Perfume = ({ perfume }: PerfumeProps): ReactElement => {
   return (
     <div className="mb-40 flex w-full flex-col gap-4 p-5">
       <TopBar />
-
       <div className="relative mb-6 flex w-full items-center justify-center">
         <div className="absolute top-1/2 left-1/2 h-45 w-45 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/40 blur-[30px]" />
         <PerfumeImage src={perfume.image} alt={perfume.name} />

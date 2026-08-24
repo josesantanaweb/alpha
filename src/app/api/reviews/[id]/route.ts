@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { update, remove } from "@/modules/reviews";
+import {update, remove} from "@/modules/reviews/actions";
 import { verifyToken, getTokenFromHeaders } from "@/lib/auth";
 
 type RouteParams = {

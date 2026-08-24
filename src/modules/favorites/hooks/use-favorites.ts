@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/modules/auth/store";
 import { getFavorites, addFavorite, removeFavorite } from "@/lib/api/favorites";
 import { ROUTES } from "@/constants";
-import type { PerfumeWithRelations } from "@/modules/perfumes";
+import type {PerfumeWithRelations} from "@/modules/perfumes/types";
 
 export const useFavorites = () => {
   const router = useRouter();

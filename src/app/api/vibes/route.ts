@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getActive } from "@/modules/vibes";
+import {getActive} from "@/modules/vibes/actions";
 
 export async function GET() {
   const result = await getActive();
