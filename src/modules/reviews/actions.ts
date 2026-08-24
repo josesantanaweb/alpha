@@ -1,9 +1,9 @@
 import "server-only";
 import { Review } from "@prisma/client";
 import { db, isPrismaError } from "@/lib/db";
-import { PaginatedResult, type ApiResult } from "@/modules/shared/types";
+import { type ApiResult } from "@/modules/shared/types";
 import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
-import type { GetReviewsParams, ReviewWithUser } from "./types";
+import type { GetReviewsParams, GetReviewsResponse, ReviewWithUser } from "./types";
 
 const userSelect = {
   id: true,
@@ -29,7 +29,7 @@ async function syncPerfumeRating(perfumeId: string): Promise<void> {
 
 export async function getByPerfume(
   params: GetReviewsParams
-): Promise<ApiResult<PaginatedResult<ReviewWithUser>>> {
+): Promise<ApiResult<GetReviewsResponse>> {
   const { perfumeId, limit = 10, offset = 0 } = params;
 
   if (!perfumeId) {
@@ -41,7 +41,7 @@ export async function getByPerfume(
   }
 
   try {
-    const [reviews, total] = await Promise.all([
+    const [reviews, total, group] = await Promise.all([
       db.review.findMany({
         where: { perfumeId },
         include: { user: { select: userSelect } },
@@ -50,9 +50,22 @@ export async function getByPerfume(
         skip: offset,
       }),
       db.review.count({ where: { perfumeId } }),
+      db.review.groupBy({
+        by: ["rating"],
+        where: { perfumeId },
+        _count: { rating: true },
+      }),
     ]);
 
     const nextOffset = offset + limit;
+    const grandTotal = group.reduce((sum, r) => sum + r._count.rating, 0);
+    const distribution: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+
+    for (const row of group) {
+      distribution[row.rating] = grandTotal > 0
+        ? Math.round((row._count.rating / grandTotal) * 100)
+        : 0;
+    }
 
     return {
       success: true,
@@ -63,6 +76,7 @@ export async function getByPerfume(
         limit,
         offset,
         nextPage: nextOffset < total ? nextOffset : null,
+        distribution,
       },
     };
   } catch (error: unknown) {

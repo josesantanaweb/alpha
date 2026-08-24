@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { Star } from "lucide-react";
 import type { ReviewWithUser } from "../types";
+import Image from "next/image";
 
 interface ReviewCardProps {
   review?: ReviewWithUser;
@@ -26,9 +27,11 @@ export const ReviewCard = ({ review }: ReviewCardProps): ReactElement => {
     <div className="border-stroke flex w-full flex-col gap-3 border-b py-3">
       <div className="flex w-full items-center gap-3">
         {review?.user?.avatar ? (
-          <img
+          <Image
             src={review.user.avatar}
             alt={userName}
+            width={200}
+            height={200}
             className="h-10 w-10 rounded-full object-cover"
           />
         ) : (

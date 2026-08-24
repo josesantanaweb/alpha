@@ -4,6 +4,7 @@ import type { PaginatedResult } from "@/modules/shared/types";
 
 export interface GetReviewsResponse extends PaginatedResult<ReviewWithUser> {
   userReview: ReviewWithUser | null;
+  distribution: Record<number, number>;
 }
 
 export async function getReviews(
