@@ -2,13 +2,10 @@ import { API_ROUTES } from "@/constants";
 import type {
   ReviewWithUser,
   GetReviewsParams,
+  GetReviewsResponse,
 } from "@/modules/reviews/types";
-import type { PaginatedResult } from "@/modules/shared/types";
 
-export interface GetReviewsResponse extends PaginatedResult<ReviewWithUser> {
-  userReview: ReviewWithUser | null;
-  distribution: Record<number, number>;
-}
+export type { GetReviewsResponse };
 
 export async function getReviews(
   params: GetReviewsParams

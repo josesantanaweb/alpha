@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteReview } from "@/lib/api/reviews";
 import { useAuth } from "@/modules/auth/store";
+import { reviewsKeys } from "./reviews-keys";
 
 export const useDeleteReview = (perfumeId: string) => {
   const queryClient = useQueryClient();
@@ -14,7 +15,9 @@ export const useDeleteReview = (perfumeId: string) => {
       return deleteReview(token, reviewId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews", { perfumeId }] });
+      queryClient.invalidateQueries({
+        queryKey: reviewsKeys.all(perfumeId),
+      });
     },
   });
 };

@@ -2,6 +2,7 @@ export * from "./ui";
 export * from "./layout";
 export * from "./CategoryButton";
 export * from "./LikeButton";
+export * from "./StarRating";
 export * from "./Rating";
 export * from "./ProgressBar";
 export * from "./Tabs";

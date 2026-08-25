@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, type ReactElement } from "react";
-import { Star } from "lucide-react";
+import { StarRating } from "@/modules/shared/components";
 import { Button, Input, Textarea } from "@/modules/shared/components/ui";
 import { useCreateReview, useUpdateReview } from "../hooks";
+import { CreateReviewSchema, UpdateReviewSchema } from "../schema";
 import type { ReviewWithUser } from "../types";
 
 interface ReviewFormProps {
@@ -34,14 +35,23 @@ export const ReviewForm = ({
     e.preventDefault();
     setErrors({});
 
-    if (rating === 0) {
-      setErrors({ rating: "Selecciona una clasificación." });
-      return;
-    }
-    if (comment.length < 10) {
-      setErrors({
-        comment: "El comentario debe tener al menos 10 caracteres.",
-      });
+    const data = {
+      rating,
+      title: title || undefined,
+      comment,
+    };
+
+    const result = isEditing
+      ? UpdateReviewSchema.safeParse(data)
+      : CreateReviewSchema.safeParse({ ...data, perfumeId });
+
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      const flattened = result.error.flatten().fieldErrors;
+      for (const [key, messages] of Object.entries(flattened)) {
+        if (messages?.length) fieldErrors[key] = messages[0];
+      }
+      setErrors(fieldErrors);
       return;
     }
 
@@ -49,22 +59,19 @@ export const ReviewForm = ({
       updateMutation.mutate(
         {
           reviewId: review.id,
-          data: { rating, title: title || undefined, comment },
+          data,
         },
         { onSuccess }
       );
     } else {
-      createMutation.mutate(
-        { rating, title: title || undefined, comment },
-        {
-          onSuccess: () => {
-            setRating(0);
-            setTitle("");
-            setComment("");
-            onSuccess?.();
-          },
-        }
-      );
+      createMutation.mutate(data, {
+        onSuccess: () => {
+          setRating(0);
+          setTitle("");
+          setComment("");
+          onSuccess?.();
+        },
+      });
     }
   };
 
@@ -78,25 +85,15 @@ export const ReviewForm = ({
       </h3>
 
       <div className="flex flex-col gap-2">
-        <p className="text-white text-sm font-bold uppercase">
-          Clasificación
-        </p>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, index) => {
-            const starValue = index + 1;
-            return (
-              <Star
-                key={index}
-                className="cursor-pointer text-yellow-500 transition-transform hover:scale-110"
-                size={18}
-                fill={starValue <= rating ? "currentColor" : "none"}
-                onClick={() => setRating(starValue)}
-              />
-            );
-          })}
-        </div>
+        <p className="text-sm font-bold text-white uppercase">Clasificación</p>
+        <StarRating
+          value={rating}
+          size={18}
+          readOnly={false}
+          onChange={setRating}
+        />
         {errors.rating && (
-          <p className="text-red-400 text-xs">{errors.rating}</p>
+          <p className="text-xs text-red-400">{errors.rating}</p>
         )}
       </div>
 
@@ -115,10 +112,11 @@ export const ReviewForm = ({
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           error={errors.comment}
+          maxLength={1000}
         />
 
         {error && (
-          <p className="text-red-400 text-xs w-full text-left">
+          <p className="w-full text-left text-xs text-red-400">
             {error.message}
           </p>
         )}

@@ -6,6 +6,7 @@ export type ReviewWithUser = Prisma.ReviewGetPayload<{
 }>;
 
 export interface GetReviewsResponse extends PaginatedResult<ReviewWithUser> {
+  userReview: ReviewWithUser | null;
   distribution: Record<number, number>;
 }
 

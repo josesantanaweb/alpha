@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateReview } from "@/lib/api/reviews";
 import { useAuth } from "@/modules/auth/store";
+import { reviewsKeys } from "./reviews-keys";
 
 export const useUpdateReview = (perfumeId: string) => {
   const queryClient = useQueryClient();
@@ -20,7 +21,9 @@ export const useUpdateReview = (perfumeId: string) => {
       return updateReview(token, reviewId, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews", { perfumeId }] });
+      queryClient.invalidateQueries({
+        queryKey: reviewsKeys.all(perfumeId),
+      });
     },
   });
 };

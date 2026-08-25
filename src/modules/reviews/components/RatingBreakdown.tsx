@@ -12,7 +12,7 @@ export const RatingBreakdown = ({
   return (
     <div className="flex w-full flex-col gap-1">
       {starsList.map((stars) => {
-        const percentage = distribution?.[stars] ?? 50;
+        const percentage = distribution?.[stars] ?? 0;
         return (
           <div key={stars} className="flex w-full items-center gap-3">
             <span className="text-body text-sm">{stars}</span>

@@ -1,10 +1,11 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { Pencil, Trash2, Star } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import type { ReviewWithUser } from "../types";
 import { useDeleteReview } from "../hooks";
+import { StarRating } from "@/modules/shared/components";
 
 interface ReviewCardProps {
   review?: ReviewWithUser;
@@ -16,27 +17,28 @@ export const ReviewCard = ({
   review,
   isOwner,
   onEdit,
-}: ReviewCardProps): ReactElement => {
+}: ReviewCardProps): ReactElement | null => {
   const { mutate: remove, isPending: isDeleting } = useDeleteReview(
     review?.perfumeId ?? ""
   );
-  const userName = review?.user?.name ?? "Jose Santana";
+
+  if (!review) return null;
+
+  const userName = review.user?.name ?? "";
   const userInitial = userName.charAt(0).toUpperCase();
-  const title = review?.title ?? "Slightly Mysterious";
-  const comment =
-    review?.comment ??
-    "I absolutely love Guidance! The hazelnut and vanilla combo is to die for—it's like a warm hug in a bottle. The way it blends with the sandalwood gives it this unique depth that I can't get enough of. Definitely lasts all day on my skin too, which is a plus. Perfect for fall/winter nights out or just chilling at home.";
-  const rating = review?.rating ?? 5;
-  const dateStr = review?.createdAt
+  const title = review.title ?? "";
+  const comment = review.comment ?? "";
+  const rating = review.rating ?? 0;
+  const dateStr = review.createdAt
     ? new Date(review.createdAt).toLocaleDateString("es-ES", {
         day: "numeric",
         month: "long",
         year: "numeric",
       })
-    : "12 Julio 2026";
+    : "";
 
   const handleDelete = () => {
-    if (review && window.confirm("¿Eliminar tu reseña?")) {
+    if (window.confirm("¿Eliminar tu reseña?")) {
       remove(review.id);
     }
   };
@@ -45,7 +47,7 @@ export const ReviewCard = ({
     <div className="border-stroke flex w-full flex-col gap-3 border-b py-3">
       <div className="flex w-full items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          {review?.user?.avatar ? (
+          {review.user?.avatar ? (
             <Image
               src={review.user.avatar}
               alt={userName}
@@ -67,7 +69,7 @@ export const ReviewCard = ({
         {isOwner && (
           <div className="flex items-center gap-2">
             <button
-              onClick={() => onEdit?.(review!)}
+              onClick={() => onEdit?.(review)}
               className="text-body cursor-pointer hover:text-white"
               title="Editar"
             >
@@ -91,16 +93,7 @@ export const ReviewCard = ({
           )}
           <p className="text-body text-xs">{comment}</p>
         </div>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star
-              key={index}
-              className="text-yellow-500"
-              size={14}
-              fill={index < rating ? "currentColor" : "none"}
-            />
-          ))}
-        </div>
+        <StarRating value={rating} size={14} />
       </div>
     </div>
   );

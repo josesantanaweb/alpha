@@ -20,6 +20,9 @@ export interface TextareaProps
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, label, error, ...props }, ref) => {
+    const charCount = typeof props.value === "string" ? props.value.length : 0;
+    const showCount = typeof props.maxLength === "number";
+
     return (
       <div className="flex w-full flex-col">
         <div className="flex w-full flex-col gap-1.5">
@@ -44,6 +47,11 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         </div>
         {error && (
           <span className="text-error mt-1.5 text-xs font-medium">{error}</span>
+        )}
+        {showCount && (
+          <p className="text-body mt-1.5 w-full text-right text-sm">
+            {charCount}/{props.maxLength}
+          </p>
         )}
       </div>
     );
