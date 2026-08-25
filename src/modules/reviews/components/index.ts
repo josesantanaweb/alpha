@@ -6,3 +6,5 @@ export * from "./RatingSummary";
 export * from "./ReviewCard";
 export * from "./ReviewCardSkeleton";
 export * from "./ReviewForm";
+export * from "./ReviewSortMenu";
+export * from "./ReviewList";

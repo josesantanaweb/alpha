@@ -7,3 +7,6 @@ export const SHIPPING_FEE = 5;
 
 // Perfumes
 export const BOTTLE_ML = 100;
+
+// Reviews
+export const RELATIVE_DATE_THRESHOLD_DAYS = 7;

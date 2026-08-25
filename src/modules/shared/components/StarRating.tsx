@@ -21,14 +21,15 @@ export const StarRating = ({
       {Array.from({ length: 5 }).map((_, index) => {
         const starValue = index + 1;
         const filled = starValue <= value;
+        const colorClass = filled ? "text-yellow-500" : "text-stroke";
 
         if (readOnly) {
           return (
             <Star
               key={index}
-              className="text-yellow-500"
+              className={colorClass}
               size={size}
-              fill={filled ? "currentColor" : "none"}
+              fill="currentColor"
             />
           );
         }
@@ -42,9 +43,9 @@ export const StarRating = ({
             className="cursor-pointer"
           >
             <Star
-              className="text-yellow-500 transition-transform hover:scale-110"
+              className={`${colorClass} transition-transform hover:scale-110`}
               size={size}
-              fill={filled ? "currentColor" : "none"}
+              fill="currentColor"
             />
           </button>
         );

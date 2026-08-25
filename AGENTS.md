@@ -168,6 +168,8 @@ Use `cn()` (from `@/modules/shared/utils`) for conditional class merging.
   ```
 - New features follow: `modules/<name>/` → `app/api/<name>/route.ts` → hooks → components.
 - **NEVER use a root `index.ts` in modules.** This prevents accidentally mixing server actions (`actions.ts`) with client components, which breaks Next.js App Router builds. Use barrel exports only in subdirectories (e.g., `components/index.ts`, `hooks/index.ts`, `utils/index.ts`) and import from them explicitly.
+- **Constants live in the `constants` folder.** Do not define magic numbers or literals inline where they are used; move them to `src/constants/` (re-exported from `@/constants`) and import them.
+- **Utils live in their own util file.** Utility functions (formatting, helpers, etc.) must NOT be declared in the same file where they are used. Put them in a `utils/` subdirectory (e.g., `modules/shared/utils/` or `modules/<name>/utils/`) and import them from there.
 
 ### Enum Convention — UPPERCASE everywhere
 

@@ -80,7 +80,7 @@ export const ReviewForm = ({
       onSubmit={handleSubmit}
       className="flex w-full flex-col items-start gap-6"
     >
-      <h3 className="text-base font-semibold text-white">
+      <h3 className="text-lg font-semibold text-white">
         {isEditing ? "Editar tu Reseña" : "Agrega tu Reseña"}
       </h3>
 

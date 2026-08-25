@@ -1,11 +1,12 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
-import type { ReviewWithUser } from "../types";
+import { Pencil, Trash2 } from "lucide-react";
+import { HelpfulButton, StarRating } from "@/modules/shared/components";
+import { formatRelativeDate } from "@/modules/shared/utils";
 import { useDeleteReview } from "../hooks";
-import { StarRating } from "@/modules/shared/components";
+import type { ReviewWithUser } from "../types";
 
 interface ReviewCardProps {
   review?: ReviewWithUser;
@@ -29,13 +30,7 @@ export const ReviewCard = ({
   const title = review.title ?? "";
   const comment = review.comment ?? "";
   const rating = review.rating ?? 0;
-  const dateStr = review.createdAt
-    ? new Date(review.createdAt).toLocaleDateString("es-ES", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-    : "";
+  const dateStr = formatRelativeDate(review.createdAt);
 
   const handleDelete = () => {
     if (window.confirm("¿Eliminar tu reseña?")) {
@@ -46,22 +41,25 @@ export const ReviewCard = ({
   return (
     <div className="border-stroke flex w-full flex-col gap-3 border-b py-3">
       <div className="flex w-full items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full">
           {review.user?.avatar ? (
             <Image
               src={review.user.avatar}
               alt={userName}
               width={200}
               height={200}
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-full object-cover shrink-0"
             />
           ) : (
-            <span className="text-surface flex h-10 w-10 items-center justify-center rounded-full bg-white text-lg font-semibold">
+            <span className="text-surface flex h-10 shrink-0 w-10 items-center justify-center rounded-full bg-white text-lg font-semibold">
               {userInitial}
             </span>
           )}
-          <div className="flex flex-col">
-            <h4 className="text-base font-semibold text-white">{userName}</h4>
+          <div className="flex w-full justify-between">
+            <div className="flex flex-col">
+              <h4 className="text-base font-semibold text-white">{userName}</h4>
+              <StarRating value={rating} size={14} />
+            </div>
             <p className="text-body text-sm">{dateStr}</p>
           </div>
         </div>
@@ -92,8 +90,11 @@ export const ReviewCard = ({
             <h5 className="text-sm font-semibold text-white">{title}</h5>
           )}
           <p className="text-body text-xs">{comment}</p>
+          <div className="flex items-center gap-3">
+            <HelpfulButton direction="up" label="Útil" />
+            <HelpfulButton direction="down" label="No útil" />
+          </div>
         </div>
-        <StarRating value={rating} size={14} />
       </div>
     </div>
   );

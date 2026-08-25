@@ -3,21 +3,22 @@
 import { useState, type ReactElement } from "react";
 import { useQueries } from "@tanstack/react-query";
 import { PAGINATION_PAGE_SIZE } from "@/constants";
+import { getReviews } from "@/lib/api/reviews";
 import { CollapsibleSection } from "@/modules/shared/components";
 import { Button } from "@/modules/shared/components/ui";
 import { useAuth } from "@/modules/auth/store";
-import { getReviews } from "@/lib/api/reviews";
 import { reviewsKeys } from "../hooks/reviews-keys";
+import { ReviewSort, type ReviewWithUser } from "../types";
 import {
-  ReviewForm,
   RatingAverage,
   RatingAverageSkeleton,
   RatingBreakdown,
   RatingBreakdownSkeleton,
-  ReviewCard,
   ReviewCardSkeleton,
+  ReviewForm,
+  ReviewList,
+  ReviewSortMenu,
 } from "./";
-import type { ReviewWithUser } from "../types";
 
 interface RatingSummaryProps {
   perfumeId: string;
@@ -34,6 +35,7 @@ export const RatingSummary = ({
 }: RatingSummaryProps): ReactElement => {
   const user = useAuth((s) => s.user);
   const [fetchedOffsets, setFetchedOffsets] = useState<number[]>([0]);
+  const [sort, setSort] = useState<ReviewSort>(ReviewSort.RECENT);
   const [editingReview, setEditingReview] = useState<ReviewWithUser | null>(
     null
   );
@@ -58,9 +60,7 @@ export const RatingSummary = ({
   const firstQuery = pageQueries[0];
   const lastQuery = pageQueries[pageQueries.length - 1];
   const isInitialLoad = firstQuery?.isLoading ?? false;
-  const isPaginationLoading = pageQueries.some(
-    (q, i) => i > 0 && q.isLoading
-  );
+  const isPaginationLoading = pageQueries.some((q, i) => i > 0 && q.isLoading);
   const isError = pageQueries.some((q) => q.isError);
   const allReviews = pageQueries.flatMap((q) => q.data?.data ?? []);
   const nextOffset = lastQuery?.data?.nextPage ?? null;
@@ -118,17 +118,18 @@ export const RatingSummary = ({
             </>
           )}
 
-          {!isInitialLoad &&
-            !isError &&
-            hasReviews &&
-            allReviews.map((review) => (
-              <ReviewCard
-                key={review.id}
-                review={review}
-                isOwner={user?.id === review.userId}
-                onEdit={handleEdit}
-              />
-            ))}
+          <div className="flex w-full flex-col gap-3">
+            {!isInitialLoad && !isError && hasReviews && (
+              <>
+                <ReviewSortMenu value={sort} onChange={setSort} />
+                <ReviewList
+                  reviews={allReviews}
+                  currentUserId={user?.id}
+                  onEdit={handleEdit}
+                />
+              </>
+            )}
+          </div>
 
           {!isInitialLoad && !isError && !hasReviews && (
             <p className="py-4 text-center text-sm text-white">

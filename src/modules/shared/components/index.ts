@@ -4,6 +4,7 @@ export * from "./CategoryButton";
 export * from "./LikeButton";
 export * from "./StarRating";
 export * from "./Rating";
+export * from "./HelpfulButton";
 export * from "./ProgressBar";
 export * from "./Tabs";
 export * from "./AddToCart";

@@ -53,10 +53,136 @@ Diagnóstico y propuestas de mejora sobre `src/modules/reviews/`, sus hooks, com
 
 ## Fase 5: Backlog (fuera de alcance inmediato)
 
-- Votos "¿Te fue útil esta reseña?" (like/dislike por review).
+- Votos "¿Te fue útil esta reseña?" (like/dislike por review) → ver **Fase 6**.
 - Reporte de contenido inapropiado / moderación admin.
-- Ordenar reseñas por "más útiles", "mejor calificación", "más recientes".
+- Ordenar reseñas por "más útiles", "mejor calificación", "más recientes" → ver **Fase 7**.
 - Tests unitarios de `actions.ts` (validación, `syncPerfumeRating`, permisos de owner) y tests de integración de los hooks de mutación.
+
+---
+
+## Fase 6: Votos de utilidad ("¿Te fue útil esta reseña?")
+
+> Estado actual: `ReviewCard` ya tiene los botones `HelpfulButton` (👍 Útil / 👎 No útil) en `shared/components/HelpfulButton.tsx`, pero son puramente decorativos — no tienen `onClick`, no cuentan votos y no persisten nada.
+
+### 1. Prisma schema
+
+- Nuevo modelo `ReviewVote` (un voto por usuario por review, igual patrón que `UserVote`):
+  ```prisma
+  model ReviewVote {
+    id        String   @id @default(uuid())
+    reviewId  String
+    review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    isHelpful Boolean
+    createdAt DateTime @default(now())
+
+    @@unique([reviewId, userId])
+  }
+  ```
+- Agregar contadores desnormalizados a `Review` (mismo patrón que `perfume.rating`/`reviewCount`):
+  ```prisma
+  model Review {
+    // ...campos existentes
+    helpfulCount    Int @default(0)
+    notHelpfulCount Int @default(0)
+    votes           ReviewVote[]
+  }
+  ```
+- Agregar la relación inversa `reviewVotes ReviewVote[]` en `User`.
+- Ejecutar `pnpm prisma db push`.
+
+### 2. Zod schema (`modules/reviews/schema.ts`)
+
+```ts
+export const VoteReviewSchema = z.object({
+  isHelpful: z.boolean(),
+});
+```
+
+### 3. Backend (`modules/reviews/actions.ts`)
+
+- `syncReviewVoteCounts(reviewId)`: agrupa `ReviewVote` por `isHelpful` y actualiza `helpfulCount`/`notHelpfulCount` en `Review` (igual que `syncPerfumeRating`).
+- `voteReview(reviewId, userId, isHelpful)`:
+  - Si no existe voto → `create`.
+  - Si existe voto con el mismo `isHelpful` → **toggle off**: `delete` (el usuario quita su voto al volver a hacer click).
+  - Si existe voto con `isHelpful` distinto → `update` (cambia de Útil a No útil o viceversa).
+  - Llamar `syncReviewVoteCounts(reviewId)` al final.
+  - Retornar `{ helpfulCount, notHelpfulCount, userVote: boolean | null }`.
+
+### 4. API route
+
+- Nuevo archivo `src/app/api/reviews/[id]/vote/route.ts`:
+  - `POST` — requiere Bearer token (igual patrón que `favorites`). Body `{ isHelpful: boolean }` validado con `VoteReviewSchema`. Llama a `voteReview`.
+
+### 5. Incluir el voto del usuario en el listado
+
+- En `getByPerfume` (actions.ts) y en la ruta `GET /api/reviews`, hacer un query adicional (solo si hay usuario autenticado) para traer los `ReviewVote` del usuario sobre las reviews de la página actual, y anexar `userVote: boolean | null` a cada `ReviewWithUser`.
+- Actualizar `ReviewWithUser` / `GetReviewsResponse` en `types.ts` para incluir `helpfulCount`, `notHelpfulCount` y `userVote`.
+
+### 6. Frontend
+
+- `lib/api/reviews.ts` → `voteReview(token, reviewId, isHelpful)`.
+- Nuevo hook `modules/reviews/hooks/use-vote-review.ts`:
+  - `useMutation` con **optimistic update** (`onMutate` incrementa/decrementa contadores localmente vía `queryClient.setQueriesData` sobre `reviewsKeys.all(perfumeId)`, `onError` hace rollback) — mismo patrón sugerido en Fase 3 para create/update/delete.
+  - Si no hay usuario autenticado → redirigir a `/login` (patrón `useFavorites`/`useCreateReview`).
+- `HelpfulButton` (`shared/components/HelpfulButton.tsx`): agregar prop `count?: number` para mostrar el número junto al label.
+- `ReviewCard.tsx`: pasar `review.helpfulCount`, `review.notHelpfulCount`, `review.userVote` y conectar `onClick` de cada `HelpfulButton` a `useVoteReview`. `active` = `userVote === true` (Útil) / `userVote === false` (No útil).
+
+### 7. Orden de implementación sugerido
+
+1. Schema + `db push`.
+2. `actions.ts` (`voteReview`, `syncReviewVoteCounts`) + Zod schema.
+3. API route `[id]/vote`.
+4. Extender `getByPerfume` con `userVote` por review.
+5. `lib/api/reviews.ts` + hook `use-vote-review.ts`.
+6. Conectar `HelpfulButton` en `ReviewCard`.
+
+---
+
+## Fase 7: Ordenar reseñas (sort)
+
+> Estado actual: `ReviewSortMenu` ya existe (`components/ReviewSortMenu.tsx`) con las 3 opciones (Recientes / Mejor calificación / Más útiles) y el enum `ReviewSort` en `types.ts`, pero es 100% cosmético — cambiar la opción no afecta el `orderBy` del backend ni la query.
+
+> ⚠️ La opción **"Más útiles"** depende de que la **Fase 6** esté implementada (necesita `helpfulCount` en `Review`). Si se implementa esta fase antes, dejar esa opción con fallback a `createdAt desc` temporalmente.
+
+### 1. Types (`modules/reviews/types.ts`)
+
+- Agregar `sort?: ReviewSort` a `GetReviewsParams`.
+
+### 2. Backend (`modules/reviews/actions.ts`)
+
+- En `getByPerfume`, mapear `sort` a `orderBy` de Prisma:
+  ```ts
+  const orderBy: Prisma.ReviewOrderByWithRelationInput =
+    sort === ReviewSort.RATING
+      ? { rating: "desc" }
+      : sort === ReviewSort.HELPFUL
+        ? { helpfulCount: "desc" } // requiere Fase 6
+        : { createdAt: "desc" };
+  ```
+- Usar `orderBy` en el `db.review.findMany`.
+
+### 3. API route (`src/app/api/reviews/route.ts`)
+
+- Leer `searchParams.get("sort")`, validar contra los valores de `ReviewSort` (default `RECENT` si es inválido o ausente), pasarlo a `getByPerfume`.
+
+### 4. Frontend
+
+- `lib/api/reviews.ts` → `getReviews`: agregar `sort` a los `searchParams` si está presente.
+- `hooks/reviews-keys.ts`: no requiere cambios (ya incluye el objeto `params` completo en la key, así que `sort` queda cubierto automáticamente).
+- `RatingSummary.tsx`:
+  - Pasar `sort` al `getReviews({ perfumeId, limit, offset, sort })` dentro de `useQueries`.
+  - Al cambiar de `sort`, **resetear la paginación**: `fetchedOffsets` debe volver a `[0]` (si no, se mezclan páginas ya cargadas con el orden viejo). Crear un `handleSortChange` que haga `setSort(value); setFetchedOffsets([0]);` y pasarlo a `ReviewSortMenu` en vez de `setSort` directo.
+
+### 5. Orden de implementación sugerido
+
+1. (Si aplica) Completar Fase 6 primero para que "Más útiles" tenga datos reales.
+2. `types.ts` — agregar `sort` a `GetReviewsParams`.
+3. `actions.ts` — `orderBy` dinámico.
+4. Ruta API — leer y validar `sort`.
+5. `lib/api/reviews.ts` — enviar `sort` en la request.
+6. `RatingSummary.tsx` — wiring de `sort` + reset de `fetchedOffsets` al cambiar de orden.
 
 ---
 
@@ -65,4 +191,6 @@ Diagnóstico y propuestas de mejora sobre `src/modules/reviews/`, sus hooks, com
 1. Fase 1 (bugs) — bajo riesgo, alto impacto en calidad percibida.
 2. Fase 2 (query keys + validación con Zod) — reduce deuda antes de seguir creciendo el módulo.
 3. Fase 3 (UX) — mejoras visibles para el usuario final.
-4. Fase 4 y 5 — iterativo, según prioridad de negocio.
+4. Fase 6 (votos de utilidad) — habilita datos reales para "Más útiles".
+5. Fase 7 (sort) — depende de Fase 6 para la opción "Más útiles".
+6. Fase 4 y 5 — iterativo, según prioridad de negocio.
