@@ -5,13 +5,13 @@ import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
 import { HelpfulButton, StarRating } from "@/modules/shared/components";
 import { formatRelativeDate } from "@/modules/shared/utils";
-import { useDeleteReview } from "../hooks";
-import type { ReviewWithUser } from "../types";
+import { useDeleteReview, useVoteReview } from "../hooks";
+import type { ReviewWithVote } from "../types";
 
 interface ReviewCardProps {
-  review?: ReviewWithUser;
+  review?: ReviewWithVote;
   isOwner?: boolean;
-  onEdit?: (review: ReviewWithUser) => void;
+  onEdit?: (review: ReviewWithVote) => void;
 }
 
 export const ReviewCard = ({
@@ -20,6 +20,9 @@ export const ReviewCard = ({
   onEdit,
 }: ReviewCardProps): ReactElement | null => {
   const { mutate: remove, isPending: isDeleting } = useDeleteReview(
+    review?.perfumeId ?? ""
+  );
+  const { mutate: vote, isPending: isVoting } = useVoteReview(
     review?.perfumeId ?? ""
   );
 
@@ -36,6 +39,10 @@ export const ReviewCard = ({
     if (window.confirm("¿Eliminar tu reseña?")) {
       remove(review.id);
     }
+  };
+
+  const handleVote = (isHelpful: boolean) => {
+    vote({ reviewId: review.id, isHelpful });
   };
 
   return (
@@ -91,8 +98,22 @@ export const ReviewCard = ({
           )}
           <p className="text-body text-xs">{comment}</p>
           <div className="flex items-center gap-3">
-            <HelpfulButton direction="up" label="Útil" />
-            <HelpfulButton direction="down" label="No útil" />
+            <HelpfulButton
+              direction="up"
+              label="Útil"
+              count={review.helpfulCount}
+              active={review.userVote === true}
+              disabled={isVoting}
+              onClick={() => handleVote(true)}
+            />
+            <HelpfulButton
+              direction="down"
+              label="No útil"
+              count={review.notHelpfulCount}
+              active={review.userVote === false}
+              disabled={isVoting}
+              onClick={() => handleVote(false)}
+            />
           </div>
         </div>
       </div>

@@ -2,12 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { getTokenFromHeaders, verifyToken } from "@/lib/auth";
 import { parsePaginationParams } from "@/lib/pagination";
 import { create, getByPerfume, getUserReview } from "@/modules/reviews/actions";
+import { ReviewSort } from "@/modules/reviews/types";
 
 async function authenticate(request: NextRequest) {
   const token = getTokenFromHeaders(request);
   if (!token) return null;
   return verifyToken(token);
 }
+
+const SORT_VALUES = new Set<string>(Object.values(ReviewSort));
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -22,10 +25,17 @@ export async function GET(request: NextRequest) {
 
   const { limit, offset } = parsePaginationParams(searchParams);
 
-  const [reviewsResult, payload] = await Promise.all([
-    getByPerfume({ perfumeId, limit, offset }),
-    authenticate(request),
-  ]);
+  const rawSort = searchParams.get("sort");
+  const sort = rawSort && SORT_VALUES.has(rawSort)
+    ? (rawSort as ReviewSort)
+    : ReviewSort.RECENT;
+
+  const payload = await authenticate(request);
+
+  const reviewsResult = await getByPerfume(
+    { perfumeId, limit, offset, sort },
+    payload?.userId
+  );
 
   if (!reviewsResult.success) {
     return NextResponse.json(

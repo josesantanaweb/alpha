@@ -13,11 +13,25 @@ export type ReviewWithUser = Prisma.ReviewGetPayload<{
   include: { user: { select: { id: true; name: true; avatar: true } } };
 }>;
 
-export interface GetReviewsResponse extends PaginatedResult<ReviewWithUser> {
-  userReview: ReviewWithUser | null;
+export type ReviewWithVote = ReviewWithUser & {
+  userVote: boolean | null;
+};
+
+export interface VoteReviewResult {
+  helpfulCount: number;
+  notHelpfulCount: number;
+  userVote: boolean | null;
+}
+
+export interface GetReviewsData extends PaginatedResult<ReviewWithVote> {
   distribution: Record<number, number>;
+}
+
+export interface GetReviewsResponse extends GetReviewsData {
+  userReview: ReviewWithUser | null;
 }
 
 export interface GetReviewsParams extends PaginationParams {
   perfumeId: string;
+  sort?: ReviewSort;
 }

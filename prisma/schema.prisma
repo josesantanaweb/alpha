@@ -16,8 +16,9 @@ model User {
   favorites Perfume[]  @relation("FavoritePerfumes")
   cart      Cart?
   orders    Order[]
-  reviews   Review[]
-  votes     UserVote[]
+  reviews      Review[]
+  votes        UserVote[]
+  reviewVotes  ReviewVote[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -187,17 +188,32 @@ model Note {
 }
 
 model Review {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  perfumeId String
-  perfume   Perfume  @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
-  title     String?
-  comment   String   @db.Text
-  rating    Int
-  createdAt DateTime @default(now())
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  perfumeId       String
+  perfume         Perfume  @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
+  title           String?
+  comment         String   @db.Text
+  rating          Int
+  helpfulCount    Int      @default(0)
+  notHelpfulCount Int      @default(0)
+  votes           ReviewVote[]
+  createdAt       DateTime @default(now())
 
   @@unique([userId, perfumeId])
+}
+
+model ReviewVote {
+  id        String   @id @default(uuid())
+  reviewId  String
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isHelpful Boolean
+  createdAt DateTime @default(now())
+
+  @@unique([reviewId, userId])
 }
 
 model Banner {

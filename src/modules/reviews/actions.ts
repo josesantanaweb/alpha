@@ -1,9 +1,19 @@
 import "server-only";
-import { Review } from "@prisma/client";
+import { Prisma, Review } from "@prisma/client";
 import { db, isPrismaError } from "@/lib/db";
 import { type ApiResult } from "@/modules/shared/types";
-import { CreateReviewSchema, UpdateReviewSchema } from "./schema";
-import type { GetReviewsParams, GetReviewsResponse, ReviewWithUser } from "./types";
+import {
+  CreateReviewSchema,
+  UpdateReviewSchema,
+  VoteReviewSchema,
+} from "./schema";
+import type {
+  GetReviewsData,
+  GetReviewsParams,
+  ReviewWithUser,
+  VoteReviewResult,
+} from "./types";
+import { ReviewSort } from "./types";
 
 const userSelect = {
   id: true,
@@ -27,10 +37,37 @@ async function syncPerfumeRating(perfumeId: string): Promise<void> {
   });
 }
 
+async function syncReviewVoteCounts(reviewId: string): Promise<{
+  helpfulCount: number;
+  notHelpfulCount: number;
+}> {
+  const group = await db.reviewVote.groupBy({
+    by: ["isHelpful"],
+    where: { reviewId },
+    _count: { isHelpful: true },
+  });
+
+  let helpfulCount = 0;
+  let notHelpfulCount = 0;
+
+  for (const row of group) {
+    if (row.isHelpful) helpfulCount = row._count.isHelpful;
+    else notHelpfulCount = row._count.isHelpful;
+  }
+
+  await db.review.update({
+    where: { id: reviewId },
+    data: { helpfulCount, notHelpfulCount },
+  });
+
+  return { helpfulCount, notHelpfulCount };
+}
+
 export async function getByPerfume(
-  params: GetReviewsParams
-): Promise<ApiResult<GetReviewsResponse>> {
-  const { perfumeId, limit = 10, offset = 0 } = params;
+  params: GetReviewsParams,
+  userId?: string
+): Promise<ApiResult<GetReviewsData>> {
+  const { perfumeId, limit = 10, offset = 0, sort } = params;
 
   if (!perfumeId) {
     return {
@@ -40,12 +77,19 @@ export async function getByPerfume(
     };
   }
 
+  const orderBy: Prisma.ReviewOrderByWithRelationInput =
+    sort === ReviewSort.RATING
+      ? { rating: "desc" }
+      : sort === ReviewSort.HELPFUL
+        ? { helpfulCount: "desc" }
+        : { createdAt: "desc" };
+
   try {
     const [reviews, total, group] = await Promise.all([
       db.review.findMany({
         where: { perfumeId },
         include: { user: { select: userSelect } },
-        orderBy: { createdAt: "desc" },
+        orderBy,
         take: limit,
         skip: offset,
       }),
@@ -56,6 +100,19 @@ export async function getByPerfume(
         _count: { rating: true },
       }),
     ]);
+
+    let voteMap = new Map<string, boolean>();
+    if (userId && reviews.length > 0) {
+      const votes = await db.reviewVote.findMany({
+        where: { userId, reviewId: { in: reviews.map((r) => r.id) } },
+      });
+      voteMap = new Map(votes.map((v) => [v.reviewId, v.isHelpful]));
+    }
+
+    const data = reviews.map((review) => ({
+      ...review,
+      userVote: voteMap.has(review.id) ? (voteMap.get(review.id) ?? null) : null,
+    }));
 
     const nextOffset = offset + limit;
     const grandTotal = group.reduce((sum, r) => sum + r._count.rating, 0);
@@ -71,7 +128,7 @@ export async function getByPerfume(
       success: true,
       status: 200,
       data: {
-        data: reviews,
+        data,
         total,
         limit,
         offset,
@@ -279,6 +336,76 @@ export async function remove(
       status: 500,
       message:
         error instanceof Error ? error.message : "Error al eliminar la review.",
+    };
+  }
+}
+
+export async function voteReview(
+  reviewId: string,
+  userId: string,
+  rawData: unknown
+): Promise<ApiResult<VoteReviewResult>> {
+  const result = VoteReviewSchema.safeParse(rawData);
+
+  if (!result.success) {
+    return {
+      success: false,
+      status: 400,
+      errors: result.error.flatten().fieldErrors,
+    };
+  }
+
+  const { isHelpful } = result.data;
+
+  try {
+    const review = await db.review.findUnique({ where: { id: reviewId } });
+
+    if (!review) {
+      return { success: false, status: 404, message: "Review no encontrada." };
+    }
+
+    const existing = await db.reviewVote.findUnique({
+      where: { reviewId_userId: { reviewId, userId } },
+    });
+
+    let userVote: boolean | null;
+
+    if (existing) {
+      if (existing.isHelpful === isHelpful) {
+        await db.reviewVote.delete({ where: { id: existing.id } });
+        userVote = null;
+      } else {
+        await db.reviewVote.update({
+          where: { id: existing.id },
+          data: { isHelpful },
+        });
+        userVote = isHelpful;
+      }
+    } else {
+      await db.reviewVote.create({
+        data: { reviewId, userId, isHelpful },
+      });
+      userVote = isHelpful;
+    }
+
+    const counts = await syncReviewVoteCounts(reviewId);
+
+    return {
+      success: true,
+      status: 200,
+      data: { ...counts, userVote },
+      message: "Voto registrado.",
+    };
+  } catch (error: unknown) {
+    if (isPrismaError(error) && error.code === "P2025") {
+      return { success: false, status: 404, message: "Review no encontrada." };
+    }
+
+    return {
+      success: false,
+      status: 500,
+      message:
+        error instanceof Error ? error.message : "Error al votar la review.",
     };
   }
 }

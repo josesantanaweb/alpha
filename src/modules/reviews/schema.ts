@@ -41,3 +41,7 @@ export const UpdateReviewSchema = z.object({
 
 export type CreateReviewInput = z.infer<typeof CreateReviewSchema>;
 export type UpdateReviewInput = z.infer<typeof UpdateReviewSchema>;
+
+export const VoteReviewSchema = z.object({
+  isHelpful: z.boolean(),
+});

@@ -46,12 +46,14 @@ export const RatingSummary = ({
         perfumeId,
         limit: PAGINATION_PAGE_SIZE,
         offset: pageOffset,
+        sort,
       }),
       queryFn: () =>
         getReviews({
           perfumeId,
           limit: PAGINATION_PAGE_SIZE,
           offset: pageOffset,
+          sort,
         }),
       enabled: !!perfumeId,
     })),
@@ -85,6 +87,11 @@ export const RatingSummary = ({
     if (nextOffset != null) {
       setFetchedOffsets((prev) => [...prev, nextOffset]);
     }
+  };
+
+  const handleSortChange = (value: ReviewSort) => {
+    setSort(value);
+    setFetchedOffsets([0]);
   };
 
   const formReview = editingReview ?? undefined;
@@ -121,7 +128,7 @@ export const RatingSummary = ({
           <div className="flex w-full flex-col gap-3">
             {!isInitialLoad && !isError && hasReviews && (
               <>
-                <ReviewSortMenu value={sort} onChange={setSort} />
+                <ReviewSortMenu value={sort} onChange={handleSortChange} />
                 <ReviewList
                   reviews={allReviews}
                   currentUserId={user?.id}

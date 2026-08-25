@@ -3,6 +3,7 @@ import type {
   ReviewWithUser,
   GetReviewsParams,
   GetReviewsResponse,
+  VoteReviewResult,
 } from "@/modules/reviews/types";
 
 export type { GetReviewsResponse };
@@ -15,6 +16,7 @@ export async function getReviews(
   searchParams.set("perfumeId", params.perfumeId);
   if (params.limit) searchParams.set("limit", String(params.limit));
   if (params.offset) searchParams.set("offset", String(params.offset));
+  if (params.sort) searchParams.set("sort", params.sort);
 
   const response = await fetch(
     `${API_ROUTES.REVIEWS}?${searchParams.toString()}`
@@ -86,4 +88,26 @@ export async function deleteReview(
     const error = await response.json().catch(() => ({}));
     throw new Error(error.message ?? "Error al eliminar la reseña.");
   }
+}
+
+export async function voteReview(
+  token: string,
+  reviewId: string,
+  isHelpful: boolean
+): Promise<VoteReviewResult> {
+  const response = await fetch(`${API_ROUTES.REVIEWS}/${reviewId}/vote`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ isHelpful }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message ?? "Error al votar la reseña.");
+  }
+
+  return response.json();
 }

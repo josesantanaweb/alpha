@@ -2,12 +2,12 @@
 
 import type { ReactElement } from "react";
 import { ReviewCard } from "./ReviewCard";
-import type { ReviewWithUser } from "../types";
+import type { ReviewWithVote } from "../types";
 
 interface ReviewListProps {
-  reviews: ReviewWithUser[];
+  reviews: ReviewWithVote[];
   currentUserId?: string;
-  onEdit?: (review: ReviewWithUser) => void;
+  onEdit?: (review: ReviewWithVote) => void;
 }
 
 export const ReviewList = ({
