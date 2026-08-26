@@ -19,3 +19,4 @@ export * from "./FilterButton";
 export * from "./EmptyState";
 export * from "./FavoriteButton";
 export * from "./OrderSummary";
+export * from "./SizeBadge";

@@ -3,6 +3,7 @@
 import { type ReactElement } from "react";
 import Image from "next/image";
 import { Trash } from "lucide-react";
+import { SizeBadge } from "@/modules/shared/components";
 import { formatPrice } from "@/modules/shared/utils/format-price";
 import type { CartItemData } from "../types";
 import { QuantityStepper } from "./QuantityStepper";
@@ -38,44 +39,38 @@ export const CartItem = ({
           />
         </div>
       </div>
-      <div className="flex h-full w-full min-w-0 flex-col justify-between">
-        <div className="flex w-full items-start justify-between">
-          <div className="flex flex-col">
-            <h4 className="max-w-45 truncate text-base font-medium text-white">
-              {perfume.name}
-            </h4>
-            <div className="flex items-center gap-1">
-              {perfume.originalPrice > perfume.price ? (
-                <p className="text-sm">
-                  {formatPrice(perfume.originalPrice, {
-                    locale: "es-ES",
-                    currency: "USD",
-                  })}
-                </p>
-              ) : null}
-              <p className="text-sm font-bold text-white">
-                {formatPrice(perfume.price, {
-                  locale: "es-ES",
-                  currency: "USD",
-                })}
-              </p>
-            </div>
-          </div>
-          <button
-            className="cursor-pointer text-white transition-colors"
-            onClick={() => onRemove(id)}
-            type="button"
-          >
-            <Trash size={18} />
-          </button>
-        </div>
+      <div className="relative flex h-full w-full min-w-0 flex-col justify-between">
+        <div className="flex w-full flex-col">
+          <h4 className="max-w-45 truncate text-base font-semibold text-white">
+            {perfume.name}
+          </h4>
+          <p className="text-body text-sm italic mb-1">Jean paul gaultier</p>
 
-        <QuantityStepper
-          id={id}
-          quantity={quantity}
-          onIncrease={onIncrease}
-          onDecrease={onDecrease}
-        />
+          <SizeBadge size={`${perfume.ml ?? 100}ml`} />
+
+          <div className="flex items-center justify-between">
+            <p className="text-base font-bold text-white">
+              {formatPrice(perfume.price, {
+                locale: "es-ES",
+                currency: "USD",
+              })}
+            </p>
+
+            <QuantityStepper
+              id={id}
+              quantity={quantity}
+              onIncrease={onIncrease}
+              onDecrease={onDecrease}
+            />
+          </div>
+        </div>
+        <button
+          className="absolute top-0 right-0 cursor-pointer rounded-full p-2 text-sm text-white transition-colors hover:bg-[#D9D9D9]/20"
+          onClick={() => onRemove(id)}
+          type="button"
+        >
+          <Trash size={18} />
+        </button>
       </div>
     </div>
   );

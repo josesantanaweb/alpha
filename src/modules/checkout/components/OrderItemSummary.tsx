@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import Image from "next/image";
 import { cn } from "@/modules/shared/utils/cn";
+import { SizeBadge } from "@/modules/shared/components";
 import { formatPrice } from "@/modules/shared/utils/format-price";
 
 export interface OrderItemSummaryProps {
@@ -46,11 +47,7 @@ export const OrderItemSummary = ({
           {name}
         </h4>
         {brand && <p className="text-body text-xs italic">{brand}</p>}
-        {size && (
-          <div className="flex h-4 w-auto items-center justify-center gap-1 self-start rounded-sm bg-white px-1">
-            <p className="text-surface text-[10px]">{size}</p>
-          </div>
-        )}
+        {size && <SizeBadge size={size} />}
       </div>
       <div className="flex shrink-0 items-center gap-3">
         <p className="text-base font-semibold text-white">{formattedPrice}</p>
