@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { Store, Truck } from "lucide-react";
 import { Button } from "@/modules/shared/components/ui";
-import { DeliveryMethod } from "../types";
+import { DELIVERY_METHOD_LABELS, DeliveryMethod } from "../types";
 
 type DeliveryMethodSelectorProps = {
   value: DeliveryMethod;
@@ -22,7 +22,7 @@ export const DeliveryMethodSelector = ({
         className="capitalize"
       >
         <Truck size={16} className="text-inherit" />
-        Delivery
+        {DELIVERY_METHOD_LABELS[DeliveryMethod.DELIVERY]}
       </Button>
 
       <Button
@@ -31,7 +31,7 @@ export const DeliveryMethodSelector = ({
         className="capitalize"
       >
         <Store size={16} className="text-inherit" />
-        Retiro
+        {DELIVERY_METHOD_LABELS[DeliveryMethod.PICKUP]}
       </Button>
     </div>
   </section>

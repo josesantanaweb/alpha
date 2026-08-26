@@ -15,9 +15,11 @@ import {
   type CheckoutFormData,
   type FormErrors,
 } from "../types";
+import { buildWhatsAppUrl } from "../utils/whatsapp";
 import { CheckoutOrderSummary } from "./CheckoutOrderSummary";
 import { ContactForm } from "./ContactForm";
 import { DeliveryMethodSelector } from "./DeliveryMethodSelector";
+import { OrderSuccessModal } from "./OrderSuccessModal";
 import { PaymentPreferenceSelector } from "./PaymentPreferenceSelector";
 import { ShippingAddressForm } from "./ShippingAddressForm";
 
@@ -31,6 +33,8 @@ export const Checkout = (): ReactElement => {
 
   const [formData, setFormData] = useState<CheckoutFormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [successOpen, setSuccessOpen] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState("");
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -75,22 +79,9 @@ export const Checkout = (): ReactElement => {
     return true;
   })();
 
-  const mockSubtotal = items.length > 0 ? itemsTotal : 48.0;
-  const mockDiscount = items.length > 0 ? discount : 12.0;
-  const mockShipping: number | typeof DeliveryMethod.PICKUP =
-    items.length > 0
-      ? isDelivery
-        ? shipping
-        : DeliveryMethod.PICKUP
-      : isDelivery
-        ? 5.0
-        : DeliveryMethod.PICKUP;
-  const mockTotal =
-    items.length > 0
-      ? total
-      : mockSubtotal -
-        mockDiscount +
-        (mockShipping === DeliveryMethod.PICKUP ? 0 : (mockShipping as number));
+  const shippingSummary: number | typeof DeliveryMethod.PICKUP = isDelivery
+    ? shipping
+    : DeliveryMethod.PICKUP;
 
   const setField = <K extends keyof CheckoutFormData>(
     field: K,
@@ -146,7 +137,17 @@ export const Checkout = (): ReactElement => {
       },
       {
         onSuccess: () => {
-          router.push(ROUTES.ACCOUNT);
+          setWhatsappUrl(
+            buildWhatsAppUrl({
+              form: formData,
+              items,
+              subtotal,
+              discount,
+              shipping,
+              total,
+            })
+          );
+          setSuccessOpen(true);
         },
       }
     );
@@ -196,10 +197,10 @@ export const Checkout = (): ReactElement => {
       <div className="flex flex-col gap-3">
         <CheckoutOrderSummary
           items={items}
-          subtotal={mockSubtotal}
-          discount={mockDiscount}
-          shipping={mockShipping}
-          total={mockTotal}
+          subtotal={subtotal}
+          discount={discount}
+          shipping={shippingSummary}
+          total={total}
         />
 
         {isError && (
@@ -214,6 +215,12 @@ export const Checkout = (): ReactElement => {
           {isPending ? "Creando pedido..." : "Confirmar pedido"}
         </Button>
       </div>
+
+      <OrderSuccessModal
+        open={successOpen}
+        whatsappUrl={whatsappUrl}
+        onClose={() => setSuccessOpen(false)}
+      />
     </div>
   );
 };

@@ -3,6 +3,7 @@ export * from "./CheckoutOrderSummary";
 export * from "./ContactForm";
 export * from "./DeliveryMethodSelector";
 export * from "./OrderItemSummary";
+export * from "./OrderSuccessModal";
 export * from "./PaymentMethodSelector";
 export * from "./PaymentNotice";
 export * from "./PaymentPreferenceSelector";

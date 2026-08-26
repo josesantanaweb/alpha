@@ -23,6 +23,17 @@ export const PaymentProvider = {
 export type PaymentProvider =
   (typeof PaymentProvider)[keyof typeof PaymentProvider];
 
+export const DELIVERY_METHOD_LABELS: Record<DeliveryMethod, string> = {
+  [DeliveryMethod.DELIVERY]: "Delivery",
+  [DeliveryMethod.PICKUP]: "Retiro en tienda",
+};
+
+export const PAYMENT_PROVIDER_LABELS: Record<PaymentProvider, string> = {
+  [PaymentProvider.MOBILE_PAYMENT]: "Pago Móvil",
+  [PaymentProvider.BINANCE]: "Binance Pay",
+  [PaymentProvider.ZINLI]: "Zinli",
+};
+
 export interface CheckoutFormData {
   deliveryMethod: DeliveryMethod;
   paymentCurrency: PaymentCurrency;

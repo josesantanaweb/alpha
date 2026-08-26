@@ -21,7 +21,7 @@ export const PostCard = ({
   href,
 }: PostCardProps): ReactElement => {
   return (
-    <div className="bg-surface border-stroke relative overflow-hidden rounded-lg border">
+    <div className="bg-surface border-stroke relative overflow-hidden rounded-xl border">
       <div className="h-48 w-full overflow-hidden bg-red-100">
         <Image
           src={image}

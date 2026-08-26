@@ -7,6 +7,7 @@
   --color-body: var(--body);
   --color-stroke: var(--stroke);
   --color-error: var(--error);
+  --color-success: var(--success);
   --font-sans: var(--font-lato, 'Lato');
   --font-mono: var(--font-fira-code, 'Fira Code');
 }
@@ -19,6 +20,7 @@
   --foreground: #fff;
   --stroke: #282830;
   --error: #DB4446;
+  --success: #19ebb6;
 }
 
 @media (prefers-color-scheme: light) {
