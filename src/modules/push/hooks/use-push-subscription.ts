@@ -38,12 +38,10 @@ export const usePushSubscription = (): UsePushSubscription => {
     "PushManager" in window &&
     "Notification" in window;
 
-  // Detección síncrona: siempre se evalúa en cliente (es un hook "use client")
-  const initialSupport = isAdmin && isSupported();
-  const [support] = useState<boolean>(initialSupport);
-  const [permission, setPermission] = useState<NotificationPermission | null>(
-    initialSupport ? Notification.permission : null
-  );
+  const support = isAdmin && isSupported();
+  const permission: NotificationPermission | null = support
+    ? Notification.permission
+    : null;
 
   const getExistingSubscription = useCallback(async (): Promise<
     PushSubscription | null
@@ -60,7 +58,6 @@ export const usePushSubscription = (): UsePushSubscription => {
     setError(null);
     try {
       const permission = await Notification.requestPermission();
-      setPermission(permission);
 
       if (permission !== "granted") {
         setError(
