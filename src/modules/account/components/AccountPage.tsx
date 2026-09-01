@@ -1,36 +1,45 @@
 "use client";
 
 import type { ReactElement } from "react";
+import { ACCOUNT_HELP_MENU, ACCOUNT_MANAGER_MENU } from "@/constants";
 import { logout } from "@/lib/api/auth";
-import { Button } from "@/modules/shared/components/ui";
-import { useAuth } from "@/modules/auth/store";
+import { SocialLinks } from "@/modules/shared/components";
+import { AccountHeader } from "./AccountHeader";
+import { AccountMenuItem } from "./AccountMenuItem";
+import { AccountMenuSection } from "./AccountMenuSection";
 
 export const Account = (): ReactElement => {
-  const user = useAuth((s) => s.user);
+  const handleLogout = () => {
+    void logout();
+  };
 
   return (
-    <div className="flex flex-col gap-6 p-5 pb-25">
-      <div className="flex flex-col items-start gap-1">
-        <h5 className="text-lg font-semibold text-white">Mi cuenta</h5>
-        <p className="text-body text-sm">
-          Bienvenido, {user?.name ?? user?.email}
+    <div className="flex flex-col gap-10 p-5 pb-25">
+      <AccountHeader />
+
+      <AccountMenuSection title="Administrar">
+        {ACCOUNT_MANAGER_MENU.map((item) => (
+          <AccountMenuItem key={item.key} item={item} />
+        ))}
+      </AccountMenuSection>
+
+      <AccountMenuSection title="Ayuda">
+        {ACCOUNT_HELP_MENU.map((item) => (
+          <AccountMenuItem
+            key={item.key}
+            item={item}
+            onClick={item.danger ? handleLogout : undefined}
+          />
+        ))}
+      </AccountMenuSection>
+
+      <div className="flex flex-col items-center justify-center gap-2">
+        <SocialLinks />
+        <p className="text-body text-xs">
+          {new Date().getFullYear()} AURA Perfumes Todos los derechos
+          reservados.
         </p>
       </div>
-
-      <div className="flex flex-col gap-4">
-        <div className="bg-surface flex flex-col gap-3 rounded-lg p-4">
-          <span className="text-body text-xs uppercase">Nombre</span>
-          <span className="text-white">{user?.name ?? "—"}</span>
-        </div>
-        <div className="bg-surface flex flex-col gap-3 rounded-lg p-4">
-          <span className="text-body text-xs uppercase">Email</span>
-          <span className="text-white">{user?.email}</span>
-        </div>
-      </div>
-
-      <Button variant="outline" onClick={logout}>
-        Cerrar sesión
-      </Button>
     </div>
   );
 };

@@ -1,9 +1,12 @@
 "use client";
 
 import type { ReactElement } from "react";
-import Image from "next/image";
 import { Pencil, Trash2 } from "lucide-react";
-import { HelpfulButton, StarRating } from "@/modules/shared/components";
+import {
+  Avatar,
+  HelpfulButton,
+  StarRating,
+} from "@/modules/shared/components";
 import { formatRelativeDate } from "@/modules/shared/utils";
 import { useDeleteReview, useVoteReview } from "../hooks";
 import type { ReviewWithVote } from "../types";
@@ -29,7 +32,6 @@ export const ReviewCard = ({
   if (!review) return null;
 
   const userName = review.user?.name ?? "";
-  const userInitial = userName.charAt(0).toUpperCase();
   const title = review.title ?? "";
   const comment = review.comment ?? "";
   const rating = review.rating ?? 0;
@@ -49,19 +51,7 @@ export const ReviewCard = ({
     <div className="border-stroke flex w-full flex-col gap-3 border-b py-3">
       <div className="flex w-full items-center justify-between gap-3">
         <div className="flex w-full items-start gap-3">
-          {review.user?.avatar ? (
-            <Image
-              src={review.user.avatar}
-              alt={userName}
-              width={200}
-              height={200}
-              className="h-10 w-10 shrink-0 rounded-full object-cover"
-            />
-          ) : (
-            <span className="text-surface flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-lg font-semibold">
-              {userInitial}
-            </span>
-          )}
+          <Avatar src={review.user?.avatar} name={userName} size={40} />
           <div className="flex w-full items-start justify-between">
             <div className="flex flex-col gap-1">
               <h4 className="text-sm font-semibold text-white">{userName}</h4>

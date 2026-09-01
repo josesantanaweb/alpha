@@ -5,5 +5,8 @@ export const ASSETS = {
     BANNERS: ["/images/banner1.png", "/images/banner2.jpg"],
     NIGHT: "/images/night.png",
     SEXY: "/images/sexy.png",
+    WHATSAPP: "/images/whatsapp.svg",
+    INSTAGRAM: "/images/instagram.svg",
+    TIKTOK: "/images/tiktok.svg",
   },
 };

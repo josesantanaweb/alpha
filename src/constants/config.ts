@@ -13,3 +13,10 @@ export const RELATIVE_DATE_THRESHOLD_DAYS = 7;
 
 // WhatsApp
 export const WHATSAPP_NUMBER = "584126475918";
+
+// Social networks
+export const SOCIAL_URLS = {
+  WHATSAPP: `https://wa.me/${WHATSAPP_NUMBER}`,
+  INSTAGRAM: "https://www.instagram.com/auraperfumes",
+  TIKTOK: "https://www.tiktok.com/@auraperfumes",
+};
