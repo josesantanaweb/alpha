@@ -80,7 +80,7 @@ export const CartButton = ({ className }: CartButtonProps): ReactElement => {
         animate={anim}
         transition={transitions[anim]}
       >
-        <Handbag size={24} />
+        <Handbag size={22} />
       </motion.div>
 
       <AnimatePresence>

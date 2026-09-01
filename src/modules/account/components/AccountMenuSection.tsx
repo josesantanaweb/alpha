@@ -12,7 +12,7 @@ export const AccountMenuSection = ({
   return (
     <div className="flex flex-col gap-3">
       <h6 className="text-body text-sm font-semibold uppercase">{title}</h6>
-      <div className="border-stroke divide-stroke flex flex-col divide-y rounded-lg border">
+      <div className="border-stroke divide-stroke flex flex-col divide-y rounded-2xl border overflow-hidden">
         {children}
       </div>
     </div>

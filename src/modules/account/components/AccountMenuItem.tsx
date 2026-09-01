@@ -20,10 +20,10 @@ export const AccountMenuItem = ({
   const content = (
     <>
       <div className="flex items-center gap-3">
-        <Icon size={18} />
-        <p className="text-base">{item.label}</p>
+        <Icon size={16} />
+        <p className="text-sm">{item.label}</p>
       </div>
-      {!item.danger && <ChevronRight size={20} className="text-white"/>}
+      {!item.danger && <ChevronRight size={18} className="text-white"/>}
     </>
   );
 
