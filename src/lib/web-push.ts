@@ -42,6 +42,9 @@ export async function sendPushNotification(
   payload: Record<string, unknown>
 ): Promise<{ ok: boolean; status?: number }> {
   if (!ensureConfigured()) {
+    console.error(
+      "[web-push] VAPID no configurado en el servidor (faltan NEXT_PUBLIC_VAPID_PUBLIC_KEY/VAPID_PRIVATE_KEY)"
+    );
     return { ok: false };
   }
 
@@ -50,6 +53,10 @@ export async function sendPushNotification(
     return { ok: true };
   } catch (error) {
     const status = (error as { statusCode?: number }).statusCode;
+    console.error(
+      `[web-push] Error al enviar notificación (status ${status ?? "unknown"}):`,
+      (error as Error).message
+    );
     return { ok: false, status };
   }
 }

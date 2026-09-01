@@ -4,6 +4,9 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
 
+const toAbsolute = (path) =>
+  path.startsWith("http") ? path : new URL(path, self.location.origin).href;
+
 self.addEventListener("push", (event) => {
   let data = {};
   try {
@@ -12,22 +15,24 @@ self.addEventListener("push", (event) => {
     // payload no JSON: ignorar
   }
 
-  const { title = "Aura", body = "", url = "/", tag = "aura-notification" } = data;
+  const { title = "Aura", body = "", url = "/" } = data;
+  const iconUrl = toAbsolute("/icons/icon-192.png");
+  const badgeUrl = toAbsolute("/icons/icon-192.png");
 
+  // Nota iOS/WebKit: NO usar "tag" en showNotification (bug: la notificación no se muestra)
   event.waitUntil(
     self.registration.showNotification(title, {
       body,
-      icon: "/icons/icon-192.png",
-      badge: "/icons/icon-192.png",
-      tag,
-      data: { url },
+      icon: iconUrl,
+      badge: badgeUrl,
+      data: { url: toAbsolute(url) },
     })
   );
 });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const url = event.notification.data?.url || "/";
+  const url = event.notification.data?.url || toAbsolute("/");
 
   event.waitUntil(
     self.clients

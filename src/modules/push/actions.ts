@@ -61,7 +61,6 @@ export async function notifyAdminsOnNewOrder(
       title: "Nueva orden recibida",
       body: `${order.contactName} generó una orden (total ${order.total}). Revisa el panel.`,
       url: "/",
-      tag: "aura-new-order",
     };
 
     await Promise.allSettled(
