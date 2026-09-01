@@ -2,14 +2,14 @@
 
 import type { ReactElement } from "react";
 import { useEffect, useState } from "react";
-import { BellRing, BellOff } from "lucide-react";
+import { BellRing } from "lucide-react";
 import { useAuth } from "@/modules/auth/store";
 import { Button } from "@/modules/shared/components";
 import { usePushSubscription } from "../hooks/use-push-subscription";
 
 export const PushNotificationManager = (): ReactElement | null => {
   const user = useAuth((s) => s.user);
-  const { support, subscribed, loading, error, enable, disable } =
+  const { support, subscribed, loading, error, enable } =
     usePushSubscription();
   const [actionMessage, setActionMessage] = useState<string | null>(null);
 
@@ -21,15 +21,11 @@ export const PushNotificationManager = (): ReactElement | null => {
     }
   }, [isAdmin, support]);
 
-  if (!isAdmin || !support) return null;
+  if (!isAdmin || !support || subscribed) return null;
 
-  const handleToggle = async () => {
+  const handleEnable = async () => {
     setActionMessage(null);
-    if (subscribed) {
-      await disable();
-    } else {
-      await enable();
-    }
+    await enable();
     if (error) setActionMessage(error);
   };
 
@@ -44,16 +40,12 @@ export const PushNotificationManager = (): ReactElement | null => {
         type="button"
         variant="secondary"
         size="sm"
-        onClick={handleToggle}
+        onClick={handleEnable}
         disabled={loading}
         className="w-auto rounded-full"
       >
-        {subscribed ? <BellOff size={16} /> : <BellRing size={16} />}
-        {loading
-          ? "…"
-          : subscribed
-            ? "Notificaciones ON"
-            : "Activar notificaciones"}
+        <BellRing size={16} />
+        {loading ? "…" : "Activar notificaciones"}
       </Button>
     </div>
   );
