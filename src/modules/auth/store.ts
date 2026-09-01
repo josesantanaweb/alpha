@@ -9,6 +9,7 @@ export interface User {
   name: string | null;
   avatar: string | null;
   createdAt: string;
+  role: "USER" | "ADMIN";
 }
 
 interface AuthState {

@@ -30,4 +30,8 @@ export const API_ROUTES = {
   },
   POSTS: "/api/posts",
   REVIEWS: "/api/reviews",
+  PUSH: {
+    SUBSCRIBE: "/api/push/subscribe",
+    UNSUBSCRIBE: "/api/push/unsubscribe",
+  },
 };

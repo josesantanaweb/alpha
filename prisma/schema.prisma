@@ -13,12 +13,14 @@ model User {
   name      String?
   avatar    String?
   googleId  String?    @unique // null si usó email/password
+  role      Role       @default(USER)
   favorites Perfume[]  @relation("FavoritePerfumes")
   cart      Cart?
   orders    Order[]
   reviews      Review[]
   votes        UserVote[]
   reviewVotes  ReviewVote[]
+  pushSubscriptions PushSubscription[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -369,4 +371,20 @@ enum PaymentMethod {
   BINANCE
   ZINLI
   CASH
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model PushSubscription {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  userAgent String?
+  createdAt DateTime @default(now())
 }

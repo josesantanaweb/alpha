@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_FEE } from "@/constants";
 import { db } from "@/lib/db";
 import type { ApiResult } from "@/modules/shared/types";
+import { notifyAdminsOnNewOrder } from "@/modules/push/actions";
 import { CreateOrderSchema } from "./schema";
 import { orderInclude, type OrderWithItems } from "./types";
 
@@ -200,6 +201,12 @@ export async function createOrder(
       }
 
       return created;
+    });
+
+    void notifyAdminsOnNewOrder({
+      orderId: order.id,
+      contactName: order.contactName,
+      total: order.total,
     });
 
     return {
