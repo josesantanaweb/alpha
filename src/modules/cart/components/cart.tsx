@@ -34,6 +34,7 @@ export const Cart = (): ReactElement => {
   const total = itemsTotal + shipping;
 
   const handleCheckout = () => {
+    setCartDrawerOpen(false);
     if (isLoggedIn) {
       router.push(ROUTES.CHECKOUT);
     } else {

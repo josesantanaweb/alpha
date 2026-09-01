@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import type { Banner } from "@prisma/client";
 import { motion } from "framer-motion";
 import { ROUTES } from "@/constants";
-import { Button } from "@/modules/shared/components/ui/Button";
+import { Button } from "@/modules/shared/components/ui/button";
 
 interface SliderHomeSlideProps {
   banner: Banner;

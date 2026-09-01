@@ -2,7 +2,7 @@
 
 import type { ReactElement } from "react";
 import type { Accord } from "@prisma/client";
-import { CategoryButton } from "@/modules/shared/components/CategoryButton";
+import { CategoryButton } from "@/modules/shared/components/category-button";
 import { CategoriesFilterSkeleton } from "./categories-filter-skeleton";
 
 type CategoryFilterItem = Pick<Accord, "id" | "name"> & {

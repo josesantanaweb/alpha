@@ -29,7 +29,7 @@ export const CartItem = ({
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute top-1/2 left-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D9D9D9]/20 blur-[20px]" />
         </div>
-        <div className="relative h-14 w-14 overflow-hidden">
+        <div className="relative h-16 w-16 overflow-hidden">
           <Image
             src={perfume.image}
             alt={perfume.name}

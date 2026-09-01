@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 import { Button } from "@/modules/shared/components/ui";
 import { useCartStore } from "@/modules/cart/store";
 import type { CartProduct } from "@/modules/cart/types";
-import { FavoriteButton } from "./FavoriteButton";
+import { FavoriteButton } from "./favorite-button";
 
 interface AddToCartProps {
   perfumeId: string;

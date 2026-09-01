@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { OrderSummary } from "@/modules/shared/components/OrderSummary";
+import { OrderSummary } from "@/modules/shared/components/order-summary";
 import type { CartItemData } from "@/modules/cart/types";
 import { DeliveryMethod } from "../types";
 import { OrderItemSummary } from "./order-item-summary";

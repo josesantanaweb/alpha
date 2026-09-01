@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { OrderSummary } from "@/modules/shared/components/OrderSummary";
+import { OrderSummary } from "@/modules/shared/components/order-summary";
 import { Button } from "@/modules/shared/components/ui";
 import { DiscountCodeForm } from "./discount-code-form";
 

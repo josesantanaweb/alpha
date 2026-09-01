@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { Lato } from "next/font/google";
-import { QueryProvider } from "@/modules/shared/components/QueryProvider";
+import { QueryProvider } from "@/modules/shared/components/query-provider";
 import { AuthInitializer } from "@/modules/auth/components/auth-initializer";
 import { PushNotificationManager } from "@/modules/push/components/push-notification-manager";
 import "./globals.css";
