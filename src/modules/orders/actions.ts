@@ -203,7 +203,7 @@ export async function createOrder(
       return created;
     });
 
-    void notifyAdminsOnNewOrder({
+    await notifyAdminsOnNewOrder({
       orderId: order.id,
       contactName: order.contactName,
       total: order.total,
