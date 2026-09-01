@@ -171,6 +171,16 @@ Use `cn()` (from `@/modules/shared/utils`) for conditional class merging.
 - **Constants live in the `constants` folder.** Do not define magic numbers or literals inline where they are used; move them to `src/constants/` (re-exported from `@/constants`) and import them.
 - **Utils live in their own util file.** Utility functions (formatting, helpers, etc.) must NOT be declared in the same file where they are used. Put them in a `utils/` subdirectory (e.g., `modules/shared/utils/` or `modules/<name>/utils/`) and import them from there.
 
+### Component file naming — kebab-case
+
+**Component files use kebab-case** (e.g., `account-header.tsx`, `account-menu-item.tsx`, `social-links.tsx`) instead of PascalCase.
+
+- File names are lowercase, hyphen-separated kebab-case. No PascalCase file names for components.
+- The **exported component name stays PascalCase** (e.g., `export const AccountHeader = ...`).
+- Component-specific render files that only render one component still follow this pattern (`account-page.tsx`).
+- Barrel imports/exports reference the kebab-case file path verbatim.
+- This is a **progressive migration**: existing PascalCase component files (e.g., `AccountHeader.tsx`) will be renamed to kebab-case over time. New components must use kebab-case from the start.
+
 ### Enum Convention — UPPERCASE everywhere
 
 **All enum values MUST be UPPERCASE** across Prisma, Zod, actions, and frontend.

@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { BlogDetail } from "@/modules/posts/components";
+import { BlogDetail } from "@/modules/blog/components";
 
 interface PageProps {
   params: Promise<{ slug: string }>;

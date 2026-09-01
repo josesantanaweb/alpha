@@ -1,3 +1,3 @@
-export { AuthInitializer } from "./AuthInitializer";
-export { Login } from "./Login";
-export { Register } from "./Register";
+export { AuthInitializer } from "./auth-initializer";
+export { Login } from "./login";
+export { Register } from "./register";

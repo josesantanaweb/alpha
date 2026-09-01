@@ -4,7 +4,7 @@ import { useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { FilterButton, SearchInput } from "@/modules/shared/components";
 import { useFavorites } from "@/modules/favorites/hooks/use-favorites";
-import { PerfumeGrid } from "@/modules/perfumes/components/PerfumeGrid";
+import { PerfumeGrid } from "@/modules/perfumes/components/perfume-grid";
 import { usePerfumes } from "@/modules/perfumes/hooks/use-perfume-query";
 
 interface ExplorerProps {

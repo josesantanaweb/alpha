@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { parsePaginationParams } from "@/lib/pagination";
-import { create, getAll } from "@/modules/posts/actions";
+import { create, getAll } from "@/modules/blog/actions";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

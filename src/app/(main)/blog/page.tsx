@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { BlogList } from "@/modules/posts/components";
+import { BlogList } from "@/modules/blog/components";
 
 interface PageProps {
   searchParams: Promise<Record<string, string | undefined>>;

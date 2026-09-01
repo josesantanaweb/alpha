@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getBySlug } from "@/modules/posts/actions";
+import { getBySlug } from "@/modules/blog/actions";
 
 type RouteParams = {
   params: Promise<{ slug: string }>;

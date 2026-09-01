@@ -17,13 +17,14 @@ export interface AccountMenuItem {
   icon: LucideIcon;
   href?: string;
   danger?: boolean;
+  disabled?: boolean;
 }
 
 export const ACCOUNT_MANAGER_MENU: AccountMenuItem[] = [
   { key: "orders", label: "Mis Órdenes", icon: ScrollText },
   { key: "favorites", label: "Mis Favoritos", icon: Heart, href: ROUTES.FAVORITES },
-  { key: "points", label: "Mis Puntos", icon: Trophy },
-  { key: "recent", label: "Visto Recientemente", icon: Clock },
+  { key: "points", label: "Mis Puntos", icon: Trophy, disabled: true },
+  { key: "recent", label: "Visto Recientemente", icon: Clock, disabled: true },
 ];
 
 export const ACCOUNT_HELP_MENU: AccountMenuItem[] = [

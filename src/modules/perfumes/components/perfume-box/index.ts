@@ -1,3 +1,3 @@
-export { PerfumeBoxSkeleton } from "./PerfumeBoxSkeleton";
-export { PerfumeBox } from "./PerfumeBox";
-export { PerfumePrice } from "./PerfumePrice";
+export { PerfumeBoxSkeleton } from "./perfume-box-skeleton";
+export { PerfumeBox } from "./perfume-box";
+export { PerfumePrice } from "./perfume-price";

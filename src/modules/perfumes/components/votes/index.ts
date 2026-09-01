@@ -1,2 +1,2 @@
-export * from "./StatBar";
-export * from "./VoteSection";
+export * from "./stat-bar";
+export * from "./vote-section";

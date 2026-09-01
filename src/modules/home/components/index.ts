@@ -1,5 +1,4 @@
-export { Home } from "./Home";
-export { AuraPlus } from "./AuraPlus";
-export { Designers } from "./Designers";
-export { Blog } from "./Blog";
-export { PostCard } from "../blog/PostCard";
+export { Home } from "./home";
+export { AuraPlus } from "./aura-plus";
+export { Designers } from "./designers";
+export { Blog } from "./blog";
