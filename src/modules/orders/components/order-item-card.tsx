@@ -40,7 +40,7 @@ export const OrderItemCard = ({ item }: OrderItemCardProps): ReactElement => {
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
-            <h4 className="text-base font-semibold">{item.perfume.name}</h4>
+            <h4 className="text-base font-semibold max-w-38 truncate">{item.perfume.name}</h4>
             <p className="text-body text-sm">
               {item.quantity} x {formatPrice(item.price)}
             </p>

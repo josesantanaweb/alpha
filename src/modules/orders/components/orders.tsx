@@ -7,8 +7,9 @@ import { TopBar } from "@/modules/shared/components";
 import type { OrderWithItems } from "@/modules/orders/types";
 import { useOrders } from "../hooks/use-orders";
 import { OrderCard } from "./order-card";
-import { OrdersTabs } from "./orders-tabs";
+import { OrderCardSkeleton } from "./order-card-skeleton";
 import { OrderTrackingModal } from "./order-tracking-modal";
+import { OrdersTabs } from "./orders-tabs";
 
 type StatusKey = OrderStatus | "ALL";
 
@@ -48,24 +49,25 @@ export const OrdersPage = ({
         onTabChange={(tab) => setActiveTab(tab as StatusKey)}
       />
 
-      {isLoading ? (
+      {isLoading && <OrderCardSkeleton />}
+
+      {!isLoading && filtered.length > 0 && (
         <div className="flex flex-col gap-4">
-          {Array.from({ length: 2 }).map((_, i) => (
-            <div
-              key={i}
-              className="border-stroke bg-surface skeleton-shimmer h-40 rounded-xl border"
+          {filtered.map((order) => (
+            <OrderCard
+              key={order.id}
+              order={order}
+              onTrack={setTrackingOrder}
             />
           ))}
         </div>
-      ) : filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
-          <p className="text-body text-sm">No hay órdenes en esta sección.</p>
-        </div>
-      ) : (
+      )}
+
+      {!isLoading && filtered.length === 0 && (
         <div className="flex flex-col gap-4">
-          {filtered.map((order) => (
-            <OrderCard key={order.id} order={order} onTrack={setTrackingOrder} />
-          ))}
+          <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
+            <p className="text-body text-base">No hay órdenes en esta sección.</p>
+          </div>
         </div>
       )}
 

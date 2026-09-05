@@ -49,11 +49,11 @@ export const OrderCard = ({ order, onTrack }: OrderCardProps): ReactElement => {
           </h6>
         </div>
         <div className="flex w-full items-center justify-between gap-3">
-          <Button variant="primary" onClick={() => onTrack(order)}>
+          <Button variant="primary" onClick={() => onTrack(order)} size="md">
             <Truck size={16} />
             Rastrear
           </Button>
-          <Button variant="secondary" asChild>
+          <Button variant="secondary" asChild size="md">
             <a href={supportUrl(order)} target="_blank" rel="noopener noreferrer">
               <Headset size={16} />
               Soporte
