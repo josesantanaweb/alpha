@@ -7,11 +7,19 @@ export function formatDate(date: DateValue, locale = "es-ES"): string {
   const value = new Date(date);
   if (Number.isNaN(value.getTime())) return "";
 
-  return new Intl.DateTimeFormat(locale, {
-    day: "numeric",
+  const monthName = new Intl.DateTimeFormat(locale, {
     month: "long",
-    year: "numeric",
   }).format(value);
+
+  const shortMonth = monthName
+    .slice(0, 3)
+    .charAt(0)
+    .toUpperCase() + monthName.slice(1, 3);
+
+  const day = value.getDate();
+  const year = value.getFullYear();
+
+  return `${day} ${shortMonth} ${year}`;
 }
 
 export function formatRelativeDate(date: DateValue): string {

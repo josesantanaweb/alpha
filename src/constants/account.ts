@@ -21,7 +21,12 @@ export interface AccountMenuItem {
 }
 
 export const ACCOUNT_MANAGER_MENU: AccountMenuItem[] = [
-  { key: "orders", label: "Mis Órdenes", icon: ScrollText },
+  {
+    key: "orders",
+    label: "Mis Órdenes",
+    icon: ScrollText,
+    href: ROUTES.ORDERS,
+  },
   { key: "favorites", label: "Mis Favoritos", icon: Heart, href: ROUTES.FAVORITES },
   { key: "points", label: "Mis Puntos", icon: Trophy, disabled: true },
   { key: "recent", label: "Visto Recientemente", icon: Clock, disabled: true },
