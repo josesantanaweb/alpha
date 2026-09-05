@@ -44,7 +44,7 @@ export const OrderCard = ({ order, onTrack }: OrderCardProps): ReactElement => {
               {paymentLabel(order.paymentMethod)} - {order.currency === "VES" ? "Bs." : "USD"}
             </p>
           </div>
-          <h6 className="text-lg font-semibold text-white">
+          <h6 className="text-base font-semibold text-white">
             {formatPrice(order.total)}
           </h6>
         </div>
