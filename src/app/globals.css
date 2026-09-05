@@ -16,7 +16,7 @@
   color-scheme: dark;
   --canvas: #131217;
   --surface: #19181D;
-  --body: #616161;
+  --body: #686767;
   --foreground: #fff;
   --stroke: #282830;
   --error: #DB4446;
@@ -28,7 +28,7 @@
     color-scheme: light;
     --canvas: #131217;
     --surface: #19181D;
-    --body: #616161;
+    --body: #686767;
     --foreground: #fff;
     --stroke: #282830;
   }
@@ -39,7 +39,7 @@
   --canvas: #131217;
   --surface: #19181D;
   --foreground: #fff;
-  --body: #616161;
+  --body: #686767;
   --success: #19ebb6;
   --warning: #f2c94c;
   --error: #DB4446;
