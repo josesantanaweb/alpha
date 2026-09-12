@@ -1,0 +1,82 @@
+'use client';
+import React from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { Star } from 'lucide-react';
+import clsx from 'clsx';
+
+import SidebarSubmenu from './admin-sidebar-submenu';
+
+interface SidebarItemProps {
+  item: Item;
+  isOpen: boolean;
+  toggleDropdown: (label: string) => void;
+  isCollapse: boolean;
+  onItemClick?: () => void;
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  item,
+  isOpen,
+  toggleDropdown,
+  isCollapse,
+  onItemClick,
+}) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const isActive = item.path && pathname === item.path && !item.submenu;
+
+  const handleClick = () => {
+    if (item.submenu) {
+      toggleDropdown(item.label);
+    } else if (item.path) {
+      router.push(item.path);
+      onItemClick?.();
+    }
+  };
+
+  const itemClasses = clsx(
+    'flex items-center gap-2 cursor-pointer transition-all relative',
+    {
+      'hover:text-white': true,
+      'text-primary-500': isActive || isOpen,
+      'text-body-100': !isActive && !isOpen,
+      'bg-box-secondary': isActive && isCollapse,
+      'justify-center mb-2 w-[45px] h-[45px] rounded-lg hover:bg-box-secondary':
+        isCollapse,
+      'justify-between py-2 px-6 h-11 w-full': !isCollapse,
+    },
+  );
+
+  return (
+    <div className="relative w-full flex flex-col items-center">
+      <li
+        data-tooltip-id={`tooltip-${item.label}`}
+        data-tooltip-content={item.label}
+        className={itemClasses}
+        onClick={handleClick}
+      >
+        {isActive && !isCollapse && (
+          <span className="absolute top-0 left-0 w-1 h-full bg-primary-500" />
+        )}
+
+        <div className="flex items-center gap-1 justify-center">
+          <Star className="text-lg" />
+          {!isCollapse && (
+            <span className="font-medium text-sm">{item.label}</span>
+          )}
+        </div>
+      </li>
+
+      {item.submenu && (
+        <SidebarSubmenu
+          submenu={item.submenu}
+          isOpen={isOpen}
+          isCollapse={isCollapse}
+        />
+      )}
+    </div>
+  );
+};
+
+export default SidebarItem;

@@ -8,6 +8,7 @@ export const ROUTES = {
   CHECKOUT: "/checkout",
   LOGIN: "/login",
   REGISTER: "/register",
+  ADMIN: "/admin",
   BLOG: "/blog",
 };
 

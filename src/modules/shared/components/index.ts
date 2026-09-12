@@ -11,6 +11,7 @@ export * from "./add-to-cart";
 export * from "./cart-button";
 export * from "./search-input";
 export * from "./auth-guard";
+export * from "./admin-guard";
 export * from "./guest-guard";
 export * from "./query-provider";
 export * from "./collapsible-section";
