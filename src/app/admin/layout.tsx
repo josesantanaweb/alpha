@@ -3,12 +3,12 @@ import { AdminNavbar, AdminSidebar } from "@/modules/admin/components";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-full min-h-screen w-full">
+    <div className="bg-canvas flex min-h-screen w-full">
       <AdminSidebar />
-      <div className="bg-web-bg flex min-h-0 flex-1 flex-col gap-4 p-5">
+      <main className="flex min-w-0 flex-1 flex-col">
         <AdminNavbar />
-        <div className="min-h-0 flex-1">{children}</div>
-      </div>
+        <div className="min-h-0 flex-1 px-5 py-6 lg:px-6">{children}</div>
+      </main>
     </div>
   );
 }
