@@ -20,8 +20,8 @@
   "alpha_data.sql": {
     "mtime": 1783216214.3120286,
     "seen": 1789173426.08238,
-    "ast_hash": "afc4f4ae3418566c947d1c323fc03006",
-    "semantic_hash": "afc4f4ae3418566c947d1c323fc03006"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "docs/aura-api.json": {
     "mtime": 1787099543.735354,
@@ -68,32 +68,32 @@
   "prisma/migrations/20260720192327/migration.sql": {
     "mtime": 1784672822.2748637,
     "seen": 1789173426.082386,
-    "ast_hash": "6f0aba3c0f083e9385965662849345df",
-    "semantic_hash": "6f0aba3c0f083e9385965662849345df"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "prisma/migrations/20260721232643/migration.sql": {
     "mtime": 1784676403.080123,
     "seen": 1789173426.082386,
-    "ast_hash": "0630f5b00979081b9969e0558d149025",
-    "semantic_hash": "0630f5b00979081b9969e0558d149025"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "prisma/migrations/20260725023129/migration.sql": {
     "mtime": 1784946689.6796095,
     "seen": 1789173426.082387,
-    "ast_hash": "2b2077ed7b0cbd839f300d93c2ab8906",
-    "semantic_hash": "2b2077ed7b0cbd839f300d93c2ab8906"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "prisma/migrations/20260809024823/migration.sql": {
     "mtime": 1786243703.7602327,
     "seen": 1789173426.082387,
-    "ast_hash": "385a6230743b33dfaf21e33e39e627f9",
-    "semantic_hash": "385a6230743b33dfaf21e33e39e627f9"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "prisma/migrations/20260809034634/migration.sql": {
     "mtime": 1786247194.0149946,
     "seen": 1789173426.082388,
-    "ast_hash": "d8c762f60da88aae9cd22648b295c8f3",
-    "semantic_hash": "d8c762f60da88aae9cd22648b295c8f3"
+    "ast_hash": "",
+    "semantic_hash": ""
   },
   "prisma/seed.ts": {
     "mtime": 1788298233.671857,
@@ -192,10 +192,10 @@
     "semantic_hash": "d03b3bcb09783369ea47256d78ba65ce"
   },
   "src/app/admin/layout.tsx": {
-    "mtime": 1788967002.2089307,
-    "seen": 1789173426.082399,
-    "ast_hash": "ccfbbbdb0025d659d8e7a1a7e429f4fe",
-    "semantic_hash": "ccfbbbdb0025d659d8e7a1a7e429f4fe"
+    "mtime": 1789313549.1960237,
+    "seen": 1789313569.0613859,
+    "ast_hash": "c808babebbd8f75c4866ceffc40e570e",
+    "semantic_hash": ""
   },
   "src/app/admin/page.tsx": {
     "mtime": 1788967015.703052,
@@ -702,22 +702,22 @@
     "semantic_hash": "5f276009f3e738730a95c6c21a065f07"
   },
   "src/modules/admin/components/admin-navbar.tsx": {
-    "mtime": 1788966833.0095644,
-    "seen": 1789173426.0824509,
-    "ast_hash": "4dbec11213cca1901b138f1ea26d1cdd",
-    "semantic_hash": "4dbec11213cca1901b138f1ea26d1cdd"
+    "mtime": 1789313549.1960318,
+    "seen": 1789313569.06454,
+    "ast_hash": "9672e985d1ca7b31bf4dfbd31cee46cb",
+    "semantic_hash": ""
   },
   "src/modules/admin/components/admin-perfumes-table.tsx": {
-    "mtime": 1788966856.6738179,
-    "seen": 1789173426.0824509,
-    "ast_hash": "97ba9dc31f42d948ee56aeda50d41f20",
-    "semantic_hash": "97ba9dc31f42d948ee56aeda50d41f20"
+    "mtime": 1789313420.0785627,
+    "seen": 1789313452.8943381,
+    "ast_hash": "cf21e1acc338c643d54d8ecf467dad9a",
+    "semantic_hash": ""
   },
   "src/modules/admin/components/admin-sidebar-item.tsx": {
-    "mtime": 1788968252.9495053,
-    "seen": 1789173426.082452,
-    "ast_hash": "4f3ad439db64c2ccf0596641e82e7b8a",
-    "semantic_hash": "4f3ad439db64c2ccf0596641e82e7b8a"
+    "mtime": 1789313411.0073996,
+    "seen": 1789313452.894339,
+    "ast_hash": "2ef23e6d952f51b351faf61ed3c0ae5c",
+    "semantic_hash": ""
   },
   "src/modules/admin/components/admin-sidebar-submenu.tsx": {
     "mtime": 1788968357.2180562,
@@ -726,10 +726,10 @@
     "semantic_hash": "feb2a4996acca4038de51bf7af4b05d2"
   },
   "src/modules/admin/components/admin-sidebar.tsx": {
-    "mtime": 1788968216.8320358,
-    "seen": 1789173426.082453,
-    "ast_hash": "db9665769b402ac3573cb7eef34001b1",
-    "semantic_hash": "db9665769b402ac3573cb7eef34001b1"
+    "mtime": 1789313525.9460058,
+    "seen": 1789313569.06465,
+    "ast_hash": "aba77725154db5711006254af942ec1f",
+    "semantic_hash": ""
   },
   "src/modules/admin/components/index.ts": {
     "mtime": 1788966914.9505477,
@@ -2638,5 +2638,47 @@
     "seen": 1789173426.082656,
     "ast_hash": "405a77c6c76fc7a624890850a0ece112",
     "semantic_hash": "405a77c6c76fc7a624890850a0ece112"
+  },
+  "skills-lock.json": {
+    "mtime": 1789267343.6145694,
+    "seen": 1789313452.890975,
+    "ast_hash": "329c968f3180c4332988e50394e54899",
+    "semantic_hash": ""
+  },
+  ".agents/skills/caveman-commit/README.md": {
+    "mtime": 1789232192.1517901,
+    "seen": 1789313452.903302,
+    "ast_hash": "15f57347c5b5449b79fdf24fdab21f31",
+    "semantic_hash": ""
+  },
+  ".agents/skills/caveman-commit/SKILL.md": {
+    "mtime": 1789232192.1519372,
+    "seen": 1789313452.9033039,
+    "ast_hash": "7461e17437fcf7629b431e94a7036afb",
+    "semantic_hash": ""
+  },
+  ".agents/skills/caveman/README.md": {
+    "mtime": 1789231901.7852108,
+    "seen": 1789313452.903305,
+    "ast_hash": "14801a83830df3284b11a2752da83a39",
+    "semantic_hash": ""
+  },
+  ".agents/skills/caveman/SKILL.md": {
+    "mtime": 1789231901.7853427,
+    "seen": 1789313452.903306,
+    "ast_hash": "38e8d1a0788697d909a374680361ba9a",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grill-me/SKILL.md": {
+    "mtime": 1789267343.5986183,
+    "seen": 1789313452.903307,
+    "ast_hash": "51ba9306293963bb76680d5e41525aea",
+    "semantic_hash": ""
+  },
+  ".agents/skills/grill-me/agents/openai.yaml": {
+    "mtime": 1789267343.5987515,
+    "seen": 1789313452.903308,
+    "ast_hash": "aff7b6f7b10220e3b4537c42a2d08917",
+    "semantic_hash": ""
   }
 }
