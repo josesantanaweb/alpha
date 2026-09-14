@@ -1,40 +1,40 @@
 # Graph Report - aura  (2026-09-13)
 
 ## Corpus Check
-- 388 files · ~141,944 words
+- 395 files · ~142,502 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1408 nodes · 3237 edges · 95 communities (82 shown, 9 thin omitted)
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 81 edges (avg confidence: 0.88)
+- 1439 nodes · 3292 edges · 100 communities (88 shown, 8 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 81 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `71665f3f`
+- Built from commit: `825bb686`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- react
+- blog-list.tsx
 - auth/actions.ts
 - cn
-- admin-sidebar.tsx
+- experience.tsx
 - checkout.tsx
 - filter-sheet.tsx
-- app/layout.tsx
+- formatPrice
 - verifyToken
-- types/index.ts
+- isPrismaError
 - perfumes/actions.ts
-- useAuth
+- reviews/types.ts
 - shared/components/index.ts
 - cart.tsx
 - seed.ts
 - package.json
-- banners/actions.ts
-- orders.tsx
-- perfume-box.tsx
+- rating-summary.tsx
+- order-card.tsx
+- react
 - dependencies
-- constants/index.ts
+- config.ts
 - seasons/actions.ts
 - api/auth.ts
 - push/actions.ts
@@ -43,31 +43,31 @@
 - designers/actions.ts
 - feelings/actions.ts
 - longevities/actions.ts
-- isPrismaError
+- use-cart.ts
 - sillages/actions.ts
 - tags/actions.ts
-- formatPrice
+- payment-preference-selector.tsx
 - compilerOptions
 - devDependencies
-- admin-perfumes-table.tsx
+- admin-sidebar.tsx
 - perfume.tsx
 - caveman/SKILL.md
 - caveman-commit
-- framer-motion
+- @prisma/client
 - orders/actions.ts
-- perfumes/components/index.ts
+- framer-motion
 - Aura
 - uploads/actions.ts
-- account-page.tsx
-- zod
-- @prisma/client
-- auth/components/index.ts
-- ui/index.ts
-- explorer.tsx
+- constants/index.ts
+- decants/actions.ts
+- notes/actions.ts
+- use-create-order.ts
+- types/index.ts
 - home.tsx
+- useAuth
 - bottom-nav.tsx
 - find-your-vibe-item.tsx
-- favorites/actions.ts
+- db.ts
 - scripts
 - perfumes/[id]/vote/route.ts
 - use-favorites.ts
@@ -75,12 +75,12 @@
 - Module Pattern (Vertical Slices)
 - Projection Vote Icon: Afable (Soft)
 - PWA App Branding
-- Input
+- order-item-card.tsx
 - Decant Size Option
 - Olfactive Notes Vocabulary
-- reviews/route.ts
-- auth-guard.tsx
-- use-designers.ts
+- use-push-subscription.ts
+- orders.tsx
+- filter-designer.tsx
 - Cart Module
 - Orders Module
 - Dior Brand Logo
@@ -102,19 +102,24 @@
 - Instagram Icon
 - TikTok Social Icon
 - PWA Maskable App Icon
-- Button
+- ui/index.ts
+- admin-sidebar-submenu.test.tsx
+- reviews/actions.ts
+- review-card.tsx
+- order-status-badge.tsx
+- rating-average.tsx
 - textarea.tsx
-- reviews/[id]/route.ts
-- accords.ts
+- review-form.tsx
+- @vitejs/plugin-react
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 143 edges
+1. `react` - 141 edges
 2. `isPrismaError()` - 56 edges
 3. `@prisma/client` - 50 edges
-4. `lucide-react` - 43 edges
+4. `lucide-react` - 45 edges
 5. `cn()` - 41 edges
 6. `useAuth` - 40 edges
-7. `parsePaginationParams()` - 29 edges
+7. `parsePaginationParams()` - 30 edges
 8. `verifyToken()` - 28 edges
 9. `getTokenFromHeaders()` - 27 edges
 10. `ROUTES` - 21 edges
@@ -156,55 +161,55 @@
 - **Season Vote Scale (autumn, spring, summer, winter)** — public_images_season_autumn_season_vote, public_images_season_spring_season_vote, public_images_season_summer_season_vote, public_images_season_winter_season_vote [INFERRED 0.95]
 - **Framework and Platform Tech Badges** — public_next_svg_next_js_logo, public_vercel_svg_vercel_logo, public_next_svg_framework_concept, public_vercel_svg_deployment_platform [INFERRED 0.95]
 
-## Communities (95 total, 9 thin omitted)
+## Communities (100 total, 8 thin omitted)
 
-### Community 0 - "react"
-Cohesion: 0.09
-Nodes (20): react, metadata, PageProps, PageProps, getPostBySlug(), getPosts(), GetPostsParams, PostsPageResult (+12 more)
+### Community 0 - "blog-list.tsx"
+Cohesion: 0.11
+Nodes (20): metadata, PageProps, PageProps, getPostBySlug(), getPosts(), GetPostsParams, PostsPageResult, BlogDetail() (+12 more)
 
 ### Community 1 - "auth/actions.ts"
 Cohesion: 0.17
 Nodes (15): jose, GET(), GET(), POST(), GET(), POST(), getSecret(), signToken() (+7 more)
 
 ### Community 2 - "cn"
-Cohesion: 0.13
-Nodes (17): PaymentNotice(), PaymentNoticeProps, SizeOption(), SizeOptionProps, EmptyState(), EmptyStateProps, Tab, Tabs() (+9 more)
+Cohesion: 0.17
+Nodes (12): Tab, Tabs(), TabsProps, Avatar(), AvatarProps, Badge(), BadgeProps, Dropdown() (+4 more)
 
-### Community 3 - "admin-sidebar.tsx"
-Cohesion: 0.15
-Nodes (18): clsx, zustand, NavBrand(), NavBrandProps, SidebarItem(), SidebarItemProps, Sidebar(), SidebarSubmenu() (+10 more)
+### Community 3 - "experience.tsx"
+Cohesion: 0.11
+Nodes (22): Experience(), ExperienceProps, StatBar(), StatBarProps, FEELING_OPTIONS, LONGEVITY_OPTIONS, PROJECTION_OPTIONS, SEASON_OPTIONS (+14 more)
 
 ### Community 4 - "checkout.tsx"
-Cohesion: 0.05
-Nodes (59): FREE_SHIPPING_THRESHOLD, PAGINATION_PAGE_SIZE, RELATIVE_DATE_THRESHOLD_DAYS, SHIPPING_FEE, WHATSAPP_NUMBER, getCart(), createOrder(), useCart() (+51 more)
+Cohesion: 0.15
+Nodes (21): CartItemData, CheckoutOrderSummary(), CheckoutOrderSummaryProps, ContactForm(), ContactFormProps, DeliveryMethodSelector(), DeliveryMethodSelectorProps, OrderSuccessModal() (+13 more)
 
 ### Community 5 - "filter-sheet.tsx"
-Cohesion: 0.19
-Nodes (12): FilterDesigner(), FilterDesignerProps, FilterGender(), FilterGenderProps, GENDERS, FilterPrice(), FilterPriceProps, FilterSheet() (+4 more)
+Cohesion: 0.17
+Nodes (12): FilterGender(), FilterGenderProps, GENDERS, FilterPrice(), FilterPriceProps, FilterSheet(), FilterSheetProps, FilterSizes() (+4 more)
 
-### Community 6 - "app/layout.tsx"
-Cohesion: 0.11
-Nodes (15): nextConfig, next, lato, metadata, viewport, authHeaders(), subscribePush(), unsubscribePush() (+7 more)
+### Community 6 - "formatPrice"
+Cohesion: 0.13
+Nodes (15): CartItem(), CartItemProps, CartProgress(), CartProgressProps, QuantityStepper(), QuantityStepperProps, OrderItemSummary(), OrderItemSummaryProps (+7 more)
 
 ### Community 7 - "verifyToken"
-Cohesion: 0.17
-Nodes (17): POST(), DELETE(), RouteParams, authenticate(), GET(), authenticate(), POST(), RouteParams (+9 more)
+Cohesion: 0.22
+Nodes (15): POST(), DELETE(), RouteParams, authenticate(), GET(), authenticate(), POST(), getTokenFromHeaders() (+7 more)
 
-### Community 8 - "types/index.ts"
-Cohesion: 0.10
-Nodes (25): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), GET(), RouteParams (+17 more)
+### Community 8 - "isPrismaError"
+Cohesion: 0.14
+Nodes (21): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), GET(), RouteParams (+13 more)
 
 ### Community 9 - "perfumes/actions.ts"
-Cohesion: 0.07
-Nodes (40): DELETE(), GET(), PUT(), RouteParams, PageProps, PerfumePage(), CATEGORY_MODEL_MAP, getBySlug() (+32 more)
+Cohesion: 0.06
+Nodes (40): zod, GET(), DELETE(), GET(), PUT(), RouteParams, DELETE(), GET() (+32 more)
 
-### Community 10 - "useAuth"
-Cohesion: 0.07
-Nodes (46): @tanstack/react-query, createReview(), deleteReview(), getReviews(), updateReview(), voteReview(), AuthState, useAuth (+38 more)
+### Community 10 - "reviews/types.ts"
+Cohesion: 0.23
+Nodes (13): @tanstack/react-query, deleteReview(), updateReview(), voteReview(), reviewsKeys, useDeleteReview(), useVoteReview(), VoteVariables (+5 more)
 
 ### Community 11 - "shared/components/index.ts"
-Cohesion: 0.09
-Nodes (16): lucide-react, BackButton(), AnimState, CartButton(), CartButtonProps, transitions, variants, CategoryButtonProps (+8 more)
+Cohesion: 0.11
+Nodes (17): lucide-react, AdminNavbarProps, BackButton(), AnimState, CartButton(), CartButtonProps, transitions, variants (+9 more)
 
 ### Community 12 - "cart.tsx"
 Cohesion: 0.15
@@ -215,48 +220,48 @@ Cohesion: 0.11
 Nodes (16): DECANT_CONFIGS, INITIAL_ACCORDS, INITIAL_BANNERS, INITIAL_DESIGNERS, INITIAL_PERFUME_STATS, INITIAL_PERFUMES, INITIAL_POSTS, INITIAL_VIBES (+8 more)
 
 ### Community 14 - "package.json"
-Cohesion: 0.09
-Nodes (22): name, private, version, date-fns, dotenv, eslint, eslint-config-next, @ianvs/prettier-plugin-sort-imports (+14 more)
+Cohesion: 0.07
+Nodes (28): name, private, version, date-fns, dotenv, eslint, eslint-config-next, @ianvs/prettier-plugin-sort-imports (+20 more)
 
-### Community 15 - "banners/actions.ts"
-Cohesion: 0.20
-Nodes (13): GET(), DELETE(), GET(), PUT(), RouteParams, getActive(), getOne(), remove() (+5 more)
+### Community 15 - "rating-summary.tsx"
+Cohesion: 0.14
+Nodes (14): getReviews(), RatingAverageSkeleton(), RatingBreakdown(), RatingBreakdownProps, RatingBreakdownSkeleton(), RatingSummary(), RatingSummaryProps, ReviewCardSkeleton() (+6 more)
 
-### Community 16 - "orders.tsx"
+### Community 16 - "order-card.tsx"
+Cohesion: 0.24
+Nodes (10): OrderCard(), OrderCardProps, ORDER_TRACKING_STATUS, OrderTrackingModal(), OrderTrackingModalProps, TRACKING_STEPS, OrderWithItems, ORDER_TRACKING_STATUS (+2 more)
+
+### Community 17 - "react"
 Cohesion: 0.10
-Nodes (27): getOrders(), OrderCard(), OrderCardProps, OrderCardSkeleton(), OrderCardSkeletonProps, OrderItem, OrderItemCard(), OrderItemCardProps (+19 more)
-
-### Community 17 - "perfume-box.tsx"
-Cohesion: 0.15
-Nodes (13): NewPerfume, NewPerfumes(), NewPerfumesProps, PerfumeBadge(), PerfumeBadgeProps, PerfumeBox(), PerfumeBoxPerfume, PerfumeBoxProps (+5 more)
+Nodes (20): react, NewPerfume, NewPerfumesProps, BestSellerPerfume, BestSellers(), BestSellersProps, PerfumeBadge(), PerfumeBadgeProps (+12 more)
 
 ### Community 18 - "dependencies"
 Cohesion: 0.10
 Nodes (21): dependencies, @aws-sdk/client-s3, bcryptjs, @boxicons/react, class-variance-authority, clsx, date-fns, framer-motion (+13 more)
 
-### Community 19 - "constants/index.ts"
-Cohesion: 0.18
-Nodes (9): ACCOUNT_HELP_MENU, ACCOUNT_MANAGER_MENU, SOCIAL_LINKS, SocialLink, ASSETS, SOCIAL_URLS, ROUTES, AdminGuard() (+1 more)
+### Community 19 - "config.ts"
+Cohesion: 0.29
+Nodes (6): FREE_SHIPPING_THRESHOLD, PAGINATION_PAGE_SIZE, RELATIVE_DATE_THRESHOLD_DAYS, SHIPPING_FEE, SOCIAL_URLS, WHATSAPP_NUMBER
 
 ### Community 20 - "seasons/actions.ts"
 Cohesion: 0.24
 Nodes (11): DELETE(), GET(), PUT(), RouteParams, getOne(), remove(), update(), CreateSeasonInput (+3 more)
 
 ### Community 21 - "api/auth.ts"
-Cohesion: 0.19
-Nodes (15): API_ROUTES, completeGoogleLogin(), login(), loginWithGoogle(), register(), syncGuestCartToServer(), addCartItem(), LoginContent() (+7 more)
+Cohesion: 0.07
+Nodes (27): nextConfig, next, lato, metadata, viewport, ASSETS, completeGoogleLogin(), initialize() (+19 more)
 
 ### Community 22 - "push/actions.ts"
-Cohesion: 0.15
-Nodes (16): web-push, authenticate(), POST(), authenticate(), DELETE(), configureWebPush(), ensureConfigured(), PushSubscriptionDto (+8 more)
+Cohesion: 0.16
+Nodes (14): web-push, authenticate(), DELETE(), configureWebPush(), ensureConfigured(), PushSubscriptionDto, sendPushNotification(), EXPIRED_STATUS_CODES (+6 more)
 
 ### Community 23 - "accords/actions.ts"
 Cohesion: 0.19
 Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll() (+7 more)
 
 ### Community 24 - "parsePaginationParams"
-Cohesion: 0.12
-Nodes (27): GET(), POST(), GET(), POST(), GET(), POST(), GET(), POST() (+19 more)
+Cohesion: 0.19
+Nodes (15): GET(), POST(), GET(), POST(), GET(), POST(), parseNonNegativeInt(), parsePaginationParams() (+7 more)
 
 ### Community 25 - "designers/actions.ts"
 Cohesion: 0.24
@@ -267,12 +272,12 @@ Cohesion: 0.19
 Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll() (+7 more)
 
 ### Community 27 - "longevities/actions.ts"
-Cohesion: 0.24
-Nodes (11): DELETE(), GET(), PUT(), RouteParams, getOne(), remove(), update(), CreateLongevityInput (+3 more)
+Cohesion: 0.19
+Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll() (+7 more)
 
-### Community 28 - "isPrismaError"
-Cohesion: 0.29
-Nodes (13): isPrismaError(), create(), remove(), syncPerfumeRating(), syncReviewVoteCounts(), update(), userSelect, voteReview() (+5 more)
+### Community 28 - "use-cart.ts"
+Cohesion: 0.20
+Nodes (13): getCart(), CartWithItems, useCart(), GuestCartStore, useCartStore, CartData, CartProduct, GuestCartItem (+5 more)
 
 ### Community 29 - "sillages/actions.ts"
 Cohesion: 0.19
@@ -282,25 +287,25 @@ Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll
 Cohesion: 0.19
 Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll() (+7 more)
 
-### Community 31 - "formatPrice"
-Cohesion: 0.13
-Nodes (15): CartItem(), CartItemProps, CartProgress(), CartProgressProps, QuantityStepper(), QuantityStepperProps, OrderItemSummary(), OrderItemSummaryProps (+7 more)
+### Community 31 - "payment-preference-selector.tsx"
+Cohesion: 0.18
+Nodes (14): PaymentMethodSelector(), PaymentMethodSelectorProps, PaymentNotice(), PaymentNoticeProps, PaymentPreferenceSelector(), PaymentPreferenceSelectorProps, UsdPaymentOptions(), UsdPaymentOptionsProps (+6 more)
 
 ### Community 32 - "compilerOptions"
 Cohesion: 0.11
 Nodes (18): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+10 more)
 
 ### Community 33 - "devDependencies"
-Cohesion: 0.11
-Nodes (18): devDependencies, dotenv, eslint, eslint-config-next, eslint-config-prettier, @ianvs/prettier-plugin-sort-imports, prettier, prettier-plugin-tailwindcss (+10 more)
+Cohesion: 0.07
+Nodes (28): devDependencies, dotenv, eslint, eslint-config-next, eslint-config-prettier, @ianvs/prettier-plugin-sort-imports, jsdom, msw (+20 more)
 
-### Community 34 - "admin-perfumes-table.tsx"
-Cohesion: 0.18
-Nodes (7): AdminNavbar(), AdminNavbarProps, AdminPerfume, AdminPerfumesTable(), AdminPerfumesTableProps, STATUS_CLASSES, ADMIN_PERFUMES
+### Community 34 - "admin-sidebar.tsx"
+Cohesion: 0.10
+Nodes (24): clsx, zustand, AdminBrand(), AdminBrandProps, AdminNavbar(), AdminPerfume, AdminPerfumesTable(), AdminPerfumesTableProps (+16 more)
 
 ### Community 35 - "perfume.tsx"
-Cohesion: 0.09
-Nodes (21): BOTTLE_ML, AccordBarProps, Accords(), AccordsProps, PerfumeAccordData, AboutPerfume(), AboutPerfumeProps, Notes() (+13 more)
+Cohesion: 0.07
+Nodes (26): BOTTLE_ML, AccordBarProps, Accords(), AccordsProps, PerfumeAccordData, toCartProduct(), AboutPerfume(), AboutPerfumeProps (+18 more)
 
 ### Community 36 - "caveman/SKILL.md"
 Cohesion: 0.17
@@ -310,17 +315,17 @@ Nodes (10): caveman, Example output, How to invoke, See also, What it does, Auto
 Cohesion: 0.18
 Nodes (9): caveman-commit, Example output, How to invoke, See also, What it does, Auto-Clarity, Boundaries, Examples (+1 more)
 
-### Community 38 - "framer-motion"
-Cohesion: 0.20
-Nodes (10): framer-motion, SliderHomeDots(), SliderHomeDotsProps, SliderHomeSkeleton(), SliderHomeSlide(), SliderHome(), SliderHomeProps, slideVariants (+2 more)
+### Community 38 - "@prisma/client"
+Cohesion: 0.27
+Nodes (6): @prisma/client, API_ROUTES, getActiveBanners(), getTags(), useBanners(), useTags()
 
 ### Community 39 - "orders/actions.ts"
-Cohesion: 0.22
-Nodes (12): authenticate(), GET(), authenticate(), GET(), POST(), createOrder(), CURRENCY_MAP, DELIVERY_METHOD_MAP (+4 more)
+Cohesion: 0.20
+Nodes (13): authenticate(), GET(), authenticate(), GET(), POST(), createOrder(), CURRENCY_MAP, DELIVERY_METHOD_MAP (+5 more)
 
-### Community 40 - "perfumes/components/index.ts"
-Cohesion: 0.16
-Nodes (11): BestSellerPerfume, BestSellers(), BestSellersProps, GridPerfume, PerfumeGrid(), PerfumeGridProps, Similar(), SimilarPerfume (+3 more)
+### Community 40 - "framer-motion"
+Cohesion: 0.18
+Nodes (10): framer-motion, SliderHomeDots(), SliderHomeDotsProps, SliderHomeSkeleton(), SliderHomeSlide(), SliderHomeSlideProps, SliderHome(), SliderHomeProps (+2 more)
 
 ### Community 41 - "Aura"
 Cohesion: 0.14
@@ -330,61 +335,61 @@ Nodes (14): Prisma Schema Rules, Dark Mode Premium Design System, Reviews Module
 Cohesion: 0.22
 Nodes (10): @aws-sdk/client-s3, POST(), s3, generateKey(), upload(), UploadResult, validateFiles(), ALLOWED_MIME_TYPES (+2 more)
 
-### Community 43 - "account-page.tsx"
-Cohesion: 0.31
-Nodes (8): AccountMenuItem, logout(), AccountHeader(), AccountMenuItem(), AccountMenuItemProps, AccountMenuSection(), AccountMenuSectionProps, Account()
-
-### Community 44 - "zod"
+### Community 43 - "constants/index.ts"
 Cohesion: 0.13
-Nodes (20): zod, DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create() (+12 more)
+Nodes (15): ACCOUNT_HELP_MENU, ACCOUNT_MANAGER_MENU, AccountMenuItem, SOCIAL_LINKS, SocialLink, getAccords(), logout(), useAccords() (+7 more)
 
-### Community 45 - "@prisma/client"
-Cohesion: 0.12
-Nodes (18): @prisma/adapter-pg, @prisma/client, DELETE(), GET(), PUT(), RouteParams, GET(), getTags() (+10 more)
+### Community 44 - "decants/actions.ts"
+Cohesion: 0.19
+Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll() (+7 more)
 
-### Community 46 - "auth/components/index.ts"
-Cohesion: 0.29
-Nodes (4): initialize(), AuthInitializer(), Login(), Register()
+### Community 45 - "notes/actions.ts"
+Cohesion: 0.19
+Nodes (15): DELETE(), GET(), PUT(), RouteParams, GET(), POST(), create(), getAll() (+7 more)
 
-### Community 47 - "ui/index.ts"
+### Community 46 - "use-create-order.ts"
+Cohesion: 0.18
+Nodes (8): createOrder(), Checkout(), useCreateOrder(), CreateOrderInput, DeliveryMethodEnum, orderItemSchema, PaymentCurrencyEnum, PaymentProviderEnum
+
+### Community 47 - "types/index.ts"
 Cohesion: 0.22
-Nodes (6): FilterTypeProps, TYPES, Badge(), BadgeProps, Slider(), SliderProps
+Nodes (8): GET(), GetPostsParams, GetPerfumesParams, ApiError, ApiResult, ApiSuccess, PaginationParams, getActive()
 
-### Community 48 - "explorer.tsx"
-Cohesion: 0.22
-Nodes (7): PageProps, getPerfumes(), GetPerfumesParams, Explorer(), ExplorerProps, usePerfumes(), FilterButton()
+### Community 48 - "home.tsx"
+Cohesion: 0.13
+Nodes (13): PageProps, getPerfumes(), GetPerfumesParams, Explorer(), ExplorerProps, AuraPlus(), ITEMS, Designers (+5 more)
 
-### Community 49 - "home.tsx"
-Cohesion: 0.22
-Nodes (7): getActiveBanners(), useBanners(), AuraPlus(), ITEMS, Blog(), Designers, Home()
+### Community 49 - "useAuth"
+Cohesion: 0.28
+Nodes (7): ROUTES, createReview(), AuthState, useAuth, useCreateReview(), AdminGuard(), AuthGuard()
 
 ### Community 50 - "bottom-nav.tsx"
-Cohesion: 0.29
-Nodes (6): @boxicons/react, NavButton, NavButtonProps, NavIcon, TabItem, TABS
+Cohesion: 0.18
+Nodes (11): @boxicons/react, BottomNav(), NavButton, NavButtonProps, NavIcon, TabItem, TABS, SearchInputProps (+3 more)
 
 ### Community 51 - "find-your-vibe-item.tsx"
 Cohesion: 0.27
 Nodes (6): getActiveVibes(), FindYourVibe(), FindYourVibeItem(), FindYourVibeItemProps, FindYourVibeSkeleton(), useVibes()
 
-### Community 52 - "favorites/actions.ts"
-Cohesion: 0.33
-Nodes (9): authenticate(), DELETE(), GET(), POST(), POST(), create(), getByIds(), getUserFavorites() (+1 more)
+### Community 52 - "db.ts"
+Cohesion: 0.23
+Nodes (11): @prisma/adapter-pg, authenticate(), DELETE(), GET(), POST(), POST(), db, create() (+3 more)
 
 ### Community 53 - "scripts"
-Cohesion: 0.18
-Nodes (11): scripts, build, dev, lint, prisma:db:push, prisma:generate, prisma:migrate, prisma:migrate:deploy (+3 more)
+Cohesion: 0.15
+Nodes (13): scripts, build, dev, lint, prisma:db:push, prisma:generate, prisma:migrate, prisma:migrate:deploy (+5 more)
 
 ### Community 54 - "perfumes/[id]/vote/route.ts"
 Cohesion: 0.48
 Nodes (6): authenticate(), GET(), POST(), VALID_CATEGORIES, getUserVotes(), vote()
 
 ### Community 55 - "use-favorites.ts"
-Cohesion: 0.29
-Nodes (7): addFavorite(), getFavorites(), removeFavorite(), Favorites(), useFavorites(), FavoriteButton(), FavoriteButtonProps
+Cohesion: 0.25
+Nodes (8): addFavorite(), getFavorites(), removeFavorite(), Favorites(), useFavorites(), PerfumeWithRelations, FavoriteButton(), FavoriteButtonProps
 
 ### Community 56 - "categories-filter.tsx"
-Cohesion: 0.33
-Nodes (5): CategoriesFilter(), CategoriesFilterProps, CategoryFilterItem, CategoriesFilterSkeleton(), CategoryButton()
+Cohesion: 0.27
+Nodes (6): CategoriesFilter(), CategoriesFilterProps, CategoryFilterItem, CategoriesFilterSkeleton(), CategoryButton(), CategoryButtonProps
 
 ### Community 57 - "Module Pattern (Vertical Slices)"
 Cohesion: 0.20
@@ -398,9 +403,9 @@ Nodes (10): Projection Vote Icon: Afable (Soft), Projection Vote Icon: Huge, Pro
 Cohesion: 0.31
 Nodes (9): Apple Touch Icon, PWA App Icon 192px, PWA App Icon 512px, Maskable PWA App Icon 512px, PWA App Branding, Promotional Banner 1, Promotional Banner 2, Promotional Banner (+1 more)
 
-### Community 60 - "Input"
-Cohesion: 0.43
-Nodes (5): SearchInput(), SearchInputProps, Input, InputProps, inputVariants
+### Community 60 - "order-item-card.tsx"
+Cohesion: 0.29
+Nodes (4): OrderItem, OrderItemCard(), OrderItemCardProps, GENDER_LABELS
 
 ### Community 61 - "Decant Size Option"
 Cohesion: 0.33
@@ -410,13 +415,17 @@ Nodes (7): Decant Bottle 10ml, Decant Bottle 5ml, Decant Size Option, Empty Sear
 Cohesion: 0.29
 Nodes (7): Esclarea (Clary Sage) Olfactive Note Icon, Jasmine Olfactive Note Icon, Mandarina (Tangerine) Olfactive Note Icon, Moscada (Musk) Olfactive Note Icon, Olfactive Notes Vocabulary, Tabaco (Tobacco) Olfactive Note Icon, Vainilla (Vanilla) Olfactive Note Icon
 
-### Community 63 - "reviews/route.ts"
-Cohesion: 0.48
-Nodes (6): authenticate(), GET(), POST(), SORT_VALUES, getByPerfume(), getUserReview()
+### Community 63 - "use-push-subscription.ts"
+Cohesion: 0.29
+Nodes (7): authHeaders(), subscribePush(), unsubscribePush(), PushNotificationManager(), getVapidPublicKey(), usePushSubscription, urlBase64ToUint8Array()
 
-### Community 65 - "use-designers.ts"
-Cohesion: 0.48
-Nodes (3): getDesigners(), useDesigners(), DesignerMarquee()
+### Community 64 - "orders.tsx"
+Cohesion: 0.15
+Nodes (11): getOrders(), OrderCardSkeleton(), OrderCardSkeletonProps, OrdersPage(), OrdersPageProps, StatusKey, TAB_LABELS, OrdersTab (+3 more)
+
+### Community 65 - "filter-designer.tsx"
+Cohesion: 0.33
+Nodes (5): getDesigners(), useDesigners(), DesignerMarquee(), FilterDesigner(), FilterDesignerProps
 
 ### Community 66 - "Cart Module"
 Cohesion: 0.33
@@ -474,37 +483,57 @@ Nodes (3): Community Metrics Models, UserVote Model, Community Votes (UserVote)
 Cohesion: 0.67
 Nodes (3): Night Mood Asset, Night Time-of-Day Concept, Sexy Mood Asset
 
-### Community 90 - "Button"
-Cohesion: 0.47
-Nodes (4): SliderHomeSlideProps, Button, ButtonProps, buttonVariants
+### Community 90 - "ui/index.ts"
+Cohesion: 0.19
+Nodes (7): EmptyState(), EmptyStateProps, Button, ButtonProps, buttonVariants, Slider(), SliderProps
 
-### Community 91 - "textarea.tsx"
+### Community 91 - "admin-sidebar-submenu.test.tsx"
+Cohesion: 0.33
+Nodes (5): @testing-library/react, @testing-library/user-event, vitest, { pathname, push }, submenu
+
+### Community 92 - "reviews/actions.ts"
+Cohesion: 0.13
+Nodes (25): authenticate(), DELETE(), PUT(), RouteParams, authenticate(), POST(), RouteParams, authenticate() (+17 more)
+
+### Community 93 - "review-card.tsx"
+Cohesion: 0.48
+Nodes (5): ReviewCard(), ReviewCardProps, ReviewList(), ReviewListProps, ReviewWithVote
+
+### Community 95 - "order-status-badge.tsx"
+Cohesion: 0.50
+Nodes (3): OrderStatusBadge(), OrderStatusBadgeProps, STATUS_CONFIG
+
+### Community 96 - "rating-average.tsx"
+Cohesion: 0.33
+Nodes (4): RatingAverage(), RatingAverageProps, StarRating(), StarRatingProps
+
+### Community 97 - "textarea.tsx"
 Cohesion: 0.50
 Nodes (4): class-variance-authority, Textarea, TextareaProps, textareaVariants
 
-### Community 92 - "reviews/[id]/route.ts"
+### Community 98 - "review-form.tsx"
 Cohesion: 0.60
-Nodes (4): authenticate(), DELETE(), PUT(), RouteParams
+Nodes (4): ReviewForm(), ReviewFormProps, useUpdateReview(), ReviewWithUser
 
 ## Knowledge Gaps
-- **379 isolated node(s):** `$schema`, `plugin`, `eslintConfig`, `nextConfig`, `name` (+374 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 430 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **399 isolated node(s):** `$schema`, `plugin`, `eslintConfig`, `nextConfig`, `name` (+394 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 451 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `cn`, `admin-sidebar.tsx`, `checkout.tsx`, `filter-sheet.tsx`, `app/layout.tsx`, `perfumes/actions.ts`, `useAuth`, `shared/components/index.ts`, `cart.tsx`, `package.json`, `orders.tsx`, `perfume-box.tsx`, `constants/index.ts`, `api/auth.ts`, `formatPrice`, `admin-perfumes-table.tsx`, `perfume.tsx`, `framer-motion`, `perfumes/components/index.ts`, `account-page.tsx`, `auth/components/index.ts`, `ui/index.ts`, `explorer.tsx`, `home.tsx`, `bottom-nav.tsx`, `find-your-vibe-item.tsx`, `use-favorites.ts`, `categories-filter.tsx`, `Input`, `auth-guard.tsx`, `use-designers.ts`, `Button`, `textarea.tsx`?**
-  _High betweenness centrality (0.293) - this node is a cross-community bridge._
-- **Why does `@prisma/client` connect `@prisma/client` to `react`, `auth/actions.ts`, `verifyToken`, `types/index.ts`, `perfumes/actions.ts`, `useAuth`, `seed.ts`, `package.json`, `banners/actions.ts`, `orders.tsx`, `perfume-box.tsx`, `seasons/actions.ts`, `push/actions.ts`, `accords/actions.ts`, `designers/actions.ts`, `feelings/actions.ts`, `longevities/actions.ts`, `isPrismaError`, `sillages/actions.ts`, `tags/actions.ts`, `perfume.tsx`, `framer-motion`, `orders/actions.ts`, `perfumes/components/index.ts`, `zod`, `explorer.tsx`, `home.tsx`, `find-your-vibe-item.tsx`, `categories-filter.tsx`, `use-designers.ts`, `Button`, `accords.ts`?**
-  _High betweenness centrality (0.206) - this node is a cross-community bridge._
-- **Why does `zod` connect `zod` to `checkout.tsx`, `verifyToken`, `types/index.ts`, `perfumes/actions.ts`, `@prisma/client`, `package.json`, `banners/actions.ts`, `seasons/actions.ts`, `api/auth.ts`, `push/actions.ts`, `accords/actions.ts`, `designers/actions.ts`, `feelings/actions.ts`, `longevities/actions.ts`, `isPrismaError`, `sillages/actions.ts`, `tags/actions.ts`?**
-  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `blog-list.tsx`, `cn`, `experience.tsx`, `checkout.tsx`, `filter-sheet.tsx`, `formatPrice`, `perfumes/actions.ts`, `shared/components/index.ts`, `cart.tsx`, `package.json`, `rating-summary.tsx`, `order-card.tsx`, `api/auth.ts`, `use-cart.ts`, `payment-preference-selector.tsx`, `admin-sidebar.tsx`, `perfume.tsx`, `framer-motion`, `constants/index.ts`, `use-create-order.ts`, `home.tsx`, `useAuth`, `bottom-nav.tsx`, `find-your-vibe-item.tsx`, `use-favorites.ts`, `categories-filter.tsx`, `order-item-card.tsx`, `use-push-subscription.ts`, `orders.tsx`, `filter-designer.tsx`, `ui/index.ts`, `review-card.tsx`, `order-status-badge.tsx`, `rating-average.tsx`, `textarea.tsx`, `review-form.tsx`?**
+  _High betweenness centrality (0.259) - this node is a cross-community bridge._
+- **Why does `@prisma/client` connect `@prisma/client` to `blog-list.tsx`, `auth/actions.ts`, `experience.tsx`, `verifyToken`, `perfumes/actions.ts`, `reviews/types.ts`, `seed.ts`, `package.json`, `order-card.tsx`, `react`, `seasons/actions.ts`, `push/actions.ts`, `accords/actions.ts`, `designers/actions.ts`, `feelings/actions.ts`, `longevities/actions.ts`, `sillages/actions.ts`, `tags/actions.ts`, `perfume.tsx`, `orders/actions.ts`, `framer-motion`, `constants/index.ts`, `decants/actions.ts`, `notes/actions.ts`, `types/index.ts`, `home.tsx`, `find-your-vibe-item.tsx`, `db.ts`, `use-favorites.ts`, `categories-filter.tsx`, `orders.tsx`, `filter-designer.tsx`, `reviews/actions.ts`, `order-status-badge.tsx`?**
+  _High betweenness centrality (0.220) - this node is a cross-community bridge._
+- **Why does `isPrismaError()` connect `isPrismaError` to `verifyToken`, `perfumes/actions.ts`, `decants/actions.ts`, `notes/actions.ts`, `db.ts`, `seasons/actions.ts`, `accords/actions.ts`, `parsePaginationParams`, `designers/actions.ts`, `feelings/actions.ts`, `longevities/actions.ts`, `reviews/actions.ts`, `sillages/actions.ts`, `tags/actions.ts`?**
+  _High betweenness centrality (0.038) - this node is a cross-community bridge._
 - **What connects `$schema`, `plugin`, `eslintConfig` to the rest of the system?**
-  _379 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `react` be split into smaller, more focused modules?**
-  _Cohesion score 0.09146341463414634 - nodes in this community are weakly interconnected._
-- **Should `cn` be split into smaller, more focused modules?**
-  _Cohesion score 0.12666666666666668 - nodes in this community are weakly interconnected._
-- **Should `checkout.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.051061388410786 - nodes in this community are weakly interconnected._
+  _399 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `blog-list.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.10952380952380952 - nodes in this community are weakly interconnected._
+- **Should `experience.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.11330049261083744 - nodes in this community are weakly interconnected._
+- **Should `formatPrice` be split into smaller, more focused modules?**
+  _Cohesion score 0.13043478260869565 - nodes in this community are weakly interconnected._
