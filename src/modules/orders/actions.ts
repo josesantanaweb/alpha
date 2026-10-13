@@ -248,6 +248,26 @@ export async function getOrders(
   }
 }
 
+export async function getAllOrders(): Promise<ApiResult<OrderWithItems[]>> {
+  try {
+    const orders = await db.order.findMany({
+      include: orderInclude,
+      orderBy: { createdAt: "desc" },
+    });
+
+    return { success: true, status: 200, data: orders };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      status: 500,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error al obtener los pedidos.",
+    };
+  }
+}
+
 export async function getOrderById(
   userId: string,
   orderId: string

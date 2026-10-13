@@ -1,17 +1,32 @@
 "use client";
 
-import type { LucideIcon } from "lucide-react";
+import type { OrderStatus } from "@prisma/client";
 import {
   Boxes,
+  CreditCard,
   FolderKanban,
-  ListTree,
   LayoutDashboard,
+  ListTree,
   LogOut,
-  Package,
+  ShoppingBag,
   Users,
+  Truck,
+  Gift,
+  type LucideIcon,
+  Ticket,
 } from "lucide-react";
 import { ROUTES } from "@/constants";
 import { useAuth } from "@/modules/auth/store";
+
+export interface AdminOrderRow {
+  id: string;
+  image: string | null;
+  name: string;
+  itemCount: number;
+  contactName: string;
+  createdAt: string;
+  status: OrderStatus;
+}
 
 export interface SubmenuItem {
   label: string;
@@ -28,44 +43,68 @@ export interface Item {
 
 const MENU_ICONS = {
   dashboard: LayoutDashboard,
-  products: Boxes,
+  perfumes: Boxes,
   management: FolderKanban,
   catalog: ListTree,
-  orders: Package,
+  orders: ShoppingBag,
   customers: Users,
+  payments: CreditCard,
+  shipments: Truck,
+  coupons: Ticket,
+  giftcards: Gift,
   logout: LogOut,
 };
 
 export const MENU: Item[] = [
   {
-    label: "Panel",
+    label: "Dashboard",
     icon: MENU_ICONS.dashboard,
     path: ROUTES.ADMIN,
+  },
+  {
+    label: "Perfumes",
+    icon: MENU_ICONS.perfumes,
+    path: `${ROUTES.ADMIN}/perfumes`,
+  },
+  {
+    label: "Órdenes",
+    icon: MENU_ICONS.orders,
+    path: `${ROUTES.ADMIN}/orders`,
+  },
+  {
+    label: "Clientes",
+    icon: MENU_ICONS.customers,
+    path: `${ROUTES.ADMIN}/customers`,
+  },
+  {
+    label: "Pagos",
+    icon: MENU_ICONS.payments,
+    path: `${ROUTES.ADMIN}/payments`,
+  },
+  {
+    label: "Envíos",
+    icon: MENU_ICONS.shipments,
+    path: `${ROUTES.ADMIN}/shipments`,
+  },
+  {
+    label: "Cupones",
+    icon: MENU_ICONS.coupons,
+    path: `${ROUTES.ADMIN}/coupons`,
+  },
+  {
+    label: "Giftcards",
+    icon: MENU_ICONS.giftcards,
+    path: `${ROUTES.ADMIN}/giftcards`,
   },
   {
     label: "Gestión",
     icon: MENU_ICONS.management,
     submenu: [
       {
-        label: "Catálogo",
-        icon: MENU_ICONS.products,
-        path: ROUTES.ADMIN,
-      },
-      {
         label: "Inventario",
         icon: MENU_ICONS.catalog,
       },
     ],
-  },
-  {
-    label: "Órdenes",
-    icon: MENU_ICONS.orders,
-    path: `${ROUTES.ADMIN}/ordenes`,
-  },
-  {
-    label: "Clientes",
-    icon: MENU_ICONS.customers,
-    path: `${ROUTES.ADMIN}/clientes`,
   },
 ];
 

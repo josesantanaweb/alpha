@@ -43,19 +43,17 @@ export const AdminSidebarItem = ({
         onClick={handleClick}
         aria-expanded={item.submenu ? isOpen : undefined}
         className={clsx(
-          "relative flex cursor-pointer items-center gap-2 rounded-md text-left transition-colors hover:bg-white/5 hover:text-white",
-          isActive || isOpen ? "bg-white/6 text-white" : "text-body",
-          isCollapse ? "h-10 w-10 justify-center" : "h-9 w-full px-3"
+          "relative flex cursor-pointer items-center gap-3 text-left transition-colors hover:bg-white hover:text-surface rounded-lg",
+          isActive || isOpen ? "bg-white text-surface" : "text-body",
+          isCollapse ? "h-10 w-10 justify-center" : "w-[90%] px-3 h-10"
         )}
       >
-        {isActive && !isCollapse && (
-          <span className="absolute left-0 h-5 w-0.5 bg-white" />
-        )}
-        <Icon size={15} strokeWidth={1.75} />
-        {!isCollapse && <span className="flex-1 text-xs font-medium">{item.label}</span>}
+        <Icon size={18} strokeWidth={2} />
+        {!isCollapse && <span className="flex-1 text-base font-semibold">{item.label}</span>}
         {!isCollapse && item.submenu && (
           <ChevronDown
-            size={14}
+            size={18}
+            strokeWidth={2}
             className={clsx("transition-transform", isOpen && "rotate-180")}
           />
         )}

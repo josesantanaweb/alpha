@@ -9,12 +9,12 @@ interface AdminBrandProps {
 }
 
 export const AdminBrand = ({ collapse }: AdminBrandProps): ReactElement => (
-  <div className="flex items-center gap-2 px-4 py-6">
+  <div className="flex items-center gap-2 justify-center h-15">
     <Image
-      src={ASSETS.IMAGES.LOGO}
+      src={collapse ? ASSETS.IMAGES.LOGO_SMALL : ASSETS.IMAGES.LOGO }
       alt="Aura"
-      width={collapse ? 24 : 80}
-      height={collapse ? 24 : 24}
+      width={collapse ? 20 : 80}
+      height={collapse ? 20 : 24}
       className="object-contain"
     />
   </div>

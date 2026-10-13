@@ -14,31 +14,30 @@ export const Avatar = ({ src, name, size = 40, className }: AvatarProps) => {
     height: size,
     fontSize: Math.round(size * 0.4),
   };
-
-  if (src) {
-    return (
-      <Image
-        src={src}
-        alt={name ?? "Avatar"}
-        width={size}
-        height={size}
-        style={style}
-        className={cn("shrink-0 rounded-full object-cover", className)}
-      />
-    );
-  }
-
   const initial = (name?.trim().charAt(0) ?? "?").toUpperCase();
 
+  const containerClass = cn(
+    "shrink-0 rounded-full border border-stroke font-semibold inline-flex items-center justify-center overflow-hidden",
+    "bg-surface text-white",
+    className
+  );
+
   return (
-    <span
-      style={style}
-      className={cn(
-        "bg-surface text-white flex shrink-0 items-center justify-center rounded-full border border-stroke font-semibold",
-        className
+    <span style={style} className={containerClass}>
+      {src ? (
+        <Image
+          src={src}
+          alt={name ?? "Avatar"}
+          width={size}
+          height={size}
+          style={{ width: "100%", height: "100%" }}
+          className="object-cover"
+        />
+      ) : (
+        <span className="flex items-center justify-center w-full h-full">
+          {initial}
+        </span>
       )}
-    >
-      {initial}
     </span>
   );
 };

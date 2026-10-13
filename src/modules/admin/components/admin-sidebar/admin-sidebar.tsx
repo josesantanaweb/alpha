@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { useAdminStore } from "@/modules/shared/stores/use-admin-store";
 import { LOGOUT_ITEM, MENU, filterMenuByRole, useRole } from "../../types";
 import { AdminBrand } from "../admin-brand";
-import { AdminSidebarItem } from "./admin-sidebar-item";
+import { AdminSidebarMenu } from "./admin-sidebar-menu";
 
 export const AdminSidebar = (): ReactElement => {
   const { collapseSidebar } = useAdminStore();
@@ -31,36 +31,18 @@ export const AdminSidebar = (): ReactElement => {
   return (
     <aside
       className={clsx(
-        "border-stroke bg-surface sticky top-0 hidden h-screen shrink-0 border-r pt-2 transition-all duration-300 md:flex md:flex-col",
-        collapseSidebar ? "w-20" : "w-44"
+        "bg-surface sticky top-0 hidden h-screen shrink-0 transition-all duration-300 md:flex md:flex-col",
+        collapseSidebar ? "w-20" : "w-60"
       )}
     >
       <AdminBrand collapse={collapseSidebar} />
-      <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex flex-1 flex-col items-center">
-          <nav aria-label="Navegación administrativa" className="w-full px-2 pt-5">
-            <ul className="flex w-full flex-col items-center gap-1">
-              {menuItems.map((item) => (
-                <AdminSidebarItem
-                  key={item.label}
-                  item={item}
-                  isOpen={openDropdowns.has(item.label)}
-                  toggleDropdown={toggleDropdown}
-                  isCollapse={collapseSidebar}
-                />
-              ))}
-            </ul>
-          </nav>
-        </div>
-        <ul className="w-full px-2 pb-5">
-          <AdminSidebarItem
-            item={LOGOUT_ITEM}
-            isOpen={false}
-            toggleDropdown={toggleDropdown}
-            isCollapse={collapseSidebar}
-          />
-        </ul>
-      </div>
+      <AdminSidebarMenu
+        menuItems={menuItems}
+        openDropdowns={openDropdowns}
+        toggleDropdown={toggleDropdown}
+        isCollapse={collapseSidebar}
+        logoutItem={LOGOUT_ITEM}
+      />
     </aside>
   );
 };

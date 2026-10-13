@@ -22,3 +22,5 @@ export * from "./favorite-button";
 export * from "./order-summary";
 export * from "./size-badge";
 export * from "./social-links";
+export * from "./table-pagination";
+export * from "./table-summary";

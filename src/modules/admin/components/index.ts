@@ -1,6 +1,7 @@
 export { AdminBrand } from "./admin-brand";
+export { AdminRowActions } from "./admin-row-actions";
 export { AdminNavbar } from "./admin-navbar";
-export { AdminPerfumesTable } from "./admin-perfumes-table";
+export { AdminOrdersTable } from "./admin-orders-table";
 export {
 	AdminSidebar,
 	AdminSidebarItem,

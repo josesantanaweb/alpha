@@ -32,12 +32,12 @@ export const AdminSidebarSubmenu = ({
             type="button"
             onClick={() => path && router.push(path)}
             className={clsx(
-              "flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-3 text-left text-[11px] transition-colors hover:bg-white/5 hover:text-white",
+              "flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-3 text-left text-sm transition-colors hover:bg-white/5 hover:text-white",
               path === pathname ? "text-white" : "text-body",
               !path && "cursor-default"
             )}
           >
-            <Icon size={13} strokeWidth={1.75} />
+            <Icon size={16} strokeWidth={1.75} />
             {!isCollapse && <span>{label}</span>}
           </button>
         </li>

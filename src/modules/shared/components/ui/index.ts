@@ -5,5 +5,6 @@ export * from "./button";
 export * from "./badge";
 export * from "./slider";
 export * from "./dropdown";
+export * from "./checkbox";
 export * from "./radio-option";
 export * from "./textarea";
